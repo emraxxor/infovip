@@ -16,8 +16,6 @@
  */
 package com.github.infovip.useful;
 
-import org.apache.lucene.util.ArrayUtil;
-
 /**
  * Basically it contains some useful functions that could be very useful in the
  * future. The class is given the Number name because it contains functions that
@@ -122,7 +120,7 @@ public class Number {
     /**
      * Converts the given char array to number
      *
-     * 0x30 -> '0'.encode('hex') it can  be (int)'c' too
+     * 0x30 -> '0'.encode('hex') it can  be (int)'0' too
      *
      * @param array
      * @return
