@@ -6,10 +6,6 @@
 package com.github.infovip.core.web;
 
 import com.github.infovip.core.web.js.BasicType;
-import com.github.infovip.core.web.js.CSS;
-import com.github.infovip.core.web.js.JavaScript;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;

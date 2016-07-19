@@ -3,7 +3,7 @@
     Created on : Jul 9, 2016, 5:22:44 PM
     Author     : attila
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tr" uri="/tlds/translate.tld" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -20,3 +20,4 @@
         </c:forEach>
     </head>
     <body>
+    <div id="main-page">

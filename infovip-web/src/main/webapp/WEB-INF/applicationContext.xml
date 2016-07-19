@@ -24,4 +24,6 @@
 
     <bean id="ModuleManager" class="com.github.infovip.core.basic.jsp.ModuleManager"/>
     <bean id="Configuration" class="com.github.infovip.core.Configuration"/>
+    <bean id="container" class="com.github.infovip.core.Container" scope="request"/>
+    <bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session"/>
 </beans>

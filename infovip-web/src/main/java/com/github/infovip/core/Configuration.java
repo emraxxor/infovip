@@ -26,8 +26,7 @@ public class Configuration {
      * Location of the web directory
      */
     public static final String WEB_DIRECTORY = "/WEB-INF/web";
-    
-    
+
     /**
      * Location of the resources directory
      */
@@ -37,28 +36,37 @@ public class Configuration {
      * Location of the modules directory
      */
     public static final String DEFAULT_MODULE_DIRECTORY = "/WEB-INF/web/modules";
-    
+
     /**
      * Identifier of the application's context path
      */
-    public static final String CONTEXT_PATH_ID = "contextPath"; 
-    
+    public static final String CONTEXT_PATH_ID = "contextPath";
+
+    /**
+     * Identifier of the resources
+     */
+    public static final String RESOURCES_ID = "resources";
+
     /**
      * Container identifier
      */
     public static final String CONTAINER_ID = "container";
-    
+
     /**
      * Title of the page
      */
-    public static final String PAGE_TITLE = "Infovip";
-    
-    
+    public static String PAGE_TITLE = "Infovip";
+
     /**
      * Application's context name
      */
     public static final String APPLICATION_CONTEXT_NAME = "/infovip-web";
     
+    /**
+     * If it is set to true then the debug messages are displayed
+     */
+    public static final Boolean DEBUG = true;
+
     /**
      * Container id
      */
@@ -88,7 +96,15 @@ public class Configuration {
         return Configuration.PAGE_TITLE;
     }
 
-    public static String getCONTAINER_ID() {
+    public void setPAGE_TITLE(String title) {
+        Configuration.PAGE_TITLE = title;
+    }
+
+    public String getCONTAINER_ID() {
         return Configuration.CONTAINER_ID;
+    }
+
+    public String getWEB_DIRECTORY() {
+        return Configuration.WEB_DIRECTORY;
     }
 }

@@ -7,4 +7,67 @@ and open the template in the editor.
     Created on : Jul 13, 2016, 4:01:10 PM
     Author     : attila
 */
+body {
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
+    line-height: 1.53rem;
+    font-size: 1rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #212121;
+    background-color: #f5f5f5;
+}
 
+.panel-default {
+    border-color: #e2e9e6;
+}
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+.panel-heading.title {
+    font-size: 18px;
+    padding: 10px;
+}
+.panel-heading {
+    padding: 0;
+    color: #fff;
+    border-bottom: 0;
+}
+.panel-default > .panel-heading {
+    color: #333333;
+    background-color: #ffffff;
+    border-color: #e2e9e6;
+}
+.panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    background: #26a69a;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+body {
+    line-height: 1.53rem;
+    font-size: 1rem;
+}
+
+div#main-page-login-form{
+    margin: auto;
+    width: 50%;
+    padding-left: 10%;
+    padding-right: 10%;
+}

@@ -3,4 +3,7 @@
 
 <module:DefaultModule moduleName="TestModule"> 
     TestModule
+    <% 
+            out.println(pageContext.getServletContext().getAttribute("DefaultJSQLConnection"));
+    %>
 </module:DefaultModule>

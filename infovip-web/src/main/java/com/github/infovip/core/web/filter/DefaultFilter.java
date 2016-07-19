@@ -20,6 +20,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -57,10 +59,9 @@ public class DefaultFilter implements Filter {
         this.session = this.request.getSession();
 
         this.servletContext.setAttribute(Configuration.CONTEXT_PATH_ID, this.servletContext.getContextPath());
+        this.servletContext.setAttribute(Configuration.RESOURCES_ID, this.servletContext.getContextPath() + Configuration.RESOURCES_DIRECTORY);
         this.request.setAttribute(Configuration.BEAN_MODULE_ID, new ModuleManager());
         this.servletContext.setAttribute(Configuration.BEAN_SQL_ID, new SqlConnection());
-        this.servletContext.setAttribute(Configuration.BEAN_CONTAINER_ID, new Container());
-
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
@@ -82,18 +83,18 @@ public class DefaultFilter implements Filter {
             throws IOException, ServletException {
 
         try {
-            
+
             doBeforeProcessing(request, response);
-            
+
             Throwable problem = null;
             try {
                 chain.doFilter(request, response);
             } catch (IOException | ServletException t) {
                 problem = t;
             }
-            
+
             doAfterProcessing(request, response);
-            
+
             // If there was a problem, we want to rethrow it if it is
             // a known type, otherwise log it.
             if (problem != null) {
