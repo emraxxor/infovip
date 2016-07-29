@@ -61,11 +61,34 @@ public class Configuration {
      * Application's context name
      */
     public static final String APPLICATION_CONTEXT_NAME = "/infovip-web";
-    
+
     /**
      * If it is set to true then the debug messages are displayed
      */
     public static final Boolean DEBUG = true;
+
+    /**
+     * Defines the name of the application
+     */
+    public static final String APP_NAME = "infovip-ear-1.0-SNAPSHOT";
+
+    /**
+     * Defines the name of the main EJB module
+     */
+    public static final String EJB_MODULE_NAME = "infovip-ejb-1.0-SNAPSHOT";
+
+    /**
+     * Creates the jndi string
+     *
+     * @param mappendName
+     * The component's mappedName
+     * 
+     * @return
+     * Returns with the generated jndi string
+     */
+    public static final String jndiLookupName(String mappedName) {
+        return String.format("java:global/%s/%s/%s", APP_NAME, EJB_MODULE_NAME, mappedName);
+    }
 
     /**
      * Container id

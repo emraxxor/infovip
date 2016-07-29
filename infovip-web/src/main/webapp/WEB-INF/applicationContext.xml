@@ -20,10 +20,19 @@
     p:username="${jdbc.username}"
     p:password="${jdbc.password}" /-->
 
-    <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
 
     <bean id="ModuleManager" class="com.github.infovip.core.basic.jsp.ModuleManager"/>
     <bean id="Configuration" class="com.github.infovip.core.Configuration"/>
-    <bean id="container" class="com.github.infovip.core.Container" scope="request"/>
-    <bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session"/>
+    <bean id="container" class="com.github.infovip.core.Container" scope="request">
+        <constructor-arg name="jsManager">
+            <bean id="javascriptManager" class="com.github.infovip.core.web.JavascriptManager"/>
+        </constructor-arg>
+        <constructor-arg name="cssManager">
+            <bean id="cSSManager" class="com.github.infovip.core.web.CSSManager"/>
+        </constructor-arg>
+    </bean>
+    <bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session">
+        <property  name="container" ref="container" />
+    </bean>
+    
 </beans>

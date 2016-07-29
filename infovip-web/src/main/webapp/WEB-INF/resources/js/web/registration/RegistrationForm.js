@@ -12,20 +12,15 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses/.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 /**
- * Implementation for LoginIface
- * 
- * This is the first implentation for the login page.
- * It simply passes the arguments to the Login servlet then the servlet redirects
- * the user to a new location that depends on the login method.
- * 
- * By default the login method is handled by the Login servlet.
- * 
+ * Creates a basic form for registration.
+ * By default the registration method is handled by the Registration servlet.
  */
-var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFormInterface).extend({
+var RegistrationFrom = easejs.Class('RegistrationFrom').implement(LoginIface, DefaultFormInterface).extend({
     /**
      * Current webix object
      */
@@ -34,13 +29,12 @@ var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFor
      * The id of the div where the form is displayed
      */
 
-    'private defaultLoginFormID': 'default-login-form',
+    'private defaultRegistrationFormID': 'default-registration-form',
     /**
      * Id of the current form
      */
 
-    'private loginFormID': 'login-form-id',
-    
+    'private registrationFormID': 'registration-form-id',
     __construct: function () {},
     /**
      * Submits form
@@ -50,7 +44,13 @@ var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFor
     {
         // if the validation is success
         if (this.getFormView().validate()) {
-            webix.send("login", this.getFormView().getValues(), "POST");
+            var res = AjaxManager.send("registration/add", this.getFormView().getValues());
+            webix.alert({
+                title: "Notice: ",
+                type: "alert-warning",
+                text: res.status + " : " + res.statusMessage,
+                ok: "OK"
+            });
         }
     },
     'public displayForm': function ()
@@ -63,25 +63,31 @@ var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFor
      * @returns {undefined}
      */
     'public onCreate': function () {
+        var _oself = this;
         this.webixObject = webix.ui({
-            container: this.defaultLoginFormID,
-            id: this.loginFormID,
+            container: this.defaultRegistrationFormID,
+            id: this.registrationFormID,
             view: "form",
             scroll: false,
-            width: 500,
-            height: 300,
+            width: 800,
+            height: 500,
             elements: [{
                     rows: [
-                        {view: "template", template: "Log in", type: "header"},
-                        {view: "text", label: 'Username:', name: "userName"},
-                        {view: "text", type: 'password', label: 'Password:', name: "userPassword"},
+                        {view: "template", template: "Registration", type: "header"},
+                        {view: "text", label: Translator.tr('uname'), name: "uname"},
+                        {view: "text", type: 'password', label: 'Password:', name: "upassword"},
+                        {view: "text", type: 'password', label: 'Password again:', name: "upasswordre"},
+                        {view: "text", label: 'Email:', name: "umail"},
                         {view: "button", type: 'form', value: "Login", click: this.onSubmit}
                     ]
                 }
             ],
             rules: {
-                "userName": webix.rules.isNotEmpty,
-                "userPassword": webix.rules.isNotEmpty,
+                "uname": webix.rules.isNotEmpty,
+                "upassword": function (value) {
+                    return webix.rules.isNotEmpty(value) && _oself.webixObject.getValues()['upasswordre'] == value;
+                },
+                "umail": webix.rules.isEmail
             },
             elementsConfig: {
                 labelAlign: "left",
@@ -96,5 +102,3 @@ var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFor
         return DefaultLogin();
     }
 });
-
-

@@ -14,9 +14,9 @@ public class Container {
 
     private final CSSManager cssManager;
 
-    public Container() throws UnsupportedTypeException {
-        this.javascriptManager = new JavascriptManager();
-        this.cssManager = new CSSManager();
+    public Container(JavascriptManager jsManager, CSSManager cssManager) throws UnsupportedTypeException {
+        this.javascriptManager = jsManager;
+        this.cssManager = cssManager;
     }
 
     public JavascriptManager getJavascriptManager() {

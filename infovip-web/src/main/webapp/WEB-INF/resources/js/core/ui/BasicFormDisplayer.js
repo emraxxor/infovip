@@ -33,7 +33,9 @@ var BasicFormDisplayer = easejs.Class('BasicFormDisplayer').implement(Runnable).
     },
     'public run': function () {
         var parent = this;
-        $(document).ready(function(){parent.load(parent)});
+        $jquery(document).ready(function () {
+            parent.load(parent)
+        });
     }
 });
 

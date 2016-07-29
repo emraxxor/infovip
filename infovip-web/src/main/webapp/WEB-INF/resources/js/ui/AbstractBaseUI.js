@@ -208,7 +208,7 @@ AbstractBaseUI.prototype.addEventListener = function (eListener) {
  * @return {*|jQuery}
  */
 AbstractBaseUI.prototype.htmlNode = function () {
-    return $("<div></div>").append(this.element).html();
+    return $jquery("<div></div>").append(this.element).html();
 };
 
 /**

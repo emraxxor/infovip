@@ -16,6 +16,7 @@
  */
 package com.github.infovip.core.web.user;
 
+import com.github.infovip.core.Container;
 import java.io.Serializable;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,11 @@ public class UserSession implements Serializable {
      * True if the user is authenticated, default false
      */
     private Boolean authenticated = false;
+    
+    private Container container;
+
+    public UserSession() {
+    }
 
     /**
      * Checks if the current user is authenticated to the site
@@ -52,4 +58,11 @@ public class UserSession implements Serializable {
         this.authenticated = authenticated;
     }
 
+    public Container getContainer() {
+        return container;
+    }
+
+    public void setContainer(Container container) {
+        this.container = container;
+    }
 }

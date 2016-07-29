@@ -6,18 +6,23 @@
 package com.github.infovip.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,26 +41,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "uid")
     private Long uid;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "uname")
     private String uname;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "upassword")
     private String upassword;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "umail")
     private String umail;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "uid")
+    private LogRegistration logRegistration;
 
     public User() {
     }
@@ -105,19 +117,40 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (uid != null ? uid.hashCode() : 0);
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.uid);
+        hash = 11 * hash + Objects.hashCode(this.uname);
+        hash = 11 * hash + Objects.hashCode(this.upassword);
+        hash = 11 * hash + Objects.hashCode(this.umail);
+        hash = 11 * hash + Objects.hashCode(this.logRegistration);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        User other = (User) object;
-        if ((this.uid == null && other.uid != null) || (this.uid != null && !this.uid.equals(other.uid))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.uname, other.uname)) {
+            return false;
+        }
+        if (!Objects.equals(this.upassword, other.upassword)) {
+            return false;
+        }
+        if (!Objects.equals(this.umail, other.umail)) {
+            return false;
+        }
+        if (!Objects.equals(this.uid, other.uid)) {
+            return false;
+        }
+        if (!Objects.equals(this.logRegistration, other.logRegistration)) {
             return false;
         }
         return true;
@@ -126,6 +159,15 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.github.infovip.Users[ uid=" + uid + " ]";
+    }
+
+    @XmlTransient
+    public LogRegistration getLogRegistration() {
+        return logRegistration;
+    }
+
+    public void setLogRegistration(LogRegistration logRegistration) {
+        this.logRegistration = logRegistration;
     }
 
 }

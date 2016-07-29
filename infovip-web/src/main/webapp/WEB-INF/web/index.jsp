@@ -1,3 +1,4 @@
+<%@page import="javax.persistence.EntityManager"%>
 <%@include  file="core/config.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 

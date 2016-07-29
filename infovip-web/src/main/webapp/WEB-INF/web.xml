@@ -30,6 +30,10 @@
         <servlet-name>Login</servlet-name>
         <servlet-class>com.github.infovip.core.web.servlets.Login</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Test</servlet-name>
+        <servlet-class>com.github.infovip.core.web.test.Test</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
@@ -48,6 +52,10 @@
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Test</servlet-name>
+        <url-pattern>/Test</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -56,4 +64,14 @@
     <welcome-file-list>
         <welcome-file>redirect.jsp</welcome-file>
     </welcome-file-list>
+    <ejb-local-ref>
+        <ejb-ref-name>UserManagement</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.github.infovip.db.UserManagementLocal</local>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>UserManagement1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.github.infovip.db.UserManagementLocal</local>
+    </ejb-local-ref>
 </web-app>

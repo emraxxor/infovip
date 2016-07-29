@@ -71,3 +71,10 @@ div#main-page-login-form{
     padding-left: 10%;
     padding-right: 10%;
 }
+
+div#main-page-central-panel {
+    margin: auto;
+    width: 60%;
+    padding-left: 10%;
+    padding-right: 10%;
+}

@@ -47,3 +47,9 @@ if (!String.prototype.format) {
         });
     };
 }
+
+/**
+ * Conflict with easejs
+ * @type Object
+ */
+var $jquery = jQuery.noConflict();

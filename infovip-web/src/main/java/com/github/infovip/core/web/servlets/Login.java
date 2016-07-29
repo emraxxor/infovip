@@ -5,7 +5,6 @@
  */
 package com.github.infovip.core.web.servlets;
 
-import com.github.infovip.db.UsersFacadeLocal;
 import com.github.infovip.entities.User;
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -13,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.github.infovip.db.UserManagementLocal;
 
 /**
  *
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Login extends HttpServlet {
 
     @EJB
-    private UsersFacadeLocal login;
+    private UserManagementLocal login;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
