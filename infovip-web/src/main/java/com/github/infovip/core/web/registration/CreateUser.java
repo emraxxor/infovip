@@ -17,7 +17,7 @@
 package com.github.infovip.core.web.registration;
 
 import com.github.infovip.core.web.DefaultStatusResponseBody;
-import com.github.infovip.db.UserManagementLocal;
+import com.github.infovip.beans.user.UserManagementLocal;
 import com.github.infovip.entities.LogRegistration;
 import com.github.infovip.entities.User;
 import java.sql.Date;

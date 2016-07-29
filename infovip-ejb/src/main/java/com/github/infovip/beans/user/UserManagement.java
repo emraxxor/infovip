@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.infovip.db;
+package com.github.infovip.beans.user;
 
 import com.github.infovip.DefaultEntityManager;
 import com.github.infovip.entities.User;

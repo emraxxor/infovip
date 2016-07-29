@@ -67,11 +67,6 @@
     <ejb-local-ref>
         <ejb-ref-name>UserManagement</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
-        <local>com.github.infovip.db.UserManagementLocal</local>
-    </ejb-local-ref>
-    <ejb-local-ref>
-        <ejb-ref-name>UserManagement1</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <local>com.github.infovip.db.UserManagementLocal</local>
+        <local>com.github.infovip.beans.user.UserManagementLocal</local>
     </ejb-local-ref>
 </web-app>

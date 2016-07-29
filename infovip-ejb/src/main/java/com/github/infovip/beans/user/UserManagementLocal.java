@@ -3,16 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.infovip.db;
+package com.github.infovip.beans.user;
 
 import com.github.infovip.entities.User;
 import java.util.List;
 import javax.ejb.Local;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 
 /**
  *
