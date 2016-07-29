@@ -20,6 +20,7 @@ import com.github.infovip.core.web.DefaultStatusResponseBody;
 import com.github.infovip.beans.user.UserManagementLocal;
 import com.github.infovip.entities.LogRegistration;
 import com.github.infovip.entities.User;
+import com.github.infovip.util.BasicUtilities;
 import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
@@ -81,7 +82,7 @@ public class CreateUser extends DefaultStatusResponseBody {
 
             User u = new User(0L,
                     request.getParameter("uname"),
-                    request.getParameter("upassword"),
+                    BasicUtilities.getMD5(request.getParameter("upassword")),
                     request.getParameter("umail")
             );
 

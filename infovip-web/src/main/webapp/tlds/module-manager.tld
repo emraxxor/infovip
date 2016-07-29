@@ -118,8 +118,24 @@
     </attribute>
   </tag>
   <tag>
-    <name>NewTagHandler</name>
-    <tag-class>com.github.infovip.core.basic.jsp.tags.NewTagHandler</tag-class>
+    <name>WebModule</name>
+    <tag-class>com.github.infovip.core.basic.jsp.tags.WebModule</tag-class>
     <body-content>JSP</body-content>
+    <attribute>
+      <name>moduleName</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <name>moduleDescription</name>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <name>authenticated</name>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
   </tag>
 </taglib>

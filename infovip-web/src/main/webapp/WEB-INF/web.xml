@@ -15,6 +15,11 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.request.RequestContextListener
+        </listener-class>
+    </listener>
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -25,14 +30,6 @@
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet>
-        <servlet-name>Login</servlet-name>
-        <servlet-class>com.github.infovip.core.web.servlets.Login</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Test</servlet-name>
-        <servlet-class>com.github.infovip.core.web.test.Test</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
@@ -48,14 +45,6 @@
         <url-pattern>/SimpleModule/*</url-pattern>
         <url-pattern>/SimpleModule/**</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Login</servlet-name>
-        <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Test</servlet-name>
-        <url-pattern>/Test</url-pattern>
-    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -66,6 +55,11 @@
     </welcome-file-list>
     <ejb-local-ref>
         <ejb-ref-name>UserManagement</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.github.infovip.beans.user.UserManagementLocal</local>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>UserManagement1</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
         <local>com.github.infovip.beans.user.UserManagementLocal</local>
     </ejb-local-ref>

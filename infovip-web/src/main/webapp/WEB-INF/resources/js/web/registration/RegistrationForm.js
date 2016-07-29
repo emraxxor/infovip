@@ -78,7 +78,7 @@ var RegistrationFrom = easejs.Class('RegistrationFrom').implement(LoginIface, De
                         {view: "text", type: 'password', label: 'Password:', name: "upassword"},
                         {view: "text", type: 'password', label: 'Password again:', name: "upasswordre"},
                         {view: "text", label: 'Email:', name: "umail"},
-                        {view: "button", type: 'form', value: "Login", click: this.onSubmit}
+                        {view: "button", type: 'form', value: "Sign up", click: this.onSubmit}
                     ]
                 }
             ],

@@ -18,20 +18,42 @@ package com.github.infovip.core.web.user;
 
 import com.github.infovip.core.Container;
 import java.io.Serializable;
+import java.util.Date;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
  *
  * @author attila
  */
+@Component
+@Scope("session")
 public class UserSession implements Serializable {
 
     /**
      * True if the user is authenticated, default false
      */
     private Boolean authenticated = false;
-    
+
+    /**
+     * Reference of the Container
+     */
     private Container container;
+
+    /**
+     * Current user name
+     */
+    private String userName;
+
+    /**
+     * Current user mail address
+     */
+    private String userMail;
+
+    /**
+     * Current user registration date
+     */
+    private Date registrationDate;
 
     public UserSession() {
     }
@@ -65,4 +87,29 @@ public class UserSession implements Serializable {
     public void setContainer(Container container) {
         this.container = container;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserMail() {
+        return userMail;
+    }
+
+    public void setUserMail(String userMail) {
+        this.userMail = userMail;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.github.infovip.core;
 
+import java.io.Serializable;
+
 /**
  *
  * @author attila
@@ -78,18 +80,61 @@ public class Configuration {
     public static final String EJB_MODULE_NAME = "infovip-ejb-1.0-SNAPSHOT";
 
     /**
+     * Some identifier to manage session
+     */
+    public enum SESSION implements Serializable {
+        USER_SESSION("userSession"),
+        AUTH_TIME("authTime"),
+        REMOTE_ADDR("remoteAddr"),
+        HEADER("clientHeader");
+
+        private String value;
+
+        private SESSION(String val) {
+            this.value = val;
+        }
+
+        /**
+         *
+         * @param v
+         * @return
+         */
+        public SESSION valueOfSession(String v) {
+            for (SESSION s : SESSION.values()) {
+                if (s.toString().equals(v)) {
+                    return s;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+    }
+
+    /**
      * Creates the jndi string
      *
-     * @param mappendName
-     * The component's mappedName
-     * 
-     * @return
-     * Returns with the generated jndi string
+     * @param mappendName The component's mappedName
+     *
+     * @return Returns with the generated jndi string
      */
     public static final String jndiLookupName(String mappedName) {
         return String.format("java:global/%s/%s/%s", APP_NAME, EJB_MODULE_NAME, mappedName);
     }
 
+    /**
+     * Represents the session value as a string
+     * @param s
+     * @return 
+     */
+    public static final String sessionValue(SESSION s) {
+        return s.toString();
+    } 
+    
     /**
      * Container id
      */
@@ -130,4 +175,5 @@ public class Configuration {
     public String getWEB_DIRECTORY() {
         return Configuration.WEB_DIRECTORY;
     }
+
 }
