@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
  */
 public class DefaultModule extends BodyTagSupport {
 
-    private ApplicationContext context;
+    protected ApplicationContext context;
 
     private ModuleManager manager;
 
@@ -35,16 +35,16 @@ public class DefaultModule extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) pageContext.getRequest());
-        manager = (ModuleManager) pageContext.getAttribute(Configuration.BEAN_MODULE_ID, PageContext.REQUEST_SCOPE);
+        manager = (ModuleManager) pageContext.getAttribute(Configuration.BEAN_MODULE_ID,PageContext.REQUEST_SCOPE);
         return EVAL_BODY_BUFFERED;
     }
 
     @Override
     public int doAfterBody() throws JspException {
-        if (!manager.existsModule(moduleName)) {
-            manager.addModule(this);
-        } else {
-            throw new ModuleAlreadyExistsException(String.format("Module : %s already exists!", moduleName));
+        if (manager != null) {
+            if (!manager.existsModule(moduleName)) {
+                manager.addModule(this);
+            }
         }
         return SKIP_BODY;
     }

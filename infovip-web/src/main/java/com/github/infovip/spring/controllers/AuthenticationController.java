@@ -20,6 +20,7 @@ import com.github.infovip.beans.user.UserManagement;
 import com.github.infovip.beans.user.UserManagementLocal;
 import com.github.infovip.core.Configuration;
 import com.github.infovip.core.Configuration.SESSION;
+import static com.github.infovip.core.Configuration.sessionValue;
 import com.github.infovip.core.web.user.UserSession;
 import com.github.infovip.entities.User;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -119,9 +121,26 @@ public class AuthenticationController {
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().invalidate();
-        return "index";
+    public void logout(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session != null && request.isRequestedSessionIdValid()
+                && session.getAttribute(sessionValue(SESSION.USER_SESSION)) != null
+                && ((UserSession) session.getAttribute(sessionValue(SESSION.USER_SESSION))).isAuthenticated()) {
+            try {
+                /**
+                 * @todo
+                 * A nullpointer exception is occurred due to default filter settings.
+                 */
+                session.invalidate();
+            } catch (NullPointerException e) {
+                Logger.getLogger(getClass().getName()).log(Level.INFO, "Session has been already invalidated!");
+            } catch (Exception e) {
+                Logger.getLogger(getClass().getName()).log(Level.INFO, "The WeldTerminalListener has no BeanManager injected and NPE is thrown");
+            }
+        }
+        response.setHeader("Cache-Control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.sendRedirect("home");
     }
 
     private UserManagementLocal lookupUserManagementLocal() {

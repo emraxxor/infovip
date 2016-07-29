@@ -42,12 +42,11 @@ public class WebModule extends DefaultModule {
 
     @Override
     public int doStartTag() throws JspException {
-        ApplicationContext context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) pageContext.getRequest());
+        context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) pageContext.getRequest());
         if (authenticated == true && ((UserSession) context.getBean(sessionValue(USER_SESSION))).isAuthenticated().equals(false)) {
             return SKIP_PAGE;
         }
         return super.doStartTag();
-
     }
 
     public void setAuthenticated(Boolean authenticated) {

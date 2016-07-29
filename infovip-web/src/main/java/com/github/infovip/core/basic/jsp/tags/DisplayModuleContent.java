@@ -27,7 +27,7 @@ public class DisplayModuleContent extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) ((PageContext) getJspContext()).getRequest());
-        manager = (ModuleManager) getJspContext().getAttribute(Configuration.BEAN_MODULE_ID, PageContext.REQUEST_SCOPE);
+        manager = (ModuleManager) getJspContext().getAttribute(Configuration.BEAN_MODULE_ID,PageContext.REQUEST_SCOPE);
         if (moduleName != null) {
             getJspContext().getOut().println(manager.content(moduleName));
         } else {

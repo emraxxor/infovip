@@ -62,4 +62,9 @@ public class ModuleManager {
         }
         return sb.toString();
     }
+
+    public List<DefaultModule> getModules() {
+        return modules;
+    }
+    
 }
