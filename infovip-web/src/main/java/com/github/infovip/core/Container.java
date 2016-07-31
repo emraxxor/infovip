@@ -3,12 +3,13 @@ package com.github.infovip.core;
 import com.github.infovip.core.web.CSSManager;
 import com.github.infovip.core.web.JavascriptManager;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
+import java.io.Serializable;
 
 /**
  *
  * @author attila
  */
-public class Container {
+public class Container implements Serializable {
 
     private final JavascriptManager javascriptManager;
 

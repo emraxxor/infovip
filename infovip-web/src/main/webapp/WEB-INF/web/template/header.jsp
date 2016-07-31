@@ -20,4 +20,6 @@
         </c:forEach>
     </head>
     <body>
-    <div id="main-page">
+        <div id="main-page">
+      
+            <%@include file="navbar.jsp" %>    

@@ -7,12 +7,25 @@ and open the template in the editor.
     Created on : Jul 13, 2016, 4:01:10 PM
     Author     : attila
 */
+
+html {
+    line-height: 13px;
+    font-size: 13px;
+}
+html {
+    font-size: 10px;
+}
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     position: relative;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
-    line-height: 1.53rem;
-    font-size: 1rem;
+    line-height: 20px;
+    font-size: 16px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
@@ -60,10 +73,6 @@ body {
     padding: 15px;
 }
 
-body {
-    line-height: 1.53rem;
-    font-size: 1rem;
-}
 
 div#main-page-login-form{
     margin: auto;

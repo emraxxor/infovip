@@ -1,0 +1,91 @@
+/*
+Copyright (C) 2016 attila
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/* 
+    Created on : Jul 31, 2016, 9:56:29 AM
+    Author     : attila
+*/
+
+
+.navbar-subnav.navbar {
+    min-height: 70px;
+}
+.navbar-subnav {
+    background: #212121;
+    border: none;
+    margin: -15px 0 15px;
+}
+.navbar-static-top {
+    border-radius: 0;
+}
+.navbar-static-top {
+    z-index: 1000;
+    border-width: 0 0 1px;
+}
+.navbar {
+    border-radius: 4px;
+}
+.navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+    display: block;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+.container {
+    width: 1170px;
+}
+
+.container > .navbar-header {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.navbar-collapse {
+    width: auto;
+    border-top: 0;
+    box-shadow: none;
+}
+
+.navbar-nav {
+    float: left;
+    margin: 0;
+}
+
+.navbar-right {
+    float: right !important;
+    margin-right: -15px;
+}
+
+.navbar-nav > li {
+    float: left;
+}
+.nav > li {
+    position: relative;
+    display: block;
+}
+
+.nav {
+    list-style: none;
+}

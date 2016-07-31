@@ -20,6 +20,7 @@ public class JavascriptManager extends DefaultManager<JavaScript> {
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/easejs/ease-latest.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/jquery/jquery-3.0.0.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/webix/codebase/webix.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/jquery/infinite-scroll/jquery.infinitescroll.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/core/Configuration.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/core/ScriptLoader.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/core/Translator.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));

@@ -6,6 +6,7 @@
 package com.github.infovip.core.web;
 
 import com.github.infovip.core.web.js.BasicType;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -15,7 +16,7 @@ import java.util.function.Predicate;
  * @author attila
  * @param <T>
  */
-public class DefaultManager<T> {
+public class DefaultManager<T> implements Serializable {
 
     /**
      * Stores the scripts that are used for the page

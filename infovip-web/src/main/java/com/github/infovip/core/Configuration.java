@@ -1,6 +1,7 @@
 package com.github.infovip.core;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  *
@@ -80,6 +81,21 @@ public class Configuration {
     public static final String EJB_MODULE_NAME = "infovip-ejb-1.0-SNAPSHOT";
 
     /**
+     * Name of the default elasticsearch template
+     */
+    public static final String ELASTICSEARCH_TEMPLATE_NAME = "elasticsearchTemplate";
+
+    /**
+     * Options for the client
+     */
+    public static Map<String, String> ES_CLIENT_OPTIONS;
+
+    /**
+     * Settings for the client
+     */
+    public static Map<String, String> ES_CLIENT_SETTINGS;
+
+    /**
      * Some identifier to manage session
      */
     public enum SESSION implements Serializable {
@@ -128,52 +144,69 @@ public class Configuration {
 
     /**
      * Represents the session value as a string
+     *
      * @param s
-     * @return 
+     * @return
      */
     public static final String sessionValue(SESSION s) {
         return s.toString();
-    } 
-    
+    }
+
     /**
      * Container id
      */
     public static final String BEAN_CONTAINER_ID = "container";
 
     public String getBEAN_SQL_ID() {
-        return Configuration.BEAN_SQL_ID;
+        return BEAN_SQL_ID;
     }
 
     public String getBEAN_MODULE_ID() {
-        return Configuration.BEAN_MODULE_ID;
+        return BEAN_MODULE_ID;
     }
 
     public String getMODULE_DIRECTORY() {
-        return Configuration.MODULE_DIRECTORY;
+        return MODULE_DIRECTORY;
     }
 
     public String getDEFAULT_MODULE_DIRECTORY() {
-        return Configuration.DEFAULT_MODULE_DIRECTORY;
+        return DEFAULT_MODULE_DIRECTORY;
     }
 
     public String getCONTEXT_PATH_ID() {
-        return Configuration.CONTEXT_PATH_ID;
+        return CONTEXT_PATH_ID;
     }
 
     public String getPAGE_TITLE() {
-        return Configuration.PAGE_TITLE;
+        return PAGE_TITLE;
     }
 
     public void setPAGE_TITLE(String title) {
-        Configuration.PAGE_TITLE = title;
+        PAGE_TITLE = title;
     }
 
     public String getCONTAINER_ID() {
-        return Configuration.CONTAINER_ID;
+        return CONTAINER_ID;
     }
 
     public String getWEB_DIRECTORY() {
-        return Configuration.WEB_DIRECTORY;
+        return WEB_DIRECTORY;
+    }
+
+    public Map<String, String> getES_CLIENT_OPTIONS() {
+        return ES_CLIENT_OPTIONS;
+    }
+
+    public void setES_CLIENT_OPTIONS(Map<String, String> ES_CLIENT_OPTIONS) {
+        Configuration.ES_CLIENT_OPTIONS = ES_CLIENT_OPTIONS;
+    }
+
+    public Map<String, String> getES_CLIENT_SETTINGS() {
+        return ES_CLIENT_SETTINGS;
+    }
+
+    public void setES_CLIENT_SETTINGS(Map<String, String> ES_CLIENT_SETTINGS) {
+        Configuration.ES_CLIENT_SETTINGS = ES_CLIENT_SETTINGS;
     }
 
 }

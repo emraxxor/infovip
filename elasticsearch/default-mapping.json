@@ -1,0 +1,134 @@
+{
+    "template": "timeline",
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "default": {
+                    "type": "custom",
+                    "tokenizer": "infovip_tokenizer",
+                    "filter": ["infovip_filter"]
+                }
+            },
+            "filter": {
+                "infovip_filter": {
+                    "type": "unique",
+                    "only_on_same_position": true
+                }
+            },
+            "tokenizer": {
+                "infovip_tokenizer": {
+                    "type": "keyword",
+                    "buffer_size": 900
+                }
+            }
+        }
+    },
+    "mappings": {
+        "post": {
+            "_ttl": {
+                "enabled": true
+            },
+            "properties": {
+                "creationTime": {
+                    "type": "date",
+                    "format": "dateOptionalTime",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "userId": {
+                    "type": "long",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "postType": {
+                    "type": "string"
+                }
+            }
+        },
+        "comment": {
+            "_parent": {
+                "type": "post"
+            },
+            "properties": {
+                "creationTime": {
+                    "type": "date",
+                    "format": "dateOptionalTime",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "userId": {
+                    "type": "long",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "commentType": {
+                    "type": "string"
+                }
+            }
+        },
+        "postLikes": {
+            "_parent": {
+                "type": "post"
+            },
+            "properties": {
+                "creationTime": {
+                    "type": "date",
+                    "format": "dateOptionalTime",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "userId": {
+                    "type": "long",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "likeType": {
+                    "type": "string"
+                }
+            }
+        },
+        "commenttLikes": {
+            "_parent": {
+                "type": "comment"
+            },
+            "properties": {
+                "creationTime": {
+                    "type": "date",
+                    "format": "dateOptionalTime",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "userId": {
+                    "type": "long",
+                    "analyzer": "standard",
+                    "search_analyzer": "standard"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "likeType": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

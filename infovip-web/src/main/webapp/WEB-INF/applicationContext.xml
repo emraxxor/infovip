@@ -20,7 +20,20 @@
     p:username="${jdbc.username}"
     p:password="${jdbc.password}" /-->
 
-    <bean id="Configuration" class="com.github.infovip.core.Configuration"/>
+    <bean id="Configuration" class="com.github.infovip.core.Configuration">
+        <property name="ES_CLIENT_OPTIONS">
+            <map>
+                <entry key="127.0.0.1" value="9300" />
+            </map>
+        </property>
+        <property name="ES_CLIENT_SETTINGS">
+            <map>
+                <entry key="cluster.name" value="elasticsearch" />
+                <entry key="client.transport.ping_timeout" value="800s" />
+            </map>
+        </property>
+    </bean>
+    
     <bean id="container" class="com.github.infovip.core.Container" scope="request">
         <constructor-arg name="jsManager">
             <bean id="javascriptManager" class="com.github.infovip.core.web.JavascriptManager"/>
@@ -29,8 +42,4 @@
             <bean id="cSSManager" class="com.github.infovip.core.web.CSSManager"/>
         </constructor-arg>
     </bean>
-    <bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session">
-        <property  name="container" ref="container" />
-    </bean>
-    
 </beans>
