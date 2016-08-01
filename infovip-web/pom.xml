@@ -53,6 +53,9 @@
         <sql.db>infovip-github</sql.db>
         <glassfish.home>/mnt/extend10/data/opt/glassfish/glassfish4</glassfish.home>
         <domain.log.dir>/mnt/extend10/data/opt/glassfish/glassfish4/glassfish/domains/domain1/logs</domain.log.dir>
+        <arquillian.version>1.0.0.Alpha3</arquillian.version>
+        <shade.phase>none</shade.phase>
+        <test.skip>true</test.skip>
     </properties>
     
     <dependencies>
@@ -267,12 +270,12 @@
             <version>2.8.0</version>
         </dependency>
         
-
         
     </dependencies>
 
+
     <build>
-        <!-- resources>
+        <resources>
             <resource>
                 <filtering>true</filtering>
                 <directory>src/test/resources</directory>
@@ -291,8 +294,16 @@
                     <include>**/*.xml</include>
                 </includes>
             </resource>
-        </resources -->
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <skipTests>${test.skip}</skipTests>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -305,13 +316,13 @@
                     </compilerArguments>
                 </configuration>
             </plugin>
-            <!-- plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.4.1</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>${shade.phase}</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
@@ -385,7 +396,7 @@
                         </filter>
                     </filters>
                 </configuration>
-            </plugin -->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
