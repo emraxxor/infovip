@@ -34,10 +34,6 @@ public class DefaultDateSerializer extends StdSerializer<Date> {
     public DefaultDateSerializer(Class t) {
         super(t);
     }
-    
-    public static String format(Date t) {
-        return formatter.format(t);
-    }
 
     @Override
     public void serialize(Date t, JsonGenerator jg, SerializerProvider sp) throws IOException {

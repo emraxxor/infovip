@@ -6,7 +6,7 @@
 Only for testing authentication...
 --%>
 
-<%@taglib uri="/tlds/module-manager.tld" prefix="module" %>
+<%@taglib uri="/tlds/module-manager" prefix="module" %>
 
 <%-- 
   Core standard tag library

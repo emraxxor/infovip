@@ -1,9 +1,7 @@
-<%@taglib uri="/tlds/module-manager.tld" prefix="module" %>
+<%@taglib uri="/tlds/module-manager" prefix="module" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <module:DefaultModule moduleName="TestModule"> 
     TestModule
-    <% 
-            out.println(pageContext.getServletContext().getAttribute("DefaultJSQLConnection"));
-    %>
+    ${DefaultJSQLConnection}
 </module:DefaultModule>

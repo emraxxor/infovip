@@ -17,11 +17,9 @@
 package com.github.infovip.spring.controllers.timeline;
 
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
-import com.github.infovip.core.elasticsearch.DefaultDateSerializer;
 import com.github.infovip.spring.elasticsearch.entities.TimelineCommentEntity;
 import com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity;
 import com.github.infovip.spring.services.TimelineService;
-import java.util.Date;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,7 +68,6 @@ public class TimelineController {
     @RequestMapping(path = "/add", method = RequestMethod.GET)
     public String addTestDocument(Locale locale, HttpServletRequest request, HttpServletResponse response, Model m) {
         ElasticsearchTemplate eTemplate = (ElasticsearchTemplate) appContext.getBean(ELASTICSEARCH_TEMPLATE_NAME);
-        DateTime date = new DateTime();
         TimelinePostEntity post = new TimelinePostEntity(
                 new DateTime().toDate(),
                 30L,
@@ -78,10 +75,9 @@ public class TimelineController {
                 "Message......",
                 "simple"
         );
-        
-        
+
         timeLineService.save(post);
-        
+
         IndexQuery q = new IndexQuery();
         TimelineCommentEntity comment = new TimelineCommentEntity(
                 post.getId(),
@@ -91,11 +87,11 @@ public class TimelineController {
                 "comment",
                 "simple"
         );
-        
+
         q.setParentId(post.getId());
         q.setObject(comment);
         eTemplate.index(q);
-        
+
         m.addAttribute("post", timeLineService.findAll());
         return "core/timeline/Timeline";
     }

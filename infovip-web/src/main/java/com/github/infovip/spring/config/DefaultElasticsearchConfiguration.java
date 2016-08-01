@@ -16,6 +16,9 @@
  */
 package com.github.infovip.spring.config;
 
+import static com.github.infovip.core.Configuration.ELASTICSEARCH_CLIENT_ID;
+import static com.github.infovip.core.Configuration.ELASTICSEARCH_CLIENT_SETTINGS;
+import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import static com.github.infovip.core.Configuration.ES_CLIENT_OPTIONS;
 import static com.github.infovip.core.Configuration.ES_CLIENT_SETTINGS;
 import java.net.InetAddress;
@@ -48,12 +51,12 @@ public class DefaultElasticsearchConfiguration {
         return new NodeBuilder();
     }
 
-    @Bean(name = "esClientSettings")
+    @Bean(name = ELASTICSEARCH_CLIENT_SETTINGS)
     public Settings settings() {
         return Settings.settingsBuilder().put(ES_CLIENT_SETTINGS).build();
     }
 
-    @Bean(name = "esClient")
+    @Bean(name = ELASTICSEARCH_CLIENT_ID)
     public Client client() {
         try {
             Client client = TransportClient.builder().settings(settings()).build();
@@ -68,7 +71,7 @@ public class DefaultElasticsearchConfiguration {
         return null;
     }
 
-    @Bean(name = "elasticsearchTemplate")
+    @Bean(name = ELASTICSEARCH_TEMPLATE_NAME)
     public ElasticsearchTemplate elasticsearchTemplate() {
         return new ElasticsearchTemplate(client());
     }

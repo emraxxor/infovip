@@ -3,7 +3,7 @@
     Created on : Jul 19, 2016, 3:25:15 PM
     Author     : attila
 --%>
-<%@taglib uri="/tlds/module-manager.tld" prefix="module" %>
+<%@taglib uri="/tlds/module-manager" prefix="module" %>
 
 <%-- 
   Core standard tag library

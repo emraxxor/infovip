@@ -84,7 +84,18 @@ public class Configuration {
      * Name of the default elasticsearch template
      */
     public static final String ELASTICSEARCH_TEMPLATE_NAME = "elasticsearchTemplate";
+    
+    /**
+     * Name of the default Client
+     */
+    public static final String ELASTICSEARCH_CLIENT_ID = "esClient";
 
+    /**
+     * Identifier of the default client settings object
+     */
+    public static final String ELASTICSEARCH_CLIENT_SETTINGS = "esClientSettings";
+    
+    
     /**
      * Options for the client
      */

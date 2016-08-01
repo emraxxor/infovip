@@ -20,7 +20,7 @@
  * Creates a basic form for registration.
  * By default the registration method is handled by the Registration servlet.
  */
-var RegistrationFrom = easejs.Class('RegistrationFrom').implement(LoginIface, DefaultFormInterface).extend({
+var RegistrationFrom = easejs.Class('RegistrationFrom').implement(DefaultFormInterface).extend({
     /**
      * Current webix object
      */

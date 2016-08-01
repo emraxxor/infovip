@@ -6,20 +6,20 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:elasticsearch="http://www.springframework.org/schema/data/elasticsearch"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/data/elasticsearch http://www.springframework.org/schema/data/elasticsearch/spring-elasticsearch-1.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-       http://www.springframework.org/schema/data/elasticsearch http://www.springframework.org/schema/data/elasticsearch/spring-elasticsearch-1.0.xsd">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
     <beans:bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 
     <!-- Enables the spring MVC @Controller programming model -->
     <annotation-driven />
-
     <resources mapping="/resources/**" location="/WEB-INF/resources/" />  
     <resources mapping="/modules/**" location="/WEB-INF/web/modules/" />  
     
@@ -33,8 +33,6 @@
     </beans:bean>
 
     <elasticsearch:repositories base-package="com.github.infovip.elasticsearch.repositories"/>
-
-    <context:component-scan base-package="com.github.infovip.spring.config"></context:component-scan>
     <context:component-scan base-package="com.github.infovip.spring.repositories"></context:component-scan>
     <context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
     <context:component-scan base-package="com.github.infovip.spring.controllers"></context:component-scan>

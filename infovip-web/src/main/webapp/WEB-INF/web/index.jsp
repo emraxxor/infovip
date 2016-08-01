@@ -4,7 +4,7 @@
 
 
 <%-- Other resources --%>
-<%@taglib uri="/tlds/sql.tld" prefix="tsql" %>
+<%@taglib uri="/tlds/sql" prefix="tsql" %>
 <tsql:init dburl="jdbc:mysql://localhost:3306/infovip-github" user="root" password="password" />
 
 

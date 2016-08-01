@@ -4,6 +4,12 @@
     Author     : attila
 --%>
 
-<%@page import="com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity"%>
 <%@include  file="../../core/config.jsp" %>
-${post}
+
+<esentity:entity entity="${post}" var="testPost">
+    <esentity:foreach current="testPost">
+        UserName : <esentity:out field="userName" /><br>
+        ID : <esentity:out field="id" /> <br>
+        CreationTime: <esentity:out field="creationTime" /><br>
+    </esentity:foreach>
+</esentity:entity>

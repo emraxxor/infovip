@@ -9,20 +9,25 @@
  <%--
   Module taglib
 --%>
-<%@taglib uri="/tlds/module-manager.tld" prefix="module" %>
+<%@taglib uri="/tlds/module-manager" prefix="module" %>
 
 <%-- 
   Translate taglib
 --%>
-<%@taglib uri="/tlds/translate.tld" prefix="tr" %>
+<%@taglib uri="/tlds/translate" prefix="tr" %>
 
 
 <%-- 
   Web standard tag library
 --%>
-<%@taglib prefix="web" uri="/tlds/web.tld" %>
+<%@taglib prefix="web" uri="/tlds/web" %>
 
 <%-- 
   Core standard tag library
 --%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+<%--
+ ES Entity manager
+--%>
+<%@taglib prefix="esentity" uri="/tlds/entity" %>
