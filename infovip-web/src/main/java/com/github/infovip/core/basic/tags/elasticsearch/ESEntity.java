@@ -18,32 +18,76 @@ package com.github.infovip.core.basic.tags.elasticsearch;
 
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import static javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_BUFFERED;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-import static javax.servlet.jsp.tagext.IterationTag.EVAL_BODY_AGAIN;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
+ * Since the JSTL "foreach" tag cannot iterate the entities I created a simple
+ * tag handler to manage entity beans.
+ * <br/>
+ * The ESEntity is the basis for management entities of the application.
+ * ESEntity expects two parameters, one is the entity other is the name of the
+ * variable to store the given entity. The scope of the variable can not be
+ * changed, default scope which is used to store the variable is page scope.
+ * <br/>
+ * By default the child elements will always try to get the entity from the
+ * parent object in order to use it for further operations. If this is not
+ * possible the child elements will try to get the entity from the given scope.
+ * If neither is possible, an exception will be thrown.
+ *
+ * <h2>Using entity manager</h2>
+ * <h3>Iterating entity</h3>
+ * <esentity:entity entity="${iterableEntityObject}" var="data">
+ * <esentity:foreach current="data">
+ * FieldName1 : <esentity:out field="fieldName1" /><br>
+ * FieldName2 : <esentity:out field="fieldName2" /> <br>
+ * </esentity:foreach>
+ * </esentity:entity>
+ * <p>
+ *
+ * <h3>Merging entity</h3>
+ * <esentity:entity entity="${iterableEntityObject}" var="data">
+ * <esentity:foreach current="data">
+ * <esentity:merge field="fieldName" where="stringval" to="newvalue"/>
+ * </esentity:foreach">
+ * </esentity:entity>
+ * <p>
+ * <h3>Create entity</h3>
+ * <esentity:create entity="${}">
+ *
+ * </esentity:create>
  *
  * @author attila
  */
 public class ESEntity extends BodyTagSupport {
 
+    /**
+     * Default template
+     */
     private ElasticsearchTemplate template;
 
+    /**
+     * The given entity or iterable object
+     */
     private Object entity;
 
+    /**
+     * Name of the variable to store entity
+     */
     private String var;
 
+    /**
+     * Application context
+     *
+     */
     ApplicationContext applicationContext;
 
     public ESEntity() {
@@ -56,7 +100,7 @@ public class ESEntity extends BodyTagSupport {
         template = applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, ElasticsearchTemplate.class);
 
         if (var != null) {
-            pageContext.setAttribute(var, entity);
+            pageContext.setAttribute(var, entity, PageContext.PAGE_SCOPE);
         }
 
         return EVAL_BODY_BUFFERED;

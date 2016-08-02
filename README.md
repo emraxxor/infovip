@@ -3,7 +3,7 @@ Infovip project
 
 The project aims to develop a framework that allows rapid development of web applications with minimal effort. 
 In fact, I started writing a social media website in PHP but it happened a long time ago (more than 8 years), 
-so I made a decision and I start to create a completely new project.
+so I made a decision and started to create a completely new project.
 
 Infovip is not just a framework but also a social media site as well.
 

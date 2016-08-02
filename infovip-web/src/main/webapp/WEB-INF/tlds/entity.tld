@@ -3,23 +3,6 @@
     <tlib-version>1.0</tlib-version>
     <short-name>entity</short-name>
     <uri>/tlds/entity</uri>
-    <!-- A validator verifies that the tags are used correctly at JSP
-          translation time. Validator entries look like this: 
-       <validator>
-           <validator-class>com.mycompany.TagLibValidator</validator-class>
-           <init-param>
-              <param-name>parameter</param-name>
-              <param-value>value</param-value>
-           </init-param>
-       </validator>
-    -->
-    <!-- A tag library can register Servlet Context event listeners in
-         case it needs to react to such events. Listener entries look
-         like this: 
-      <listener>
-          <listener-class>com.mycompany.TagLibListener</listener-class> 
-      </listener>
-    -->
     <tag>
         <name>entity</name>
         <tag-class>com.github.infovip.core.basic.tags.elasticsearch.ESEntity</tag-class>
@@ -46,6 +29,12 @@
             <rtexprvalue>true</rtexprvalue>
             <type>java.lang.String</type>
         </attribute>
+        <attribute>
+            <name>entity</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+            <description>A custom entity also can be used...</description>
+        </attribute>
     </tag>
     <tag>
         <name>foreach</name>
@@ -55,6 +44,127 @@
             <name>current</name>
             <rtexprvalue>true</rtexprvalue>
             <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    <tag>
+        <name>create</name>
+        <tag-class>com.github.infovip.core.basic.tags.elasticsearch.ESEntityCreate</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>entityClass</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <name>result</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+        </attribute>
+    </tag>
+    <tag>
+        <name>set</name>
+        <tag-class>com.github.infovip.core.basic.tags.elasticsearch.ESEntitySet</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            Modifies the properties of an existing entity instance.
+        
+        </description>
+        <attribute>
+            <name>field</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>
+                Supported types are the following : 
+                - string
+                - float
+                - double
+                - int
+                - date
+            </description>
+        </attribute>
+        <attribute>
+            <name>dateType</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>
+                Only the following values are supported :
+                - default 
+                - chunk
+                - iso8601
+                - standard
+                If the dateType is not specified then the standard type will be used.
+            </description>
+        </attribute>
+        <attribute>
+            <name>pattern</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>entity</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+            <description>
+                It is possible to modify the field only the given entity
+            </description>
+        </attribute>
+    </tag>
+    <tag>
+        <name>search</name>
+        <tag-class>com.github.infovip.core.basic.tags.elasticsearch.ESSearch</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            It allows us to use json to search in elasticsearch
+        </description>
+        <attribute>
+            <name>index</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>The index in which the search is happening. It is only neccessary to be defined if the className property is not used. Multiple indices can be defined with using comma as a seperator.</description>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>Sets the type of the document.It is only neccessary to be defined if the className property is not used. Multiple types can be defined with using comma as a seperator.</description>
+        </attribute>
+        <attribute>
+            <name>result</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>Name of the variable to store the result</description>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>Scope of the result. If it is not specified then page scope will be used by default.</description>
+        </attribute>
+        <attribute>
+            <name>entityClass</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>It is possible to generate a result with the given class</description>
         </attribute>
     </tag>
 </taglib>

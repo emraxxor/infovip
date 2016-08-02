@@ -92,6 +92,12 @@ public class ESEntityForeach extends BodyTagSupport {
         return SKIP_BODY;
     }
 
+    @Override
+    public int doEndTag() throws JspException {
+        current = null;
+        return super.doEndTag(); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getCurrent() {
         return current;
     }
@@ -99,7 +105,6 @@ public class ESEntityForeach extends BodyTagSupport {
     public void setCurrent(String current) {
         this.current = current;
     }
-
 
     public Object getEntityObject() {
         return entityObject;
