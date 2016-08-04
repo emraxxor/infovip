@@ -18,13 +18,11 @@ package com.github.infovip.core.basic.tags.elasticsearch;
 
 import com.github.infovip.core.Configuration;
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
-import com.github.infovip.core.basic.jsp.Scope;
 import static com.github.infovip.core.basic.jsp.Scope.scope;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import static javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_BUFFERED;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import static javax.servlet.jsp.tagext.Tag.EVAL_PAGE;
@@ -39,6 +37,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * ESSearch allows to use native json object as a search query.
+ * It actually just simple wraps the json and the result will be mapped as
+ * a repository.
  *
  * @author attila
  */
@@ -121,7 +121,7 @@ public class ESSearch extends BodyTagSupport {
             SearchResponse response = client.prepareSearch(index).setTypes(type).setQuery(QueryBuilders.wrapperQuery(jsonString)).execute().actionGet();
             pageContext.setAttribute(result, response, scope(scope));
         }
-        return EVAL_PAGE;
+        return SKIP_BODY;
     }
 
     @Override

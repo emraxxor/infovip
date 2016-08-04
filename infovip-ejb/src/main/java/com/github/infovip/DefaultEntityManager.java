@@ -61,7 +61,7 @@ public abstract class DefaultEntityManager<T> {
         FIND
     }
 
-    @PersistenceContext(unitName = "com.github.infovip.persistence")
+    @PersistenceContext(unitName = "infovipPU")
     protected EntityManager em;
 
     /**

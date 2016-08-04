@@ -43,7 +43,6 @@
         <servlet-name>SimpleModule</servlet-name>
         <url-pattern>/SimpleModule</url-pattern>
         <url-pattern>/SimpleModule/*</url-pattern>
-        <url-pattern>/SimpleModule/**</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -55,11 +54,6 @@
     </welcome-file-list>
     <ejb-local-ref>
         <ejb-ref-name>UserManagement</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <local>com.github.infovip.beans.user.UserManagementLocal</local>
-    </ejb-local-ref>
-    <ejb-local-ref>
-        <ejb-ref-name>UserManagement1</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
         <local>com.github.infovip.beans.user.UserManagementLocal</local>
     </ejb-local-ref>

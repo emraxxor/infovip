@@ -143,7 +143,7 @@ public class ESEntitySet extends BodyTagSupport {
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ParseException ex) {
             Logger.getLogger(ESEntitySet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return EVAL_PAGE;
+        return SKIP_BODY;
     }
 
     @Override
@@ -170,6 +170,10 @@ public class ESEntitySet extends BodyTagSupport {
 
     public void setDateType(String dateType) {
         this.dateType = dateType;
+    }
+
+    public void setEntity(Object entity) {
+        this.entity = entity;
     }
 
 }

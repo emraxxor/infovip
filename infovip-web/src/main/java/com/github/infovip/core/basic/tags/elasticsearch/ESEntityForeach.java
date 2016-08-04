@@ -28,6 +28,16 @@ import static javax.servlet.jsp.tagext.IterationTag.EVAL_BODY_AGAIN;
 import static javax.servlet.jsp.tagext.Tag.SKIP_BODY;
 
 /**
+ * ESEntityForeach helps to iterate the entities.
+ *
+ * @example
+ * <esentity:entity entity="${iterableObject}" var="testPost">
+ * <esentity:foreach current="testPost">
+ * UserName : <esentity:out field="userName" /><br>
+ * ID : <esentity:out field="id" /> <br>
+ * CreationTime: <esentity:out field="creationTime" /><br>
+ * </esentity:foreach>
+ * </esentity:entity>
  *
  * @author attila
  */

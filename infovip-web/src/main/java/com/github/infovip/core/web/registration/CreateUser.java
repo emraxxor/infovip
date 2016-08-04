@@ -74,7 +74,7 @@ public class CreateUser extends DefaultStatusResponseBody {
                 return;
             }
 
-            if (userManagement.getUser(request.getParameter(inputs[0])) != null) {
+            if (userManagement.findUserByName(request.getParameter(inputs[0])) != null) {
                 statusMessage = String.format("Username : %s is not available!", request.getParameter(inputs[0]));
                 status = "user";
                 return;

@@ -23,13 +23,15 @@ import java.util.logging.Logger;
 import javax.servlet.jsp.JspException;
 import static javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_BUFFERED;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-import static javax.servlet.jsp.tagext.Tag.EVAL_PAGE;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
+ * ESEntityCreate actually creates a new document then the document will be
+ * added as an attribute to the current context. Scope for the context can also
+ * be specified.
  *
  * @author attila
  */
@@ -92,10 +94,11 @@ public class ESEntityCreate extends BodyTagSupport {
     public int doAfterBody() throws JspException {
         indexQuery.setObject(entity);
         template.index(indexQuery);
+        template.refresh(entity.getClass());
         if (result != null) {
             pageContext.setAttribute(result, entity, scope(scope));
         }
-        return EVAL_PAGE;
+        return SKIP_BODY;
     }
 
     public String getEntityClass() {

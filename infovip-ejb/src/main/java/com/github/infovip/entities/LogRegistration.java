@@ -36,6 +36,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  *
@@ -52,28 +54,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class LogRegistration implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "pid")
     private Long pid;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 39)
     @Column(name = "ip")
     private String ip;
-    
-    
+
     @Basic(optional = true)
     @NotNull
     @Column(name = "time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
-    
-    @OneToOne(optional = false,cascade = CascadeType.ALL)
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @NotNull
     @JoinColumn(name = "uid", referencedColumnName = "uid")
     private User uid;
@@ -125,9 +126,7 @@ public class LogRegistration implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (pid != null ? pid.hashCode() : 0);
-        return hash;
+        return new HashCodeBuilder().append(pid).append(ip).append(time).append(uid).toHashCode();
     }
 
     @Override
@@ -137,10 +136,7 @@ public class LogRegistration implements Serializable {
             return false;
         }
         LogRegistration other = (LogRegistration) object;
-        if ((this.pid == null && other.pid != null) || (this.pid != null && !this.pid.equals(other.pid))) {
-            return false;
-        }
-        return true;
+        return new EqualsBuilder().append(this.pid, other.pid).append(this.ip, other.ip).append(this.uid, other.uid).append(this.time, other.time).isEquals();
     }
 
     @Override

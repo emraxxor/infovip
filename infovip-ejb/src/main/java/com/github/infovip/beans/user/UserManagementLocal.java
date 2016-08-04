@@ -8,6 +8,9 @@ package com.github.infovip.beans.user;
 import com.github.infovip.entities.User;
 import java.util.List;
 import javax.ejb.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 /**
  *
@@ -77,11 +80,12 @@ public interface UserManagementLocal {
     public User findUserByEmail(String mail);
 
     /**
-     * Gets the given user by its name
      *
-     * @param name
+     * @param uname
      * @return
      */
-    public User getUser(String name);
+    public User findUserByName(String uname);
+
+    public Page<User> findUsers(Pageable pageable);
 
 }

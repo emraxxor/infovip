@@ -20,6 +20,8 @@ import com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity;
 import com.github.infovip.spring.elasticsearch.repositories.TimelineRepository;
 import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,6 @@ public class TimelineService implements Serializable {
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
 
-    
     public TimelineService() {
     }
 
@@ -47,6 +48,10 @@ public class TimelineService implements Serializable {
 
     public Iterable<TimelinePostEntity> findAll() {
         return timelineRepository.findAll();
+    }
+
+    public Page<TimelinePostEntity> findAll(Pageable pgbl) {
+        return timelineRepository.findAll(pgbl);
     }
 
 }

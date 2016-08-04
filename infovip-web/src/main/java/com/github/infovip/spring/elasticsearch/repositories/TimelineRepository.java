@@ -18,6 +18,8 @@ package com.github.infovip.spring.elasticsearch.repositories;
 
 import com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity;
 import java.io.Serializable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -28,5 +30,12 @@ public interface TimelineRepository extends ElasticsearchRepository<TimelinePost
 
     @Override
     public Iterable<TimelinePostEntity> findAll();
+
+    @Override
+    public Page<TimelinePostEntity> findAll(Pageable pgbl);
+
+    @Override
+    public TimelinePostEntity findOne(String id);
+    
 
 }

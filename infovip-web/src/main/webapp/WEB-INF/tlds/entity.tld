@@ -22,7 +22,7 @@
     <tag>
         <name>out</name>
         <tag-class>com.github.infovip.core.basic.tags.elasticsearch.ESOut</tag-class>
-        <body-content>JSP</body-content>
+        <body-content>empty</body-content>
         <attribute>
             <name>field</name>
             <required>true</required>
@@ -70,7 +70,7 @@
     <tag>
         <name>set</name>
         <tag-class>com.github.infovip.core.basic.tags.elasticsearch.ESEntitySet</tag-class>
-        <body-content>JSP</body-content>
+        <body-content>empty</body-content>
         <description>
             Modifies the properties of an existing entity instance.
         
@@ -165,6 +165,36 @@
             <rtexprvalue>true</rtexprvalue>
             <type>java.lang.String</type>
             <description>It is possible to generate a result with the given class</description>
+        </attribute>
+    </tag>
+    <tag>
+        <name>update</name>
+        <tag-class>com.github.infovip.core.basic.tags.elasticsearch.ESUpdate</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>entity</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+            <description>Entity that will be updated</description>
+        </attribute>
+        <attribute>
+            <name>entity</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+            <description>Entity that will be updated</description>
+        </attribute>
+    </tag>
+    <tag>
+        <name>delete</name>
+        <tag-class>com.github.infovip.core.basic.tags.elasticsearch.ESDelete</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>entity</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
         </attribute>
     </tag>
 </taglib>

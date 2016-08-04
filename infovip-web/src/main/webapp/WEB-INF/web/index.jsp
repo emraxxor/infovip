@@ -13,7 +13,7 @@
 <module:js src="${resources}/js/ui/UILogger.js" />
 <module:js src="${resources}/js/ui/UICore.js" />
 <module:css src="${resources}/css/main.css" />
-
+${user}
 <module:InitModule moduleLocation="${Configuration.WEB_DIRECTORY}/authentication/DefaultLoginPage.jsp" moduleQueryString="" />
 <module:InitModule moduleLocation="${Configuration.WEB_DIRECTORY}/authentication/TemporaryWelcome.jsp" moduleQueryString="" />
 <module:IncludePage type="template" file="header" />

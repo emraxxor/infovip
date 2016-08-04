@@ -24,9 +24,13 @@
 
 <esentity:out entity="${createResult}" field="userName" /> 
 
+<esentity:set entity="${createResult}" field="userName" type="string" value="modifiedValue" />
+<esentity:out entity="${createResult}" field="userName" />
+<esentity:update entity="${createResult}" />
+
 <p>=======================================================</p>
 <esentity:search entityClass="com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity" result="searchResult" scope="request">
-    {"query" : { "match_all" : {} } }
+    {"query" : { "query_string" : { "default_field" : "userName","query": "modifiedValue" } } }
 </esentity:search>
 <esentity:entity entity="${searchResult}" var="testPost">
     <esentity:foreach current="testPost">
@@ -35,3 +39,5 @@
         CreationTime: <esentity:out field="creationTime" /><br>
     </esentity:foreach>
 </esentity:entity>
+
+<esentity:delete entity="${createResult}"/>
