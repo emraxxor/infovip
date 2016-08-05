@@ -55,6 +55,6 @@
     <ejb-local-ref>
         <ejb-ref-name>UserManagement</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
-        <local>com.github.infovip.beans.user.UserManagementLocal</local>
+        <local>com.github.infovip.beans.stateless.user.UserManagementLocal</local>
     </ejb-local-ref>
 </web-app>

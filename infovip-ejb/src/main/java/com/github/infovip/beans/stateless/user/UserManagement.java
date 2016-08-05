@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.infovip.beans.user;
+package com.github.infovip.beans.stateless.user;
 
-import com.github.infovip.DefaultEntityManager;
+import com.github.infovip.core.DefaultEntityManager;
 import com.github.infovip.entities.User;
-import com.github.infovip.spring.repositories.UserRepository;
+import com.github.infovip.spring.services.UserService;
 import com.github.infovip.util.BasicUtilities;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -24,7 +25,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 /**
  * Actually, it is used for typical user operations such as :
@@ -44,8 +44,7 @@ import org.springframework.data.domain.Sort;
  * transactions.
  * <p>
  * It can be divided into two separate parts. One of the part is responsible for
- * the complex queries and the other is created by the repository
- * manager.
+ * the complex queries and the other is created by the repository manager.
  *
  * <h2>Notice:</h2>
  * Please notice that the transaction management is set to bean, so don't forget
@@ -62,22 +61,23 @@ import org.springframework.data.domain.Sort;
  *
  * @author attila
  */
-@Stateless()
+@Stateless
 @TransactionManagement(value = TransactionManagementType.BEAN)
+@Local(UserManagementLocal.class)
 public class UserManagement extends DefaultEntityManager<User> implements UserManagementLocal {
 
     @Resource
     private UserTransaction ut;
 
     /**
+     * Repository for managing users
+     */
+    private UserService userService;
+
+    /**
      * Default application context
      */
     private ApplicationContext context;
-
-    /**
-     * Repository for managing users
-     */
-    private UserRepository userRepository;
 
     public UserManagement() {
         super(User.class);
@@ -86,7 +86,7 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     @PostConstruct
     public void init() {
         context = new ClassPathXmlApplicationContext("META-INF/spring-data.xml");
-        userRepository = context.getBean(UserRepository.class);
+        userService = context.getBean(UserService.class);
     }
 
     /**
@@ -123,18 +123,6 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     }
 
     /**
-     * Find all users. The query can be limited and sorted by using the
-     * "pageable".
-     *
-     * @param pageable
-     * @return
-     */
-    @Override
-    public Page<User> findUsers(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
-
-    /**
      * It is needed for the authorization process that finds the user by account
      * name and password.
      *
@@ -146,8 +134,8 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     public User findUser(String userName, String password) {
         try {
             return (User) em.createNamedQuery("User.findByNameAndUpassword")
-                    .setParameter("uname", userName)
-                    .setParameter("upassword", BasicUtilities.getMD5(password))
+                    .setParameter("userName", userName)
+                    .setParameter("userPassword", BasicUtilities.getMD5(password))
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -164,7 +152,7 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     public User findUserByEmail(String mail) {
         try {
             return (User) em.createNamedQuery("User.findByUmail")
-                    .setParameter("umail", mail)
+                    .setParameter("userMail", mail)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -180,7 +168,7 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     @Override
     public void modifyUserName(String userName, String newUserName) {
         User u = findUserByName(userName);
-        u.setUname(newUserName);
+        u.setUserName(newUserName);
         transaction(u, ut, PersistenceOperation.MERGE, true);
     }
 
@@ -195,7 +183,7 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     public User findUserByName(String name) {
         CriteriaQuery cq = cb.createQuery();
         Root<User> u = cq.from(User.class);
-        cq.select(u).where(cb.equal(u.get("uname"), name));
+        cq.select(u).where(cb.equal(u.get("userName"), name));
         try {
             return (User) em.createQuery(cq).getSingleResult();
         } catch (NoResultException e) {
@@ -215,8 +203,8 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
         CriteriaQuery cq = cb.createQuery();
         Root<User> u = cq.from(User.class);
         cq.select(u).where(new Predicate[]{
-            cb.equal(u.get("uname"), userName),
-            cb.equal(u.get("upassword"), password)
+            cb.equal(u.get("userName"), userName),
+            cb.equal(u.get("userPassword"), password)
         });
         try {
             return (User) em.createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
@@ -235,7 +223,7 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     public User getUser(long id) {
         CriteriaQuery cq = cb.createQuery();
         Root<User> u = cq.from(User.class);
-        cq.select(u).where(cb.equal(u.get("uid"), id));
+        cq.select(u).where(cb.equal(u.get("userId"), id));
         try {
             return (User) em.createQuery(cq).getSingleResult();
         } catch (NoResultException e) {
@@ -246,6 +234,72 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     @Override
     public String getBeanName() {
         return "UserFacadeBean";
+    }
+
+    /**
+     * Validates the given bean
+     *
+     * @param entity
+     * @return
+     */
+    @Override
+    public boolean validate(User entity) {
+        return super.validate(entity);
+    }
+
+    /**
+     * Find all users. The query can be limited and sorted by using the
+     * "pageable".
+     *
+     * @param pageable
+     * @return
+     */
+    @Override
+    public Page<User> findUsers(Pageable pageable) {
+        return userService.findAll(pageable);
+    }
+
+    @Override
+    public List<User> removeByUserId(Long uid) {
+        return userService.removeUserById(uid);
+    }
+
+    @Override
+    public User removeEntity(User entity) {
+        return transaction(entity, ut, PersistenceOperation.REMOVE, true);
+    }
+
+    @Override
+    public User mergeEntity(User entity) {
+        return transaction(entity, ut, PersistenceOperation.MERGE, true);
+    }
+
+    @Override
+    public User createEntity(User entity) {
+        transaction(entity, ut, PersistenceOperation.PERSIST, true);
+        em.clear();
+        return entity;
+    }
+
+    /**
+     * Gets the current userService
+     *
+     * @return
+     */
+    public UserService getUserService() {
+        return userService;
+    }
+
+    /*
+     * Finds the entity using primary key It can only be used if there is a
+     * primary key defined in the bean
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public User find(Long id) {
+        return super.find(id);
     }
 
 }

@@ -16,8 +16,31 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
+
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/arquillian"/> 
     <tx:annotation-driven />
-    <context:component-scan base-package="com.github.infovip.spring.config"></context:component-scan>
-    <context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
+    <jpa:repositories base-package="com.github.infovip.spring.repositories" />
+     
+    <bean id="emf" name="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />         
+        <property name="persistenceUnitName" value="test"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+                <property name="showSql" value="true"/>
+                <property name="generateDdl" value="false"/>
+            </bean>
+        </property>
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect" />
+        </property>
+        <property name="loadTimeWeaver">
+            <bean class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" />
+        </property>         
+    </bean> 
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf" />
+    </bean> 
     
+    <context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
 </beans>

@@ -17,12 +17,14 @@
 package com.github.infovip.spring.repositories;
 
 import com.github.infovip.entities.User;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -33,6 +35,7 @@ import org.springframework.stereotype.Repository;
  * @author attila
  */
 @Repository
+@Transactional
 public interface UserRepository extends CrudRepository<User, Long> {
 
     /**
@@ -43,18 +46,17 @@ public interface UserRepository extends CrudRepository<User, Long> {
      * @param userName
      * @return
      */
-    public User findByuname(@Param("uname") String userName);
+    public User findByUserName(@Param("uname") String userName);
 
     /**
      * Find the user with the given username. This method will be translated
      * into a query using the {@link javax.persistence.NamedQuery} annotation at
      * the {@link User} class.
      *
-     * @param userName
-     * Ignore case sensitive
+     * @param userName Ignore case sensitive
      * @return
      */
-    public User findByunameIgnoreCase(@Param("uname") String userName);
+    public User findByUserNameIgnoreCase(@Param("uname") String userName);
 
     /**
      * Find all users. The query can be limited and sorted by using the
@@ -62,8 +64,15 @@ public interface UserRepository extends CrudRepository<User, Long> {
      *
      *
      * @param pageable
-     * @param sort
+     * @return
      */
-    Page<User> findAll(Pageable pageable);
+    public Page<User> findAll(Pageable pageable);
 
+    /**
+     * Removes the users by its id
+     *
+     * @param uid
+     * @return
+     */
+    List<User> removeByUserId(Long uid);
 }

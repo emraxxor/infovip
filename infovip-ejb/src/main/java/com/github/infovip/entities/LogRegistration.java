@@ -18,6 +18,7 @@ package com.github.infovip.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,7 +51,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
     @NamedQuery(name = "LogRegistration.findAll", query = "SELECT l FROM LogRegistration l"),
     @NamedQuery(name = "LogRegistration.findByPid", query = "SELECT l FROM LogRegistration l WHERE l.pid = :pid"),
     @NamedQuery(name = "LogRegistration.findByIp", query = "SELECT l FROM LogRegistration l WHERE l.ip = :ip"),
-    @NamedQuery(name = "LogRegistration.findByTime", query = "SELECT l FROM LogRegistration l WHERE l.time = :time")})
+    @NamedQuery(name = "LogRegistration.findByTime", query = "SELECT l FROM LogRegistration l WHERE l.creationTime = :time")})
 public class LogRegistration implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,7 +73,7 @@ public class LogRegistration implements Serializable {
     @NotNull
     @Column(name = "time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date time;
+    private Date creationTime;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @NotNull
@@ -89,7 +90,7 @@ public class LogRegistration implements Serializable {
     public LogRegistration(Long pid, String ip, Date time) {
         this.pid = pid;
         this.ip = ip;
-        this.time = time;
+        this.creationTime = time;
     }
 
     public Long getPid() {
@@ -108,12 +109,12 @@ public class LogRegistration implements Serializable {
         this.ip = ip;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getCreationTime() {
+        return creationTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 
     public User getUid() {
@@ -126,17 +127,23 @@ public class LogRegistration implements Serializable {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(pid).append(ip).append(time).append(uid).toHashCode();
+        return new HashCodeBuilder().append(this.pid).append(this.ip).append(this.creationTime).hashCode();
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LogRegistration)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        LogRegistration other = (LogRegistration) object;
-        return new EqualsBuilder().append(this.pid, other.pid).append(this.ip, other.ip).append(this.uid, other.uid).append(this.time, other.time).isEquals();
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final LogRegistration other = (LogRegistration) obj;
+        return new EqualsBuilder().append(this.ip, other.ip).append(this.pid, other.pid).append(this.creationTime, other.creationTime).append(this.uid, other.uid).isEquals();
     }
 
     @Override

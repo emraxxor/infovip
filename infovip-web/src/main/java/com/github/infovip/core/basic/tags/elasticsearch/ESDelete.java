@@ -65,7 +65,8 @@ public class ESDelete extends BodyTagSupport {
 
     /**
      * Removes the given entity
-     * @throws JspException 
+     *
+     * @throws JspException
      */
     private void deleteDocumentById() throws JspException {
         Class entityClass = entity.getClass();
@@ -78,6 +79,7 @@ public class ESDelete extends BodyTagSupport {
                 try {
                     Method m = entityClass.getMethod(String.format("get%s", StringUtils.capitalize(f.getName())));
                     documentId = (String) m.invoke(entity);
+                    break;
                 } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                     Logger.getLogger(ESDelete.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -27,6 +27,7 @@
         <elasticsearch.version>2.3.4</elasticsearch.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.0.RELEASE</spring.version>
+        <test.skip>false</test.skip>
     </properties>
 
     <dependencies>
@@ -37,6 +38,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
             <version>2.5.2</version>
@@ -45,7 +51,13 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
+            <version>3.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-jxpath</groupId>
@@ -89,27 +101,92 @@
             <version>${spring.version}</version>
         </dependency>
     </dependencies>
+    
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>1.1.11.Final</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <profiles>
         <profile>
-            <id>glassfish-embedded-test</id>
+            <id>glassfish-remote-test</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
             <dependencies>
                 <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <version>4.8.2</version>
+                    <groupId>org.jboss.shrinkwrap</groupId>
+                    <artifactId>shrinkwrap-impl-base</artifactId>
                     <scope>test</scope>
                     <type>jar</type>
                 </dependency>
                 <dependency>
-                    <groupId>org.glassfish.main.extras</groupId>
-                    <artifactId>glassfish-embedded-static-shell</artifactId>
-                    <version>4.1</version>
-                    <scope>system</scope>
-                    <systemPath>${glassfish.embedded-static-shell.jar}</systemPath>
+                    <groupId>org.jboss.spec</groupId>
+                    <artifactId>jboss-javaee-web-7.0</artifactId>
+                    <version>1.0.3.Final</version>
+                    <type>pom</type>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-glassfish-remote-3.1</artifactId>
+                    <version>1.0.0.CR4</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-service-integration-spring-inject</artifactId>
+                    <version>1.1.0.Alpha1</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-service-integration-spring-javaconfig</artifactId>
+                    <version>1.1.0.Alpha1</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-service-deployer-spring-3</artifactId>
+                    <version>1.0.0.Beta3</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-service-deployer-spring-common</artifactId>
+                    <version>1.0.0.Beta3</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-transaction-spring</artifactId>
+                    <version>1.1.0.Alpha1</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                    <version>${spring.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.10</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.junit</groupId>
+                    <artifactId>arquillian-junit-container</artifactId>
+                    <scope>test</scope>
                 </dependency>
             </dependencies>
             <build>
@@ -118,15 +195,152 @@
                         <directory>src/test/resources</directory>
                     </testResource>
                     <testResource>
-                        <directory>src/test/resources-glassfish-embedded</directory>
+                        <directory>src/test/resources/glassfish-remote</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/resources/spring-test</directory>
                     </testResource>
                 </testResources>
                 <plugins>
+                    <!-- The surefire plugin is configured to pass a system property to GlassFish to retarget the derby log file -->
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.12</version>
                         <configuration>
+                            <skipTests>true</skipTests>
+                            <systemPropertyVariables>
+                                <java.util.logging.config.file>
+                                    ${project.build.testOutputDirectory}/logging.properties
+                                </java.util.logging.config.file>
+                                <derby.stream.error.file>
+                                    ${project.build.directory}/derby.log
+                                </derby.stream.error.file>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>glassfish-embedded</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+                    <version>1.0.0.CR4</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.main.extras</groupId>
+                    <artifactId>glassfish-embedded-all</artifactId>
+                    <version>4.0</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.shrinkwrap</groupId>
+                    <artifactId>shrinkwrap-impl-base</artifactId>
+                    <scope>test</scope>
+                    <type>jar</type>
+                </dependency>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.10</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.junit</groupId>
+                    <artifactId>arquillian-junit-container</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-service-integration-spring-inject</artifactId>
+                    <version>1.1.0.Alpha1</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-service-integration-spring-javaconfig</artifactId>
+                    <version>1.1.0.Alpha1</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-service-deployer-spring-3</artifactId>
+                    <version>1.0.0.Beta3</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-service-deployer-spring-common</artifactId>
+                    <version>1.0.0.Beta3</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-transaction-spring</artifactId>
+                    <version>1.1.0.Alpha1</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                    <version>${spring.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>5.1.6</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                    <version>${spring.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context-support</artifactId>
+                    <version>${spring.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.10</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/resources/glassfish-embedded</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/resources/spring-test</directory>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <!-- The surefire plugin is configured to pass a system property to GlassFish to retarget the derby log file -->
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.12</version>
+                        <configuration>
+                            <skipTests>${test.skip}</skipTests>
+                            <excludes>
+                                <exclude>src/main/resources/META-INF/glassfish-resources.xml</exclude>
+                                <exclude>src/main/resources/**/*</exclude>
+                                <exclude>src/main/resources/META-INF/persistence.xml</exclude>
+                            </excludes>
+                            <!-- <forkCount>1</forkCount>
+                            <reuseForks>false</reuseForks>-->
                             <systemPropertyVariables>
                                 <java.util.logging.config.file>
                                     ${project.build.testOutputDirectory}/logging.properties

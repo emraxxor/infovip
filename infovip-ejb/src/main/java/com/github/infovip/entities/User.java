@@ -33,11 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findByUid", query = "SELECT u FROM User u WHERE u.uid = :uid"),
-    @NamedQuery(name = "User.findByUname", query = "SELECT u FROM User u WHERE u.uname = :uname"),
-    @NamedQuery(name = "User.findByUpassword", query = "SELECT u FROM User u WHERE u.upassword = :upassword"),
-    @NamedQuery(name = "User.findByNameAndUpassword", query = "SELECT u FROM User u WHERE u.upassword = :upassword and u.uname = :uname"),
-    @NamedQuery(name = "User.findByUmail", query = "SELECT u FROM User u WHERE u.umail = :umail")})
+    @NamedQuery(name = "User.findByUid", query = "SELECT u FROM User u WHERE u.userId = :userId"),
+    @NamedQuery(name = "User.findByUname", query = "SELECT u FROM User u WHERE u.userName = :userName"),
+    @NamedQuery(name = "User.findByUpassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword"),
+    @NamedQuery(name = "User.findByNameAndUpassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword and u.userName = :userName"),
+    @NamedQuery(name = "User.findByUmail", query = "SELECT u FROM User u WHERE u.userMail = :userMail")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,25 +46,25 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "uid")
-    private Long uid;
+    private Long userId;
     
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "uname")
-    private String uname;
+    private String userName;
     
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "upassword")
-    private String upassword;
+    private String userPassword;
     
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "umail")
-    private String umail;
+    private String userMail;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "uid")
     private LogRegistration logRegistration;
@@ -73,56 +73,52 @@ public class User implements Serializable {
     }
 
     public User(Long uid) {
-        this.uid = uid;
+        this.userId = uid;
     }
 
     public User(Long uid, String uname, String upassword, String umail) {
-        this.uid = uid;
-        this.uname = uname;
-        this.upassword = upassword;
-        this.umail = umail;
+        this.userId = uid;
+        this.userName = uname;
+        this.userPassword = upassword;
+        this.userMail = umail;
     }
 
-    public Long getUid() {
-        return uid;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUid(Long uid) {
-        this.uid = uid;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getUname() {
-        return uname;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUname(String uname) {
-        this.uname = uname;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getUpassword() {
-        return upassword;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setUpassword(String upassword) {
-        this.upassword = upassword;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
-    public String getUmail() {
-        return umail;
+    public String getUserMail() {
+        return userMail;
     }
 
-    public void setUmail(String umail) {
-        this.umail = umail;
+    public void setUserMail(String userMail) {
+        this.userMail = userMail;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 11 * hash + Objects.hashCode(this.uid);
-        hash = 11 * hash + Objects.hashCode(this.uname);
-        hash = 11 * hash + Objects.hashCode(this.upassword);
-        hash = 11 * hash + Objects.hashCode(this.umail);
-        hash = 11 * hash + Objects.hashCode(this.logRegistration);
+        hash = 11 * hash + Objects.hashCode(this.userId);
         return hash;
     }
 
@@ -138,19 +134,7 @@ public class User implements Serializable {
             return false;
         }
         final User other = (User) obj;
-        if (!Objects.equals(this.uname, other.uname)) {
-            return false;
-        }
-        if (!Objects.equals(this.upassword, other.upassword)) {
-            return false;
-        }
-        if (!Objects.equals(this.umail, other.umail)) {
-            return false;
-        }
-        if (!Objects.equals(this.uid, other.uid)) {
-            return false;
-        }
-        if (!Objects.equals(this.logRegistration, other.logRegistration)) {
+        if (!Objects.equals(this.userId, other.userId)) {
             return false;
         }
         return true;
@@ -158,7 +142,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.github.infovip.Users[ uid=" + uid + " ]";
+        return "com.github.infovip.Users[ uid=" + userId + " ]";
     }
 
     @XmlTransient

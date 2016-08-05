@@ -1,9 +1,12 @@
-package com.github.infovip;
+package com.github.infovip.core;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.validator.Validator;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -16,6 +19,9 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  * DefaultEntityManager helps to manage the entities.
@@ -61,7 +67,7 @@ public abstract class DefaultEntityManager<T> {
         FIND
     }
 
-    @PersistenceContext(unitName = "infovipPU")
+    @PersistenceContext
     protected EntityManager em;
 
     /**
@@ -86,27 +92,34 @@ public abstract class DefaultEntityManager<T> {
      * It executes a simple transaction. It is used for simple operations such
      * as modifying, merging, removing entities.
      *
-     * @param <T>
+     * @param <T1>
      * @param u
      * @return
      */
-    protected <T> T transaction(T u, UserTransaction ut, PersistenceOperation o, boolean flush) {
+    protected <T1> T1 transaction(T1 u, UserTransaction ut, PersistenceOperation o, boolean flush) {
         try {
             ut.begin();
+            em.joinTransaction();
             switch (o) {
                 case PERSIST:
                     em.persist(u);
                     break;
                 case MERGE:
-                    em.merge(u);
+                    u = em.merge(u);
                     break;
                 case REMOVE:
+                    u = em.merge(u);
                     em.remove(u);
+                    break;
+                default:
+                    break;
             }
 
             if (flush) {
                 em.flush();
             }
+        } catch (RuntimeException e) {
+            Logger.getLogger(DefaultEntityManager.class.getName()).log(Level.SEVERE, null, e);
         } catch (NotSupportedException | SystemException e) {
             Logger.getLogger(DefaultEntityManager.class.getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -132,13 +145,37 @@ public abstract class DefaultEntityManager<T> {
     public abstract String getBeanName();
 
     /**
+     * Validates the given entity
+     *
+     * @param entity
+     * @return
+     */
+    public boolean validate(T entity) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        javax.validation.Validator validator = factory.getValidator();
+        Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
+        if (constraintViolations.size() > 0) {
+            Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
+            while (iterator.hasNext()) {
+                ConstraintViolation<T> cv = iterator.next();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "The following bean is not valid : ");
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, (cv.getRootBeanClass().getName() + "." + cv.getPropertyPath() + " " + cv.getMessage()));
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Persists the entity. Actually this method can only be used if the
      * transaction management is set to container managed transaction
      *
      * @param entity
      */
     public void create(T entity) {
-        getEntityManager().persist(entity);
+        if (validate(entity)) {
+            getEntityManager().persist(entity);
+        }
     }
 
     /**

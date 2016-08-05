@@ -16,8 +16,8 @@
  */
 package com.github.infovip.spring.controllers;
 
-import com.github.infovip.beans.user.UserManagement;
-import com.github.infovip.beans.user.UserManagementLocal;
+import com.github.infovip.beans.stateless.user.UserManagement;
+import com.github.infovip.beans.stateless.user.UserManagementLocal;
 import com.github.infovip.core.Configuration;
 import com.github.infovip.core.Configuration.SESSION;
 import static com.github.infovip.core.Configuration.sessionValue;
@@ -94,9 +94,9 @@ public class AuthenticationController {
             User u = userManagement.findUser(userName, userPassword);
             if (u != null) {
                 userSession.setAuthenticated(true);
-                userSession.setUserName(u.getUname());
-                userSession.setUserMail(u.getUmail());
-                userSession.setRegistrationDate(u.getLogRegistration().getTime());
+                userSession.setUserName(u.getUserName());
+                userSession.setUserMail(u.getUserMail());
+                userSession.setRegistrationDate(u.getLogRegistration().getCreationTime());
                 request.getSession().setAttribute(SESSION.USER_SESSION.toString(), userSession);
                 request.getSession().setAttribute(SESSION.AUTH_TIME.toString(), new Date(System.currentTimeMillis()));
                 request.getSession().setAttribute(SESSION.REMOTE_ADDR.toString(), request.getRemoteAddr());

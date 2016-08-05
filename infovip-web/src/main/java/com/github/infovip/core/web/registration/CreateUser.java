@@ -17,7 +17,7 @@
 package com.github.infovip.core.web.registration;
 
 import com.github.infovip.core.web.DefaultStatusResponseBody;
-import com.github.infovip.beans.user.UserManagementLocal;
+import com.github.infovip.beans.stateless.user.UserManagementLocal;
 import com.github.infovip.entities.LogRegistration;
 import com.github.infovip.entities.User;
 import com.github.infovip.util.BasicUtilities;
@@ -91,9 +91,9 @@ public class CreateUser extends DefaultStatusResponseBody {
             lg.setUid(u);
 
             User res = userManagement.createNewUser(u);
-            if (res.getUid() != null) {
+            if (res.getUserId() != null) {
                 status = "ok";
-                statusMessage = String.format("User %s %d has been successfully created.", res.getUname(), res.getUid());
+                statusMessage = String.format("User %s %d has been successfully created.", res.getUserName(), res.getUserId());
             }
         }
     }

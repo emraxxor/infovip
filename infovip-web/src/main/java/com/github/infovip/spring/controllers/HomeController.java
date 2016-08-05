@@ -5,20 +5,17 @@
  */
 package com.github.infovip.spring.controllers;
 
-import com.github.infovip.beans.user.UserManagement;
-import com.github.infovip.beans.user.UserManagementLocal;
+import com.github.infovip.beans.stateless.user.UserManagement;
+import com.github.infovip.beans.stateless.user.UserManagementLocal;
 import com.github.infovip.core.Configuration;
-import com.github.infovip.entities.User;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,10 +42,7 @@ public class HomeController {
      * @return
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Locale locale, Model model) {
-        Pageable page = new PageRequest(0, 10, new Sort(Sort.Direction.ASC, "uname"));
-        Page<User> user = userManagement.findUsers(page);
-        model.addAttribute("user", user);
+    public String index(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
         return "index";
     }
 
