@@ -51,6 +51,7 @@ public class UserService {
      * @param uid
      * @return 
      */
+    @Transactional
     public List<User> removeUserById(Long uid) {
         return userRepository.removeByUserId(uid);
     }

@@ -19,8 +19,6 @@ package com.github.infovip.beans.stateless.user;
 import com.github.infovip.core.DefaultEntityManager;
 import com.github.infovip.entities.LogRegistration;
 import com.github.infovip.entities.User;
-import com.github.infovip.spring.repositories.LogRegistrationRepository;
-import com.github.infovip.spring.repositories.UserRepository;
 import com.github.infovip.spring.services.UserService;
 import java.util.Date;
 import javax.ejb.EJB;
@@ -56,6 +54,9 @@ import org.springframework.data.domain.Sort;
  * default persistence file is modified to use a test database otherwise the
  * tests will run on the product database, so it is not recommended to run the
  * this test by default.
+ * 
+ * 
+ * The above bug has been fixed.
  *
  * @todo Remaining functions must be implemented.
  * @author attila
@@ -69,6 +70,9 @@ public class UserManagementTest {
     @EJB
     private UserManagementLocal userManagement;
 
+    /**
+     * Current user service
+     */
     UserService userService;
 
     @BeforeClass
@@ -82,7 +86,6 @@ public class UserManagementTest {
     @Before
     public void setUp() {
         userService = userManagement.getUserService();
-        userService.deleteAll();
     }
 
     @After
@@ -93,16 +96,16 @@ public class UserManagementTest {
     public static Archive<?> createDeployment() {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
                 .addClasses(
-                        UserRepository.class,
-                        UserService.class,
                         UserManagementLocal.class,
                         UserManagement.class,
-                        DefaultEntityManager.class,
-                        LogRegistrationRepository.class
+                        DefaultEntityManager.class
                 )
+                .addPackage("com.github.infovip.entities")
+                .addPackage("com.github.infovip.spring.services")
+                .addPackage("com.github.infovip.repositories")
                 .addAsManifestResource("glassfish-resources.xml", "glassfish-resources.xml")
                 .addAsManifestResource("test-persistence.xml", "persistence.xml")
-                .addAsManifestResource("spring-data.xml", "spring-data.xml")
+                .addAsResource("beanRefContext.xml")
                 .addAsResource("spring-data.xml");
 
         return jar;

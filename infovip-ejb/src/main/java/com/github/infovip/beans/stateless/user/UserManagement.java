@@ -16,15 +16,18 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 /**
  * Actually, it is used for typical user operations such as :
@@ -64,6 +67,7 @@ import org.springframework.data.domain.Pageable;
 @Stateless
 @TransactionManagement(value = TransactionManagementType.BEAN)
 @Local(UserManagementLocal.class)
+@Interceptors(SpringBeanAutowiringInterceptor.class)
 public class UserManagement extends DefaultEntityManager<User> implements UserManagementLocal {
 
     @Resource
@@ -72,11 +76,13 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     /**
      * Repository for managing users
      */
+    @Autowired
     private UserService userService;
 
     /**
      * Default application context
      */
+    @Autowired
     private ApplicationContext context;
 
     public UserManagement() {
@@ -85,8 +91,6 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
 
     @PostConstruct
     public void init() {
-        context = new ClassPathXmlApplicationContext("META-INF/spring-data.xml");
-        userService = context.getBean(UserService.class);
     }
 
     /**
