@@ -37,32 +37,6 @@ public class HomeController {
     UserManagementLocal userManagement = lookupUserManagementLocal();
 
     /**
-     * Create an instance of User for testing
-     *
-     * @param userName
-     * @return
-     */
-    private User createUser(String userName) {
-        User u = new User(0L);
-        u.setUserName(userName);
-        u.setUserMail("testmail@mail.com");
-        u.setUserPassword("password");
-        LogRegistration lg = new LogRegistration(0L, "127.0.0.1", new Date(System.currentTimeMillis()));
-        u.setLogRegistration(lg);
-        lg.setUid(u);
-        return u;
-    }
-    
-    private void simpleTransaction(String uname) {
-        System.out.println("CREATING USER!!!!!!!!!!!!!");
-        User u = createUser(uname);
-        u = userManagement.getUserService().save(u);
-        User u1 = userManagement.getUserService().findByUserName(uname);
-        System.out.println(u1.getUserName());
-        userManagement.getUserService().delete(u1);
-    }
-
-    /**
      *
      * The welcome site.
      *
@@ -72,12 +46,6 @@ public class HomeController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("CALLING SIMPLE TRANSACTION!!!!!!!!!!!!!!!!!!!!!!!!");
-        simpleTransaction("testuserName1");
-        simpleTransaction("testuserName2");
-        simpleTransaction("testuserName3");
-        simpleTransaction("testuserName4");
-        simpleTransaction("testuserName5");
         return "index";
     }
 
