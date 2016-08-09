@@ -2,7 +2,6 @@ package com.github.infovip.core.basic.jsp.tags;
 
 import com.github.infovip.core.Configuration;
 import com.github.infovip.core.basic.jsp.ModuleManager;
-import com.github.infovip.core.basic.jsp.exceptions.ModuleAlreadyExistsException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -25,6 +24,11 @@ public class DefaultModule extends BodyTagSupport {
     private String moduleDescription;
 
     /**
+     * Default interceptor for the module
+     */
+    private String interceptor;
+
+    /**
      * Creates new instance of tag handler
      */
     public DefaultModule() {
@@ -35,7 +39,7 @@ public class DefaultModule extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) pageContext.getRequest());
-        manager = (ModuleManager) pageContext.getAttribute(Configuration.BEAN_MODULE_ID,PageContext.REQUEST_SCOPE);
+        manager = (ModuleManager) pageContext.getAttribute(Configuration.BEAN_MODULE_ID, PageContext.REQUEST_SCOPE);
         return EVAL_BODY_BUFFERED;
     }
 
@@ -71,6 +75,30 @@ public class DefaultModule extends BodyTagSupport {
 
     public void setModuleDescription(String moduleDescription) {
         this.moduleDescription = moduleDescription;
+    }
+
+    public String getInterceptor() {
+        return interceptor;
+    }
+
+    public void setInterceptor(String interceptor) {
+        this.interceptor = interceptor;
+    }
+
+    /**
+     * Gets the current application context
+     * @return 
+     */
+    public ApplicationContext getApplicationContext() {
+        return this.context;
+    }
+
+    /**
+     * Gets the current pagecontext
+     * @return 
+     */
+    public PageContext getPageContext() {
+        return this.pageContext;
     }
 
 }

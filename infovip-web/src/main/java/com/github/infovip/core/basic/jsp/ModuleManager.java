@@ -39,6 +39,21 @@ public class ModuleManager {
     }
 
     /**
+     * Gets the module by its name
+     *
+     * @param name
+     * @return
+     */
+    public DefaultModule getModuleByName(String name) {
+        for (DefaultModule m : modules) {
+            if (m.getModuleName().contentEquals(name)) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Checks if the module is already exists
      *
      * @param moduleName
@@ -66,5 +81,5 @@ public class ModuleManager {
     public List<DefaultModule> getModules() {
         return modules;
     }
-    
+
 }

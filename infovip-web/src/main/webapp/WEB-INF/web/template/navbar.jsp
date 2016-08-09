@@ -31,7 +31,9 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="<c:url value="logout"/>">Logout</li>
+                    <li>
+                        <a href="<c:url value="logout"/>">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>

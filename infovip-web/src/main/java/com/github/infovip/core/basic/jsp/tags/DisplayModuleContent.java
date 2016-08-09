@@ -2,6 +2,7 @@ package com.github.infovip.core.basic.jsp.tags;
 
 import com.github.infovip.core.Configuration;
 import com.github.infovip.core.basic.jsp.ModuleManager;
+import com.github.infovip.core.basic.jsp.tags.interceptor.InterceptorInvoker;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -27,12 +28,17 @@ public class DisplayModuleContent extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) ((PageContext) getJspContext()).getRequest());
-        manager = (ModuleManager) getJspContext().getAttribute(Configuration.BEAN_MODULE_ID,PageContext.REQUEST_SCOPE);
+        manager = (ModuleManager) getJspContext().getAttribute(Configuration.BEAN_MODULE_ID, PageContext.REQUEST_SCOPE);
         if (moduleName != null) {
-            getJspContext().getOut().println(manager.content(moduleName));
-        } else {
-            getJspContext().getOut().println(manager.content());
-
+            DefaultModule m = manager.getModuleByName(moduleName);
+            if (m != null) {
+                InterceptorInvoker invoker = new InterceptorInvoker(m, (PageContext) getJspContext());
+                invoker.beforeDisplay((PageContext) getJspContext());
+                if (invoker.isValid()) {
+                    getJspContext().getOut().println(manager.content(moduleName));
+                }
+                invoker.afterDisplay((PageContext) getJspContext());
+            }
         }
     }
 

@@ -19,6 +19,7 @@ package com.github.infovip.core.web.user;
 import com.github.infovip.core.Container;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -110,6 +111,48 @@ public class UserSession implements Serializable {
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "UserSession{" + "authenticated=" + authenticated + ", userName=" + userName + ", userMail=" + userMail + ", registrationDate=" + registrationDate + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.authenticated);
+        hash = 47 * hash + Objects.hashCode(this.userName);
+        hash = 47 * hash + Objects.hashCode(this.userMail);
+        hash = 47 * hash + Objects.hashCode(this.registrationDate);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UserSession other = (UserSession) obj;
+        if (!Objects.equals(this.userName, other.userName)) {
+            return false;
+        }
+        if (!Objects.equals(this.userMail, other.userMail)) {
+            return false;
+        }
+        if (!Objects.equals(this.authenticated, other.authenticated)) {
+            return false;
+        }
+        if (!Objects.equals(this.registrationDate, other.registrationDate)) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -21,7 +21,6 @@ import static com.github.infovip.core.Configuration.sessionValue;
 import com.github.infovip.core.web.user.UserSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
