@@ -23,6 +23,19 @@
  */
 var WEB_DIR = "/infovip-web";
 
+var dojoConfig = {
+    has: {
+        "dojo-firebug": true
+    },
+    baseUrl: WEB_DIR + '/resources/',
+    parseOnLoad: false,
+    async: false,
+    packages: [
+        {name: "dojo", location: "lib/dojo/dojo"},
+        {name: "dijit", location: "lib/dojo/dijit"},
+        {name: "dojox", location: "lib/dojo/dojox"}
+    ]
+};
 
 
 // Other resources

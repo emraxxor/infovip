@@ -19,7 +19,7 @@
             ${js}
         </c:forEach>
     </head>
-    <body>
+    <body class="claro">
         <div id="main-page">
-      
+
             <%@include file="navbar.jsp" %>    

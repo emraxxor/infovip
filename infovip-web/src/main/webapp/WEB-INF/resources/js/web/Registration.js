@@ -18,7 +18,6 @@
 
 ScriptLoader.include([
     'core/ui/DefaultFormInterface',
-    'core/ui/Runnable',
     'core/ui/BasicFormDisplayer',
     'core/ui/FormDisplayer',
     'web/user/LoginIface',

@@ -3,4 +3,5 @@
 <module:WebModule moduleName="TestModule1"> 
     Muha
     ${userSession}
+    <p/>
 </module:WebModule>
