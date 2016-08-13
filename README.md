@@ -31,7 +31,9 @@ continously pushed into the repository, it depends on my free time.
 At this time, the project only contains some basic element to test the basic framework.
 
 The project itself is a Maven project with three modules and a lot of other dependencies. 
+
 The modules are divided like this:
+==================================
     - elasticsearch (Contains templates)
     - infovip-ear (Enterprise Application , ejb, and web modules are packaged into this module)
     - infovip-ejb (EJB module)
