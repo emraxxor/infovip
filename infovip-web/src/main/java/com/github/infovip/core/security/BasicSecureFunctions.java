@@ -13,7 +13,7 @@ public class BasicSecureFunctions {
 
     /**
      * Check if the given string contains a pattern which could be lead to a
-     * possible attack . This function only checks that the pattern exists.
+     * possible attack . This function only checks the existence of the given pattern.
      *
      * @param arg
      *
