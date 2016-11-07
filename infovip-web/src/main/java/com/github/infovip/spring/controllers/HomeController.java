@@ -46,7 +46,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
-        return "index";
+        return "tile.index";
     }
 
     /**
@@ -59,7 +59,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Locale locale, Model model) {
-        return "index";
+        return "tile.index";
     }
 
     private UserManagementLocal lookupUserManagementLocal() {

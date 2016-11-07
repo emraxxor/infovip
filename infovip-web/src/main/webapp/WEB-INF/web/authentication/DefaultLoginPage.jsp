@@ -9,7 +9,6 @@
   Core standard tag library
 --%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<module:js src="${resources}/js/web/Login.js"/>
 <module:title title="Login page" />
 
 

@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
-             xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:p="http://www.springframework.org/schema/p"
-             xmlns:aop="http://www.springframework.org/schema/aop"
-             xmlns:tx="http://www.springframework.org/schema/tx"
-             xmlns:elasticsearch="http://www.springframework.org/schema/data/elasticsearch"
-             xmlns:context="http://www.springframework.org/schema/context"
-             xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+
+<beans:beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:elasticsearch="http://www.springframework.org/schema/data/elasticsearch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
@@ -16,35 +17,52 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-    <beans:bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
 
-    <annotation-driven />
-    <resources mapping="/resources/**" location="/WEB-INF/resources/" />  
-    <resources mapping="/modules/**" location="/WEB-INF/web/modules/" />  
-    
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
+	<mvc:resources mapping="/modules/**" location="/WEB-INF/web/modules/" />
+
+	<bean id="internalViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/web/" p:suffix=".jsp">
+		<property name="exposeContextBeansAsAttributes" value="true" />
+		<property name="order" value="2"></property>
+	</bean>
+
+	<elasticsearch:repositories base-package="com.github.infovip.elasticsearch.repositories" />
+	<context:component-scan base-package="com.github.infovip.spring.repositories"></context:component-scan>
+	<context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
+	<context:component-scan base-package="com.github.infovip.spring.controllers"></context:component-scan>
+
+	<bean id="esConnection" class="com.github.infovip.core.elasticsearch.ESConnection" init-method="init" scope="session">
+		<constructor-arg name="con" ref="container" />
+		<property name="client" ref="esClient" />
+	</bean>
+
+	<bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session">
+		<property name="container" ref="container" />
+	</bean>
+	
+	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <property name="exposeContextBeansAsAttributes" value="true"></property>
+        <property name="order" value="1"></property>
+    </bean>
+
+	<bean id="viewResolver" class="com.github.infovip.spring.DefaultViewResolver">
+		<property name="jspResolver" ref="internalViewResolver"></property>
+		<property name="tilesResolver" ref="tilesViewResolver"></property>
+	</bean>
+
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles/defs/general.xml</value>
+				<!--   value>/WEB-INF/tiles/defs/widgets.xml</value>
+				<value>/WEB-INF/tiles/defs/administrator.xml</value>
+				<value>/WEB-INF/tiles/defs/templates.xml</value -->
+			</list>
+		</property>
+	</bean>
 
 
-    <beans:bean id="viewResolver"
-                class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-                p:prefix="/WEB-INF/web/"
-                p:suffix=".jsp">
-        <beans:property name="exposeContextBeansAsAttributes" value="true"/>
-    </beans:bean>
-
-    
-    <elasticsearch:repositories base-package="com.github.infovip.elasticsearch.repositories"/>
-    <context:component-scan base-package="com.github.infovip.spring.repositories"></context:component-scan>
-    <context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
-    <context:component-scan base-package="com.github.infovip.spring.controllers"></context:component-scan>
-    
-    <beans:bean id="esConnection" class="com.github.infovip.core.elasticsearch.ESConnection" init-method="init" scope="session">
-        <beans:constructor-arg name="con" ref="container" />
-        <beans:property name="client" ref="esClient" />
-    </beans:bean>
-    
-    <beans:bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session">
-        <beans:property  name="container" ref="container" />
-    </beans:bean>
-    
-    
 </beans:beans>

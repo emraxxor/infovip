@@ -5,6 +5,8 @@
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tr" uri="/tlds/translate" %>
+<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,4 +24,4 @@
     <body class="claro">
         <div id="main-page">
 
-            <%@include file="navbar.jsp" %>    
+          

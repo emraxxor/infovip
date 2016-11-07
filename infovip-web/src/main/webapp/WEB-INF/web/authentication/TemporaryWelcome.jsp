@@ -6,18 +6,20 @@
 Only for testing authentication...
 --%>
 
-<%@taglib uri="/tlds/module-manager" prefix="module" %>
+<%@taglib uri="/tlds/module-manager" prefix="module"%>
 
 <%-- 
   Core standard tag library
 --%>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<module:title title="Welcome" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:if test="${!userSession.authenticated}">
+	<module:title title="Welcome" />
+</c:if>
 
 <module:WebModule moduleName="TempWelcome" authenticated="true"> 
     Welcome : ${userSession.userName}
-    <p/>
-    <a href="logout">Logout</a>
+    <p />
+	<a href="logout">Logout</a>
 </module:WebModule>
 

@@ -17,3 +17,16 @@ nbproject/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+#Eclipse configuration files
+.project
+.settings/
+infovip-ear/.project
+infovip-ear/.settings/
+infovip-ejb/.classpath
+infovip-ejb/.project
+infovip-ejb/.settings/
+infovip-web/.classpath
+infovip-web/.project
+infovip-web/.settings/
+

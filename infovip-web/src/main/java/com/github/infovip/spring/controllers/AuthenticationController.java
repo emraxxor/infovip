@@ -73,7 +73,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/authfailed", method = RequestMethod.GET)
     public String authenticationFailed(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
-        return "authentication/AuthFailed";
+        return "tile.authfailed";
     }
 
     /**
