@@ -94,6 +94,12 @@ public class Configuration {
      * Identifier of the default client settings object
      */
     public static final String ELASTICSEARCH_CLIENT_SETTINGS = "esClientSettings";
+   
+    
+    /**
+     * Location of the tiles
+     */
+    public static final String TILES = "/WEB-INF/tiles/";
     
     
     /**
@@ -200,6 +206,11 @@ public class Configuration {
         return CONTAINER_ID;
     }
 
+    
+    public String getTILES() {
+    	return TILES;
+    }
+    
     public String getWEB_DIRECTORY() {
         return WEB_DIRECTORY;
     }

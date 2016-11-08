@@ -8,14 +8,11 @@ and open the template in the editor.
     Author     : attila
 */
 
+
 html {
     line-height: 13px;
     font-size: 13px;
-}
-html {
     font-size: 10px;
-}
-html {
     font-family: sans-serif;
     -webkit-text-size-adjust: 100%;
 }
@@ -86,4 +83,43 @@ div#main-page-central-panel {
     width: 60%;
     padding-left: 10%;
     padding-right: 10%;
+}
+
+
+.cover.profile .cover-info .cover-nav > li > a i {
+    font-size: 20px;
+    vertical-align: middle;
+    color: #e4e4e4;
+}
+.fa-fw {
+    width: 1.28571429em;
+    text-align: center;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+* {
+    box-sizing: border-box;
+}
+.cover.profile .cover-info .cover-nav > li > a {
+    line-height: 20px;
+    color: #bebebe;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+a {
+    color: #26a69a;
+}
+
+.cover.profile .cover-info .cover-nav {
+    list-style: none;
 }

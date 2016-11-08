@@ -48,6 +48,20 @@ public class HomeController {
     public String index(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
         return "tile.index";
     }
+    
+    /**
+    *
+    * The default profile ste..
+    *
+    * @param locale
+    * @param model
+    * @return
+    */
+   @RequestMapping(value = "/profile", method = RequestMethod.GET)
+   public String profile(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
+       return "tile.main.profile";
+   }
+
 
     /**
      *

@@ -57,9 +57,8 @@
 		<property name="definitions">
 			<list>
 				<value>/WEB-INF/tiles/defs/general.xml</value>
-				<!--   value>/WEB-INF/tiles/defs/widgets.xml</value>
-				<value>/WEB-INF/tiles/defs/administrator.xml</value>
-				<value>/WEB-INF/tiles/defs/templates.xml</value -->
+				<value>/WEB-INF/tiles/defs/widgets.xml</value>
+				<value>/WEB-INF/tiles/defs/templates.xml</value>
 			</list>
 		</property>
 	</bean>

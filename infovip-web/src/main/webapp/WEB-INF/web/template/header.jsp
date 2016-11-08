@@ -8,7 +8,6 @@
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,9 +16,11 @@
         <c:forEach items="${container.cssManager.data}" var="css">
             ${css}
         </c:forEach>
+                
         <c:forEach items="${container.javascriptManager.data}" var="js">
             ${js}
         </c:forEach>
+        
     </head>
     <body class="claro">
         <div id="main-page">
