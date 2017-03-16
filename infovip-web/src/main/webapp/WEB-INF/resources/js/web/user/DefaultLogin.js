@@ -42,6 +42,8 @@ var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFor
     'private loginFormID': 'login-form-id',
     
     __construct: function () {},
+    
+    
     /**
      * Submits form
      * @returns {undefined}
@@ -50,9 +52,13 @@ var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFor
     {
         // if the validation is success
         if (this.getFormView().validate()) {
-            webix.send("login", this.getFormView().getValues(), "POST");
+            webix.send(WEB_DIR + "/login", this.getFormView().getValues(), "POST");
         }
     },
+    
+    /**
+     * Displays the form
+     */
     'public displayForm': function ()
     {
         this.webixObject.show();

@@ -3,7 +3,7 @@
     Created on : Jul 9, 2016, 5:22:44 PM
     Author     : attila
 --%>
-<%@ taglib uri="/tlds/module-manager" prefix="module"%>
+<%@taglib uri="/tlds/module-manager" prefix="module"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@taglib uri="http://tiles.apache.org/tags-tiles-extras" prefix="tilesx" %>

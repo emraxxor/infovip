@@ -17,7 +17,7 @@
 
 <esentity:create entityClass="com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity" result="createResult" scope="request">
     <esentity:set field="userName" value="MyUser" type="string" />
-    <esentity:set field="creationTime" value="2016-08-02 10:00:00" type="date"/>
+    <esentity:set field="creationTime" value="2016-08-02 19:36:46" type="date"/>
     <esentity:set field="userId" value="15" type="long" />
     <esentity:set field="message" value="Mymessage\nmessage" type="string" />
 </esentity:create>

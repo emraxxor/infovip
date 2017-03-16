@@ -22,7 +22,6 @@ public class ModuleManager {
     }
 
     public void addModule(DefaultModule m) {
-        System.out.println("Module has been added" + m.toString());
         modules.add(m);
     }
 
@@ -72,7 +71,7 @@ public class ModuleManager {
         StringBuilder sb = new StringBuilder();
         for (DefaultModule m : modules) {
             if (m.getModuleName().contentEquals(moduleName)) {
-                sb.append(m.getBodyContent().getString());
+                sb.append(m.getModuleContent());
             }
         }
         return sb.toString();

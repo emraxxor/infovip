@@ -40,24 +40,24 @@ public class TimelinePostEntity implements Serializable {
     private String id;
 
     @JsonProperty("userId")
-    @Field(type = FieldType.Long, index = FieldIndex.analyzed, analyzer = "standard", searchAnalyzer = "standard", store = true)
+    @Field(type = FieldType.Long)
     private Long userId;
 
     @JsonProperty("userName")
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
+    @Field(type = FieldType.String)
     private String userName;
 
     @JsonProperty("message")
-    @Field(type = FieldType.String, index = FieldIndex.analyzed, analyzer = "standard", searchAnalyzer = "standard", store = true)
+    @Field(type = FieldType.String, analyzer="standard", searchAnalyzer="standard")
     private String message;
 
     @JsonProperty("postType")
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
+    @Field(type = FieldType.String)
     private String postType;
 
     @JsonProperty("creationTime")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-    @Field(type = FieldType.Date, index = FieldIndex.analyzed, format = DateFormat.custom, pattern = "yyyy-MM-dd'T'hh:mm:ss.SSSZZ",  store = true)
+    @Field(type = FieldType.Date,format=DateFormat.custom,pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
     private Date creationTime;
 
     public TimelinePostEntity() {

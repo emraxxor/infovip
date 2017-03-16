@@ -16,10 +16,11 @@
  */
 package com.github.infovip.spring.config;
 
+import static com.github.infovip.xml.DefaultResourceReader.getOption;
+
 import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaDialect;
@@ -29,17 +30,18 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import static com.github.infovip.xml.DefaultResourceReader.getOption;
 
 /**
  * Configuration for spring jpa-data repositories
+ * It is only works on Glassfish > 4.0, unfortunately wildfly throws an NoSuchMethod OSCI_CGI expcetion.
  *
  * @author attila
  */
-@Configuration
-@EnableJpaRepositories("com.github.infovip.spring.repositories")
-@EnableTransactionManagement
+
+/** @Configuration **/ // FUCKING JBOSS WORKAROUND 
+/** @ComponentScan **/
+/** @EnableJpaRepositories("com.github.infovip.spring.repositories") **/ // JBOSS
+/** @EnableTransactionManagement **/
 public class DefaultJPAConfiguration {
 
     private DriverManagerDataSource ds;
@@ -55,6 +57,7 @@ public class DefaultJPAConfiguration {
         emf.setDataSource(dataSource());
         //emf.setPersistenceUnitName("infovipPU");
         //emf.setPersistenceXmlLocation("classpath*:META-INF/persistence.xml");
+        emf.setDataSource(dataSource());
         emf.setJpaVendorAdapter(jpaVendorAdapter());
         emf.setJpaDialect(jpaDialect());
         emf.setPackagesToScan("com.github.infovip.entities");

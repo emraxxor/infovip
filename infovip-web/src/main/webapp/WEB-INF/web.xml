@@ -57,4 +57,8 @@
         <ejb-ref-type>Session</ejb-ref-type>
         <local>com.github.infovip.beans.stateless.user.UserManagementLocal</local>
     </ejb-local-ref>
+    <persistence-context-ref>
+        <persistence-context-ref-name>infovip/EntityManager</persistence-context-ref-name>
+        <persistence-unit-name>infovipPU</persistence-unit-name>
+	</persistence-context-ref>
 </web-app>

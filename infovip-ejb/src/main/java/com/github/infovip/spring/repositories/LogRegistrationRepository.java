@@ -16,12 +16,15 @@
  */
 package com.github.infovip.spring.repositories;
 
-import com.github.infovip.entities.LogRegistration;
-import com.github.infovip.entities.User;
 import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.github.infovip.entities.LogRegistration;
+import com.github.infovip.entities.User;  
+
 
 /**
  *

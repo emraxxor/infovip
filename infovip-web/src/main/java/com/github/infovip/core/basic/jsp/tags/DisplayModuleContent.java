@@ -4,6 +4,9 @@ import com.github.infovip.core.Configuration;
 import com.github.infovip.core.basic.jsp.ModuleManager;
 import com.github.infovip.core.basic.jsp.tags.interceptor.InterceptorInvoker;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -35,8 +38,12 @@ public class DisplayModuleContent extends SimpleTagSupport {
                 InterceptorInvoker invoker = new InterceptorInvoker(m, (PageContext) getJspContext());
                 invoker.beforeDisplay((PageContext) getJspContext());
                 if (invoker.isValid()) {
-                    getJspContext().getOut().println(manager.content(moduleName));
-                }
+                	try {
+                		getJspContext().getOut().println(manager.content(moduleName));
+                	} catch (Exception e) {
+                        Logger.getLogger(DisplayModuleContent.class.getName()).log(Level.SEVERE, null, e);
+					}
+                } 
                 invoker.afterDisplay((PageContext) getJspContext());
             }
         }

@@ -1,13 +1,15 @@
 package com.github.infovip.core.basic.jsp.tags;
 
-import com.github.infovip.core.Configuration;
-import com.github.infovip.core.basic.jsp.ModuleManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
+
+import com.github.infovip.core.Configuration;
+import com.github.infovip.core.basic.jsp.ModuleManager;
 
 /**
  *
@@ -23,6 +25,11 @@ public class DefaultModule extends BodyTagSupport {
 
     private String moduleDescription;
 
+    /**
+     * The BodyContent will be cleared on JBOSS, so this is the reason why it is needed to store the bodycontent value in this variable
+     */
+    protected String moduleContent;
+    
     /**
      * Default interceptor for the module
      */
@@ -50,6 +57,7 @@ public class DefaultModule extends BodyTagSupport {
                 manager.addModule(this);
             }
         }
+        this.moduleContent = this.getBodyContent().getString();
         return SKIP_BODY;
     }
 
@@ -84,6 +92,10 @@ public class DefaultModule extends BodyTagSupport {
     public void setInterceptor(String interceptor) {
         this.interceptor = interceptor;
     }
+    
+    public String getModuleContent() {
+		return moduleContent;
+	}
 
     /**
      * Gets the current application context

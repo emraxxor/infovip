@@ -8,11 +8,11 @@
 <%-- 
   Core standard tag library
 --%>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <module:title title="Login page" />
 
 
-<module:DefaultModule moduleName="DefaultLoginPage"> 
+<module:DefaultModule moduleName="DefaultLoginPage">
     <c:if test="${!userSession.authenticated}">
         <div id="main-page-login-form">
             <div id="default-login-form"></div>
