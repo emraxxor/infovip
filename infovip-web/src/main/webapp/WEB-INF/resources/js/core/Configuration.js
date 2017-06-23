@@ -23,6 +23,44 @@
  */
 var WEB_DIR = "/infovip-web";
 
+/**
+ * Initializations of libraries 
+ */
+
+// HIGHSLIDE
+hs.graphicsDir = '/js/lib/highslide//highslide/graphics/';
+hs.align = 'center';
+hs.transitions = ['expand', 'crossfade'];
+hs.outlineType = 'rounded-white';
+hs.fadeInOut = true;
+hs.dimmingOpacity = 0.75;
+hs.zIndexCounter = 10031;
+
+if (hs.registerOverlay) { 
+	hs.registerOverlay(
+			{ 
+				thumbnailId: 'productImage', 
+				html: '<div class="closebutton" onclick="return hs.close(this)" title="Close"></div>', 
+				position: 'top right', 
+				fade: 2  
+			}
+	);  
+}
+
+// Add the controlbar
+hs.addSlideshow({
+    interval: 5000,
+    repeat: false,
+    useControls: true,
+    fixedControls: 'fit',
+    overlayOptions: {
+        opacity: .75,
+        position: 'bottom center',
+        hideOnMouseOut: true
+    }
+});
+
+// DOJO
 var dojoConfig = {
     has: {
         "dojo-firebug": true
@@ -66,3 +104,40 @@ if (!String.prototype.format) {
  * @type Object
  */
 var $jquery = jQuery.noConflict();
+
+
+/**
+ * Override the default search function
+ */
+jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
+	var _that = this;
+	
+	this.each(function (i) {
+	    $.fn.dataTableExt.iApiIndex = i;
+	    var $this = this;
+	    var anControl = $('input', _that.fnSettings().aanFeatures.f);
+	    anControl
+	        .unbind('keyup search input')
+	        .bind('keypress', function (e) {
+	            if (e.which == 13) {
+	                $.fn.dataTableExt.iApiIndex = i;
+	                _that.fnFilter(anControl.val());
+	            }
+	        });
+	    return this;
+	});
+	return this;
+}
+
+
+
+
+/**
+ * Configuration directives
+ */
+var ApplicationScope = {
+		config : {
+			RESOURCES_PATH : WEB_DIR + '/resources',
+			JS_PATH : WEB_DIR + '/resources/js',
+		}
+};

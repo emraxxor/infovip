@@ -1,0 +1,44 @@
+@CHARSET "UTF-8";
+
+div.global-warning-message-body {
+	margin: 15px;
+	margin-bottom: 35px;
+}
+
+div.global-warning-message-footer, div.global-confirm-message-footer {
+	text-align: right;
+	margin-right: 20px;
+	line-height: 50px;
+} 
+
+div.global-warning-message-footer input, div.global-confirm-message-footer input {
+	margin-left: 20px;
+}
+
+div#preloader-wrapper {
+        -webkit-transition: all 0.3s 0.6s ease-out; 
+                transition: all 0.3s 0.6s ease-out;
+}
+
+div#preloader-wrapper .pre-section {
+	position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #222222;
+    z-index: 1100;
+    opacity: 0.1;
+}
+
+div#preloader {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 64px;
+	height: 64px;
+    z-index: 1101;
+    opacity: 0.9;
+    -webkit-transition: all 0.3s ease-out; 
+            transition: all 0.3s ease-out;
+}
+

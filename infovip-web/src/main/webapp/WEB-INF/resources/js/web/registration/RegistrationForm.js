@@ -53,11 +53,13 @@ var RegistrationFrom = easejs.Class('RegistrationFrom').implement(DefaultFormInt
             });
         }
     },
+    
     'public displayForm': function ()
     {
         this.webixObject.show();
 
     },
+    
     /**
      * Creates the default login form
      * @returns {undefined}

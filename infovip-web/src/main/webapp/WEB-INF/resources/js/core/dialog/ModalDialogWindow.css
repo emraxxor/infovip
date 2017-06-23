@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+div.modal-window-container {
+	min-height: 200px;
+}
+
+
+div.modal-window-container input {
+	width: 99%;	
+}
+
+div.modal-window-container textarea {
+	width: 99%;
+}
+
+div.modal-window-footer {
+	text-align: right;
+	margin-right: 10px;
+	line-height: 50px;
+}
+
+div.modal-window-footer input {
+	margin-left: 20px;
+}

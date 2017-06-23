@@ -31,7 +31,24 @@ public class JavascriptManager extends DefaultManager<JavaScript> {
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoScriptLoader.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponent.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponentExecutor.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponentExecutor.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/bootstrap/bootstrap.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/media/js/jquery.dataTables.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/FixedHeader/js/dataTables.fixedHeader.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/ColReorder/js/dataTables.colReorder.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Buttons/js/dataTables.buttons.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Buttons/js/buttons.html5.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Buttons/js/buttons.flash.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Buttons/js/buttons.print.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Buttons/js/buttons.colVis.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Buttons/js/buttons.jqueryui.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Responsive/js/dataTables.responsive.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Responsive/js/responsive.jqueryui.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/jszip.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/pdfmake.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/vfs_fonts.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+		this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/highslide/highslide/highslide-full.packed.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/Core.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
     }
 
 }

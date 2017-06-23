@@ -21,15 +21,16 @@ import static com.github.infovip.core.Configuration.ELASTICSEARCH_CLIENT_SETTING
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import static com.github.infovip.core.Configuration.ES_CLIENT_OPTIONS;
 import static com.github.infovip.core.Configuration.ES_CLIENT_SETTINGS;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.node.NodeBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

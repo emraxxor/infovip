@@ -22,6 +22,17 @@ public class CSSManager extends DefaultManager<CSS> {
         this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/dojo/dijit/themes/claro/claro.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
         this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/jquery-ui/jquery-ui.theme.min.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
         this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/webix/codebase/webix.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+        this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/bootstrap/css/bootstrap.min.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+        this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/bootstrap/css/bootstrap-theme.min.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+        this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/highslide/highslide/highslide.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/media/css/jquery.dataTables.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/media/css/jquery.dataTables_themeroller.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Buttons/css/buttons.dataTables.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/Buttons/css/buttons.jqueryui.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/FixedHeader/css/fixedHeader.dataTables.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/FixedHeader/css/fixedHeader.jqueryui.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/ColReorder/css/colReorder.dataTables.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/ColReorder/css/colReorder.jqueryui.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
     }
 
 }
