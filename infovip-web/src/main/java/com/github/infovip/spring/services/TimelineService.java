@@ -41,6 +41,31 @@ public class TimelineService implements Serializable {
     public TimelineService() {
     }
 
+    /**
+     * Removes the given entity
+     * @param e
+     */
+    public void delete(TimelinePostEntity e) {
+    	timelineRepository.delete(e);
+    }
+
+    public Long count() {
+    	return timelineRepository.count();
+    }
+    
+    /**
+     * Checks if the given entity exists
+     * @return
+     */
+    public boolean exists(String id) {
+    	return timelineRepository.exists(id);
+    }
+    
+    /**
+     * Saves the current entity
+     * @param e
+     * @return
+     */
     public TimelinePostEntity save(TimelinePostEntity e) {
         timelineRepository.save(e);
         return e;

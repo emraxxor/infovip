@@ -59,7 +59,7 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
     'public import' : function(callback,param) {
         var _self = this;
         
-        $(document).ready(function() {
+        jQuery(document).ready(function() {
         	for (var i = 0; i < _self.length(); i++) {            	
             	var dependency = _self.getDependency(i) ;
             	if ( dependency.type == 'javascript' ) {
@@ -70,7 +70,7 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
             		DependencyLoader.$('loadedComponents').push(dependency.url);
             		
 					jQuery.ajax({
-						url: ApplicationScope.config.JS_PATH + '/' + dependency.url + '.js',
+						url: ApplicationScope.config.RESOURCES_PATH + '/' + dependency.url + '.js',
 						dataType: "script",
 						async: false,
 						success: function () {
@@ -83,7 +83,7 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
 						}
 					});
             	} else if ( dependency.type == 'css' ) {
-            		$("<link/>", { rel: "stylesheet", type: "text/css", href: dependency.url + '.css' }).appendTo("head");
+            		jQuery("<link/>", { rel: "stylesheet", type: "text/css", href: ApplicationScope.config.RESOURCES_PATH + '/' + dependency.url + '.css' }).appendTo("head");
             	}
             }
         	

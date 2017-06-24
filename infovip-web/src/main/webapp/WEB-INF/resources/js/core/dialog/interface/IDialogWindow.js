@@ -17,7 +17,7 @@
  * @author Attila Barna
  */
 
-var IModalDialogWindow = easejs.Interface('IModalDialogWindow',{
+var IDialogWindow = easejs.Interface('IDialogWindow',{
 	
 	/**
 	 * Displays the current window
@@ -45,8 +45,6 @@ var IModalDialogWindow = easejs.Interface('IModalDialogWindow',{
     /**
      * The default keylistener
      */
-    'public keyListener' : [event],
-    
-    
+    'public keyListener' : ['event']
     
 });

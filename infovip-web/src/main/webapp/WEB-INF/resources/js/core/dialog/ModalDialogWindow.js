@@ -1,7 +1,7 @@
 /**
  * @author attila
  */
-var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IModalDialogWindow).extend(Controller,{
+var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IDialogWindow).extend(Controller,{
 	
 	/**
 	 *  The current modal dialog window

@@ -39,6 +39,9 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.JoinFetch;
+import static org.eclipse.persistence.annotations.JoinFetchType.INNER;
+import static org.eclipse.persistence.annotations.JoinFetchType.OUTER;
 
 /**
  *
@@ -78,7 +81,8 @@ public class LogRegistration implements Serializable {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @NotNull
     @JoinColumn(name = "uid", referencedColumnName = "uid")
-    private User uid;
+    @JoinFetch(OUTER)
+	private User uid;
 
     public LogRegistration() {
     }

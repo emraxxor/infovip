@@ -6,6 +6,9 @@
 	<module:title title="Welcome" />
 </c:if>
 
+<module:js src="${resources}/js/core/dialog/WindowCore.js"></module:js>
+
 <module:WebModule moduleName="MainPage" authenticated="true"> 
 	<tiles:insertTemplate template="${Configuration.TILES}/views/widgets/navbar.jsp"></tiles:insertTemplate>
+	
 </module:WebModule>
