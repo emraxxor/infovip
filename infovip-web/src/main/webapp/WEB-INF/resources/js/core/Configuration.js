@@ -28,7 +28,7 @@ var WEB_DIR = "/infovip-web";
  */
 
 // HIGHSLIDE
-hs.graphicsDir = 'resources/lib/highslide/highslide/graphics/';
+hs.graphicsDir = WEB_DIR + '/resources/lib/highslide/highslide/graphics/';
 hs.align = 'center';
 hs.transitions = ['expand', 'crossfade'];
 hs.outlineType = 'rounded-white';
@@ -139,5 +139,6 @@ var ApplicationScope = {
 		config : {
 			RESOURCES_PATH : WEB_DIR + '/resources',
 			JS_PATH : WEB_DIR + '/resources/js',
+			WEB_ROOT : WEB_DIR
 		}
 };

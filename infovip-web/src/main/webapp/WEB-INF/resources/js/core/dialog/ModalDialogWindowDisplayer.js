@@ -23,4 +23,4 @@ var ModalDialogWindowDisplayer = easejs.Class('ModalDialogWindowDisplayer').exte
 
 });
 
-//@ sourceURL=/js/core/ModalDialogWindowDisplayer.js
+//# sourceURL=/resources/js/core/ModalDialogWindowDisplayer.js

@@ -3,6 +3,5 @@ jQuery(document).ready(function() {
         .create()
         .js('js/core/IController')
         .js('js/core/Controller')
-        .js('js/core/dialog/WindowCore')
         .import();
 });

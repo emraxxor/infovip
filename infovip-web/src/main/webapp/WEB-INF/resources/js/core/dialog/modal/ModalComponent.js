@@ -21,4 +21,4 @@ var ModalComponent = easejs.Class('ModalComponent').extend(Controller,{
 	
 });
 
-//@ sourceURL=/js/core/modal/ModalComponent.js
+//# sourceURL=/resources/js/core/modal/ModalComponent.js

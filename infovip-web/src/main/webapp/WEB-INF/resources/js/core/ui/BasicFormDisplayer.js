@@ -15,7 +15,12 @@
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
 var BasicFormDisplayer = easejs.Class('BasicFormDisplayer').implement(Runnable).extend({
+	
+	/**
+	 * @var DefaultFormInterface
+	 */
     'private form': null,
+    
     __construct: function (form) {
         this.form = form;
     },
@@ -27,6 +32,7 @@ var BasicFormDisplayer = easejs.Class('BasicFormDisplayer').implement(Runnable).
         if (easejs.Class.isA(DefaultFormInterface, this.form)) {
             this.form.onCreate();
             this.form.displayForm();
+            this.form.onCreationComplete();
         } else {
             throw new TypeError("Not supported type.");
         }

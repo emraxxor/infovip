@@ -1,5 +1,6 @@
 /**
  * @author attila
+ * @type {ModalDialogWindow}
  */
 var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IDialogWindow).extend(Controller,{
 	
@@ -178,14 +179,29 @@ var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IDialogWindo
 	 'public virtual footer' : function() {
 	        this.modalDialog.setFooter(
 	        		jQuery("<div></div>",{class : 'modal-window-footer'})
-	        		.append(jQuery("<input></input>",{type:'button',value:'Mentés',name: 'buttonSubmit',class:'btn btn-success'}))
-	        		.append(jQuery("<input></input>",{type:'button',value:'Bezár',name: 'buttonCancel',class:'btn btn-primary'}))
+	        		.append(jQuery("<input></input>",{type:'button',value:'Mentés',name: 'buttonSubmit','class':'btn btn-success'}))
+	        		.append(jQuery("<input></input>",{type:'button',value:'Bezár',name: 'buttonCancel', 'class':'btn btn-primary'}))
 	        );
 	        
 	        this.modalDialog.addEventListener('click',this.clickOnSubmit, { caller : this}, DialogWindow.inputName('buttonSubmit') );
 	        this.modalDialog.addEventListener('click',this.clickOnCancel, { caller : this}, DialogWindow.inputName('buttonCancel') );
 	 },
+	
+	 'public virtual hide' : function() {
+		 this.modalDialog.hide();
+	 },
 	 
+	 'public virtual onReady' : function(callbackMethod,data) {
+    	 throw new Error("Not implemented by default!");
+	  },
+	  
+	 'public virtual dispose' : function() {
+	        this.modalDialog.dispose();
+	  },
+	 
+	 /**
+	  * Gets the value of the specified input
+	  */
 	 'public getValue' : function(name) {
 		 var ob = this.modalDialog.find('input[name='+name+']'); 
 		 if ( ob.length == 1 ) {
@@ -210,7 +226,7 @@ var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IDialogWindo
 		return this.data; 
 	 },
 	 
-	 'public close' : function() {
+	 'public virtual close' : function() {
 	     this.beforeDestroy();   
 		 this.modalDialog.hide();
 	  },
@@ -223,7 +239,7 @@ var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IDialogWindo
 	        e.data.caller.close();
 	  },
 
-	 'public virtual display' : function() {
+	 'public virtual display' : function(options) {
 			this.modalDialog.display({ "minWidth" : this.windowData['minWidth'], "width": this.windowData['width']});
 			
 			if ( this.isOverFlow ) {
@@ -249,6 +265,8 @@ var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IDialogWindo
 		this.modalDialog.addEventListner(type,callback,{'caller':caller},element); 
 	 },
 	 
+	 'public virtual keyListener' : function(event) {},
+	 
 	 'public virtual focusOn' : function(modalWindow) {},
 	 
 	 'public virtual onCreationComplete' : function(_window) {
@@ -273,5 +291,5 @@ var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IDialogWindo
 
 });
 
-//@ sourceURL=/js/core/ModalDialogWindow.js
+//# sourceURL=/resources/js/core/ModalDialogWindow.js
 

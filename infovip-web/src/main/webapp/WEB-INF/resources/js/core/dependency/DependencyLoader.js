@@ -87,8 +87,9 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
             	}
             }
         	
-        	if ( callback != undefined )
+        	if ( callback != undefined ) {
         		callback(param);
+        	}
         });
         return this;
     }

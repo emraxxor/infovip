@@ -52,8 +52,7 @@ public class DefaultFilter implements Filter {
     public DefaultFilter() {
     }
 
-    private void doBeforeProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException, UnsupportedTypeException {
+    private void doBeforeProcessing(ServletRequest request, ServletResponse response) throws IOException, ServletException, UnsupportedTypeException {
         this.request = (HttpServletRequest) request;
         this.servletContext = this.request.getSession().getServletContext();
         this.session = this.request.getSession();
@@ -78,9 +77,7 @@ public class DefaultFilter implements Filter {
      * @exception ServletException if a servlet error occurs
      */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         try {
 

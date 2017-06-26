@@ -1,7 +1,7 @@
 /**
  * 
  */
-var DialogWindow = easejs.Class('DialogWindow').extend(Controller,{
+var DialogWindow = easejs.Class('DialogWindow').implement(IDialogWindow).extend(Controller,{
 
 	'protected dialogID' : null,
 	
@@ -30,7 +30,23 @@ var DialogWindow = easejs.Class('DialogWindow').extend(Controller,{
         this.text = text;
      },
      
-    'public virtual display' : function() {
+    'public virtual onReady' : function(callbackMethod,data) {
+    	throw new Error("Not implemented yet!");
+    },
+    
+    'public virtual hide' : function() {
+    	throw new Error("Not implemented yet!");
+    },
+    
+    'public virtual dispose' : function() {
+    	throw new Error("Not implemented yet!");
+    },
+    
+    'public virtual keyListener' : function(event) {
+    	throw new Error("Not implemented yet!");
+    },
+     
+    'public virtual display' : function(options) {
     	 throw new Error("Not implemented yet!");
      },
      

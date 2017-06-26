@@ -1,10 +1,29 @@
-<%-- 
-    Document   : Timeline
-    Created on : Jul 31, 2016, 1:48:54 PM
-    Author     : attila
---%>
+<%@page import="com.github.infovip.core.Configuration"%>
+<%@page import="org.springframework.context.ApplicationContext"%>
+<%@page import="org.springframework.data.elasticsearch.core.ElasticsearchTemplate"%>
+<%@page import="com.github.infovip.spring.elasticsearch.entities.TimelineCommentEntity"%>
+<%@page import="org.springframework.data.elasticsearch.core.query.IndexQuery"%>
+<%@page import="org.joda.time.DateTime"%>
+<%@page import="com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity"%>
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="com.github.infovip.spring.services.TimelineService"%>
+<%@include file="/WEB-INF/web/core/config.jsp" %>
 
-<%@include  file="../../core/config.jsp" %>
+
+<%
+IndexQuery q = new IndexQuery();
+ApplicationContext appContext = (ApplicationContext) request.getAttribute("moduleAppContext");
+TimelineService tservice = appContext.getBean(TimelineService.class) ;
+ElasticsearchTemplate eTemplate =  (ElasticsearchTemplate) appContext.getBean(Configuration.ELASTICSEARCH_TEMPLATE_NAME) ;
+TimelinePostEntity post = new TimelinePostEntity(new DateTime().toDate(),30L,"UserName","Message......","simple");
+tservice.save(post);
+TimelineCommentEntity comment = new TimelineCommentEntity(post.getId(),new DateTime().toDate(),30L,"user","comment","simple");
+q.setParentId(post.getId());
+q.setObject(comment);
+eTemplate.index(q);
+request.setAttribute("post", tservice.findAll());
+%>
+
 <esentity:entity entity="${post}" var="testPost">
     <esentity:foreach current="testPost">
         UserName : <esentity:out field="userName" /><br>

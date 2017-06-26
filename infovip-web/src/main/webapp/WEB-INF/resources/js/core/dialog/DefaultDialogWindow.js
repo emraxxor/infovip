@@ -2,9 +2,9 @@
  * Created by attila on 1/3/17.
  */
 
-
 /**
  * Creates a dialog window using the bootstrap library
+ *
  */
 var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindow,{
 
@@ -86,37 +86,44 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     'public override virtual display' : function (options) {
         var that = this;
 
-        if ( jQuery("#" + this.dialogID).size() > 0  ) {
+        if ( jQuery("#" + this.dialogID).length > 0  ) {
             throw new Error("You cannot use two id at the same time on the same page!!!");
             return;
         }
 
-        this.currentDiv = jQuery("<div></div>",{id : this.dialogID, class: 'modal hide fade'})
-            .append(
-                jQuery("<div></div>",{class: 'modal-header'})
-                    .append(
-                        jQuery("<h4></h4>",{html: this.windowName})
-                    )
-            )
-            .append(
-                jQuery("<div></div>",{class: 'modal-body', html: this.text})
-            )
-            .append(
-                jQuery("<div></div>",{class: 'model-footer', html: this.footer})
-            );
+        this.currentDiv = jQuery("<div></div>",{id : this.dialogID, 'class': 'modal fade', role: 'dialog'})
+        	.append( 
+        		jQuery("<div></div>",{"class":"modal-dialog"})		
+        		.append(
+        				
+        				jQuery("<div></div>",{"class":"modal-content","style":"width:100%"})
+        				.append(
+        						jQuery("<div></div>",{"class": 'modal-header'})
+        						.append(
+        								jQuery("<h4></h4>",{html: this.windowName})
+        						)
+        				)
+        				.append(
+        						jQuery("<div></div>",{"class": 'modal-body', html: this.text})
+        				)
+        				.append(
+        						jQuery("<div></div>",{"class": 'model-footer', html: this.footer})
+        				)
+        		)
+        	);
 
         
         if ( options != undefined ) {
         	if ( options.minWidth != null ) {
-        		this.currentDiv.css("minWidth",options.minWidth);
+        		this.currentDiv.find(".modal-dialog").css("minWidth",options.minWidth);
         	}
         	
         	if ( options.width != null ) {
-        		this.currentDiv.css("width",options.width);
+        		this.currentDiv.find(".modal-dialog").css("width",options.width);
         	}
         	
         	if ( options.height != null ) {
-        		this.currentDiv.css("height",options.height);
+        		this.currentDiv.find(".modal-dialog").css("height",options.height);
         	}
         }
         
@@ -149,7 +156,7 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     /**
      * Key listener for the current dialog window
      */
-    'public keyListener' : function(e) {
+    'public virtual override keyListener' : function(e) {
     	if ( e.keyCode == 27 ) {
     		e.data.caller.hide();
     	}
@@ -177,16 +184,16 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     /**
      * Disposes the current window
      */
-    'public dispose' : function() {
+    'public virtual override dispose' : function() {
         this.currentDiv.remove();
     },
 
-    'public hide' : function() {
+    'public virtual override hide' : function() {
         jQuery(this.currentDiv).modal("hide");
     },
 
 
-    'public onReady' : function(callback,userData) {
+    'public virtual override onReady' : function(callback,userData) {
     	 this.componentListeners['onReady'] = {callback:callback,userData:userData};
      },
      
@@ -249,4 +256,5 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     
 });
 
-//@ sourceURL=/js/core/dialog/DefaultDialogWindow.js
+
+//# sourceURL=/resources/js/core/dialog/DefaultDialogWindow.js

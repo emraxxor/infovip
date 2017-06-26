@@ -39,6 +39,11 @@ public class Configuration {
      * Location of the modules directory
      */
     public static final String DEFAULT_MODULE_DIRECTORY = "/WEB-INF/web/modules";
+    
+    /**
+     * Location of the test directory
+     */
+    public static final String DEFAULT_TEST_DIRECTORY = "/WEB-INF/web/test";
 
     /**
      * Identifier of the application's context path

@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /**
  * Default interface for the basic forms
  * @type LoginIface
@@ -24,6 +23,7 @@ var DefaultFormInterface = easejs.Interface('DefaultFormInterface',
         {
             'public onCreate': [],
             'public onClose': [],
-            'public displayForm': []
+            'public displayForm': [],
+            'public onCreationComplete' : []
         }
 );

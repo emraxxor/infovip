@@ -24,21 +24,25 @@
  * 
  * By default the login method is handled by the Login servlet.
  * 
+ * @type {DefaultLogin}
  */
 var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFormInterface).extend({
-    /**
+    
+	/**
      * Current webix object
+     * @type {DefaultLogin}
      */
     'private webixObject': null,
+    
     /**
      * The id of the div where the form is displayed
      */
 
     'private defaultLoginFormID': 'default-login-form',
+    
     /**
      * Id of the current form
      */
-
     'private loginFormID': 'login-form-id',
     
     __construct: function () {},
@@ -61,9 +65,22 @@ var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFor
      */
     'public displayForm': function ()
     {
-        this.webixObject.show();
-
+        this.webixObject.show();    
     },
+    
+    'public onCreationComplete' : function() {
+    	var that = this;
+    	var form = this.webixObject.getChildViews()[0];
+    	$$( form.getChildViews()[2] ).attachEvent("onKeyPress", function(code, e){
+    		if ( code == 13 ) {
+    			 // if the validation is success
+    	        if (form.getFormView().validate()) {
+    	            webix.send(WEB_DIR + "/login", form.getFormView().getValues(), "POST");
+    	        }
+        	}
+    	});
+    },
+    
     /**
      * Creates the default login form
      * @returns {undefined}
@@ -95,12 +112,16 @@ var DefaultLogin = easejs.Class('DefaultLogin').implement(LoginIface, DefaultFor
             }
         });
     },
+    
+    
     'public onClose': function () {
 
     },
+    
+    
     'public static create': function () {
         return DefaultLogin();
     }
 });
 
-
+//# sourceURL=/resources/js/web/user/DefaultLogin.js

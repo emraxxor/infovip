@@ -38,7 +38,7 @@ import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
  * @author attila
  */
 
-/** @Configuration **/ // FUCKING JBOSS WORKAROUND 
+/** @Configuration **/ // JBOSS DOESN'T SUPPORT THIS SOLUTION 
 /** @ComponentScan **/
 /** @EnableJpaRepositories("com.github.infovip.spring.repositories") **/ // JBOSS
 /** @EnableTransactionManagement **/

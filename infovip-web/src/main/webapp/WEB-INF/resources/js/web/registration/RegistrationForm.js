@@ -60,6 +60,10 @@ var RegistrationFrom = easejs.Class('RegistrationFrom').implement(DefaultFormInt
 
     },
     
+    'public onCreationComplete' : function() {
+    	
+    },
+    
     /**
      * Creates the default login form
      * @returns {undefined}

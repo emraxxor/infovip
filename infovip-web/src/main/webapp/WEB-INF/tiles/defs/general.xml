@@ -24,7 +24,7 @@
 	<definition name="tile.index" extends="default.page">
 		<put-attribute name="body" value="/WEB-INF/web/index.jsp" />
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/js/web/Login.js" />
+			<add-attribute value="js/web/Login.js" />
 		</put-list-attribute>
 	</definition>
 

@@ -64,13 +64,13 @@ var DefaultModalComponent = easejs.Class('DefaultModalComponent').extend(ModalCo
 	'public virtual getValue' : function() {
 		var ob  = this.element.find('input');
 		
-		if ( ob.size() == 1 ) {
+		if ( ob.length == 1 ) {
 			return ob.val();
 		}
 
 		ob  = this.element.find('textarea');
 		
-		if ( ob.size() == 1 ) {
+		if ( ob.length == 1 ) {
 			return ob.val();
 		}
 
@@ -113,5 +113,5 @@ var DefaultModalComponent = easejs.Class('DefaultModalComponent').extend(ModalCo
 	
 });
 
-//@ sourceURL=/js/core/modal/DefaultModalComponent.js
+//# sourceURL=/resources/js/core/modal/DefaultModalComponent.js
 
