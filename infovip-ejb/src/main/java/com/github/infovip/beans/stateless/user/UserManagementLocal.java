@@ -5,11 +5,14 @@
  */
 package com.github.infovip.beans.stateless.user;
 
+import com.github.infovip.core.DefaultEntityInterface;
 import com.github.infovip.entities.User;
 import com.github.infovip.spring.repositories.UserRepository;
 import com.github.infovip.spring.services.UserService;
 import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.EntityManager;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,7 +22,7 @@ import org.springframework.data.domain.Sort;
  * @author attila
  */
 @Local
-public interface UserManagementLocal {
+public interface UserManagementLocal extends DefaultEntityInterface {
 
     /**
      * Tries to find the user by the following parameters: userName and password
@@ -155,4 +158,5 @@ public interface UserManagementLocal {
      * @return
      */
     public UserService getUserService();
+   
 }

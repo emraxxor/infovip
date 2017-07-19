@@ -28,12 +28,12 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author attila
  */
-public class CreateUser extends DefaultStatusResponseBody {
+public final class CreateUser extends DefaultStatusResponseBody {
 
     /**
      * UserManagement module
      */
-    UserManagementLocal userManagement;
+    private UserManagementLocal userManagement;
 
     /**
      * The current HTTP request

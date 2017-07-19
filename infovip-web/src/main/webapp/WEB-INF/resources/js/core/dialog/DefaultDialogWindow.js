@@ -33,9 +33,15 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
      * Custom listeners
      */
     'private componentListeners' : {},
-    
+   
+    /**
+     * ID of the WARNING dialog
+     */
     'public static WARNING_MESSAGE' : 0x01,
     
+    /**
+     * ID of the CONFIRM dialog
+     */
     'public static CONFIRM_MESSAGE' : 0x02,
 
     'override __construct' : function (id) {
@@ -143,7 +149,7 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
         
         if ( this.componentListeners.onReady != undefined ) 
         	this.componentListeners.onReady.callback(this,{ data: this.componentListeners.onReady.userData});
-        
+                
         
         jQuery(document).off('keyup',this.keyListener).on('keyup',{caller:this},this.keyListener);
         

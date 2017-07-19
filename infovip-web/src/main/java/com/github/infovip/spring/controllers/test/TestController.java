@@ -1,4 +1,4 @@
-package com.github.infovip.spring.controllers;
+package com.github.infovip.spring.controllers.test;
 
 import java.io.File;
 

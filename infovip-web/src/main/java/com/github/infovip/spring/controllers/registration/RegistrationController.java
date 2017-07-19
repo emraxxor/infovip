@@ -5,23 +5,19 @@
  */
 package com.github.infovip.spring.controllers.registration;
 
-import com.github.infovip.core.Configuration;
-import com.github.infovip.core.web.DefaultStatusResponseBody;
-import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
-import com.github.infovip.core.web.registration.CreateUser;
-import com.github.infovip.core.web.response.SimpleStatusResponseGenerator;
-import com.github.infovip.beans.stateless.user.UserManagement;
-import com.github.infovip.beans.stateless.user.UserManagementLocal;
-import com.github.infovip.entities.User;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -37,6 +33,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.github.infovip.beans.stateless.user.UserManagement;
+import com.github.infovip.beans.stateless.user.UserManagementLocal;
+import com.github.infovip.core.Configuration;
+import com.github.infovip.core.web.DefaultStatusResponseBody;
+import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
+import com.github.infovip.core.web.registration.CreateUser;
+import com.github.infovip.core.web.response.SimpleStatusResponseGenerator;
+import com.github.infovip.entities.User;
 
 /**
  * The RegistrationController responsible for the registration.
@@ -66,6 +71,9 @@ public class RegistrationController {
 
     @Autowired
     private ApplicationContext appContext;
+    
+    @PersistenceContext
+    private EntityManager em;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView registrationForm() {
@@ -105,7 +113,8 @@ public class RegistrationController {
         }
         return null;
     }
-
+    
+    
     @RequestMapping(path = "/addModel", method = RequestMethod.POST)
     public ModelAndView ModelAndView(@ModelAttribute("user") User user, HttpServletRequest request,
             HttpServletResponse response, BindingResult result, SessionStatus status, Model model) {

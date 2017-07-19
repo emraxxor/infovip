@@ -209,6 +209,7 @@ public abstract class DefaultEntityManager<T> {
         return getEntityManager().find(entityClass, id);
     }
 
+    
     /**
      * Returns with all entities
      *

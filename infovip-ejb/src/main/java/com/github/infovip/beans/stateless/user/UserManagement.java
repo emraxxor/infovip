@@ -17,6 +17,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -304,6 +305,11 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     @Override
     public User find(Long id) {
         return super.find(id);
+    }
+    
+    @Override
+    public EntityManager getEntityManager() {
+    	return super.getEntityManager();
     }
 
 }
