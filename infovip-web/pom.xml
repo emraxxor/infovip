@@ -36,24 +36,16 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.8</jdk.version>
-        <spring.version>4.3.7.RELEASE</spring.version>
-        <org.springframework.version>4.3.7.RELEASE</org.springframework.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.12</junit.version>
         <logback.version>1.0.13</logback.version>
         <jcl-over-slf4j.version>1.7.5</jcl-over-slf4j.version>
         <domain.username>domain1</domain.username>
         <domain.password>password</domain.password>
-        <sql.user>root</sql.user>
-        <sql.password>password</sql.password>
-        <sql.host>localhost</sql.host>
-        <sql.port>3306</sql.port>
-        <sql.db>infovip-github</sql.db>
         <glassfish.home>/mnt/extend10/data/opt/glassfish/glassfish4</glassfish.home>
         <domain.log.dir>/mnt/extend10/data/opt/glassfish/glassfish4/glassfish/domains/domain1/logs</domain.log.dir>
         <arquillian.version>1.0.0.Alpha3</arquillian.version>
         <shade.phase>none</shade.phase>
-        <test.skip>true</test.skip>
         <tiles.version>3.0.1</tiles.version>
         <glassfish.scope>compile</glassfish.scope>
     </properties>
@@ -182,11 +174,11 @@
             <scope>test</scope>
         </dependency>
         
-        <dependency>
+        <!--  dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-elasticsearch</artifactId>
             <version>2.1.4.RELEASE</version>
-        </dependency>
+        </dependency -->
         
         <dependency>
             <artifactId>guava</artifactId>
@@ -304,6 +296,27 @@
 			<artifactId>tiles-el</artifactId>
 			<version>${tiles.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>${spring.boot.version}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.data</groupId>
+					<artifactId>spring-data-commons</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+       
+       	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+			<version>${spring.boot.version}</version>
+			<scope>compile</scope>
+		</dependency>
+       
         
     </dependencies>
 

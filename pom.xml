@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.infovip</groupId>
-    <artifactId>infovip</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>infovip</name>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <url>http://repo.maven.apache.org/maven2</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>dtrott</id>
-            <url>http://maven.davidtrott.com/repository</url>
-        </pluginRepository>
-    </pluginRepositories>
-    <repositories>
-        <repository>
-            <id>central</id>
-            <name>Maven Repository Switchboard</name>
-            <layout>default</layout>
-            <url>http://repo1.maven.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>fdvsolution.public</id>
-            <url>http://archiva.fdvs.com.ar/repository/public1/</url>
-        </repository>
-    </repositories>
-    <modules>
-        <module>infovip-ear</module>
-        <module>infovip-ejb</module>
-        <module>infovip-web</module>
-    </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.infovip</groupId>
+	<artifactId>infovip</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>infovip</name>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://repo.maven.apache.org/maven2</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>dtrott</id>
+			<url>http://maven.davidtrott.com/repository</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Maven Repository Switchboard</name>
+			<layout>default</layout>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>fdvsolution.public</id>
+			<url>http://archiva.fdvs.com.ar/repository/public1/</url>
+		</repository>
+	</repositories>
+
+	<properties>
+		<test.skip>true</test.skip>
+		<sql.user>root</sql.user>
+		<sql.password>password</sql.password>
+		<sql.host>localhost</sql.host>
+		<sql.port>3306</sql.port>
+		<sql.db>infovip-github</sql.db>
+		<spring.version>4.3.7.RELEASE</spring.version>
+		<org.springframework.version>4.3.7.RELEASE</org.springframework.version>
+		<spring.boot.version>1.5.5.RELEASE</spring.boot.version>
+	</properties>
+
+	<modules>
+		<module>infovip-ear</module>
+		<module>infovip-ejb</module>
+		<module>infovip-web</module>
+	</modules>
 </project>

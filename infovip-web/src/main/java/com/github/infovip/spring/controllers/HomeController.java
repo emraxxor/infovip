@@ -10,6 +10,8 @@ import com.github.infovip.beans.stateless.user.UserManagementLocal;
 import com.github.infovip.core.Configuration;
 import com.github.infovip.entities.LogRegistration;
 import com.github.infovip.entities.User;
+import com.github.infovip.spring.services.UserService;
+
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -19,6 +21,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +37,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 
+	@Autowired
+	private UserService uService;
+	
     /**
      * UserManagement module
      */
