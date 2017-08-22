@@ -32,6 +32,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
+
 /**
  * ESDelete removes a simply entity using ElasticsearchTemplate
  *
@@ -96,7 +98,7 @@ public class ESDelete extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, ElasticsearchTemplate.class);
+        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
         deleteDocumentById();
         return SKIP_PAGE;
     }

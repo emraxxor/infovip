@@ -45,7 +45,7 @@ public class TimelineCommentEntity implements Serializable {
 
     @JsonProperty("creationTime")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date,format=DateFormat.custom,pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
     private Date creationTime;
 
     @JsonProperty("userId")

@@ -28,6 +28,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
+
 /**
  * ESEntityCreate actually creates a new document then the document will be
  * added as an attribute to the current context. Scope for the context can also
@@ -81,7 +83,7 @@ public class ESEntityCreate extends BodyTagSupport {
     public int doStartTag() throws JspException {
         try {
             applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-            template = applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, ElasticsearchTemplate.class);
+            template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
             entity = Class.forName(entityClass).newInstance();
             indexQuery = new IndexQuery();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {

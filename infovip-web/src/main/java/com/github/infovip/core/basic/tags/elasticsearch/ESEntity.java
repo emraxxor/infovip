@@ -29,6 +29,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
+
 /**
  * Since the JSTL "foreach" tag cannot iterate the entities I created a simple
  * tag handler to manage entity beans.
@@ -97,7 +99,7 @@ public class ESEntity extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, ElasticsearchTemplate.class);
+        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
 
         if (var != null) {
             pageContext.setAttribute(var, entity, PageContext.PAGE_SCOPE);

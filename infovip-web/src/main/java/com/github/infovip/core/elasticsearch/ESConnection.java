@@ -28,7 +28,10 @@ import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
 import com.carrotsearch.hppc.ObjectContainer;
 import com.carrotsearch.hppc.cursors.ObjectCursor;
+import com.github.infovip.core.Configuration;
 import com.github.infovip.core.Container;
+import com.github.infovip.core.DefaultElasticsearchConfiguration;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -36,6 +39,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.ws.rs.core.Configurable;
+
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesResponse;
@@ -47,13 +53,16 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  *
  * @author attila
  */
-@Component
 public class ESConnection {
 
     /**
@@ -71,13 +80,11 @@ public class ESConnection {
      */
     private BulkRequestBuilder bulkRequest;
 
-    /**
-     * Container
-     */
-    private Container con;
-
-    public ESConnection(Container con) {
-        this.con = con;
+    private DefaultElasticsearchConfiguration elasticsearchConfiguration;
+    
+    public ESConnection(DefaultElasticsearchConfiguration esConfiguration) {
+        this.elasticsearchConfiguration = esConfiguration;
+        this.client = elasticsearchConfiguration.getClient();
     }
 
     public void init() {

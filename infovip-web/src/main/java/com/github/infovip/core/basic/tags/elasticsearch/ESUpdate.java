@@ -17,6 +17,8 @@
 package com.github.infovip.core.basic.tags.elasticsearch;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
+
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -84,7 +86,7 @@ public class ESUpdate extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, ElasticsearchTemplate.class);
+        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
         return SKIP_BODY;
     }
 

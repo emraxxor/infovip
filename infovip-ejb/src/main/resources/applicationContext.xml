@@ -1,24 +1,24 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns="http://www.springframework.org/schema/beans" 
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:repository="http://www.springframework.org/schema/data/repository"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:jee="http://www.springframework.org/schema/jee"
-	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-           http://www.springframework.org/schema/aop             http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
-           http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-           http://www.springframework.org/schema/context         http://www.springframework.org/schema/context/spring-context-4.3.xsd
-           http://www.springframework.org/schema/data/jpa        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
-           http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository.xsd
-           http://www.springframework.org/schema/jdbc            http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
-           http://www.springframework.org/schema/jee             http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
-           http://www.springframework.org/schema/tx              http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-       ">
+	xmlns:elasticsearch="http://www.springframework.org/schema/data/elasticsearch"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/data/elasticsearch http://www.springframework.org/schema/data/elasticsearch/spring-elasticsearch-1.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository.xsd">
 
 
 	<context:annotation-config/>
@@ -40,7 +40,19 @@
         <property name="transactionManagerName" value="java:/TransactionManager" />
     </bean>
     
+     <elasticsearch:transport-client id="esClient" cluster-nodes="localhost:9300" />    
+    
+     <bean id="defaultEntityMapper" class="com.github.infovip.elasticsearch.DefaultObjectMapper"></bean>
+     
+     <bean name="elasticsearchTemplate" class="org.springframework.data.elasticsearch.core.ElasticsearchTemplate">
+        <constructor-arg name="client" ref="esClient"/>
+        <constructor-arg name="entityMapper" ref="defaultEntityMapper"></constructor-arg>
+    </bean>
+    
+   	<!--  REPOSITORIES -->       
     <jpa:repositories base-package="com.github.infovip.spring.repositories"/>
+    <elasticsearch:repositories base-package="com.github.infovip.spring.elasticsearch.repositories"/>	
+    
     <!-- END JBOSS CONFIGURATION -->
     
     <!--  Component scan is enough on glassfish application server ... -->

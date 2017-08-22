@@ -27,19 +27,12 @@
 		<property name="order" value="2"></property>
 	</bean>
 
-	<elasticsearch:repositories base-package="com.github.infovip.elasticsearch.repositories" />
-	<context:component-scan base-package="com.github.infovip.spring.repositories"></context:component-scan>
-	<context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
 	<context:component-scan base-package="com.github.infovip.spring.controllers"></context:component-scan>
-
-	<bean id="esConnection" class="com.github.infovip.core.elasticsearch.ESConnection" init-method="init" scope="session">
-		<constructor-arg name="con" ref="container" />
-		<property name="client" ref="esClient" />
-	</bean>
 
 	<bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session">
 		<property name="container" ref="container" />
 	</bean>
+
 	
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />

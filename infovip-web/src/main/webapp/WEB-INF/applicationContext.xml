@@ -44,4 +44,17 @@
         </constructor-arg>
     </bean>
     
+        
+    <bean id="defaultElasticsearchConfiguration" class="com.github.infovip.core.DefaultElasticsearchConfiguration" />
+	
+	<bean id="esConnection" class="com.github.infovip.core.elasticsearch.ESConnection" init-method="init">
+		<constructor-arg name="esConfiguration" ref="defaultElasticsearchConfiguration" />
+	</bean>
+	
+	
+	<bean  id="elasticsearchTemplate" name="elasticsearchTemplate" class="com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate" >
+		<constructor-arg name="config" ref="defaultElasticsearchConfiguration" />
+	</bean>
+    
+    
 </beans>

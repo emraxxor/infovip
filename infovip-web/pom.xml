@@ -197,12 +197,6 @@
             <version>1.2.2</version>
         </dependency>
         <dependency>
-            <groupId>com.github.infovip</groupId>
-            <artifactId>infovip-ejb</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.39</version>
@@ -297,25 +291,12 @@
 			<version>${tiles.version}</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-			<version>${spring.boot.version}</version>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.data</groupId>
-					<artifactId>spring-data-commons</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-       
-       	<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-			<version>${spring.boot.version}</version>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+            <groupId>com.github.infovip</groupId>
+            <artifactId>infovip-ejb</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
        
         
     </dependencies>

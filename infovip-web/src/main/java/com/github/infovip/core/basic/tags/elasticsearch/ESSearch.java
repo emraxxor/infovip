@@ -17,6 +17,8 @@
 package com.github.infovip.core.basic.tags.elasticsearch;
 
 import com.github.infovip.core.Configuration;
+import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
+
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import static com.github.infovip.core.basic.jsp.Scope.scope;
 import java.util.List;
@@ -99,8 +101,8 @@ public class ESSearch extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, ElasticsearchTemplate.class);
-        client = (Client) applicationContext.getBean(Configuration.ELASTICSEARCH_CLIENT_ID);
+        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
+        client = template.getClient();
         return EVAL_BODY_BUFFERED;
     }
 

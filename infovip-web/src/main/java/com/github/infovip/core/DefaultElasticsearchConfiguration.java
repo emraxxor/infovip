@@ -14,11 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.infovip.spring.config;
+package com.github.infovip.core;
 
-import static com.github.infovip.core.Configuration.ELASTICSEARCH_CLIENT_ID;
-import static com.github.infovip.core.Configuration.ELASTICSEARCH_CLIENT_SETTINGS;
-import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import static com.github.infovip.core.Configuration.ES_CLIENT_OPTIONS;
 import static com.github.infovip.core.Configuration.ES_CLIENT_SETTINGS;
 
@@ -31,49 +28,47 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.node.NodeBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 /**
  *
  * @author attila
  */
-@Configuration("elasticsearchConfiguration")
-@EnableElasticsearchRepositories(basePackages = "com.github.infovip.spring.elasticsearch.repositories")
-@ComponentScan(basePackages = {"com.github.infovip.spring.services"})
 public class DefaultElasticsearchConfiguration {
 
-    @Bean
-    public NodeBuilder nodeBuilder() {
-        return new NodeBuilder();
-    }
+	private Client client;
+	
+	private Settings settings;
+	
+	public DefaultElasticsearchConfiguration() {
+		System.out.println("------------------- Default Elasticsearch Configuration -------------------------");
+		this.initSettings();
+		this.initClient();
+		System.out.println("------------------- Default Elasticsearch Configuration -------------------------");
+	}
+	
 
-    @Bean(name = ELASTICSEARCH_CLIENT_SETTINGS)
-    public Settings settings() {
-        return Settings.settingsBuilder().put(ES_CLIENT_SETTINGS).build();
+    public void initSettings() {
+        this.settings = Settings.settingsBuilder().put(ES_CLIENT_SETTINGS).build();
     }
-
-    @Bean(name = ELASTICSEARCH_CLIENT_ID)
-    public Client client() {
+    
+    public void initClient() {
         try {
-            Client client = TransportClient.builder().settings(settings()).build();
+            client = TransportClient.builder().settings(settings).build();
             for (String address : ES_CLIENT_OPTIONS.keySet()) {
                 String port = ES_CLIENT_OPTIONS.get(address);
                 ((TransportClient) client).addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(address), Integer.valueOf(port)));
             }
-            return client;
         } catch (UnknownHostException ex) {
             Logger.getLogger(DefaultElasticsearchConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
     }
+    
+    public Client getClient() {
+		return client;
+	}
+    
+    public Settings getSettings() {
+		return settings;
+	}
 
-    @Bean(name = ELASTICSEARCH_TEMPLATE_NAME)
-    public ElasticsearchTemplate elasticsearchTemplate() {
-        return new ElasticsearchTemplate(client());
-    }
 }
