@@ -25,11 +25,6 @@ import com.github.infovip.spring.services.UserService;
 @EnableSpringDataWebSupport
 @Local(TimeLineManagementLocal.class)
 public class TimeLineManagement implements TimeLineManagementLocal {
-	/**
-	 * Repository for managing users
-	 */
-	@Autowired
-	private UserService userService;
 
 	@Autowired
 	private TimelineService timeLineService;
