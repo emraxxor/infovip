@@ -16,29 +16,28 @@
  */
 package com.github.infovip.core.basic.tags.elasticsearch;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
-
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
-import java.io.IOException;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 
 /**
  *
@@ -101,7 +100,6 @@ public class ESUpdate extends BodyTagSupport {
             Document d = (Document) classAnnotation;
             indexRequest.index(d.indexName());
             indexRequest.type(d.type());
-            XContentBuilder builder = XContentFactory.jsonBuilder();
 
             // updating the whole document
             for (Field f : fields) {
@@ -112,23 +110,9 @@ public class ESUpdate extends BodyTagSupport {
                     } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                         Logger.getLogger(ESUpdate.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
-                    JsonProperty p;
-                    if ((p = f.getAnnotation(JsonProperty.class)) != null) {
-                        try {
-                            Method m = entityClass.getMethod(String.format("get%s", StringUtils.capitalize(f.getName())));
-                            builder
-                                    .startObject()
-                                    .field(p.value(), m.invoke(entity))
-                                    .endObject();
-                        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                            Logger.getLogger(ESUpdate.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
                 }
             }
-
-            // workaround
+            
             template.index(new IndexQueryBuilder()
                     .withId(indexRequest.id())
                     .withIndexName(indexRequest.index())
@@ -137,7 +121,7 @@ public class ESUpdate extends BodyTagSupport {
                     .build()
             );
             template.refresh(entityClass);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ESUpdate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             entity = null;

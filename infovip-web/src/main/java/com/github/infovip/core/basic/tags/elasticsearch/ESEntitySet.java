@@ -16,19 +16,21 @@
  */
 package com.github.infovip.core.basic.tags.elasticsearch;
 
-import com.github.infovip.core.basic.tags.elasticsearch.exceptions.ExpectedJSPParentClassException;
-import com.github.infovip.core.elasticsearch.DefaultDateFormatter;
-import com.github.infovip.core.elasticsearch.DefaultDateFormatter.PATTERN;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
+
+import com.github.infovip.core.basic.tags.elasticsearch.exceptions.ExpectedJSPParentClassException;
+import com.github.infovip.core.elasticsearch.DefaultDateFormatter;
+import com.github.infovip.core.elasticsearch.DefaultDateFormatter.PATTERN;
 
 /**
  * The ESEntitySet allows to modify the properties of an existing entity.
@@ -81,6 +83,8 @@ public class ESEntitySet extends BodyTagSupport {
         if (entity == null) {
             if (getParent() instanceof ESEntityCreate) {
                 entity = ((ESEntityCreate) getParent()).getEntity();
+            } else if ( getParent() instanceof ESPartialUpdate ) { 
+            	entity = ((ESPartialUpdate) getParent()).getEntity();
             } else {
                 try {
                     throw new ExpectedJSPParentClassException(String.format("%s only can be used if the parent class is %s", this.getClass().getName(), ESEntityCreate.class.getName()));
@@ -140,6 +144,13 @@ public class ESEntitySet extends BodyTagSupport {
 
             Method m = entity.getClass().getMethod(String.format("set%s", StringUtils.capitalize(field)), paramClass);
             m.invoke(entity, fieldValue);
+            
+            if ( getParent() != null ) {
+            	if ( getParent() instanceof ESPartialUpdate ) {
+            		((ESPartialUpdate)getParent()).addField(field,fieldValue);
+            	}
+            }
+            
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ParseException ex) {
             Logger.getLogger(ESEntitySet.class.getName()).log(Level.SEVERE, null, ex);
         }

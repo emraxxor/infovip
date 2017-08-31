@@ -21,9 +21,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -32,50 +34,55 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ESOut extends BodyTagSupport {
 
-    private String field;
+	private String field;
 
-    private Object entity;
+	private Object entity;
 
-    private static final Logger LOG = Logger.getLogger(ESOut.class.getName());
+	private static final Logger LOG = Logger.getLogger(ESOut.class.getName());
 
-    @Override
-    public int doStartTag() throws JspException {
-        if (getParent() instanceof ESEntityForeach && entity == null) {
-            entity = ((ESEntityForeach) getParent()).getEntityObject();
-        }
+	@Override
+	public int doStartTag() throws JspException {
+		if (getParent() instanceof ESEntityForeach && entity == null) {
+			entity = ((ESEntityForeach) getParent()).getEntityObject();
+		}
 
-        JspWriter out = pageContext.getOut();
-        try {
-            if (entity != null) {
-                Method method = entity.getClass().getMethod(String.format("get%s", StringUtils.capitalize(field)));
-                Object val = method.invoke(entity);
-                out.println(val);
-            }
-        } catch (NoSuchMethodException | SecurityException ex) {
-            LOG.log(Level.SEVERE, null, ex);
+		JspWriter out = pageContext.getOut();
+		try {
+			if (entity != null) {
+				Method method = entity.getClass().getMethod(String.format("get%s", StringUtils.capitalize(field)));
+				Object val = method.invoke(entity);
+				out.println(val);
+			} else {
+				if (getParent() instanceof ESEntityForeach) {
+					((ESEntityForeach) getParent()).getBodyContent().clear();
+				}
+			}
+		} catch (NoSuchMethodException | SecurityException ex) {
+			LOG.log(Level.SEVERE, null, ex);
 
-        } catch (IllegalArgumentException | IOException | IllegalAccessException | InvocationTargetException ex) {
-            LOG.log(Level.SEVERE, null, ex);
-        }
-        return SKIP_BODY;
-    }
+		} catch (IllegalArgumentException | IOException | IllegalAccessException | InvocationTargetException ex) {
+			LOG.log(Level.SEVERE, null, ex);
+		}
+		return SKIP_BODY;
+	}
 
-    @Override
-    public int doEndTag() throws JspException {
-        entity = null;
-        return super.doEndTag(); //To change body of generated methods, choose Tools | Templates.
-    }
+	@Override
+	public int doEndTag() throws JspException {
+		entity = null;
+		return super.doEndTag(); // To change body of generated methods, choose
+									// Tools | Templates.
+	}
 
-    public String getField() {
-        return field;
-    }
+	public String getField() {
+		return field;
+	}
 
-    public void setField(String field) {
-        this.field = field;
-    }
+	public void setField(String field) {
+		this.field = field;
+	}
 
-    public void setEntity(Object entity) {
-        this.entity = entity;
-    }
+	public void setEntity(Object entity) {
+		this.entity = entity;
+	}
 
 }

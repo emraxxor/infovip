@@ -16,18 +16,16 @@
  */
 package com.github.infovip.core.basic.tags.elasticsearch;
 
-import com.github.infovip.core.Configuration;
-import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
-
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import static com.github.infovip.core.basic.jsp.Scope.scope;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.jsp.JspException;
-import static javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_BUFFERED;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-import static javax.servlet.jsp.tagext.Tag.EVAL_PAGE;
+
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -36,6 +34,8 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 
 /**
  * ESSearch allows to use native json object as a search query.

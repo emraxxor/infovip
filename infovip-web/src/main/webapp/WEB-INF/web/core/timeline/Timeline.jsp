@@ -21,13 +21,33 @@
     <esentity:set field="message" value="Mymessage\nmessage" type="string" />
 </esentity:create>
 
+<p>====================== ES ENTITY OUT TEST ===========================</p>
 <esentity:out entity="${createResult}" field="userName" /> 
-
 <esentity:set entity="${createResult}" field="userName" type="string" value="modifiedValue" />
 <esentity:out entity="${createResult}" field="userName" />
 <esentity:update entity="${createResult}" />
 
+
+<p>====================== PARTIAL UPDATE TEST ===========================</p>
+- 
+<esentity:partialupdate entity="${createResult}">
+	<esentity:set type="string" value="partialupdatevalue" field="userName"/>
+</esentity:partialupdate>
+
+<esentity:search entityClass="com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity" result="searchResult" scope="request">
+{ "query" :   { "term" : { "userName" : "partialupdatevalue" } } }
+</esentity:search>
+<esentity:entity entity="${searchResult}" var="currentData">
+		    <esentity:foreach>
+		    	         <br>UserName is : <esentity:out field="userName" /><br>
+		    </esentity:foreach>
+</esentity:entity>
+
+<br>----------------------------END------------------------------<br>
+
+
 <p>=======================================================</p>
+<p>====================== INDEX REQUEST UPDATE TEST ===========================</p>
 <esentity:search entityClass="com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity" result="searchResult" scope="request">
     {"query" : { "query_string" : { "default_field" : "userName","query": "modifiedValue" } } }
 </esentity:search>
