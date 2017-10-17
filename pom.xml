@@ -40,8 +40,8 @@
 		<sql.host>localhost</sql.host>
 		<sql.port>3306</sql.port>
 		<sql.db>infovip-github</sql.db>
-		<spring.version>4.3.7.RELEASE</spring.version>
-		<org.springframework.version>4.3.7.RELEASE</org.springframework.version>
+		<spring.version>4.3.8.RELEASE</spring.version>
+		<org.springframework.version>4.3.8.RELEASE</org.springframework.version>
 		<spring.boot.version>1.5.5.RELEASE</spring.boot.version>
 	</properties>
 

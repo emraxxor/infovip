@@ -72,7 +72,7 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     	}
     	
     	dWindow.display();
-    	dWindow.getWindow().css('top','30%').css('left','45%').css('width','50%');
+    	dWindow.getWindow().css('top','30%').css('left','25%').css('width','50%');
     	
     	var inputs = dWindow.getInputsAsArray();
     	for(var i = 0; i<inputs.length;i++) {

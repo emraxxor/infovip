@@ -57,5 +57,6 @@
     
     <!--  Component scan is enough on glassfish application server ... -->
     <!--   context:component-scan base-package="com.github.infovip.spring.config"></context:component-scan -->
+    <!--  SERVICES -->
     <context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
 </beans>

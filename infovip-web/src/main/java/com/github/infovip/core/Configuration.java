@@ -2,6 +2,12 @@ package com.github.infovip.core;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  *
@@ -34,6 +40,12 @@ public class Configuration {
      * Location of the resources directory
      */
     public static final String RESOURCES_DIRECTORY = "/resources";
+    
+    /**
+     * Location of the lib directory
+     */
+    public static final String LIB_DIRECTORY = "/lib";
+
 
     /**
      * Location of the modules directory
@@ -235,5 +247,26 @@ public class Configuration {
     public void setES_CLIENT_SETTINGS(Map<String, String> ES_CLIENT_SETTINGS) {
         Configuration.ES_CLIENT_SETTINGS = ES_CLIENT_SETTINGS;
     }
+    
+    public static final class ESConfiguration {
+    	public static final String INDEX = ""; 
+    	public static final String TYPE = "";
+    }
+    
+    /**
+     * Default lookup method
+     * @param classz
+     * @return
+     */
+    public static <T> T lookup(Class<T> classz) {
+        try {
+            Context c = new InitialContext();
+            return (T) c.lookup(Configuration.jndiLookupName(classz.getSimpleName()));
+        } catch (NamingException ne) {
+            Logger.getLogger("Lookup:").log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
 
 }

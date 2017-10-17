@@ -18,7 +18,9 @@
 var FormDisplayer = easejs.Class('FormDisplayer', {
     'public static displayForm': function (basicFormDisplayer) {
         if (easejs.Class.isA(Runnable, basicFormDisplayer)) {
-            basicFormDisplayer.run();
+            jQuery(document).ready(function() {
+            	basicFormDisplayer.run();
+            });
         }
     }});
 

@@ -18,8 +18,8 @@ public class JavascriptManager extends DefaultManager<JavaScript> {
     public JavascriptManager() throws UnsupportedTypeException {
         super();
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/easejs/ease-latest.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/jquery/jquery-3.0.0.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/jquery-ui/jquery-ui.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.LIB_DIRECTORY + "/jquery/3.1.0/jquery.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.LIB_DIRECTORY + "/jquery-ui/1.12.1/jquery-ui.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/webix/codebase/webix.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/jquery/infinite-scroll/jquery.infinitescroll.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/media/js/jquery.dataTables.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
