@@ -25,4 +25,11 @@ public class BasicSecureFunctions {
         return !(arg.contains("%2e") || arg.contains("%5c") || arg.contains("%25")
                 || arg.contains("%c0") || arg.contains("%c1") || arg.contains("."));
     }
+    
+    
+    public static boolean directoryTraversalInputCheckStartsWith(String arg) {
+        return !(arg.startsWith("%2e") || arg.startsWith("%5c") || arg.startsWith("%25")
+                || arg.startsWith("%c0") || arg.startsWith("%c1") || arg.startsWith("."));
+
+    }
 }
