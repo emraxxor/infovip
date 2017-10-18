@@ -55,9 +55,9 @@ public class DefaultJPAConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource());
-        //emf.setPersistenceUnitName("infovipPU");
+        emf.setPersistenceUnitName("infovipPU");
         //emf.setPersistenceXmlLocation("classpath*:META-INF/persistence.xml");
-        emf.setDataSource(dataSource());
+        //emf.setDataSource(dataSource());
         emf.setJpaVendorAdapter(jpaVendorAdapter());
         emf.setJpaDialect(jpaDialect());
         emf.setPackagesToScan("com.github.infovip.entities");

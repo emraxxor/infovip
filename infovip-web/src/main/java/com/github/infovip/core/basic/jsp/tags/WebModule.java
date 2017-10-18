@@ -16,12 +16,15 @@
  */
 package com.github.infovip.core.basic.jsp.tags;
 
-import static com.github.infovip.core.Configuration.SESSION.USER_SESSION;
 import static com.github.infovip.core.Configuration.sessionValue;
-import com.github.infovip.core.web.user.UserSession;
+import static com.github.infovip.core.Configuration.SESSION.USER_SESSION;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
+
 import org.springframework.web.servlet.support.RequestContextUtils;
+
+import com.github.infovip.core.web.user.UserSession;
 
 /**
  *

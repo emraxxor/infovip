@@ -45,7 +45,7 @@ public class DefaultModule extends BodyTagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) pageContext.getRequest());
+        context = RequestContextUtils.findWebApplicationContext((HttpServletRequest)  pageContext.getRequest());
         manager = (ModuleManager) pageContext.getAttribute(Configuration.BEAN_MODULE_ID, PageContext.REQUEST_SCOPE);
         return EVAL_BODY_BUFFERED;
     }

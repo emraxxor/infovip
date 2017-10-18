@@ -5,30 +5,37 @@
  */
 package com.github.infovip.beans.stateless.user;
 
-import com.github.infovip.core.DefaultEntityManager;
-import com.github.infovip.entities.User;
-import com.github.infovip.spring.services.UserService;
-import com.github.infovip.util.BasicUtilities;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
+
+import com.github.infovip.entities.User;
+import com.github.infovip.spring.services.UserService;
+import com.github.infovip.util.BasicUtilities;
 
 /**
  * Actually, it is used for typical user operations such as :
@@ -66,13 +73,14 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
  * @author attila
  */
 @Stateless
-@TransactionManagement(value = TransactionManagementType.BEAN)
 @Local(UserManagementLocal.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
-public class UserManagement extends DefaultEntityManager<User> implements UserManagementLocal {
+@EnableSpringDataWebSupport
+public class UserManagement implements UserManagementLocal {
 
-    @Resource
-    private UserTransaction ut;
+    @PersistenceContext
+    protected EntityManager em;
+
 
     /**
      * Repository for managing users
@@ -86,14 +94,24 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     @Autowired
     private ApplicationContext context;
 
+    /**
+     * Helps to create Criteria based queries
+     */
+    protected CriteriaBuilder cb;
+
+    
+    
     public UserManagement() {
-        super(User.class);
     }
 
+
+    
     @PostConstruct
-    public void init() {
+    public void postConstruct() {
+        cb = getEntityManager().getCriteriaBuilder();
     }
 
+    
     /**
      * Gets a list of the stored users
      *
@@ -123,8 +141,9 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
      */
     @Override
     public User createNewUser(User u) {
-        transaction(u, ut, PersistenceOperation.PERSIST, true);
-        return u;
+    	u = em.merge(u);
+    	em.persist(u);
+    	return u;
     }
 
     /**
@@ -174,7 +193,7 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
     public void modifyUserName(String userName, String newUserName) {
         User u = findUserByName(userName);
         u.setUserName(newUserName);
-        transaction(u, ut, PersistenceOperation.MERGE, true);
+        em.merge(u);
     }
 
     /**
@@ -236,21 +255,6 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
         }
     }
 
-    @Override
-    public String getBeanName() {
-        return "UserFacadeBean";
-    }
-
-    /**
-     * Validates the given bean
-     *
-     * @param entity
-     * @return
-     */
-    @Override
-    public boolean validate(User entity) {
-        return super.validate(entity);
-    }
 
     /**
      * Find all users. The query can be limited and sorted by using the
@@ -271,19 +275,38 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
 
     @Override
     public User removeEntity(User entity) {
-        return transaction(entity, ut, PersistenceOperation.REMOVE, true);
+        em.remove(entity);
+        return entity;
     }
 
     @Override
     public User mergeEntity(User entity) {
-        return transaction(entity, ut, PersistenceOperation.MERGE, true);
+    	em.merge(entity);
+    	return entity;
     }
 
     @Override
     public User createEntity(User entity) {
-        transaction(entity, ut, PersistenceOperation.PERSIST, true);
-        em.clear();
-        return entity;
+    	em.persist(entity);
+    	em.clear();
+    	return entity;
+    }
+    
+    @Override
+    public boolean validate(User u) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        javax.validation.Validator validator = factory.getValidator();
+        Set<ConstraintViolation<User>> constraintViolations = validator.validate(u);
+        if (constraintViolations.size() > 0) {
+            Iterator<ConstraintViolation<User>> iterator = constraintViolations.iterator();
+            while (iterator.hasNext()) {
+                ConstraintViolation<User> cv = iterator.next();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "The following bean is not valid : ");
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, (cv.getRootBeanClass().getName() + "." + cv.getPropertyPath() + " " + cv.getMessage()));
+            }
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -304,12 +327,12 @@ public class UserManagement extends DefaultEntityManager<User> implements UserMa
      */
     @Override
     public User find(Long id) {
-        return super.find(id);
+        return em.find(User.class, id);
     }
     
     @Override
     public EntityManager getEntityManager() {
-    	return super.getEntityManager();
+    	return em;
     }
 
 }

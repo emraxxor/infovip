@@ -16,11 +16,13 @@
  */
 package com.github.infovip.core.basic.jsp.tags;
 
-import com.github.infovip.core.Configuration;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.github.infovip.core.Configuration;
 
 /**
  *

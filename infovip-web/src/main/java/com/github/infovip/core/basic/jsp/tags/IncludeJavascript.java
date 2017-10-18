@@ -16,16 +16,19 @@
  */
 package com.github.infovip.core.basic.jsp.tags;
 
-import com.github.infovip.core.Container;
-import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
-import com.github.infovip.core.web.js.JavaScript;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.github.infovip.core.Container;
+import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
+import com.github.infovip.core.web.js.JavaScript;
 
 /**
  * Actually, it includes the given src as a JavaScript. At this time only type

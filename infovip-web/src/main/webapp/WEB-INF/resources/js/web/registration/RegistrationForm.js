@@ -80,7 +80,7 @@ var RegistrationFrom = easejs.Class('RegistrationFrom').implement(DefaultFormInt
             elements: [{
                     rows: [
                         {view: "template", template: "Registration", type: "header"},
-                        {view: "text", label: Translator.tr('uname'), name: "uname"},
+                        {view: "text", label: __tr('uName'), name: "uname"},
                         {view: "text", type: 'password', label: 'Password:', name: "upassword"},
                         {view: "text", type: 'password', label: 'Password again:', name: "upasswordre"},
                         {view: "text", label: 'Email:', name: "umail"},
