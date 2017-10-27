@@ -24,10 +24,51 @@ public class StatusResponse {
 		return new StatusResponse(code, statusType);
 	}
 
+	public static StatusResponse success() {
+		return StatusResponse.create(ResponseStatusType.SUCCESS);
+	}
+	
+	public static StatusResponse error() {
+		return StatusResponse.create(ResponseStatusType.ERROR);
+	}
+
+	
+	public static StatusResponse success(String message) {
+		return StatusResponse.create(ResponseStatusType.SUCCESS,message);
+	}
+
+	public static StatusResponse error(String msg) {
+		return StatusResponse.create(ResponseStatusType.ERROR,msg);
+	}
+
+	
+	public static StatusResponse error(Exception e) {
+		return StatusResponse.create(ResponseStatusType.ERROR,e);
+	}
+
 	
 	public static StatusResponse create(int code, String statusType, String message) {
 		return new StatusResponse(code, statusType, message);
 	}
+	
+	public static StatusResponse create(ResponseStatusType status) {
+		return new StatusResponse(status.getCode(), status.toString() );
+	}
+
+	
+	public static StatusResponse create(ResponseStatusType status,String message) {
+		return new StatusResponse(status.getCode(), status.toString() , message);
+	}
+
+	
+	public static StatusResponse create(ResponseStatusType status,Exception e) {
+		return new StatusResponse(status.getCode(), status.toString() , e.getMessage());
+	}
+	
+	public static StatusResponse create(Exception e) {
+		return new StatusResponse(1, e.getClass().getName() , e.getMessage());
+	}
+
 
 	
 	public String getStatusType() {

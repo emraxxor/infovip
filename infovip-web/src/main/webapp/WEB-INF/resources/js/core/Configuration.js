@@ -140,5 +140,12 @@ var ApplicationScope = {
 			RESOURCES_PATH : WEB_DIR + '/resources',
 			JS_PATH : WEB_DIR + '/resources/js',
 			WEB_ROOT : WEB_DIR
+		},
+		response : {
+			Code : {
+				ERROR : -1,
+				SUCCESS : 1
+			}
 		}
+
 };

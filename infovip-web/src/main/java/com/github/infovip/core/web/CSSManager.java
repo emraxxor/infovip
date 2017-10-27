@@ -33,6 +33,8 @@ public class CSSManager extends DefaultManager<CSS> {
 		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/FixedHeader/css/fixedHeader.jqueryui.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
 		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/ColReorder/css/colReorder.dataTables.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
 		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/datatables/extensions/ColReorder/css/colReorder.jqueryui.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
+		this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/css/core.css", CSS.CSSType.TEXT_CSS, CSS.CSSREL.STYLESHEET));
+
     }
 
 }

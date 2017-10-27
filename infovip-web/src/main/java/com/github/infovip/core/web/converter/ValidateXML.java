@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.github.infovip.core.web.handlers.SimpleSAXErrorHandler;
 
 public class ValidateXML {
 	

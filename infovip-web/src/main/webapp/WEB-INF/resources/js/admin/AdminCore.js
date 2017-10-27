@@ -1,0 +1,30 @@
+/**
+ * 
+ */
+jQuery(document).ready(function() {
+    DependencyLoader
+        .create()
+        .js('js/core/dialog/interface/IDialogWindow')
+        .js('js/core/dialog/DialogWindow')
+        .js('js/core/dialog/DefaultDialogWindow')
+        .js('js/core/dialog/modal/ModalComponent')
+        .js('js/core/dialog/modal/DefaultModalComponent')
+        .js('js/core/dialog/ModalDialogWindow')
+        .css('js/core/dialog/ModalDialogWindow')
+        .js('js/core/dialog/ModalDialogWindowDisplayer')
+        .js('js/core/window/BaseWindow')
+        .js('js/core/window/WindowDisplayer')
+        .js('js/core/ui/DefaultErrorHandler')
+        .js('js/admin/AdminConfiguration')
+        .js('js/admin/menu/DefaultAdminMenu')
+        .js('js/admin/menu/DefaultToolBar')
+        .js('js/admin/form/BaseForm')
+        .js('js/admin/form/BaseView')
+        .js('js/admin/form/FormManager')
+        .js('js/admin/layout/BaseLayout')
+        .js('js/admin/layout/DefaultLayout')
+        .js('js/admin/layout/LayoutDisplayer')
+        .import(function(args){
+        	LayoutDisplayer.create(new DefaultLayout());
+        },{});
+}); 

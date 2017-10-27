@@ -36,6 +36,11 @@
         </property>         
     </bean>
 
+	<bean id="sessionFactory" class="org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean">
+    	<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+
     <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
         <property name="transactionManagerName" value="java:/TransactionManager" />
     </bean>

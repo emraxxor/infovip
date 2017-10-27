@@ -34,6 +34,14 @@
 
 	<context:component-scan base-package="com.github.infovip.spring.controllers"></context:component-scan>
 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/*"/>
+			<beans:bean class="com.github.infovip.spring.handler.AuthenticationInterceptor"></beans:bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+
 	<bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session">
 		<property name="container" ref="container" />
 	</bean>

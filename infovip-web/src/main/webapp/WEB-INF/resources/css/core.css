@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+.webix-button-dtable {
+	font-size: 14px;
+	overflow: visible;
+	
+}
+
+.webix-button-dtable div {
+	text-align: center;
+	overflow: visible;
+	background-color: black;
+	color: white;
+}
+
+.wix-right-button {
+	float: right;
+}
