@@ -1,5 +1,5 @@
 /**
- * @author attila 
+ *  @author attila
  */
 var BaseForm = easejs.AbstractClass('BaseForm').extend(Controller,{
 
@@ -66,7 +66,7 @@ var BaseForm = easejs.AbstractClass('BaseForm').extend(Controller,{
     'public display' : function() {
 		jQuery("div[class=admin-header]").html(this.title);
 		jQuery("div[class=admin-details]").html(this.description);
-		this.mainView = webix.ui({container: ADMIN_BODY_PANEL,rows: [ ]});
+		this.mainView = webix.ui({container: ADMIN_BODY_PANEL, id: ADMIN_DEFAULT_LAYOUT_BODY , rows: [ ]});
 		this.mainView.addView(this.webixuiLayout);
 		this.onCreationComplete(this.mainView);
 		

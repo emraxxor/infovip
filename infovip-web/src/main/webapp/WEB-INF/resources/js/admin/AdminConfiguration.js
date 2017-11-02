@@ -7,6 +7,7 @@
 var ADMIN_DEFAULT_SIDEBAR_ID = "admin:admin-default-sidebar";
 var ADMIN_BODY_PANEL = "admin:default:admin-body-content";
 var ADMIN_PATH = ApplicationScope.config.WEB_ROOT + '/' + 'admin';
+var ADMIN_DEFAULT_LAYOUT_BODY = "admin:default:body.default.layout";
 
 webix.protoUI({name : "cdatatable",}, webix.ui.datatable, webix.ActiveContent);
 webix.protoUI({name : "ctreetable",}, webix.ui.treetable, webix.ActiveContent);
@@ -36,3 +37,7 @@ webix.editors.defaultParameterEditor = {
 		},
 };
 
+
+Document.height = function() {
+	return jQuery(document).height();
+}

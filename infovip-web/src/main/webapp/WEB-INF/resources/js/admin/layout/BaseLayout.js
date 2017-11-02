@@ -26,7 +26,9 @@ var BaseLayout = easejs.AbstractClass('BaseLayout').extend(Controller,{
     
     
     'public display' : function() {
+    	var that = this;
     	this.webixui.show();
+    	webix.event(window, "resize", function(){  $$(ADMIN_DEFAULT_LAYOUT_BODY).adjust(); })
     }
 
 });

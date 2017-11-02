@@ -1,5 +1,5 @@
 /**
- * 
+ *  @author attila
  */
 var DefaultToolBar = easejs.Class('DefaultToolBar',{
 	
@@ -21,7 +21,8 @@ var DefaultToolBar = easejs.Class('DefaultToolBar',{
 						view: "button", type: "icon", icon: "bars",
 						width: 37, align: "left", css: "app_button", 
 						click: function(){
-								$$(ADMIN_DEFAULT_SIDEBAR_ID).toggle()
+								$$(ADMIN_DEFAULT_SIDEBAR_ID).toggle();
+								$$(ADMIN_DEFAULT_LAYOUT_BODY).resize();
 						}
 				},
 				{ view: "label", label: "Admin page"},

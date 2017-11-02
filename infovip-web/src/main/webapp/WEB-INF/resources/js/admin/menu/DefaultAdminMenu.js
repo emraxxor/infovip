@@ -1,5 +1,5 @@
 /**
- * 
+ * @author attila 
  */
 var DefaultAdminMenu = easejs.Class('DefaultAdminMenu',{
 	

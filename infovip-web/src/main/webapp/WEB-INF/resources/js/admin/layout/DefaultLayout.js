@@ -24,12 +24,13 @@ var DefaultLayout = easejs.Class('DefaultLayout').extend(BaseLayout,{
 							}
 						},
 						{
+							
 							view : "scrollview",
 							scroll : "native-y",
 							autoheight: true,
 							body : {
 								cols : [ {
-									template : "<div id='admin:default:admin-body-content'></div>"
+									template : "<div style='width:100%;' id='admin:default:admin-body-content'></div>"
 								} ]
 							}
 						} 
