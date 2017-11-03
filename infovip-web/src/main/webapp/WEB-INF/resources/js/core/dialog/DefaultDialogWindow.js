@@ -43,6 +43,12 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
      * ID of the CONFIRM dialog
      */
     'public static CONFIRM_MESSAGE' : 0x02,
+    
+    /**
+     * Id of the INFORMATION dialog (it can't be closed by the user) 
+     * If it is specified for the dialog then the dialog should be closed by the hide method
+     */
+    'public static INFORMATION_MESSAGE' : 0x03,
 
     'override __construct' : function (id) {
         this.__super(id);
@@ -83,6 +89,8 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     			input.off('click').on('click',function(e){ fcallback(params,dWindow);});
     		}	
     	}
+    	
+    	return dWindow;
     },
     
     /**

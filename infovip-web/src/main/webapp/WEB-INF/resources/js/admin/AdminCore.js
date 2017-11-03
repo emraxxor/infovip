@@ -17,6 +17,7 @@ jQuery(document).ready(function() {
         .js('js/core/ui/DefaultErrorHandler')
         .js('js/core/ui/DefaultStatusHandler')
         .js('js/core/ui/DefaultConfirmationDialog')
+        .js('js/core/ui/DefaultInformationDialog')
         .js('js/admin/AdminConfiguration')
         .js('js/admin/menu/DefaultAdminMenu')
         .js('js/admin/menu/DefaultToolBar')
