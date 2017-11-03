@@ -13,6 +13,35 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
     },
 
     /**
+     * Async operation
+     */
+    'public async' : function(purl,pdata, callback, params ,methodType, ajaxGlobal, options) {
+        var data = {
+                type: methodType == undefined ? "POST" : methodType,
+                url: purl,
+                data: pdata,
+                dataType: "html",
+                global: ajaxGlobal == undefined ? true : ajaxGlobal,
+                cache: false,
+                async: true,
+                error: function (request, status, error) {
+                    if (request.responseText != null) {
+                        callback(request,{ error: [request,status,error] });
+                    }
+                },
+                success: function (data, textStatus, jqXHR) {
+                    callback( jQuery.parseJSON(data) , params );
+                }
+        };
+        
+        if ( options != undefined ) {
+        	data = jQuery.extend(data,options);
+        }
+
+        jQuery.ajax(data);
+    },
+    
+    /**
      *
      * @param purl
      * @param pdata
@@ -71,6 +100,61 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
             success: function (data, textStatus, jqXHR) {
             }
         });
+    },
+    
+    /**
+     * Gets the data items from an ui.view data component
+     * @param {type} obj
+     * @returns {undefined}
+     */
+    'public WIXDataItems' : function (obj) {
+        var data = [];
+        obj.data.each(function (obj) {
+            data.push(obj);
+        });
+        return data;
+    },
+    
+    /**
+     * Checks if the given #val exists in the #items by #primaryID
+     * @param {type} items
+     * @param {type} primaryID
+     * @param {type} val
+     * @returns {Boolean}
+     */
+    'public WIXExistsItem' : function (items, primaryID, val) {
+        for (var i = 0; i < items.length; i++) {
+            if (items[i][primaryID] == val) {
+                return true;
+            }
+        }
+        return false;
+    },
+    
+    /**
+     * Adds items to the given ui.view data object
+     * @param {type} items
+     * @param {type} toObj
+     * @returns {undefined}
+     */
+    'public WIXAddItemsTo' : function (items, toObj, primaryID) {
+        var prID = primaryID == undefined ? "id" : primaryID;
+        for (var i = 0; i < items.length; i++) {
+            if (!this.WIXExistsItem(this.WIXDataItems(toObj), prID, items[i][prID])) {
+                toObj.add(items[i]);
+            }
+        }
+    },
+
+    /**
+     * Copy context's items
+     * @param {type} context
+     * @returns {undefined}
+     */
+    'public WIXCopyItems' : function (context) {
+        for (var i = 0; i < context.source.length; i++) {
+            context.from.copy(context.source[i], context.start, this, webix.uid());
+        }
     }
 
 });
