@@ -394,7 +394,7 @@
 				<configuration>
 					<proc>none</proc>
 					<source>1.8</source>
-					<target>1.8Í</target>
+					<target>1.8</target>
 					<compilerArguments>
 						<endorseddirs>${endorsed.dir}</endorseddirs>
 					</compilerArguments>
