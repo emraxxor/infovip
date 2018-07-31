@@ -56,7 +56,7 @@ public abstract class DefaultDataTable implements IDataTable {
 	}
 	
 	public DataTableResult result() {
-		formatter(em.createQuery(query).setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize()) .getResultList());
+		formatter(em.createQuery(query).setFirstResult( Long.valueOf( pageable.getOffset() ).intValue() ) .setMaxResults(pageable.getPageSize()) .getResultList());
 		return result;
 	}
 	

@@ -1,5 +1,5 @@
 /**
- * @author attila 
+ * @author Attila Barna 
  */
 var BaseLayout = easejs.AbstractClass('BaseLayout').extend(Controller,{
 	

@@ -8,16 +8,10 @@
         <class>com.github.infovip.entities.User</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-        	<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-			<property name="hibernate.show_sql" value="true"/>
-			
-			<!--  property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
+        	<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
 			<property name="hibernate.show_sql" value="true"/>
 			<property name="hibernate.default_schema" value="public"/>
-			<property name="hibernate.max_fetch_depth" value="4"/ -->                            
-			
-			
-			
+			<property name="hibernate.max_fetch_depth" value="4"/>                            
 			<!--   property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
 			<property name="javax.persistence.schema-generation.create-source" value="script"/>
 			<property name="javax.persistence.schema-generation.create-script-source" value="META-INF/sql/create-script.sql"/>
@@ -31,9 +25,6 @@
 
 			<property name="hibernate.hbm2ddl.auto" value="create"/>
 			<property name="hibernate.hbm2ddl.import_files" value="META-INF/sql/data.sql"/ --> 
-			
-			
-			<!--  ECLIPSE LINK -->
             <!--  property name="eclipselink.logging.level.sql" value="FINE"/>
             <property name="eclipselink.logging.parameters" value="true"/>
             <property name="eclipselink.target-server" value="JBoss" / -->

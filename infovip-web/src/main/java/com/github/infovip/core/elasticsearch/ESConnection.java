@@ -38,11 +38,11 @@ import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRespon
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.AliasMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 import com.carrotsearch.hppc.ObjectContainer;
 import com.carrotsearch.hppc.cursors.ObjectCursor;
@@ -50,7 +50,8 @@ import com.github.infovip.core.DefaultElasticsearchConfiguration;
 
 /**
  *
- * @author attila
+ * @author Attila Barna
+ * @category infovip.core.data.configuration
  */
 public class ESConnection {
 
@@ -69,14 +70,21 @@ public class ESConnection {
      */
     private BulkRequestBuilder bulkRequest;
 
+    /**
+     * Default template
+     */
+    private ElasticsearchTemplate template;
+    
     private DefaultElasticsearchConfiguration elasticsearchConfiguration;
     
     public ESConnection(DefaultElasticsearchConfiguration esConfiguration) {
         this.elasticsearchConfiguration = esConfiguration;
         this.client = elasticsearchConfiguration.getClient();
+        this.template = elasticsearchConfiguration.getTemplate();
     }
 
     public void init() {
+    	
     }
 
     /**
@@ -85,17 +93,14 @@ public class ESConnection {
     public void preapreRequest() {
         bulkRequest = client.prepareBulk();
     }
-
-    /**
-     * Instantiates the client
-     */
-    public void createClient() {
-        try {
-            client = TransportClient.builder().settings(settings).build();
-        } catch (Exception e) {
-
-        }
-    }
+    
+    public ElasticsearchTemplate getTemplate() {
+		return template;
+	}
+    
+    public void setTemplate(ElasticsearchTemplate template) {
+		this.template = template;
+	}
 
     /**
      * Closes the client
@@ -282,7 +287,7 @@ public class ESConnection {
     public synchronized long getDocumentsNumber(String indexName) {
         if (existsIndex(indexName)) {
             SearchResponse response = client.prepareSearch(indexName).setQuery(QueryBuilders.matchAllQuery()).setSize(0).execute().actionGet();
-            return response.getHits().totalHits();
+            return response.getHits().getTotalHits();
         }
         return 0;
     }

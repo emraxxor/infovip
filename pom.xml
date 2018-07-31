@@ -33,21 +33,21 @@
 		</repository>
 	</repositories>
 
-	<properties>
-		<test.skip>true</test.skip>
-		<sql.user>root</sql.user>
-		<sql.password>password</sql.password>
-		<sql.host>localhost</sql.host>
-		<sql.port>3306</sql.port>
-		<sql.db>infovip-github</sql.db>
-		<spring.version>4.3.8.RELEASE</spring.version>
-		<org.springframework.version>4.3.8.RELEASE</org.springframework.version>
-		<spring.boot.version>1.5.5.RELEASE</spring.boot.version>
-	</properties>
 
-	<modules>
-		<module>infovip-ear</module>
-		<module>infovip-ejb</module>
+
+   <properties>
+		   <test.skip>true</test.skip>
+           <spring.boot.framework.version>2.0.0.RELEASE</spring.boot.framework.version>
+           <jboss.scope>compile</jboss.scope>
+           <spring.version>5.0.4.RELEASE</spring.version>
+           <project.version>1.0-SNAPSHOT</project.version>
+           <org.springframework.version>5.0.4.RELEASE</org.springframework.version>
+   </properties>
+
+    <modules>
+        <module>infovip-common</module>
+		<module>infovip-ejb-user</module>
 		<module>infovip-web</module>
+        <module>infovip-ear</module>
 	</modules>
 </project>

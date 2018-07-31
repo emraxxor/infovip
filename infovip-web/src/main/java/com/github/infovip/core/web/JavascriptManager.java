@@ -15,8 +15,15 @@ import com.github.infovip.core.web.js.JavaScript;
  */
 public class JavascriptManager extends DefaultManager<JavaScript> {
 
-    public JavascriptManager() throws UnsupportedTypeException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1308425350042743086L;
+
+	public JavascriptManager() throws UnsupportedTypeException {
         super();
+        this.addElement(new JavaScript("https://www.google.com/recaptcha/api.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/easejs/ease-latest.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.LIB_DIRECTORY + "/jquery/3.1.0/jquery.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.LIB_DIRECTORY + "/jquery-ui/1.12.1/jquery-ui.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
@@ -44,11 +51,12 @@ public class JavascriptManager extends DefaultManager<JavaScript> {
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/core/Translator.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/core/AjaxManager.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/core/dependency/DependencyLoader.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoLoader.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoScriptLoader.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponent.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponentExecutor.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponentExecutor.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        //this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoLoader.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        //this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoScriptLoader.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        //this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponent.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        //this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponentExecutor.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        //this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/dojo/DojoComponentExecutor.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
+        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/base64.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/bootstrap/js/bootstrap.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/Core.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
     }

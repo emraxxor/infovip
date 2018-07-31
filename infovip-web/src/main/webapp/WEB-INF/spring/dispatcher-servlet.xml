@@ -20,12 +20,11 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository-1.11.xsd">
 
-	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
 
-	<mvc:annotation-driven />
 	<mvc:resources mapping="/lib/**" location="/webjars/"/>
 	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
 	<mvc:resources mapping="/modules/**" location="/WEB-INF/web/modules/" />
+	<mvc:resources mapping="/robots.txt" location="/WEB-INF/robots.txt" />
 
 	<bean id="internalViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/web/" p:suffix=".jsp">
 		<property name="exposeContextBeansAsAttributes" value="true" />
@@ -33,19 +32,20 @@
 	</bean>
 
 	<context:component-scan base-package="com.github.infovip.spring.controllers"></context:component-scan>
+	<context:component-scan base-package="com.github.infovip.spring.components"></context:component-scan>
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/admin/*"/>
+			<mvc:mapping path="/admin"/>
+			<mvc:mapping path="/admin/**"/>
+			<mvc:exclude-mapping path="/admin/login"/>
 			<beans:bean class="com.github.infovip.spring.handler.AuthenticationInterceptor"></beans:bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
 
 	<bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session">
 		<property name="container" ref="container" />
 	</bean>
-
 	
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
@@ -67,6 +67,5 @@
 			</list>
 		</property>
 	</bean>
-
 
 </beans:beans>

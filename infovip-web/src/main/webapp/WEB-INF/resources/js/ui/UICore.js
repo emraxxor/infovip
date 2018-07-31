@@ -19,7 +19,7 @@ UICore.prototype.constructor = UICore;
  *
  * The order is important because UILogger depends on UIBase
  *
- * @author Attila Barna
+ * @author Attila Barna Barna
  * @constructor
  * @package icollections.infovip
  */

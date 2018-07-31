@@ -11,28 +11,28 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     /**
      * The name of the current window
      */
-    'private windowName' : '',
+    'protected windowName' : '',
 
 
     /**
      * The footer for the current window
      */
-    'private footer' : '',
+    'protected footer' : '',
 
     /**
      * Current div
      */
-    'private currentDiv' : null,
+    'protected currentDiv' : null,
 
     /**
      * Stores the listeners
      */
-    'private listeners' : [],
+    'protected listeners' : [],
 
     /**
      * Custom listeners
      */
-    'private componentListeners' : {},
+    'protected componentListeners' : {},
    
     /**
      * ID of the WARNING dialog
@@ -50,7 +50,7 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
      */
     'public static INFORMATION_MESSAGE' : 0x03,
 
-    'override __construct' : function (id) {
+    'override virtual __construct' : function (id) {
         this.__super(id);
         this.listeners = [];
         this.componentListeners = {};
@@ -76,6 +76,15 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
             		.append(jQuery("<input></input>",{type:'button',value:'Cancel','btn-model':'CANCEL',class:'btn btn-primary'}))
             );
     	}
+    	
+    	
+    	if ( type == DefaultDialogWindow.$('INFORMATION_MESSAGE') ) {
+    		dWindow.setFooter(
+    				jQuery("<div></div>",{class : 'global-confirm-message-footer'})
+            		.append(jQuery("<input></input>",{type:'button',value:'OK','btn-model':'CONFIRM', class:'btn btn-success'}))
+            );
+    	}
+
     	
     	dWindow.display();
     	dWindow.getWindow().css('top','30%').css('left','25%').css('width','50%');
@@ -161,9 +170,11 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
         
         jQuery(document).off('keyup',this.keyListener).on('keyup',{caller:this},this.keyListener);
         
+        this.onComponentCreationComplete();
+        
     },
     
-    'public getBody' : function() {
+    'public virtual getBody' : function() {
     	return jQuery(this.currentDiv.find('div[class=modal-body]')[0]);
     },
     
@@ -248,6 +259,10 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
      */
     'public getWindow' : function() {
     	return this.currentDiv;
+    },
+    
+    'public setWindow' : function(val) {
+    	this.currentDiv = val;
     },
     
     /**

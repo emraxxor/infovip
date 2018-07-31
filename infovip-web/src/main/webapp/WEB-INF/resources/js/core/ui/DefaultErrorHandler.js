@@ -10,7 +10,7 @@ var DefaultErrorHandler = easejs.Class('DefaultErrorHandler').extend({
 	},
 
 	'display' : function() {
-		DefaultDialogWindow.showMessageDialog(__tr('msg.error'),this.errorObject.message,DefaultDialogWindow.$('CONFIRM_MESSAGE'),function(params,window){
+		DefaultDialogWindow.showMessageDialog(__tr('msg.error'), __tr(this.errorObject.message),DefaultDialogWindow.$('CONFIRM_MESSAGE'),function(params,window){
 			window.hide();
 		},{});
 	}

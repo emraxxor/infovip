@@ -1,5 +1,5 @@
 /**
- * @author attila
+ * @author Attila Barna
  * @type {ModalDialogWindow}
  */
 var ModalDialogWindow = easejs.Class('ModalDialogWindow').implement(IDialogWindow).extend(Controller,{

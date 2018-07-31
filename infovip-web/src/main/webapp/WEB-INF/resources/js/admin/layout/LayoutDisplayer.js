@@ -1,5 +1,5 @@
 /**
- *  @author attila
+ *  @author Attila Barna
  */
 var LayoutDisplayer = easejs.FinalClass('LayoutDisplayer').extend({
 	

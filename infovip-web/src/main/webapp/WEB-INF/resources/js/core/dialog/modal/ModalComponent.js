@@ -1,5 +1,5 @@
 /**
- * @author attila
+ * @author Attila Barna
  */
 var ModalComponent = easejs.Class('ModalComponent').extend(Controller,{
 	

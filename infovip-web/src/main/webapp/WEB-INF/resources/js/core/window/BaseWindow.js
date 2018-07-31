@@ -2,7 +2,7 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
 
 	'protected window' : null,
 	
-	'private title' : '',
+	'protected title' : '',
 	
 	'private width' : 350,
 	
@@ -14,6 +14,13 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
 	
 	'private moveable' : true,
 	
+	'private modal' : true,
+	
+	/**
+	 * If it is set to true then the window will not be displayed by the default window manager
+	 */
+	'protected doNotAppearByDefault' : false,
+	
 	'override virtual __construct' : function() {
 		this.__super();
 	},
@@ -23,6 +30,8 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
 	'public abstract views' : [],
 	
 	'public abstract onCreationComplete' : ['window','body'],
+	
+	'protected wListeners' : {},
 	
 	
     /**
@@ -68,8 +77,29 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
     'public setHeight' : function(h) {
     	this.height = h;
     },
-	
+
+    'public resize' : function() {
+    	this.window.resize();
+    },
+    
+    'public getWindow' : function() {
+    	return this.window;
+    },
+    
+    'public setModal' : function(v) {
+    	this.modal = v;
+    },
+    
+    'public addComponentListener' : function(type,func) {
+    	this.wListeners[type] = func;
+    },
+    
+    'public addCreationCompleteEvent' : function(func) {
+    	this.wListeners['creationComplete'] = func;
+    },
+    
 	'public virtual create' : function() {
+		var that = this;
 		this.window = webix.ui({
 			view : "window",
 			height:this.width,
@@ -77,10 +107,11 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
 		    position : this.position,
 		    resize : this.resizable,
 		    move: this.moveable,
+		    modal: this.modal,
 		    head:{
 				view:"toolbar", margin:-4, cols:[
 					{ view:"label", label: this.title },
-					{ view:"icon", icon:"times-circle", on : { "onItemClick": function(id,e) { this.getTopParentView().close(); } } }
+					{ view:"icon", icon:"times-circle", on : { "onItemClick": function(id,e) { that.close(); } } }
 				]
 			},
 			body: {
@@ -89,6 +120,13 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
 			}
 			
 		});
+		webix.UIManager.removeHotKey("esc");
+	},
+	
+	'public virtual onComponentCreationComplete' : function() {
+		if ( this.wListeners['creationComplete'] != undefined ) {
+			this.wListeners('creationComplete')(this);
+		}
 	},
 	
 	'public virtual close' : function() {
@@ -96,10 +134,14 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
 	},
     
     'public virtual display' : function() {
-    	this.window.show();
+    	if ( !this.doNotAppearByDefault ) {
+    		this.window.show();
+    	}
+    	
     	// workaround
     	this.window.config.width = this.width;
     	this.window.resize();
     	this.onCreationComplete(this.window,this.window.getBody());
+    	this.onComponentCreationComplete();
     }
 });

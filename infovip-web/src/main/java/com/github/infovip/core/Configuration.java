@@ -2,18 +2,14 @@ package com.github.infovip.core;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import com.github.infovip.configuration.DefaultWebAppConfiguration;
 
 /**
  *
  * @author attila
  */
-public class Configuration {
+public class Configuration extends DefaultWebAppConfiguration {
 
     /**
      * Identifier of the default SQL connection It is used by the basic SQL
@@ -83,11 +79,6 @@ public class Configuration {
     public static final String APPLICATION_CONTEXT_NAME = "/infovip-web";
 
     /**
-     * If it is set to true then the debug messages are displayed
-     */
-    public static final Boolean DEBUG = true;
-
-    /**
      * Defines the name of the application
      */
     public static final String APP_NAME = "infovip-ear-1.0-SNAPSHOT";
@@ -128,6 +119,18 @@ public class Configuration {
      * Settings for the client
      */
     public static Map<String, String> ES_CLIENT_SETTINGS;
+    
+    
+    /**
+     * The completely path of the images of products
+     */
+    public static final String PRODUCT_IMAGE_PATH = "/opt/images";
+    
+    /**
+     * If it is set to true then the debug messages are displayed
+     */
+    public static final Boolean DEBUG = true;
+
 
     /**
      * Some identifier to manage session
@@ -253,20 +256,5 @@ public class Configuration {
     	public static final String TYPE = "";
     }
     
-    /**
-     * Default lookup method
-     * @param classz
-     * @return
-     */
-    public static <T> T lookup(Class<T> classz) {
-        try {
-            Context c = new InitialContext();
-            return (T) c.lookup(Configuration.jndiLookupName(classz.getSimpleName()));
-        } catch (NamingException ne) {
-            Logger.getLogger("Lookup:").log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
-
 
 }

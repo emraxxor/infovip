@@ -1,5 +1,5 @@
 /**
- * @author attila
+ * @author Attila Barna
  */
 var ModalDialogWindowDisplayer = easejs.Class('ModalDialogWindowDisplayer').extend(Controller,{
 	

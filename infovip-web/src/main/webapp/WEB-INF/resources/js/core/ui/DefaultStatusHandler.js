@@ -1,5 +1,5 @@
 /**
- *  @author attila
+ *  @author Attila Barna
  */
 var DefaultStatusHandler = easejs.Class('DefaultStatusHandler').extend({
 	
@@ -10,7 +10,7 @@ var DefaultStatusHandler = easejs.Class('DefaultStatusHandler').extend({
 	},
 
 	'display' : function() {
-		DefaultDialogWindow.showMessageDialog(__tr('msg.success'),this.statusObject.message,DefaultDialogWindow.$('CONFIRM_MESSAGE'),function(params,window){
+		DefaultDialogWindow.showMessageDialog(__tr('msg.success'),__tr(this.statusObject.message),DefaultDialogWindow.$('CONFIRM_MESSAGE'),function(params,window){
 			window.hide();
 		},{});
 	}

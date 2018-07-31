@@ -18,9 +18,11 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 
-    <mvc:annotation-driven />
+     <mvc:annotation-driven />
     <context:component-scan base-package="com.github.infovip.spring.config"></context:component-scan>
-    
+	
+
+	<!--  @deprecated No longer used. Use ElasticsearchTemplate instaed of it. -->
     <bean id="Configuration" class="com.github.infovip.core.Configuration">
         <property name="ES_CLIENT_OPTIONS">
             <map>
@@ -35,6 +37,10 @@
         </property>
     </bean>
     
+    <bean id="sessionFactory" class="org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean">
+    	<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+    
     <bean id="container" class="com.github.infovip.core.Container" scope="request">
         <constructor-arg name="jsManager">
             <bean id="javascriptManager" class="com.github.infovip.core.web.JavascriptManager"/>
@@ -44,17 +50,40 @@
         </constructor-arg>
     </bean>
     
-        
-    <bean id="defaultElasticsearchConfiguration" class="com.github.infovip.core.DefaultElasticsearchConfiguration" />
+    <bean id="smtpClient" class="com.github.infovip.core.smtp.DefaultSMTPClient" init-method="postInit">
+    	<property name="configuration" ref="Configuration"></property>
+    </bean>
+    
+    <elasticsearch:transport-client id="esClient" cluster-name="elasticsearch" cluster-nodes="127.0.0.1:9300" client-transport-ping-timeout="800s" />
+    
+    <bean id="defaultEntityMapper" class="com.github.infovip.core.elasticsearch.DefaultObjectMapper"></bean>
+     
+    <bean name="elasticsearchTemplate" class="org.springframework.data.elasticsearch.core.ElasticsearchTemplate">
+        <constructor-arg name="client" ref="esClient"/>
+        <constructor-arg name="entityMapper" ref="defaultEntityMapper"></constructor-arg>
+    </bean>
+    
+    <bean id="defaultElasticsearchConfiguration" class="com.github.infovip.core.DefaultElasticsearchConfiguration" init-method="postConstruct">
+    	<property name="template" ref="elasticsearchTemplate"></property>
+    </bean>
 	
 	<bean id="esConnection" class="com.github.infovip.core.elasticsearch.ESConnection" init-method="init">
 		<constructor-arg name="esConfiguration" ref="defaultElasticsearchConfiguration" />
 	</bean>
+
 	
 	
-	<bean  id="elasticsearchTemplate" name="elasticsearchTemplate" class="com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate" >
-		<constructor-arg name="config" ref="defaultElasticsearchConfiguration" />
-	</bean>
-    
+	<!--  REPOSITORIES -->    
+    <jpa:repositories base-package="com.github.infovip.spring.repositories"/>
+    <elasticsearch:repositories base-package="com.github.infovip.spring.elasticsearch.repositories"/>	
+
+	<!--  CONTEXT COMPONENT -->
+	<context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
+	
+	
+    <!--  CONTEXT CONTAINERS -->   
+   <bean id="esContainer" name="esContainer" class="com.github.infovip.core.container.ESContainer" scope="singleton" destroy-method="preDestroy" init-method="postConstruct"></bean>
+   <bean id="esContainerWatcher" name="esContainerWatcher" class="com.github.infovip.core.container.ESContainerWatcher" scope="singleton" destroy-method="preDestroy" init-method="postConstruct"></bean>
+   <bean id="statisticsManagerContainer" name="statisticsManagerContainer" class="com.github.infovip.core.statistics.StatisticsManager" scope="singleton" destroy-method="preDestroy" init-method="postConstruct"></bean>
     
 </beans>

@@ -1,5 +1,5 @@
 /**
- *  @author attila
+ *  @author Attila Barna
  */
 var DefaultConfirmationDialog = easejs.Class('DefaultConfirmationDialog').extend({
 	

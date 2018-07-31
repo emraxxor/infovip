@@ -4,7 +4,7 @@
  * This file is intended to contains functions and its prototypes which 
  * are should be used by any component of UI.
  *
- * @author attila
+ * @author Attila Barna
  */
 
 

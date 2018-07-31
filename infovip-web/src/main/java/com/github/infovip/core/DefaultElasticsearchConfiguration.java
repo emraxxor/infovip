@@ -16,52 +16,37 @@
  */
 package com.github.infovip.core;
 
-import static com.github.infovip.core.Configuration.ES_CLIENT_OPTIONS;
-import static com.github.infovip.core.Configuration.ES_CLIENT_SETTINGS;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 /**
- *
- * @author attila
+ * @author Attila Barna
+ * @category infovip.core.data.configuration
  */
 public class DefaultElasticsearchConfiguration {
 
 	private Client client;
 	
 	private Settings settings;
+
+	private ElasticsearchTemplate template;
 	
 	public DefaultElasticsearchConfiguration() {
-		System.out.println("------------------- Default Elasticsearch Configuration -------------------------");
-		this.initSettings();
-		this.initClient();
-		System.out.println("------------------- Default Elasticsearch Configuration -------------------------");
 	}
 	
-
-    public void initSettings() {
-        this.settings = Settings.settingsBuilder().put(ES_CLIENT_SETTINGS).build();
-    }
-    
-    public void initClient() {
-        try {
-            client = TransportClient.builder().settings(settings).build();
-            for (String address : ES_CLIENT_OPTIONS.keySet()) {
-                String port = ES_CLIENT_OPTIONS.get(address);
-                ((TransportClient) client).addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(address), Integer.valueOf(port)));
-            }
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(DefaultElasticsearchConfiguration.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	public void postConstruct() {
+		this.client = template.getClient();
+		this.settings = client.settings();
+	}
+	
+	public ElasticsearchTemplate getTemplate() {
+		return template;
+	}
+	
+	public void setTemplate(ElasticsearchTemplate template) {
+		this.template = template;
+	}
     
     public Client getClient() {
 		return client;

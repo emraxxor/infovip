@@ -1,5 +1,5 @@
 /**
- * @author attila
+ * @author Attila Barna
  */
 var DefaultHandlerAdapter = easejs.AbstractClass('DefaultHandlerAdapter').extend(Controller,{
 

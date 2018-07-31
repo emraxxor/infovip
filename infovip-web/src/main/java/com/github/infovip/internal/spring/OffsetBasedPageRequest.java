@@ -13,21 +13,26 @@ import org.springframework.data.domain.Sort.Direction;
  */
 public class OffsetBasedPageRequest implements Pageable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9005221984264399684L;
+
 	private int size;
 	
-	private int offset;
+	private long offset;
 
 	private final Sort sort;
 
-	public OffsetBasedPageRequest(int offset, int size) {
-		this(offset,size,null);
+	public OffsetBasedPageRequest(long offset, int size) {
+		this(offset,size,Sort.unsorted());
 	}
 
-	public OffsetBasedPageRequest(int offset, int size, Direction direction, String... properties) {
+	public OffsetBasedPageRequest(long offset, int size, Direction direction, String... properties) {
 		this(offset, size, new Sort(direction, properties));
 	}
 
-	public OffsetBasedPageRequest(int offset, int size, Sort sort) {
+	public OffsetBasedPageRequest(long offset, int size, Sort sort) {
 		this.offset = offset;
 		this.size = size;
 		this.sort = sort;
@@ -75,14 +80,14 @@ public class OffsetBasedPageRequest implements Pageable, Serializable {
 	}
 
 	public int getPageNumber() {
-		return offset;
+		return Long.valueOf(offset).intValue();
 	}
 
 	public int getPageSize() {
 		return size;
 	}
 
-	public int getOffset() {
+	public long getOffset() {
 		return offset;
 	}
 

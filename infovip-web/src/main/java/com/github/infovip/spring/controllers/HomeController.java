@@ -5,26 +5,11 @@
  */
 package com.github.infovip.spring.controllers;
 
-import com.github.infovip.beans.stateless.user.UserManagement;
-import com.github.infovip.beans.stateless.user.UserManagementLocal;
-import com.github.infovip.core.Configuration;
-import com.github.infovip.entities.LogRegistration;
-import com.github.infovip.entities.User;
-import com.github.infovip.spring.services.UserService;
-
-import java.util.Date;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class HomeController {
-
-    /**
-     * UserManagement module
-     */
-    UserManagementLocal userManagement = lookupUserManagementLocal();
 
     /**
      *
@@ -82,13 +62,5 @@ public class HomeController {
         return "tile.index";
     }
 
-    private UserManagementLocal lookupUserManagementLocal() {
-        try {
-            Context c = new InitialContext();
-            return (UserManagementLocal) c.lookup(Configuration.jndiLookupName(UserManagement.class.getSimpleName()));
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
+
 }

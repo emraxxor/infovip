@@ -1,5 +1,5 @@
 /**
- *  @author attila
+ *  @author Attila Barna
  */
 var DefaultInformationDialog = easejs.Class('DefaultInformationDialog').extend({
 	
@@ -10,7 +10,9 @@ var DefaultInformationDialog = easejs.Class('DefaultInformationDialog').extend({
 	},
 
 	'display' : function(message,callback,params) {
-		return DefaultDialogWindow.showMessageDialog(this.title,message,DefaultDialogWindow.$('INFORMATION_MESSAGE'),function(cparam,window){},params);
+		return DefaultDialogWindow.showMessageDialog(this.title,__tr(message),DefaultDialogWindow.$('INFORMATION_MESSAGE'),
+				function(cparam,window){callback(cparam,window);}
+		,params);
 	}
 	
 });

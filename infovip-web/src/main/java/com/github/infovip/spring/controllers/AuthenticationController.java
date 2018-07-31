@@ -16,24 +16,18 @@
  */
 package com.github.infovip.spring.controllers;
 
-import com.github.infovip.beans.stateless.user.UserManagement;
-import com.github.infovip.beans.stateless.user.UserManagementLocal;
-import com.github.infovip.core.Configuration;
-import com.github.infovip.core.Configuration.SESSION;
 import static com.github.infovip.core.Configuration.sessionValue;
-import com.github.infovip.core.web.user.UserSession;
-import com.github.infovip.entities.User;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -44,6 +38,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.infovip.core.Configuration.SESSION;
+import com.github.infovip.core.web.user.UserSession;
+import com.github.infovip.entities.User;
+import com.github.infovip.spring.services.UserService;
+
 /**
  *
  * @author attila
@@ -52,7 +51,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Scope("request")
 public class AuthenticationController {
 
-    UserManagementLocal userManagement = lookupUserManagementLocal();
+	@Autowired
+    private UserService userService;
 
     @Autowired
     private ApplicationContext appContext;
@@ -91,7 +91,7 @@ public class AuthenticationController {
     public void login(@RequestParam("userName") String userName, @RequestParam("userPassword") String userPassword,
             Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
         try {
-            User u = userManagement.findUser(userName, userPassword);
+            User u = userService.findUser(userName, userPassword);
             if (u != null) {
                 userSession.setAuthenticated(true);
                 userSession.setUserName(u.getUserName());
@@ -143,13 +143,4 @@ public class AuthenticationController {
         response.sendRedirect("home");
     }
 
-    private UserManagementLocal lookupUserManagementLocal() {
-        try {
-            Context c = new InitialContext();
-            return (UserManagementLocal) c.lookup(Configuration.jndiLookupName(UserManagement.class.getSimpleName()));
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
 }

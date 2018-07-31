@@ -1,5 +1,5 @@
-/**
- * 
+/** 
+ *  @author Attila Barna
  */
 var DialogWindow = easejs.Class('DialogWindow').implement(IDialogWindow).extend(Controller,{
 
@@ -10,7 +10,11 @@ var DialogWindow = easejs.Class('DialogWindow').implement(IDialogWindow).extend(
      */
     'protected text' : '',
 
-	
+    /**
+     * The listeners that belong to the given component
+     */
+	'protected wListeners' : {},
+
 	
     'public static inputName' : function(inputName) {
     	return "input[name='"+ inputName+"']";
@@ -21,6 +25,22 @@ var DialogWindow = easejs.Class('DialogWindow').implement(IDialogWindow).extend(
         this.__super();
         this.dialogID = id;
     },
+
+    
+    
+    'public addComponentListener' : function(type,func) {
+    	this.wListeners[type] = func;
+    },
+    
+    'public addCreationCompleteEvent' : function(func) {
+    	this.wListeners['creationComplete'] = func;
+    },
+
+	'public virtual onComponentCreationComplete' : function() {
+		if ( this.wListeners['creationComplete'] != undefined ) {
+			this.wListeners('creationComplete')(this);
+		}
+	},
 
     
     /**

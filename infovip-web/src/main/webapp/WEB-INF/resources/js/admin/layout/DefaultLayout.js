@@ -1,5 +1,5 @@
 /**
- * @author attila
+ * @author Attila Barna
  */
 var DefaultLayout = easejs.Class('DefaultLayout').extend(BaseLayout,{
 
@@ -13,10 +13,10 @@ var DefaultLayout = easejs.Class('DefaultLayout').extend(BaseLayout,{
 			return {
 				rows : [
 						{
-							height : 49,
+							autoheight: true,
 							id : "title",
 							css : "title",
-							template : "<div id='admin:main:panel' style='display:inline-flex;'><div class='admin-header'>#title#</div><div style='margin-left:20px;' class='admin-details'>( #details# )</div></div>",
+							template : "<div id='admin:main:panel' style='display:inline-flex;'><div class='admin-header'>#title#</div><div style='margin-left:20px;' class='admin-details'>#details#</div></div>",
 							data : {
 								text : "",
 								title : "",

@@ -17,12 +17,7 @@
 package com.github.infovip.spring.controllers.timeline;
 
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,12 +33,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
-import com.github.infovip.beans.stateless.timeline.TimeLineManagement;
-import com.github.infovip.beans.stateless.timeline.TimeLineManagementLocal;
-import com.github.infovip.core.Configuration;
 import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 import com.github.infovip.spring.elasticsearch.entities.TimelineCommentEntity;
 import com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity;
+import com.github.infovip.spring.services.TimelineService;
 
 
 /**
@@ -57,8 +50,9 @@ public class TimelineController {
     @Autowired
     private ApplicationContext appContext;
     
-    private TimeLineManagementLocal timeLineManagement = lookupTimeLineManagementLocal();
-
+    @Autowired
+    private TimelineService timeLineService;
+    
     @Autowired 
     private DefaultElasticsearchTemplate eTemplate;
 
@@ -89,7 +83,7 @@ public class TimelineController {
                 "simple"
         );
 
-        timeLineManagement.save(post);
+        timeLineService.save(post);
 
         IndexQuery q = new IndexQuery();
         TimelineCommentEntity comment = new TimelineCommentEntity(
@@ -105,19 +99,9 @@ public class TimelineController {
         q.setObject(comment);
         eTemplate.index(q);
 
-        m.addAttribute("post", timeLineManagement.findAll());
+        m.addAttribute("post", timeLineService.findAll());
         return "core/timeline/Timeline";
     }
     
-    private TimeLineManagementLocal lookupTimeLineManagementLocal() {
-        try {
-            Context c = new InitialContext();
-            return (TimeLineManagementLocal) c.lookup(Configuration.jndiLookupName(TimeLineManagement.class.getSimpleName()));
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
-
 
 }

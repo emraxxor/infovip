@@ -17,9 +17,11 @@
 package com.github.infovip.core.elasticsearch;
 
 import static com.github.infovip.core.elasticsearch.DefaultDateFormatter.PATTERN.STANDARD;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.joda.time.DateTime;
 
 /**
@@ -149,6 +151,7 @@ public class DefaultDateFormatter {
         return new DateTime(formatter.parse(date));
     }
 
+    
     /**
      * Default date formatter
      *

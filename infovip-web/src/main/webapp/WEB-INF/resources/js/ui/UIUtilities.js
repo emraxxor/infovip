@@ -10,7 +10,7 @@
  *
  * @constructor
  *
- * @author Attila Barna
+ * @author Attila Barna Barna
  */
 function UIUtilities() {
 
