@@ -49,6 +49,13 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
      * If it is specified for the dialog then the dialog should be closed by the hide method
      */
     'public static INFORMATION_MESSAGE' : 0x03,
+    
+    /**
+     * Id of the ALERT dialog (it is similar to INFORMATION dialog but it can be closed by the user) 
+     * If it is specified for the dialog then the dialog should be closed by the hide method
+     */
+    'public static ALERT_MESSAGE' : 0x04,
+
 
     'override virtual __construct' : function (id) {
         this.__super(id);
@@ -56,7 +63,7 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
         this.componentListeners = {};
     },
 
-    'public static showMessageDialog' : function(title,message,type,fcallback,params) {
+    'public static showMessageDialog' : function(title,message,type,fcallback,params,fcancel) {
     	var dWindow = new DefaultDialogWindow("GeneralMessageWindowDialog" + jQuery("div[id*='GeneralMessageWindowDialog']").length + 1 );
     	dWindow.setTitle(title);
     	dWindow.setText(jQuery("<div></div>",{class:'global-warning-message-body'}).html(message));
@@ -78,7 +85,7 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     	}
     	
     	
-    	if ( type == DefaultDialogWindow.$('INFORMATION_MESSAGE') ) {
+    	if ( type == DefaultDialogWindow.$('ALERT_MESSAGE') ) {
     		dWindow.setFooter(
     				jQuery("<div></div>",{class : 'global-confirm-message-footer'})
             		.append(jQuery("<input></input>",{type:'button',value:'OK','btn-model':'CONFIRM', class:'btn btn-success'}))
@@ -89,6 +96,7 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     	dWindow.display();
     	dWindow.getWindow().css('top','30%').css('left','25%').css('width','50%');
     	
+    	
     	var inputs = dWindow.getInputsAsArray();
     	for(var i = 0; i<inputs.length;i++) {
     		var input = jQuery(inputs[i]);
@@ -96,7 +104,13 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     			input.click(function(){dWindow.hide()});
     		} else if ( input.attr('btn-model') != undefined && (input.attr('btn-model') == 'CONFIRM'  ) )  {
     			input.off('click').on('click',function(e){ fcallback(params,dWindow);});
-    		}	
+    		} 
+    		
+    		if ( input.attr('btn-model') != undefined && (input.attr('btn-model') == 'CANCEL' )  )	 {
+    			if ( fcancel != undefined ) {
+    				input.off('click').on('click',function(e){ fcancel(params,dWindow); });
+    			}
+    		}
     	}
     	
     	return dWindow;

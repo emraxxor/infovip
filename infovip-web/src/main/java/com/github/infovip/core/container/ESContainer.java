@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration;
+import com.github.infovip.core.elasticsearch.ESChildElement;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
@@ -143,11 +144,29 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
     public synchronized Object executeThenGet(T data) {
 		if ( data instanceof ESDataElement ) {
 			if ( data.operation() == ESOperationType.DELETE ) {
-				return client.prepareDelete(data.index(), data.type(), data.id() ).get();
+				if ( data instanceof ESChildElement<?> ) {
+					return client.prepareDelete(data.index(), data.type(), data.id() ).setParent( ((ESChildElement<?>) data).parent() ).get();
+				} else {
+					return client.prepareDelete(data.index(), data.type(), data.id() ).get();
+				}
 			} else if ( data.operation() == ESOperationType.UPDATE ) {
-				return client.prepareUpdate(data.index(), data.type(), data.id() ).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
+				if ( data instanceof ESChildElement<?> ) {
+					return client.prepareUpdate(data.index(), data.type(), data.id() ).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
+				} else {
+					return client.prepareUpdate(data.index(), data.type(), data.id() ).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
+				}
 			} else {
-				return client.prepareIndex(data.index(), data.type()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();			
+				if ( data instanceof ESChildElement<?> ) {
+					if ( data.id() == null ) {
+						return client.prepareIndex(data.index(), data.type()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+					} else {
+						return client.prepareIndex(data.index(), data.type()).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+					}
+				} else if ( data.id() != null ) {
+					return client.prepareIndex(data.index(), data.type()).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+				} else {
+					return client.prepareIndex(data.index(), data.type()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();									
+				}
 			}
 		} 
 		return null;
@@ -158,12 +177,30 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 		synchronized (bulkRequest) {
 			if ( data instanceof ESDataElement ) {
 				if ( data.operation() == ESOperationType.DELETE ) {
-					bulkRequest.add( client.prepareDelete(data.index(), data.type(), data.id() ) );			
+					if ( data instanceof ESChildElement<?>  ) {
+						bulkRequest.add( client.prepareDelete(data.index(), data.type(), data.id() ).setParent(((ESChildElement<?>) data).parent()) );
+					} else {
+						bulkRequest.add( client.prepareDelete(data.index(), data.type(), data.id() ) );
+					}
 				} else if ( data.operation() == ESOperationType.UPDATE ) {
-					bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
+					if ( data instanceof ESChildElement<?> ) {
+						bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
+					} else {
+						bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
+					}
 				} else {
-					bulkRequest.add( client.prepareIndex(data.index(), data.type()).setSource(new Gson().toJson(data.data()),XContentType.JSON));			
-				}
+					if ( data instanceof ESChildElement<?> ) {
+						if ( data.id() == null ) {
+							bulkRequest.add( client.prepareIndex(data.index(), data.type()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON));
+						} else {
+							bulkRequest.add( client.prepareIndex(data.index(), data.type()).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON));
+						}
+					} else if (data.id() != null) { 
+						bulkRequest.add( client.prepareIndex(data.index(), data.type()).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON));									
+					} else {
+						bulkRequest.add( client.prepareIndex(data.index(), data.type()).setSource(new Gson().toJson(data.data()),XContentType.JSON));									
+					}
+				} 
 			} 
 			
 			bulkCounter++;

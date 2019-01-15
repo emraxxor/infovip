@@ -3,7 +3,6 @@ package com.github.infovip.configuration;
 import com.github.infovip.core.config.deprecated.TemporaryConfig;
 
 public class DefaultWebAppConfiguration implements WebAppConfiguration {
-
 	
     public static final class ESConfiguration {
     	public static final String INDEX = "hu-product"; 
@@ -23,8 +22,9 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
     	public static final String BALANCE_DATA_TYPE = "balance-data";
     	public static final String TRANSACTION_INDEX = "transactions";
     	public static final String TRANSACTION_TYPE = "transaction-data";
+    	public static final String MESSAGE_INDEX = "messages";
+    	public static final String SYSTEM_MESSAGE_TYPE = "system-message";
     }
-
     
 	public TemporaryConfig getTemporaryConfig() { throw new RuntimeException("Not implemented!"); };
 

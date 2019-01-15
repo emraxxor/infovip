@@ -22,7 +22,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.github.infovip.core.Configuration;
+import com.github.infovip.core.Container;
 
 /**
  *
@@ -38,8 +38,7 @@ public class PageTitle extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(pageContext.getServletContext());
-        Configuration config = context.getBean(Configuration.class);
-        config.setPAGE_TITLE(title);
+        context.getBean(Container.class).setPageTitle(title);
         return SKIP_BODY;
     }
 

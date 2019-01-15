@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 
 import com.github.infovip.core.Configuration;
 import com.github.infovip.core.config.deprecated.TemporaryConfig;
+import com.github.infovip.web.application.message.BaseMessage;
+import com.github.infovip.web.application.message.Message;
 
 public class DefaultSMTPClient implements SmtpClient {
 
@@ -81,5 +83,13 @@ public class DefaultSMTPClient implements SmtpClient {
 		} catch (EmailException e) {
 			logger.error(e.getMessage(),e);
 		}
+	}
+
+
+	
+	@Override
+	public void sendMessage(Message<?> message) {
+		BaseMessage bm = message.data();
+		sendHTML(new String[] { bm.getTo() }, bm.getTitle(), bm.getMessage());
 	}
 }

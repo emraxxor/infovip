@@ -14,6 +14,8 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.github.infovip.core.xml.InvalidXmlCharacterFilter;
+
 /**
  * 
  * @author Attila Barna

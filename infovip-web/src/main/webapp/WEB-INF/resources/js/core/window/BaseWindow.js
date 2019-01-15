@@ -111,7 +111,7 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
 		    head:{
 				view:"toolbar", margin:-4, cols:[
 					{ view:"label", label: this.title },
-					{ view:"icon", icon:"times-circle", on : { "onItemClick": function(id,e) { that.close(); } } }
+					{ view:"icon", icon:"fas fas-times-circle fa-times-circle", on : { "onItemClick": function(id,e) { that.close(); } } }
 				]
 			},
 			body: {
@@ -140,6 +140,7 @@ var BaseWindow = easejs.AbstractClass('BaseWindow').extend(Controller,{
     	
     	// workaround
     	this.window.config.width = this.width;
+    	this.window.config.height = this.height;
     	this.window.resize();
     	this.onCreationComplete(this.window,this.window.getBody());
     	this.onComponentCreationComplete();

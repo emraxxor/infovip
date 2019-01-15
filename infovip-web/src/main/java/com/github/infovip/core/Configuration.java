@@ -103,7 +103,6 @@ public class Configuration extends DefaultWebAppConfiguration {
      */
     public static final String ELASTICSEARCH_CLIENT_SETTINGS = "esClientSettings";
    
-    
     /**
      * Location of the tiles
      */
@@ -125,6 +124,16 @@ public class Configuration extends DefaultWebAppConfiguration {
      * The completely path of the images of products
      */
     public static final String PRODUCT_IMAGE_PATH = "/opt/images";
+   
+    /**
+     * The absolute path of the images of blogs
+     */
+    public static String BLOG_IMAGE_PATH = "/opt/images/blog";
+    
+    /**
+     * The absolute path of the storage files
+     */
+    public static String STORAGE_IMAGE_PATH  = "/opt/images/files";
     
     /**
      * If it is set to true then the debug messages are displayed

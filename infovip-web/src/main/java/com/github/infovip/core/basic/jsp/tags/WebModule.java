@@ -17,13 +17,13 @@
 package com.github.infovip.core.basic.jsp.tags;
 
 import static com.github.infovip.core.Configuration.sessionValue;
-import static com.github.infovip.core.Configuration.SESSION.USER_SESSION;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.github.infovip.core.Configuration;
 import com.github.infovip.core.web.user.UserSession;
 
 /**
@@ -45,7 +45,7 @@ public class WebModule extends DefaultModule {
     @Override
     public int doStartTag() throws JspException {
         context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) pageContext.getRequest());
-        if (authenticated == true && ((UserSession) context.getBean(sessionValue(USER_SESSION))).isAuthenticated().equals(false)) {
+        if (authenticated == true && ((UserSession) context.getBean(sessionValue( Configuration.SESSION.USER_SESSION))).isAuthenticated().equals(false)) {
             return SKIP_PAGE;
         }
         return super.doStartTag();

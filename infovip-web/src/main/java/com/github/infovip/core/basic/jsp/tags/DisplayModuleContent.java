@@ -1,5 +1,8 @@
 package com.github.infovip.core.basic.jsp.tags;
 
+import com.github.infovip.core.Configuration;
+import com.github.infovip.core.basic.jsp.ModuleManager;
+import com.github.infovip.core.basic.jsp.tags.interceptor.InterceptorInvoker;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,13 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
-
-import com.github.infovip.core.Configuration;
-import com.github.infovip.core.basic.jsp.ModuleManager;
-import com.github.infovip.core.basic.jsp.tags.interceptor.InterceptorInvoker;
 
 /**
  *

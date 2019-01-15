@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("session")
-public class UserSession implements Serializable {
+public class UserSession implements Serializable, WebUser, UserSessionInterface {
 
     /**
      * True if the user is authenticated, default false
@@ -41,6 +41,11 @@ public class UserSession implements Serializable {
      */
     private Container container;
 
+    /**
+     * Id of the current user
+     */
+    private Long userId;
+    
     /**
      * Current user name
      */
@@ -56,6 +61,11 @@ public class UserSession implements Serializable {
      */
     private Date registrationDate;
 
+    /**
+     * Defines the user's level of authority
+     */
+    private DefaultApplicationRole role;
+    
     public UserSession() {
     }
 
@@ -71,7 +81,35 @@ public class UserSession implements Serializable {
     public Boolean getAuthenticated() {
         return this.isAuthenticated();
     }
+    
+    public void setRole(DefaultApplicationRole role) {
+    	this.role = role;
+    }
+    
+    public DefaultApplicationRole getRole() {
+    	return this.role;
+    }
 
+   
+    @Override
+    public Long userId() {
+    	return this.userId;
+    }
+    
+    @Override
+    public String userIdentifier() {
+    	return this.userName;
+    }
+    
+    @Override
+    public String userMailAddress() {
+    	return this.userMail;
+    }
+    
+    public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+    
     /**
      * Set the value of authenticated
      *

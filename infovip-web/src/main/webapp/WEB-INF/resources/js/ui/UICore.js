@@ -4,12 +4,6 @@
 UICore.prototype.constructor = UICore;
 
 /**
- * Cause I really don't like hardcoded strings in the code therefore I started to create
- * a primitive ui library to make the code more prettier and clearer.and more readable for anyone.
- *
- * Basically, UICore is not part of the logness, I started to develop it for creating simple and understandable
- * code and I hope once time I will publish it on github if it will have been done.
- *
  * UICore requires a few module has already been loaded before starting using it, notably the following :
  * - UIBase
  * - UILogger

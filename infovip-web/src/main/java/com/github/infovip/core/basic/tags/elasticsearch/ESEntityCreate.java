@@ -18,13 +18,11 @@ package com.github.infovip.core.basic.tags.elasticsearch;
 
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import static com.github.infovip.core.basic.jsp.Scope.scope;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.jsp.JspException;
+import static javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_BUFFERED;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;

@@ -17,17 +17,14 @@
 package com.github.infovip.core.basic.tags.elasticsearch;
 
 import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.annotation.Id;

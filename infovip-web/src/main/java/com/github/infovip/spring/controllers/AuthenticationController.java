@@ -21,13 +21,12 @@ import static com.github.infovip.core.Configuration.sessionValue;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -39,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.infovip.core.Configuration.SESSION;
+import com.github.infovip.core.validator.GoogleCaptchaValidator;
+import com.github.infovip.core.web.user.DefaultApplicationRole;
 import com.github.infovip.core.web.user.UserSession;
 import com.github.infovip.entities.User;
 import com.github.infovip.spring.services.UserService;
@@ -51,8 +52,6 @@ import com.github.infovip.spring.services.UserService;
 @Scope("request")
 public class AuthenticationController {
 
-	@Autowired
-    private UserService userService;
 
     @Autowired
     private ApplicationContext appContext;
@@ -60,6 +59,16 @@ public class AuthenticationController {
     @Autowired
     @Qualifier(value = "userSession")
     private UserSession userSession;
+    
+    
+    @Autowired
+    private UserService userService;
+    
+    /**
+     * The default logger
+     */
+    private Logger logger = Logger.getLogger(AuthenticationController.class);
+    
 
     /**
      * Authentication Failed Error handler
@@ -76,6 +85,12 @@ public class AuthenticationController {
         return "tile.authfailed";
     }
 
+    
+    @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
+    public String authADMLogIn(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
+        return "tile.authADMLogIn";
+    }
+    
     /**
      * Authentication Failed Error handler
      *
@@ -89,24 +104,37 @@ public class AuthenticationController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public void login(@RequestParam("userName") String userName, @RequestParam("userPassword") String userPassword,
+    		@RequestParam("g-recaptcha-response") String gRecaptchaResponse,
             Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
+    	
+    	if ( ! GoogleCaptchaValidator.validate(gRecaptchaResponse, request.getRemoteAddr()) ) {
+    		try {
+				response.sendRedirect("admin/login?err=captcha");
+			} catch (IOException e) {
+				logger.error(e.getMessage(), e);
+			}
+    		return;
+    	}
+    	
         try {
             User u = userService.findUser(userName, userPassword);
             if (u != null) {
                 userSession.setAuthenticated(true);
+                userSession.setUserId(u.getUserId());
                 userSession.setUserName(u.getUserName());
                 userSession.setUserMail(u.getUserMail());
+                userSession.setRole(DefaultApplicationRole.SUPERADMIN);
                 userSession.setRegistrationDate(u.getLogRegistration().getCreationTime());
                 request.getSession().setAttribute(SESSION.USER_SESSION.toString(), userSession);
                 request.getSession().setAttribute(SESSION.AUTH_TIME.toString(), new Date(System.currentTimeMillis()));
                 request.getSession().setAttribute(SESSION.REMOTE_ADDR.toString(), request.getRemoteAddr());
                 request.getSession().setAttribute(SESSION.HEADER.toString(), request.getHeader("User-Agent"));
-                response.sendRedirect("home");
+                response.sendRedirect("admin");
             } else {
                 response.sendRedirect("authfailed");
             }
         } catch (IOException ex) {
-            Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
+        	logger.error(ex.getMessage(),ex);
         }
 
     }
@@ -133,14 +161,14 @@ public class AuthenticationController {
                  */
                 session.invalidate();
             } catch (NullPointerException e) {
-                Logger.getLogger(getClass().getName()).log(Level.INFO, "Session has been already invalidated!");
+                logger.info("Session has been already invalidated!");
             } catch (Exception e) {
-                Logger.getLogger(getClass().getName()).log(Level.INFO, "The WeldTerminalListener has no BeanManager injected and NPE is thrown");
+            	logger.info("The WeldTerminalListener has no BeanManager injected and NPE is thrown");
             }
         }
         response.setHeader("Cache-Control", "no-cache, no-store");
         response.setHeader("Pragma", "no-cache");
-        response.sendRedirect("home");
+        response.sendRedirect("admin");
     }
 
 }

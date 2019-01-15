@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.google.gson.annotations.Expose;
+
 import com.github.infovip.core.es.type.IgnoreField;
 
 /**
@@ -20,10 +22,10 @@ import com.github.infovip.core.es.type.IgnoreField;
 public class FormElement<T> implements FormData {
 
 	@IgnoreField
-	protected T data;
+	protected transient T data;
 	
 	@IgnoreField
-	protected Logger logger = Logger.getLogger(this.getClass());
+	protected transient Logger logger = Logger.getLogger(this.getClass());
 	
 	
 	public FormElement() {

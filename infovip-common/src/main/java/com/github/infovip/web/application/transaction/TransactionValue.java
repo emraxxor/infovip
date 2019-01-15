@@ -17,9 +17,10 @@ public class TransactionValue {
 		this.price = price;
 	}
 
-	public static TransactionValue createDefaultTransactionValue() {
-		return new TransactionValue(Currency.HUF, 55.0D);
+	public static TransactionValue create( Currency currency, Double price ) {
+		return new TransactionValue( currency , price );
 	}
+
 	
 	/**
 	 * @return the price

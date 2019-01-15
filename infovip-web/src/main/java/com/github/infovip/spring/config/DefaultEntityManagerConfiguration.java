@@ -20,23 +20,24 @@ public class DefaultEntityManagerConfiguration {
      *
      * @return
      */
-    @Bean
+    @Bean(name="entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setPersistenceUnitName("infovipPUW");
+        emf.setPersistenceUnitName("infovipPU");
         emf.setJpaDialect(jpaDialect());
         emf.setPackagesToScan("com.github.infovip.entities");
         emf.setLoadTimeWeaver(new JBossLoadTimeWeaver());
         return emf;
     }
+   
     
     /**
      * Default transaction-manager that is used by the repositories
      *
      * @return
      */
-    @Bean(name = "transactionManager")
-    public JtaTransactionManager transactionManager() {
+    @Bean(name="transactionManager")
+    public JtaTransactionManager platformTransactionManager() {
         JtaTransactionManager tm = new JtaTransactionManager();
         tm.setTransactionManagerName("java:/TransactionManager");
         return tm;
@@ -46,5 +47,4 @@ public class DefaultEntityManagerConfiguration {
     public JpaDialect jpaDialect() {
         return new EclipseLinkJpaDialect();
     }
-    
 }

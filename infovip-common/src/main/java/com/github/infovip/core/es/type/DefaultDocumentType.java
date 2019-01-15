@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
+
 import com.github.infovip.core.date.DefaultDateFormatter;
 import com.github.infovip.core.es.type.validator.RequiredField;
-import com.google.gson.Gson;
 
 /**
  * Copyright (C) 2017 attila

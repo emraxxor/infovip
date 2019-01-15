@@ -21,7 +21,8 @@
  * 
  * @type String
  */
-var WEB_DIR = "/infovip-web";
+var WEB_DIR = "";
+var MAIN_PAGE = "/";
 
 /**
  * Initializations of libraries 
@@ -129,6 +130,69 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 	return this;
 }
 
+/**
+ * Replace all implementation for string
+ */
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+String.prototype.toFirstUpperCase = function() {
+	var str = this;
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+},    
+
+
+/**
+ * A simple "url-friendly" transformer implementation
+ */
+String.prototype.toUrlFriendly = function(a,b) {
+	  var str = this;
+	  str = str.replace(/^\s+|\s+$/g, ''); // trim
+	  str = str.toLowerCase();
+
+	  // remove accents, swap ñ for n, etc
+	  var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñçőÃÀÁÄÂẼÈÉËÊÌÍÏÎÕÒÓÖÔÙÚÜÛÑÇŐ·/_,:;";
+	  var to   = "aaaaaeeeeeiiiiooooouuuuncoAAAAAEEEEEIIIIOOOOOUUUUNCO------";
+	  for (var i=0, l=from.length ; i<l ; i++) {
+	    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+	  }
+
+	  str = str.replace(/[^a-zA-Z0-9 -]/g, '') // remove invalid chars
+	    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+	    .replace(/-+/g, '-'); // collapse dashes
+	  
+	  return str;
+};
+
+/**
+ * A simple "url-friendly" transformer implementation
+ */
+String.prototype.toUrlFriendlyCustom = function(removeHyphen,skipLowerCase) {
+	  var str = this;
+	  str = str.replace(/^\s+|\s+$/g, ''); // trim
+	  
+	  if ( skipLowerCase == undefined ) 
+		  str = str.toLowerCase();
+
+	  // remove accents, swap ñ for n, etc
+	  var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñçőÃÀÁÄÂẼÈÉËÊÌÍÏÎÕÒÓÖÔÙÚÜÛÑÇŐ·/_,:;";
+	  var to   = "aaaaaeeeeeiiiiooooouuuuncoAAAAAEEEEEIIIIOOOOOUUUUNCO------";
+	  for (var i=0, l=from.length ; i<l ; i++) {
+	    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+	  }
+
+	  str = str.replace(/[^a-zA-Z0-9 -]/g, '') // remove invalid chars
+	    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+	    .replace(/-+/g, '-'); // collapse dashes
+
+	  if ( removeHyphen != undefined ) {
+		  str = str.replace(new RegExp('-','g'),"");
+	  }
+	  
+	  return str;
+};
 
 
 
@@ -136,16 +200,23 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
  * Configuration directives
  */
 var ApplicationScope = {
+		controller : {
+		},
 		config : {
+			FILE_SERVLET: 'file',
+			APPLICATION_URL: 'https://application',
 			RESOURCES_PATH : WEB_DIR + '/resources',
 			JS_PATH : WEB_DIR + '/resources/js',
-			WEB_ROOT : WEB_DIR
+			WEB_ROOT : WEB_DIR,
+			GOOGLE_API_KEY: '',
+		},
+		type : {
+			TERM : '__TERM__',
 		},
 		response : {
-			Code : {
-				ERROR : -1,
-				SUCCESS : 1
-			}
+				Code : {
+					ERROR : -1,
+					SUCCESS : 1
+				}
 		}
-
 };

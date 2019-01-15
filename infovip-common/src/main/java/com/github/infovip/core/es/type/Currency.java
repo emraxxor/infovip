@@ -1,5 +1,7 @@
 package com.github.infovip.core.es.type;
 
+import com.github.infovip.core.data.type.TransactionType;
+
 public enum Currency {
 
 	HUF("HUF"),
@@ -17,4 +19,15 @@ public enum Currency {
 	public String toString() {
 		return this.value;
 	}
+	
+	
+	
+	public static Currency typeValueOf(String val) {
+		for(Currency t : Currency.values()) {
+			if ( t.toString().equalsIgnoreCase(val) ) 
+				return t;
+		}
+		return null;
+	}
+
 }

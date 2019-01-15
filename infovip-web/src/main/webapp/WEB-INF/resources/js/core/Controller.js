@@ -3,9 +3,29 @@
  */
 var Controller = easejs.Class('Controller').implement(IController).extend({
 
+	'private options' : {},
 
     'virtual __construct': function () {
-
+    	
+    },
+    
+    
+    'public addOption' : function(name,val) {
+    	this.options[name] = val;
+    },
+    
+    'public getOption' : function(name) {
+    	return this.options[name];
+    },
+    
+    'public existsOption' : function(name) {
+    	return this.options[name] != undefined;
+    },
+    
+    'public removeOption' : function(name) {
+    	if ( this.existsOption(name) ) {
+    		this.options[name] = null;
+    	}
     },
     
     'public mode' : function(handlerURL,mode,data) {
@@ -15,12 +35,13 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
     /**
      * Async operation
      */
-    'public async' : function(purl,pdata, callback, params ,methodType, ajaxGlobal, options) {
-        var data = {
+    'public async' : function(purl,pdata, callback, params ,methodType, ajaxGlobal, dataType, options, contentType) {
+    	var data = {
                 type: methodType == undefined ? "POST" : methodType,
                 url: purl,
                 data: pdata,
-                dataType: "html",
+                contentType: contentType == undefined  ? "application/x-www-form-urlencoded; charset=UTF-8" : contentType + ";charset=UTF-8",
+                dataType: dataType == undefined  ? "html" : dataType,
                 global: ajaxGlobal == undefined ? true : ajaxGlobal,
                 cache: false,
                 async: true,
@@ -30,7 +51,15 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
                     }
                 },
                 success: function (data, textStatus, jqXHR) {
-                    callback( jQuery.parseJSON(data) , params );
+                    if ( callback != undefined ) {
+                        try {
+                        	rdata = JSON.parse(data);
+                        } catch (e) {
+                        	rdata = data;
+                        }
+                        callback(rdata , params );
+                    }
+                	
                 }
         };
         
@@ -49,13 +78,14 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
      * @param ajaxGlobal
      * @returns {*}
      */
-    'public load': function (purl, pdata, methodType, ajaxGlobal,async,options) {
+    'public load': function (purl, pdata, methodType, ajaxGlobal,async,dataType,options,contentType) {
         var rdata = null;
         var data = {
             type: methodType == undefined ? "POST" : methodType,
             url: purl,
             data: pdata,
-            dataType: "html",
+            contentType: contentType == undefined  ? "application/x-www-form-urlencoded; charset=UTF-8" : contentType + ";charset=UTF-8",
+            dataType: dataType == undefined  ? "html" : dataType,
             global: ajaxGlobal == undefined ? true : ajaxGlobal,
             cache: false,
             async: async == undefined ? false : async,
@@ -65,7 +95,11 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
                 }
             },
             success: function (data, textStatus, jqXHR) {
-                rdata = jQuery.parseJSON(data);
+                try {
+                    rdata = JSON.parse(data);
+                } catch (e) {
+                    rdata = data;
+                }
             }
         };
         
@@ -94,7 +128,6 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
             error: function (request, status, error) {
                 if (request.responseText != null) {
                     // @todo handle error
-                    console.log(request.responseText);
                 }
             },
             success: function (data, textStatus, jqXHR) {
@@ -155,6 +188,12 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
         for (var i = 0; i < context.source.length; i++) {
             context.from.copy(context.source[i], context.start, this, webix.uid());
         }
-    }
+    },
+    
+    
+    'public sleep' : function(ms) {
+  	  return new Promise(resolve => setTimeout(resolve, ms));
+    },
+
 
 });

@@ -1,6 +1,7 @@
 package com.github.infovip.common.source;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,6 +19,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BOMInputStream;
+import org.mozilla.universalchardet.UniversalDetector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,6 +31,7 @@ import org.xml.sax.SAXException;
 
 import com.github.infovip.core.web.converter.SimpleSAXErrorHandler;
 import com.github.infovip.core.xml.InvalidXmlCharacterFilter;
+
 
 /**
  * 
@@ -78,6 +83,24 @@ public class XMLNodeNameReader {
 	       return pb;
 	}
 
+    public String getDecoder(InputStream inputStream) throws IOException {
+    	String encoding = null;
+		byte[] buf = new byte[4096];
+		UniversalDetector detector = new UniversalDetector(null);
+		int nread;
+
+		while ((nread = inputStream.read(buf)) > 0 && !detector.isDone()) {
+			detector.handleData(buf, 0, nread);
+		}
+
+		detector.dataEnd();
+		encoding = detector.getDetectedCharset();
+		detector.reset();
+		
+		inputStream.reset();
+		return encoding;
+    }
+
 	
 	public void parse() throws Exception {
 		try {
@@ -90,12 +113,21 @@ public class XMLNodeNameReader {
 			if ( inputStream == null && xmlFilePath != null ) {
 				URL url = new URL(xmlFilePath);
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				Reader reader = new BufferedReader(new InputStreamReader(decompressStream(connection.getInputStream())));
+				byte[] data = IOUtils.toByteArray( new BOMInputStream( connection.getInputStream() ));
+				String charset = getDecoder(new ByteArrayInputStream(data));
+				
+				if ( charset == null ) charset = "UTF-8";
+				
+				Reader reader = new BufferedReader(new InputStreamReader(decompressStream( new ByteArrayInputStream(data) ), charset));
 				InvalidXmlCharacterFilter filter = new InvalidXmlCharacterFilter(reader);
 				InputSource is = new InputSource(filter);
 				doc = db.parse(is);
 			} else if ( inputStream != null && xmlFilePath == null ) {
-				Reader reader = new BufferedReader(new InputStreamReader(decompressStream(inputStream)));
+				byte[] data = IOUtils.toByteArray(new BOMInputStream( inputStream ));
+				String charset = getDecoder(new ByteArrayInputStream(data));
+
+				if ( charset == null ) charset = "UTF-8";
+				Reader reader = new BufferedReader(new InputStreamReader(decompressStream( new ByteArrayInputStream(data) ),charset));
 				InvalidXmlCharacterFilter filter = new InvalidXmlCharacterFilter(reader);
 				InputSource is = new InputSource(filter);
 				doc = db.parse(is);

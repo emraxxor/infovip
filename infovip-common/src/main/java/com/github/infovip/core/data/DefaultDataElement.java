@@ -40,15 +40,6 @@ public class DefaultDataElement<T> implements ESDataElement<T> {
 		if ( documentId == null && data instanceof BaseDataElement ) 
 			documentId = ( (BaseDataElement) data ).getDocumentId();
 		
-		
-		if ( documentId == null ) {
-			try {
-				throw new Exception("Document id is null! Operation type: " + operation.toString() + " index:  " + index + " type:  " + type );
-			} catch(Exception e) {
-				logger.error(e.getMessage(),e);
-			}
-		}
-		
 		return documentId;
 	}
 

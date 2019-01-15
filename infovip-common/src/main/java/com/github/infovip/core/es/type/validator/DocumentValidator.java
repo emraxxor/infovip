@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+
 import com.github.infovip.core.es.type.DefaultDocumentType;
 
 public class DocumentValidator {

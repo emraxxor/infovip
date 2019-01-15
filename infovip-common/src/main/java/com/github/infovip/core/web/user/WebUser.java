@@ -20,5 +20,11 @@ public interface WebUser {
 	 * @return
 	 */
 	public String userIdentifier();
+
 	
+	/**
+	 * The email-address of the current user
+	 * @return
+	 */
+	public String userMailAddress();
 }

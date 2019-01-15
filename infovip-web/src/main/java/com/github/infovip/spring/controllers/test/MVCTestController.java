@@ -40,7 +40,7 @@ public class MVCTestController {
     @RequestMapping(path = "/datatable", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     DataTableResult processSubmit(HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {
-        return DataTableManager.create(new TableTest(em, request, response)).pageable(new PageRequest(0, 50)).result();
+        return DataTableManager.create(new TableTest(em, request, response)).pageable(PageRequest.of(0, 50)).result();
     }
 
 }

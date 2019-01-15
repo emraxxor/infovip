@@ -21,10 +21,9 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.elasticsearch.core.query.IndexQuery;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -32,12 +31,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
-
-import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
-import com.github.infovip.spring.elasticsearch.entities.TimelineCommentEntity;
-import com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity;
-import com.github.infovip.spring.services.TimelineService;
-
 
 /**
  *
@@ -49,15 +42,12 @@ public class TimelineController {
 
     @Autowired
     private ApplicationContext appContext;
-    
-    @Autowired
-    private TimelineService timeLineService;
-    
+
+
     @Autowired 
-    private DefaultElasticsearchTemplate eTemplate;
-
-
-
+    private ElasticsearchTemplate template;
+    
+    
     @InitBinder
     public void initBinder(WebDataBinder binder, WebRequest request) {
     }
@@ -75,33 +65,7 @@ public class TimelineController {
      */
     @RequestMapping(path = "/add", method = RequestMethod.GET)
     public String addTestDocument(Locale locale, HttpServletRequest request, HttpServletResponse response, Model m) {
-        TimelinePostEntity post = new TimelinePostEntity(
-                new DateTime().toDate(),
-                30L,
-                "UserName",
-                "Message......",
-                "simple"
-        );
-
-        timeLineService.save(post);
-
-        IndexQuery q = new IndexQuery();
-        TimelineCommentEntity comment = new TimelineCommentEntity(
-                post.getId(),
-                new DateTime().toDate(),
-                30L,
-                "user",
-                "comment",
-                "simple"
-        );
-
-        q.setParentId(post.getId());
-        q.setObject(comment);
-        eTemplate.index(q);
-
-        m.addAttribute("post", timeLineService.findAll());
-        return "core/timeline/Timeline";
+        return null;
     }
-    
 
 }
