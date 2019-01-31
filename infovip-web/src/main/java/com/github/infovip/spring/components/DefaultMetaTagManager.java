@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.infovip.core.web.AppicationMetatagManager;
+import com.github.infovip.entities.CfgApplicationMetaData;
 import com.github.infovip.spring.services.MetatagService;
 
 /**
@@ -13,14 +15,17 @@ import com.github.infovip.spring.services.MetatagService;
  * @package infovip.metatag.manager
  */
 @Component
-public class DefaultMetaTagManager<T extends MetatagService<T>> {
+public class DefaultMetaTagManager {
 
     @Autowired
-    private MetatagService metatagService;
-
+    private MetatagService<CfgApplicationMetaData> metatagService;
     
     public void metaData(String requestURI, ModelAndView view) {
-    	throw new RuntimeException("Not implemented yet");
+    	CfgApplicationMetaData metaContent = metatagService.findByContentType(requestURI);
+		if ( metaContent != null && metaContent.getId() != null ) {
+			AppicationMetatagManager<CfgApplicationMetaData> amm = new AppicationMetatagManager<CfgApplicationMetaData>(view, metaContent);
+			amm.process();
+		}
     }
 
 }

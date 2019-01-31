@@ -6,7 +6,5 @@ package com.github.infovip.web.application.business;
  *
  */
 public interface BusinessContainerManager<T> {
-
 	
-	public T creditBalanceDataBy(Long id);
 }

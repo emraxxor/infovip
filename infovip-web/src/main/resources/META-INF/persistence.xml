@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="infovipPUW" transaction-type="JTA">
+    <persistence-unit name="infovipPU" transaction-type="JTA">
         <!--  provider>org.eclipse.persistence.jpa.PersistenceProvider</provider -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:/infovip</jta-data-source>
+        <jta-data-source>java:/Infovip</jta-data-source>
         <class>com.github.infovip.entities.LogRegistration</class>
         <class>com.github.infovip.entities.User</class>
+        <class>com.github.infovip.entities.CfgApplicationMetaData</class>
+        <class>com.github.infovip.entities.CfgAdmin</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
         	<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>

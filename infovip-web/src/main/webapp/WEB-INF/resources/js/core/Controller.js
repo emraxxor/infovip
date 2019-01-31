@@ -5,10 +5,7 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
 
 	'private options' : {},
 
-    'virtual __construct': function () {
-    	
-    },
-    
+    'virtual __construct': function () {},
     
     'public addOption' : function(name,val) {
     	this.options[name] = val;

@@ -1,0 +1,57 @@
+{
+    "template": "activity-post*",
+    "settings": {
+	"analysis" : {
+	    "analyzer" : {
+            "custom" : {
+                "type" : "custom",
+                "tokenizer" : "keyword_based_tokenizer",
+                "filter" : ["keyword_filter"]
+            }
+		},
+	    "filter" : {
+            "keyword_filter" : {
+                "type" : "unique",
+                "only_on_same_position" : true
+            }
+	    },
+	    "tokenizer" : {
+            "keyword_based_tokenizer" : {
+                "type" : "keyword",
+                "buffer_size" : 800
+            }
+	    }
+	}
+  },
+  "mappings": {
+    "data": {
+       "properties" : {
+            "joinField" : {
+                "type" : "join",
+                "relations": {
+                    "post": "comment",
+                    "comment" : "reply"
+                }
+            },
+            "postType" : {
+                "type" : "keyword"
+            },
+            "uid" : {
+                "type" : "long"
+            },
+            "userName" : {
+                "type" : "keyword"
+            },
+            "userImage" : {
+                "type" : "keyword"
+            },
+            "text": {
+                "type" : "text"
+            },
+            "date" : {
+                "type" : "date"
+            }
+       }
+    }
+  }
+}

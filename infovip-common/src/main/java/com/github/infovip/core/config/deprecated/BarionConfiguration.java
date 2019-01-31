@@ -19,7 +19,8 @@ public class BarionConfiguration {
 	private String userAgent;
 	
 	private String httpAccept;
-	
+
+	private String paymentStateURL;
 	
 	public String getBaseuri() {
 		return baseuri;
@@ -95,6 +96,26 @@ public class BarionConfiguration {
 		this.httpAccept = httpAccept;
 	}
 
+	
+	
+	/**
+	 * @return the paymentStateURL
+	 */
+	public String getPaymentStateURL() {
+		return paymentStateURL;
+	}
+
+	/**
+	 * @param paymentStateURL the paymentStateURL to set
+	 */
+	public void setPaymentStateURL(String paymentStateURL) {
+		this.paymentStateURL = paymentStateURL;
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -106,11 +127,15 @@ public class BarionConfiguration {
 		result = prime * result + ((httpAccept == null) ? 0 : httpAccept.hashCode());
 		result = prime * result + ((module == null) ? 0 : module.hashCode());
 		result = prime * result + ((payee == null) ? 0 : payee.hashCode());
+		result = prime * result + ((paymentStateURL == null) ? 0 : paymentStateURL.hashCode());
 		result = prime * result + ((poskey == null) ? 0 : poskey.hashCode());
 		result = prime * result + ((userAgent == null) ? 0 : userAgent.hashCode());
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -154,6 +179,11 @@ public class BarionConfiguration {
 			if (other.payee != null)
 				return false;
 		} else if (!payee.equals(other.payee))
+			return false;
+		if (paymentStateURL == null) {
+			if (other.paymentStateURL != null)
+				return false;
+		} else if (!paymentStateURL.equals(other.paymentStateURL))
 			return false;
 		if (poskey == null) {
 			if (other.poskey != null)

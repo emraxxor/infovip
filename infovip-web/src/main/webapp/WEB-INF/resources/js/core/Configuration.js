@@ -194,17 +194,30 @@ String.prototype.toUrlFriendlyCustom = function(removeHyphen,skipLowerCase) {
 	  return str;
 };
 
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
 
 
 /**
  * Configuration directives
  */
 var ApplicationScope = {
+		API : {
+			USER : {
+				IMAGE_UPLOAD_HANDLER : WEB_DIR + '/api/user/image/upload',
+				INFO : WEB_DIR + '/api/user/current',
+			}
+		},
 		controller : {
 		},
 		config : {
 			FILE_SERVLET: 'file',
-			APPLICATION_URL: 'https://application',
+			APPLICATION_URL: 'https://ivip.com:8443',
 			RESOURCES_PATH : WEB_DIR + '/resources',
 			JS_PATH : WEB_DIR + '/resources/js',
 			WEB_ROOT : WEB_DIR,

@@ -17,7 +17,7 @@ public class DefaultWIXDataTableResponse<DATA_TYPE, WEB_APP_CONTEXT> extends Dat
 	protected AbstractWIXDataSource<WEB_APP_CONTEXT, DATA_TYPE> source;
 	
 	private String token;
-
+	
 	
 	public DefaultWIXDataTableResponse(WEB_APP_CONTEXT context) {
 		this.context = context;

@@ -19,11 +19,7 @@ public enum SESSION implements Serializable {
     HEADER("clientHeader"),
 	
     // General attribute . Indicates that the user is logged on to the system.
-    IS_AUTHENTICATED("isAuthenticated"),
-	
-	// This session attribute is used for the administration interface. It is worth noting that the value is null in all other cases.
-    // Normally it gives a instance of NUser.
-	NUSER_OBJECT("userObject");
+    IS_AUTHENTICATED("isAuthenticated");
 	
     private String value;
 

@@ -1,0 +1,37 @@
+facebook:
+  appID: 2180225478667126
+  appSecret : xxxxxxxxxx
+google:
+  clientId: 389273337465-24d7312ufhmtb1bqk4o3j2mq1g8dlse4.apps.googleusercontent.com
+  projectId: ivip-1548412160769
+  authURI: https://accounts.google.com/o/oauth2/auth
+  authProvider: https://www.googleapis.com/oauth2/v1/certs
+  clientSecret: xxxxxxxxxxxxxxxx
+smtp:
+  hostname: mail.localhost
+  port: 465
+  username: noreply@localhost
+  password: password
+  ssl: true
+  from: noreply@localhost
+  forceSSL: true
+  useStartTLS: false
+barion:
+  baseuri: https://api.test.barion.com
+  poskey: xxxxxxxxxxxxxxxxxxxx
+  payee: barion@xxxx.xx
+  module: v2/Payment/Start
+  applicationURL: https://api.test.barion.com/v2/Payment/Start
+  paymentStateURL: https://api.test.barion.com/v2/Payment/GetPaymentState 
+  contentType: application/json
+  host: api.test.barion.com
+  userAgent: curl/7.61.0
+  httpAccept: "*/*"
+nfs:
+  productImagePath: /opt/ivip-images/product
+  blogImagePath: /opt/ivip-images/blog
+  fileStorePath: /opt/ivip-images/files
+  userImagePath: /opt/ivip-images/user
+websiteAddress: https://ivip.com
+staticSiteAddress:
+  - /faq

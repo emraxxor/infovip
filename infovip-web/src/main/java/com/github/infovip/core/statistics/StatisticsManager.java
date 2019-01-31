@@ -91,8 +91,8 @@ public class StatisticsManager {
     	synchronized (data) {
     		for(StatisticalElement<StatisticalEventData<?>> e : data.values() ) {
     	    	SearchResponse response = client
-    	    							  .prepareSearch(ESConfiguration.STATISTICS_INDEX)
-    	    							  .setTypes(ESConfiguration.STATISTICS_TYPE)
+    	    							  .prepareSearch(ESConfiguration.IVIP_STAT_INDEX)
+    	    							  .setTypes(ESConfiguration.IVIP_STAT_TYPE)
     	    							  .setQuery(
     	    									  QueryBuilders.boolQuery()
     	    									  	.must(QueryBuilders.termQuery("sessionId", e.getSessionId() ))

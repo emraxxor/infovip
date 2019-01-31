@@ -10,6 +10,12 @@
 
 <tilesx:useAttribute id="currentPageCss" name="pageCss" classname="java.util.List" />
 <tilesx:useAttribute id="currentPageJs" name="pageJs" classname="java.util.List" />
+<tilesx:useAttribute id="preinit" name="preinit" classname="java.lang.String" />
+
+<c:if test="${not empty preinit}">
+	<jsp:include page="${preinit}"></jsp:include>
+</c:if>
+
 
  <c:forEach items="${currentPageCss}" var="css">
  		<module:css src="${resources}/${css}" />
@@ -18,6 +24,11 @@
 <c:forEach items="${currentPageJs}" var="js">
         <module:js src="${resources}/${js}" />
 </c:forEach>
+
+<c:if test="${not empty pageTitle}">
+	<module:title title="${pageTitle}" />
+</c:if>      	
+	 
       		 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="${Configuration.WEB_DIRECTORY}/template/header.jsp" />

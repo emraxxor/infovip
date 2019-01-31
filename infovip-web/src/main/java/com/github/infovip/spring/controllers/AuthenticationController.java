@@ -69,30 +69,14 @@ public class AuthenticationController {
      */
     private Logger logger = Logger.getLogger(AuthenticationController.class);
     
-
-    /**
-     * Authentication Failed Error handler
-     *
-     * @param locale
-     * @param model
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping(value = "/authfailed", method = RequestMethod.GET)
-    public String authenticationFailed(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().invalidate();
-        return "tile.authfailed";
-    }
-
     
-    @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String authADMLogIn(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
-        return "tile.authADMLogIn";
+        return "tile.login.page";
     }
     
     /**
-     * Authentication Failed Error handler
+     * Authentication 
      *
      * @param userName
      * @param userPassword
@@ -102,22 +86,26 @@ public class AuthenticationController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public void login(@RequestParam("userName") String userName, @RequestParam("userPassword") String userPassword,
+    @RequestMapping(value = "/login/do", method = RequestMethod.POST)
+    public void login(
+    		@RequestParam("email") String email,
+    		@RequestParam("password") String password,
     		@RequestParam("g-recaptcha-response") String gRecaptchaResponse,
             Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
     	
+    	/**
     	if ( ! GoogleCaptchaValidator.validate(gRecaptchaResponse, request.getRemoteAddr()) ) {
     		try {
-				response.sendRedirect("admin/login?err=captcha");
+				response.sendRedirect("/login?err=captcha");
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
 			}
     		return;
     	}
+    	**/
     	
         try {
-            User u = userService.findUser(userName, userPassword);
+            User u = userService.findUserByEmail(email, password);
             if (u != null) {
                 userSession.setAuthenticated(true);
                 userSession.setUserId(u.getUserId());
@@ -125,18 +113,18 @@ public class AuthenticationController {
                 userSession.setUserMail(u.getUserMail());
                 userSession.setRole(DefaultApplicationRole.SUPERADMIN);
                 userSession.setRegistrationDate(u.getLogRegistration().getCreationTime());
+                userSession.setUser(u);
                 request.getSession().setAttribute(SESSION.USER_SESSION.toString(), userSession);
                 request.getSession().setAttribute(SESSION.AUTH_TIME.toString(), new Date(System.currentTimeMillis()));
                 request.getSession().setAttribute(SESSION.REMOTE_ADDR.toString(), request.getRemoteAddr());
                 request.getSession().setAttribute(SESSION.HEADER.toString(), request.getHeader("User-Agent"));
-                response.sendRedirect("admin");
+                response.sendRedirect("/");
             } else {
-                response.sendRedirect("authfailed");
+                response.sendRedirect("/login?err=invalid");
             }
         } catch (IOException ex) {
         	logger.error(ex.getMessage(),ex);
         }
-
     }
 
     /**
@@ -168,7 +156,7 @@ public class AuthenticationController {
         }
         response.setHeader("Cache-Control", "no-cache, no-store");
         response.setHeader("Pragma", "no-cache");
-        response.sendRedirect("admin");
+        response.sendRedirect("/");
     }
 
 }

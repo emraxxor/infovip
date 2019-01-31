@@ -1,9 +1,14 @@
 package com.github.infovip.core;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
+import com.github.infovip.core.config.deprecated.TemporaryConfig;
+import com.github.infovip.core.config.deprecated.TemporaryConfigReader;
 
 /**
  *
@@ -76,7 +81,7 @@ public class Configuration extends DefaultWebAppConfiguration {
     /**
      * Application's context name
      */
-    public static final String APPLICATION_CONTEXT_NAME = "/infovip-web";
+    public static final String APPLICATION_CONTEXT_NAME = "";
 
     /**
      * Defines the name of the application
@@ -123,7 +128,12 @@ public class Configuration extends DefaultWebAppConfiguration {
     /**
      * The completely path of the images of products
      */
-    public static final String PRODUCT_IMAGE_PATH = "/opt/images";
+    public static String PRODUCT_IMAGE_PATH = "/opt/images";
+    
+    /**
+     * User image path
+     */
+    public static String USER_IMAGE_PATH = "";
    
     /**
      * The absolute path of the images of blogs
@@ -139,7 +149,9 @@ public class Configuration extends DefaultWebAppConfiguration {
      * If it is set to true then the debug messages are displayed
      */
     public static final Boolean DEBUG = true;
-
+    
+    
+    public static final Boolean PRODUCT_VERSION = false;
 
     /**
      * Some identifier to manage session
@@ -260,10 +272,25 @@ public class Configuration extends DefaultWebAppConfiguration {
         Configuration.ES_CLIENT_SETTINGS = ES_CLIENT_SETTINGS;
     }
     
-    public static final class ESConfiguration {
-    	public static final String INDEX = ""; 
-    	public static final String TYPE = "";
-    }
+    private TemporaryConfig temporaryConfig;
     
+    private Logger logger = org.apache.log4j.Logger.getLogger(Configuration.class);
+
+    
+    public Configuration() {
+    	try {
+			this.temporaryConfig = TemporaryConfigReader.readTemporaryConfiguration( Configuration.class.getClassLoader().getResourceAsStream("config/temporary.yaml") );
+			BLOG_IMAGE_PATH = temporaryConfig.getNfs().getBlogImagePath();
+			PRODUCT_IMAGE_PATH = temporaryConfig.getNfs().getProductImagePath();
+			STORAGE_IMAGE_PATH = temporaryConfig.getNfs().getFileStorePath();
+			USER_IMAGE_PATH = temporaryConfig.getNfs().getUserImagePath();
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
+
+    public TemporaryConfig getTemporaryConfig() {
+		return temporaryConfig;
+	}
 
 }

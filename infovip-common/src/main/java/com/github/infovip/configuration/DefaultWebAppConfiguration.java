@@ -13,18 +13,22 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
     	public static final Long QUERY_SLEEP_TIME = 5000L;
     	public static final Long BULK_WAIT_TIME = 15000L;
     	public static final Long SCROLL_TIME_VALUE = 30000L;
-    	public static final String STATISTICS_INDEX = "hu-statistics-information";
-    	public static final String STATISTICS_TYPE = "statistics";
-    	public static final String STATISTICS_TYPE_DATA = "statistics-data";
+    	public static final String TIMELINE_INDEX = "timeline";
+    	public static final String TIMELINE_TYPE = "timeline-data";
+    	public static final String MESSAGE_INDEX = "messages";
+    	public static final String ACTIVITY_POST_INDEX = "activity-post";
+    	public static final String ACTIVITY_POST_TYPE = "data";
+    	public static final String SYSTEM_MESSAGE_TYPE = "system-message";
+    	public static final String IVIP_STAT_INDEX = "ivip-stat";
+    	public static final String IVIP_STAT_TYPE = "ivip-stat-data";
     	public static final String PAYMENT_INDEX = "payments";
     	public static final String PAYMENT_DATA_TYPE = "payment-data";
-    	public static final String BALANCE_INDEX = "balances";
-    	public static final String BALANCE_DATA_TYPE = "balance-data";
-    	public static final String TRANSACTION_INDEX = "transactions";
-    	public static final String TRANSACTION_TYPE = "transaction-data";
-    	public static final String MESSAGE_INDEX = "messages";
-    	public static final String SYSTEM_MESSAGE_TYPE = "system-message";
+
     }
+    
+    public static final class MODULE_PATH {
+    }
+
     
 	public TemporaryConfig getTemporaryConfig() { throw new RuntimeException("Not implemented!"); };
 

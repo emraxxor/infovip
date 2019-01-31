@@ -36,6 +36,11 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
     'public length' : function() {
         return this.dependencies.length;
      },
+     
+     'public static min' : function(url) {
+ 		return url + ".min"
+     },
+
 
      /***
       * Appends a new css file

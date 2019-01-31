@@ -7,14 +7,13 @@ var BaseWaterfall = easejs.Class('BaseWaterfall').extend(Controller,{
 	
 	'private scroll' : null,
 	
-	'public static WATERFALL_SERVLET' : 'search/result',
-	
 	'private waterfall' : null,
 	
 	'private term' : null,
 	
-    'override virtual __construct': function () {
+    'override virtual __construct': function (id) {
     	this.__super();
+    	this.id = id;
     },
     
     'public setId' : function(val) {
@@ -27,11 +26,6 @@ var BaseWaterfall = easejs.Class('BaseWaterfall').extend(Controller,{
     
     'public setScroll' : function(val) {
     	this.scroll = val;
-    },
-    
-    'public setTerm' : function(val) {
-    	this.scroll = null;
-    	this.term = val;
     },
     
     'public getScroll' : function() {
@@ -66,10 +60,6 @@ var BaseWaterfall = easejs.Class('BaseWaterfall').extend(Controller,{
     		      opacity: 1
     		 }, 1000);
     	});
-    },
-    
-    'public getTerm' : function() {
-    	return this.term;
     },
     
     'public virtual display' : function() {

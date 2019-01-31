@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.infovip.entities.User;
 import com.github.infovip.spring.repositories.UserRepository;
-import com.github.infovip.util.BasicUtilities;  
+import com.github.infovip.util.BasicUtilities;
 
 
 /**
@@ -107,6 +107,39 @@ public class UserService {
             return null;
         }
     }
+    
+    
+    /**
+     * It is needed for the authorization process that finds the user by account
+     * name and password.
+     *
+     * @param userName
+     * @param password
+     * @return
+     */
+    public User findUserByEmail(String userEmail, String password) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<User> query = cb.createQuery(User.class);
+		Root<User> selectFrom = query.from(User.class);
+		query
+			.select(selectFrom)
+			.where(
+					cb.and(
+							cb.equal(selectFrom.get("userMail"), userEmail),
+							cb.equal(selectFrom.get("userPassword"), BasicUtilities.getMD5(password))
+					) 
+			)
+			;
+		
+		List<User> users = em.createQuery(query).getResultList();
+		
+		if ( users.size() == 1 ) 
+			return users.get(0);
+		
+		
+		return null;
+    }
+
 
     /**
      * Gets the user object by the mail address.

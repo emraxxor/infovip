@@ -20,13 +20,13 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository-1.11.xsd">
 
-
+	<mvc:annotation-driven />
 	<mvc:resources mapping="/lib/**" location="/webjars/"/>
 	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
 	<mvc:resources mapping="/modules/**" location="/WEB-INF/web/modules/" />
 	<mvc:resources mapping="/robots.txt" location="/WEB-INF/robots.txt" />
 
-	<bean id="internalViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/web/" p:suffix=".jsp">
+	<bean id="internalViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/web/internal/" p:suffix=".jsp">
 		<property name="exposeContextBeansAsAttributes" value="true" />
 		<property name="order" value="2"></property>
 	</bean>
@@ -41,6 +41,12 @@
 			<mvc:exclude-mapping path="/admin/login"/>
 			<beans:bean class="com.github.infovip.spring.handler.AuthenticationInterceptor"></beans:bean>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/activity"/>
+			<mvc:mapping path="/activity/**"/>
+			<beans:bean class="com.github.infovip.spring.handler.UserAuthenticationInterceptor"></beans:bean>
+		</mvc:interceptor>
+		
 	</mvc:interceptors>
 
 	<bean id="userSession" class="com.github.infovip.core.web.user.UserSession" scope="session">

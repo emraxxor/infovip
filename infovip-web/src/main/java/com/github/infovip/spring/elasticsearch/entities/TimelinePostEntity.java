@@ -16,18 +16,18 @@
  */
 package com.github.infovip.spring.elasticsearch.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import org.joda.time.DateTime;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
@@ -44,15 +44,15 @@ public class TimelinePostEntity implements Serializable {
     private Long userId;
 
     @JsonProperty("userName")
-    @Field(type = FieldType.keyword)
+    @Field(type = FieldType.Keyword)
     private String userName;
 
     @JsonProperty("message")
-    @Field(type = FieldType.text, analyzer="standard", searchAnalyzer="standard")
+    @Field(type = FieldType.Text, analyzer="standard", searchAnalyzer="standard")
     private String message;
 
     @JsonProperty("postType")
-    @Field(type = FieldType.keyword)
+    @Field(type = FieldType.Keyword)
     private String postType;
 
     @JsonProperty("creationTime")

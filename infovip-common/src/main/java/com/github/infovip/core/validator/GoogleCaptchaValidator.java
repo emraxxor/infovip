@@ -20,6 +20,11 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 public class GoogleCaptchaValidator {
 
 	public static Logger logger = Logger.getLogger(GoogleCaptchaValidator.class);
@@ -29,7 +34,7 @@ public class GoogleCaptchaValidator {
     	HttpPost httpPost = new HttpPost("https://www.google.com/recaptcha/api/siteverify");
     	
     	List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-    	nvps.add(new BasicNameValuePair("secret", "6Lf9D0YUAAAAAEqQwhQEXVSIYf6UimHTtLrLhQhR"));
+    	nvps.add(new BasicNameValuePair("secret", "6LfkM40UAAAAADcgHS_ySRUTM80Lak-ZFVzl2uBi"));
     	nvps.add(new BasicNameValuePair("response", gResponse));
     	nvps.add(new BasicNameValuePair("remoteip", remoteIp));
     	

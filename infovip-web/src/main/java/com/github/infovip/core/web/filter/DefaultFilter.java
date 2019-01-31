@@ -2,9 +2,12 @@ package com.github.infovip.core.web.filter;
 
 import com.github.infovip.core.Configuration;
 import com.github.infovip.core.Container;
+import com.github.infovip.core.Configuration.SESSION;
 import com.github.infovip.core.basic.jsp.ModuleManager;
 import com.github.infovip.core.basic.sql.SqlConnection;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
+import com.github.infovip.core.web.user.UserSession;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -61,6 +64,10 @@ public class DefaultFilter implements Filter {
         this.servletContext.setAttribute(Configuration.RESOURCES_ID, this.servletContext.getContextPath() + Configuration.RESOURCES_DIRECTORY);
         this.request.setAttribute(Configuration.BEAN_MODULE_ID, new ModuleManager());
         this.servletContext.setAttribute(Configuration.BEAN_SQL_ID, new SqlConnection());
+        
+        if ( this.session.getAttribute(SESSION.USER_SESSION.toString()) != null &&   ( (UserSession) this.session.getAttribute(SESSION.USER_SESSION.toString()) ).isAuthenticated() ) 
+        	this.request.setAttribute(com.github.infovip.core.session.SESSION.IS_AUTHENTICATED.value(), true);
+        
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)

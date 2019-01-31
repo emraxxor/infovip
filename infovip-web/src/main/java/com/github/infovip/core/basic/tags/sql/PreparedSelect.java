@@ -1,17 +1,17 @@
 package com.github.infovip.core.basic.tags.sql;
 
-import com.github.infovip.core.Configuration;
-import com.github.infovip.core.basic.sql.SqlConnection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import com.mysql.jdbc.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.github.infovip.core.Configuration;
+import com.github.infovip.core.basic.sql.SqlConnection;
 
 /**
  * <PreparedSelect var="object"><br>

@@ -12,10 +12,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>${Configuration.PAGE_TITLE}</title>
-        
         <script src="https://apis.google.com/js/platform.js" async defer></script>
-	 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84024135-3"></script>
+		
 		<script>
 		  window.dataLayer = window.dataLayer || [];
 		  function gtag(){dataLayer.push(arguments);}
@@ -72,7 +70,20 @@
         </c:forEach>
         
     </head>
+    
+    <!-- Preloader Start -->
+    <div id="preloader">
+        <div class="preloader--inner"></div>
+    </div>
+    <!-- Preloader End -->
+    
+    
     <body class="claro">
         <div id="main-page">
 
+    	    <!-- Wrapper Start -->
+			    <div class="wrapper">
+			    
+			    <tiles:insertTemplate template="${Configuration.TILES}/views/widgets/navbar.jsp"></tiles:insertTemplate>  
           
+          		

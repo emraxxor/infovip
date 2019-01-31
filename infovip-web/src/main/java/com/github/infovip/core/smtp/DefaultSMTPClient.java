@@ -11,6 +11,11 @@ import com.github.infovip.core.config.deprecated.TemporaryConfig;
 import com.github.infovip.web.application.message.BaseMessage;
 import com.github.infovip.web.application.message.Message;
 
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 public class DefaultSMTPClient implements SmtpClient {
 
 	private Configuration configuration;
@@ -37,6 +42,10 @@ public class DefaultSMTPClient implements SmtpClient {
 	
 	@Override
 	public void sendHTML(String[] to, String subject, String html) {
+		
+		if ( !Configuration.PRODUCT_VERSION ) 
+			return;
+		
 		try {
 			HtmlEmail email = new HtmlEmail();
 			email.setCharset(org.apache.commons.mail.EmailConstants.UTF_8);
@@ -63,6 +72,10 @@ public class DefaultSMTPClient implements SmtpClient {
 	
 	@Override
 	public void sendPlain(String[] to, String subject, String html) {
+		
+		if ( !Configuration.PRODUCT_VERSION ) 
+			return;
+		
 		try {
 			Email email = new HtmlEmail();
 			email.setCharset(org.apache.commons.mail.EmailConstants.UTF_8);

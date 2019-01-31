@@ -27,12 +27,17 @@ var DefaultFormValidatorHandlerDialog = easejs.Class('DefaultFormValidatorHandle
 	'public virtual display' : function(func,fParams) {
 		var that = this;
 		var response = "";
+		var valid = this.isValid();
+		
 		for(var i=0; i < this.statusObject.length; i++ ) {
 			var o = this.statusObject[i];
+
+			if ( !valid &&  o.validationType == 'VALIDATION_SUCCESSFUL' ) continue;
+			
 			response += o.message + "<br/>";
 		}
 		
-		if ( this.isValid() ) {
+		if ( valid ) {
 			DefaultDialogWindow.showMessageDialog(__tr('msg.success'), response ,DefaultDialogWindow.$('CONFIRM_MESSAGE'),function(params,window){
 				if ( func !== undefined ) 
 					func(fParams,that);

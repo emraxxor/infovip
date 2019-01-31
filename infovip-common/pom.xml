@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.9.3</version>
+			<version>${jooq.version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/net.sf.opencsv/opencsv -->
@@ -34,20 +34,22 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<version>${log4j.version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
+			<version>${commons.io.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
+			<version>${commons.lang.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -142,6 +144,8 @@
 				<filtering>true</filtering>
 				<directory>src/test/resources</directory>
 				<includes>
+					<include>**/*.yaml</include>
+					<include>**/*.txt</include>
 					<include>**/*.properties</include>
 					<include>**/*.xml</include>
 				</includes>
@@ -152,6 +156,8 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
+					<include>**/*.yaml</include>
+					<include>**/*.txt</include>
 					<include>**/*.properties</include>
 					<include>**/*.xml</include>
 				</includes>
@@ -161,7 +167,7 @@
 			<plugin>
 				<groupId>org.jooq</groupId>
 				<artifactId>jooq-codegen-maven</artifactId>
-				<version>3.7.4</version>
+				<version>${jooq.version}</version>
 
 				<!-- The plugin should hook into the generate goal -->
 				<executions>
@@ -176,7 +182,7 @@
 					<dependency>
 						<groupId>org.postgresql</groupId>
 						<artifactId>postgresql</artifactId>
-						<version>9.4.1212</version>
+						<version>${postgresql.driver.version}</version>
 					</dependency>
 				</dependencies>
 
@@ -184,7 +190,7 @@
 					<!-- JDBC connection parameters -->
 					<jdbc>
 						<driver>org.postgresql.Driver</driver>
-						<url>jdbc:postgresql://127.0.0.1/testdb</url>
+						<url>jdbc:postgresql://127.0.0.1/ivip</url>
 						<user>postgres</user>
 						<password>postgres</password>
 					</jdbc>
@@ -192,7 +198,7 @@
 					<!-- Generator parameters -->
 					<generator>
 						<database>
-							<name>org.jooq.util.postgres.PostgresDatabase</name>
+							<name>org.jooq.meta.postgres.PostgresDatabase</name>
 							<includes>.*</includes>
 							<excludes></excludes>
 							<inputSchema>public</inputSchema>

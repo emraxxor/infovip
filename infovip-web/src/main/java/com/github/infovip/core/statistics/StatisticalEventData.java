@@ -1,7 +1,7 @@
 package com.github.infovip.core.statistics;
 
-import static com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration.STATISTICS_INDEX;
-import static com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration.STATISTICS_TYPE_DATA;
+import static com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration.IVIP_STAT_INDEX;
+import static com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration.IVIP_STAT_TYPE;
 
 import com.github.infovip.core.elasticsearch.ESDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
@@ -42,12 +42,12 @@ public class StatisticalEventData<T extends DefaultStatisticalEvent<?>> implemen
 
 	@Override
 	public String index() {
-		return STATISTICS_INDEX;
+		return IVIP_STAT_INDEX;
 	}
 
 	@Override
 	public String type() {
-		return STATISTICS_TYPE_DATA;
+		return IVIP_STAT_TYPE;
 	}
 
 	@Override

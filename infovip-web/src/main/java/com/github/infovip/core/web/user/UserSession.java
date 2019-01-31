@@ -17,6 +17,8 @@
 package com.github.infovip.core.web.user;
 
 import com.github.infovip.core.Container;
+import com.github.infovip.entities.User;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -29,7 +31,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("session")
-public class UserSession implements Serializable, WebUser, UserSessionInterface {
+public class UserSession implements Serializable, WebUser, UserSessionInterface<User> {
 
     /**
      * True if the user is authenticated, default false
@@ -61,6 +63,9 @@ public class UserSession implements Serializable, WebUser, UserSessionInterface 
      */
     private Date registrationDate;
 
+    
+    private User user;
+    
     /**
      * Defines the user's level of authority
      */
@@ -90,7 +95,7 @@ public class UserSession implements Serializable, WebUser, UserSessionInterface 
     	return this.role;
     }
 
-   
+    
     @Override
     public Long userId() {
     	return this.userId;
@@ -150,6 +155,15 @@ public class UserSession implements Serializable, WebUser, UserSessionInterface 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
+    
+    @Override
+    public User getUser() {
+		return user;
+	}
+    
+    public void setUser(User user) {
+		this.user = user;
+	}
 
     @Override
     public String toString() {

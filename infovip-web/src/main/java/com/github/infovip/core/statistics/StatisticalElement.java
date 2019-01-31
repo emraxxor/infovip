@@ -74,12 +74,12 @@ public class StatisticalElement<T extends StatisticalEventData<?>> {
 
 			@Override
 			public String index() {
-				return ESConfiguration.STATISTICS_INDEX;
+				return ESConfiguration.IVIP_STAT_INDEX;
 			}
 
 			@Override
 			public String type() {
-				return ESConfiguration.STATISTICS_TYPE;
+				return ESConfiguration.IVIP_STAT_TYPE;
 			}
 
 			@Override

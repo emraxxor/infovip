@@ -1,110 +1,44 @@
-/* 
- * Copyright (C) 2016 attila
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 /**
- * Creates a basic form for registration.
- * By default the registration method is handled by the Registration servlet.
+ * ApplicationScope.config.WEB_ROOT
+ * 
+ *  @author attila
  */
-var RegistrationFrom = easejs.Class('RegistrationFrom').implement(DefaultFormInterface).extend({
-    /**
-     * Current webix object
-     */
-    'private webixObject': null,
-    /**
-     * The id of the div where the form is displayed
-     */
 
-    'private defaultRegistrationFormID': 'default-registration-form',
-    /**
-     * Id of the current form
-     */
+var RegistrationForm = easejs.Class('RegistrationForm').extend(DefaultHTMLForm,{
 
-    'private registrationFormID': 'registration-form-id',
-    __construct: function () {},
-    /**
-     * Submits form
-     * @returns {undefined}
-     */
-    'public onSubmit': function ()
-    {
-        // if the validation is success
-        if (this.getFormView().validate()) {
-            var res = AjaxManager.send("registration/add", this.getFormView().getValues());
-            webix.alert({
-                title: "Notice: ",
-                type: "alert-warning",
-                text: res.status + " : " + res.statusMessage,
-                ok: "OK"
-            });
-        }
-    },
-    
-    'public displayForm': function ()
-    {
-        this.webixObject.show();
+	'public static HANDLER' : {
+		ADD : ApplicationScope.config.WEB_ROOT + '/registration/add'
+	},
 
-    },
-    
-    'public onCreationComplete' : function() {
-    	
-    },
-    
-    /**
-     * Creates the default login form
-     * @returns {undefined}
-     */
-    'public onCreate': function () {
-        var _oself = this;
-        this.webixObject = webix.ui({
-            container: this.defaultRegistrationFormID,
-            id: this.registrationFormID,
-            view: "form",
-            scroll: false,
-            width: 800,
-            height: 500,
-            elements: [{
-                    rows: [
-                        {view: "template", template: "Registration", type: "header"},
-                        {view: "text", label: __tr('uName'), name: "uname"},
-                        {view: "text", type: 'password', label: 'Password:', name: "upassword"},
-                        {view: "text", type: 'password', label: 'Password again:', name: "upasswordre"},
-                        {view: "text", label: 'Email:', name: "umail"},
-                        {view: "button", type: 'form', value: "Sign up", click: this.onSubmit}
-                    ]
-                }
-            ],
-            rules: {
-                "uname": webix.rules.isNotEmpty,
-                "upassword": function (value) {
-                    return webix.rules.isNotEmpty(value) && _oself.webixObject.getValues()['upasswordre'] == value;
-                },
-                "umail": webix.rules.isEmail
-            },
-            elementsConfig: {
-                labelAlign: "left",
-                labelWidth: 90
-            }
-        });
-    },
-    'public onClose': function () {
+	'override virtual __construct' : function(container) {
+        this.__super(container);
+        this.setValidator(new RegistrationValidator(this));
+	},
+	
+	'override public virtual onSuccessfulEvent' : function(data) {
+		var that = this;
+	},
+	
+	'override public virtual onSubmitClick' : function(e) {
+		var that = e.data.data;
+		var data = {};
+		var container = that.getContainer();
+		var inputs = container.find('input');
+		
+		
+		for(var i=0; i < inputs.length; i++ ) 
+			data[inputs[i].name] = inputs[i].value;
 
-    },
-    'public static create': function () {
-        return DefaultLogin();
-    }
+		console.log(data);
+		
+		 if ( that.getValidator().validate() ) {
+			 	data['g-recaptcha-response'] = container.find('#g-recaptcha-response').val();
+				var w = DefaultInformationDialog().display(__tr('msg.loading'));
+				that.async( RegistrationForm.$('HANDLER').ADD , data , function( data , o ) {
+					DefaultFormValidatorHandlerDialog(data).display();
+					w.hide();
+				} , that );
+		 }
+		
+	},
 });

@@ -20,12 +20,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
-import static javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_BUFFERED;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-import static javax.servlet.jsp.tagext.IterationTag.EVAL_BODY_AGAIN;
-import static javax.servlet.jsp.tagext.Tag.SKIP_BODY;
 
 /**
  * ESEntityForeach helps to iterate the entities.

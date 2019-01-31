@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.infovip.entities.CfgApplicationMetaData;
 import com.github.infovip.spring.repositories.MetaTagRepository;
 
 
 @Service
 @Transactional
-public class MetatagService<T> {
+public class MetatagService<T extends CfgApplicationMetaData> {
 
 	@Autowired
 	private MetaTagRepository<T> metaTagRepository;

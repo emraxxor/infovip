@@ -3,6 +3,7 @@ package com.github.infovip.configuration;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.infovip.core.session.SESSION;
+import com.github.infovip.core.web.user.UserSessionInterface;
 import com.github.infovip.core.web.user.WebUser;
 
 /**
@@ -24,10 +25,7 @@ public class UserConfiguration {
 	
 	public String userIdentifier() {
 		try {
-			if (request.getSession().getAttribute(SESSION.NUSER_OBJECT.value()) != null) {
-				WebUser u = (WebUser) request.getSession().getAttribute(SESSION.NUSER_OBJECT.value());
-				return u.userIdentifier();
-			} else if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
+			if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
 				WebUser u = (WebUser) request.getSession().getAttribute(SESSION.USER_SESSION.value());
 				return u.userIdentifier();
 			}
@@ -39,10 +37,7 @@ public class UserConfiguration {
 
 	public Long getId() {
 		try {
-			if (request.getSession().getAttribute(SESSION.NUSER_OBJECT.value()) != null) {
-				WebUser u = (WebUser) request.getSession().getAttribute(SESSION.NUSER_OBJECT.value());
-				return u.userId();
-			} else if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
+			if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
 				WebUser u = (WebUser) request.getSession().getAttribute(SESSION.USER_SESSION.value());
 				return u.userId();
 			}
@@ -52,12 +47,19 @@ public class UserConfiguration {
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
+	public UserSessionInterface getSession() {
+		if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) 
+			return (UserSessionInterface) request.getSession().getAttribute(SESSION.USER_SESSION.value()) ;
+		
+		return null;
+	}
+	
+	@SuppressWarnings("rawtypes")
 	public Boolean isAuthenticated() {
 		try {
-			if (request.getSession().getAttribute(SESSION.NUSER_OBJECT.value()) != null) {
-				return true;
-			} else if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
-				return true;
+			if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
+				return ((UserSessionInterface)request.getSession().getAttribute(SESSION.USER_SESSION.value())).isAuthenticated();
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Not supported session!");

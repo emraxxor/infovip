@@ -21,7 +21,6 @@
 		<junit.version>4.12</junit.version>
 		<logback.version>1.0.13</logback.version>
 		<jcl-over-slf4j.version>1.7.5</jcl-over-slf4j.version>
-		<arquillian.version>1.0.0.Alpha3</arquillian.version>
 		<shade.phase>none</shade.phase>
 		<test.skip>true</test.skip>
 		<tiles.version>3.0.1</tiles.version>
@@ -172,12 +171,12 @@
 			<artifactId>javax.servlet.jsp.jstl</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-		<dependency>
+		<!--  dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.39</version>
 			<type>jar</type>
-		</dependency>
+		</dependency -->
 		<dependency>
 			<groupId>org.metawidget</groupId>
 			<artifactId>metawidget</artifactId>
@@ -194,8 +193,8 @@
 		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
-			<version>2.0-alpha1-SNAPSHOT</version>
-			<type>jar</type>
+			<version>${commons.configuration.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
@@ -212,12 +211,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
-			<version>2.9.4</version>
+			<version>${faster.xml.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.4</version>
+			<version>${faster.xml.version}</version>
 		</dependency>
 
 
@@ -225,7 +224,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.9.3</version>
+			<version>${jooq.version}</version>
 		</dependency>
 
 
@@ -254,7 +253,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.10</version>
+			<version>${commons.codec.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -280,26 +279,26 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-elasticsearch</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${spring.data.elasticsearch.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>2.0.5.RELEASE</version>
+			<version>${spring.data.jpa.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.2.10.Final</version>
+			<version>${hibernate.core.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.2.1.Final</version>
+            <version>${hibernate.validator.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -313,13 +312,13 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
-			<version>3.1.0</version>
+			<version>${jquery.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery-ui</artifactId>
-			<version>1.12.1</version>
+			<version>${jquery.ui.version}</version>
 		</dependency>
 
 		<!-- End webjars -->
@@ -328,8 +327,23 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-email</artifactId>
-			<version>1.4</version>
+			<version>${commons.email.version}</version>
+			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons.lang.version}</version>
+			<scope>provided</scope>
+		</dependency>	
 
 
 		<dependency>
@@ -343,13 +357,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-batch</artifactId>
-			<version>1.5.4.RELEASE</version>
+			<version>${spring.boot.starter.batch}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.3</version>
+			<version>${org.apache.httpclient.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	
@@ -357,8 +371,15 @@
 		<dependency>
 			<groupId>org.imgscalr</groupId>
 			<artifactId>imgscalr-lib</artifactId>
-			<version>4.2</version>
+			<version>${org.imgscalr.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.github.infovip</groupId>
+			<artifactId>infovip-admin</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>war</type>
 		</dependency>
 		
     </dependencies>
@@ -512,12 +533,12 @@
                 <version>2.3</version>
                	<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-					 <!-- overlays>
+					 <overlays>
 						 <overlay>
-							  <groupId></groupId>
-							  <artifactId></artifactId>
+							  <groupId>com.github.infovip</groupId>
+							  <artifactId>infovip-admin</artifactId>
 						 </overlay>			
-					</overlays -->
+					</overlays>
 				</configuration>
 
             </plugin>

@@ -40,7 +40,7 @@ public class TimelineCommentEntity implements Serializable {
     @Id
     private String id;
 
-    @Field(type = FieldType.keyword)
+    @Field(type = FieldType.Keyword)
     @Parent(type = "post")
     private String parentId;
 
@@ -54,15 +54,15 @@ public class TimelineCommentEntity implements Serializable {
     private Long userId;
 
     @JsonProperty("userName")
-    @Field(type = FieldType.keyword)
+    @Field(type = FieldType.Keyword)
     private String userName;
 
     @JsonProperty("comment")
-    @Field(type = FieldType.text)
+    @Field(type = FieldType.Text)
     private String comment;
 
     @JsonProperty("postType")
-    @Field(type = FieldType.keyword)
+    @Field(type = FieldType.Keyword)
     private String postType;
 
     public TimelineCommentEntity() {

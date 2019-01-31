@@ -11,6 +11,7 @@
 		<put-attribute name="navbar" value="" />
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="" />
+		<put-attribute name="preinit" value=""></put-attribute>
 		<put-list-attribute name="pageCss">
 			<add-attribute value="/css/profile.css" />
 		</put-list-attribute>
@@ -20,20 +21,94 @@
 		</put-list-attribute>
 	</definition>
 
-	<!-- Login/Welcome page -->
-	<definition name="tile.index" extends="default.page">
-		<put-attribute name="body" value="/WEB-INF/web/index.jsp" />
+
+   	<!-- Default Internal Page -->
+	<definition name="default.internal.page" extends="default.page">
+		<put-attribute name="header" value="/WEB-INF/tiles/views/internal/DefaultHeader.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/views/internal/DefaultFooter.jsp" />
+	</definition>
+   
+
+	<!--  New home page -->
+	<definition name="default.tile.front" extends="default.internal.page">
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="js/web/Login.js" />
+			<add-attribute value="/lib/jquery/jquery.nav.js" />
+			<add-attribute value="/lib/jquery/jquery.magnific-popup.min.js" />
+			<add-attribute value="/lib/jquery/isotope.pkgd.min.js" />
+			<add-attribute value="/lib/jquery/imagesloaded.pkgd.min.js" />
+			<add-attribute value="/lib/jquery/masonry.pkgd.min.js" />
+			<add-attribute value="/lib/jquery/jquery.countTo.js" />
+			<add-attribute value="/lib/jquery/jquery.sticky.js" />
+			<add-attribute value="/lib/jquery/jquery.appear.js" />
+			<add-attribute value="/lib/jquery/owl.carousel.min.js" />
+			<add-attribute value="/lib/jquery/jquery.stellar.min.js" />
+			<add-attribute value="/lib/jquery/moment.js" />
+			<add-attribute value="/lib/jquery/bootstrap-datetimepicker.min.js" />
+			<add-attribute value="/lib/unibox/unibox.js" />
+			<add-attribute value="/template/social/theme.js" />
+			<!--  add-attribute value="/js/web/google/google.js" / -->
+			<add-attribute value="/lib/numeral/numeral.min.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+			<add-attribute value="/lib/unibox/unibox.min.css" />
+			<add-attribute value="/template/social/style.css" />
+			<add-attribute value="/template/social/responsive.css" />
+			<add-attribute value="/css/home.css" />
+			<add-attribute value="/css/flexslider-for-posts.min.css" />
+			<add-attribute value="/css/flexslider.min.css" />
+			<add-attribute value="/css/icon-font.min.css" />
+			<add-attribute value="/css/icons-fonts.min.css" />
+			<add-attribute value="/css/fonts-awesome.css" />
+			<add-attribute value="/css/animate.min.css" />
+			<add-attribute value="/lib/jquery/owl-carousel/css/owl.carousel.css" />
+			<add-attribute value="/lib/jquery/owl-carousel/css/owl.theme.css" />
+			<add-attribute value="/lib/jquery/owl-carousel/css/owl.transitions.css" />
 		</put-list-attribute>
 	</definition>
 
-	<definition name="tile.home" extends="tile.index"></definition>
 
-
-	<!-- Auth failure page -->
-	<definition name="tile.authfailed" extends="default.page">
-		<put-attribute name="body"
-			value="/WEB-INF/web/authentication/AuthFailed.jsp" />
+	<!--  Home page -->
+	<definition name="tile.home.page" extends="default.tile.front">
+		<put-attribute name="preinit" value="/WEB-INF/web/home/HomePreInit.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/web/home/HomeBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/js/web/home/HomeCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
 	</definition>
+
+	<!--  Registration page -->
+	<definition name="tile.registration.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/registration/RegistrationBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/js/web/registration/RegistrationCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>	
+	
+	
+	<!--  Acitivity page -->
+	<definition name="tile.activity.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/activity/ActivityBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
+			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
+			<add-attribute value="/js/web/activity/ActivityCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>	
+	
+	<!--  Login page -->
+	<definition name="tile.login.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/general/login/LoginPageBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>	
+
 </tiles-definitions>

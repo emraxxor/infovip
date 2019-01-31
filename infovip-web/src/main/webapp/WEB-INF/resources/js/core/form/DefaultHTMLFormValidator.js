@@ -42,6 +42,15 @@ var DefaultHTMLFormValidator = easejs.Class('DefaultHTMLFormValidator').extend(C
 		this.getController().getContainer().find('input[name='+field+']').addClass(className);
 	},
 
+	'public virtual removeClass' : function(field,className) {
+		this.getController().getContainer().find('input[name='+field+']').removeClass(className);
+	},
+	
+	'public virtual removeMessage' : function(field) {
+		this.getController().getContainer().find('[ucomponent=warn_'+field+']').html(''); 
+		this.getController().getContainer().find('input[name='+field+']').html('');
+	},
+	
 	'public virtual addMsg' : function(field,msg) {
 		var c = this.getController().getContainer().find('[ucomponent=warn_'+field+']') ;
 		var o = this.getController().getContainer().find('input[name='+field+']');
@@ -49,7 +58,7 @@ var DefaultHTMLFormValidator = easejs.Class('DefaultHTMLFormValidator').extend(C
 		if ( c.length != 0 ) {
 			c.html(msg);
 		} else {
-			o.after(jQuery('<span></span>',{ucomponent: 'warn_' + field , html : msg }));
+			o.after(jQuery('<span></span>',{ucomponent: 'warn_' + field , html : msg , class: 'warn-message' }));
 		}
 	},
 	

@@ -11,6 +11,11 @@ import com.github.infovip.core.web.webix.markers.datatable.WIXDataSource;
 import com.github.infovip.core.web.webix.markers.datatable.WIXDataTable;
 import com.github.infovip.core.web.webix.markers.datatable.WIXQuery;
 
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 public class WIXDataTableResponseGenerator {
 
 	public WIXDataTableResponseGenerator() {

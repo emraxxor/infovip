@@ -2,7 +2,6 @@ package com.github.infovip.spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
 import com.github.infovip.core.web.application.ApplicationConfiguration;
 import com.github.infovip.spring.components.core.ModulePath;

@@ -28,8 +28,11 @@ public enum ValidationType {
 	
 	UNEXPECTED_ERROR("UNEXPECTED_ERROR", ResponseStatusType.ERROR),
 
-	INVALID_DATA("INVALID_DATA", ResponseStatusType.ERROR);
-
+	INVALID_DATA("INVALID_DATA", ResponseStatusType.ERROR),
+	
+	DATA_ALREADY_EXISTS("DATA_ALREADY_EXISTS", ResponseStatusType.ERROR),
+	
+	INVALID_CAPTCHA("INVALID_CAPTCHA", ResponseStatusType.ERROR);
 	
 	private String value;
 	

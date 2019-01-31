@@ -123,3 +123,11 @@ a {
 .cover.profile .cover-info .cover-nav {
     list-style: none;
 }
+
+input .warn-box, .form-control.form-sm.warn-box  {
+	border: 1px solid red;
+}
+
+span .warn-message ,  span.warn-message {
+	color: red;
+}
