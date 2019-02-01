@@ -7,5 +7,5 @@ DependencyLoader
 .import(function(p){
 	    __tr = Translator.tr;
 		Translator.initialize(Controller());
-		
+		DefaultTheme.create().template();
 },{});

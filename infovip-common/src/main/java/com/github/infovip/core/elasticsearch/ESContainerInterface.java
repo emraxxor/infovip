@@ -26,4 +26,6 @@ public interface ESContainerInterface<T extends ESDataElement<?>> {
 	public int bulkSize();
 
 	public Object executeThenGet(T data);
+	
+	public Object create(T data);
 }

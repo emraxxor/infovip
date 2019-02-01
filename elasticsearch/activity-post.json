@@ -26,7 +26,7 @@
   "mappings": {
     "data": {
        "properties" : {
-            "joinField" : {
+            "join" : {
                 "type" : "join",
                 "relations": {
                     "post": "comment",

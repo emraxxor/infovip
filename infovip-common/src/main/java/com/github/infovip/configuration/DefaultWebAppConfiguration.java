@@ -23,7 +23,10 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
     	public static final String IVIP_STAT_TYPE = "ivip-stat-data";
     	public static final String PAYMENT_INDEX = "payments";
     	public static final String PAYMENT_DATA_TYPE = "payment-data";
-
+    	
+    	public static final class ES_ROUTING {
+    		public static final String ROUTING_1 = "1";
+    	}
     }
     
     public static final class MODULE_PATH {

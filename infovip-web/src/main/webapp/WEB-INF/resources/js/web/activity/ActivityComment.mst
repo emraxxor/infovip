@@ -1,0 +1,25 @@
+{{#comments}}
+<li>
+		<div class="acomment--item clearfix">
+			<div class="acomment--avatar">
+				<a href="/member/user/{{uid}}">
+					<img src="/user/image/{{userImage}}" alt="">
+				</a>
+			</div>
+
+			<div class="acomment--info">
+				<div class="acomment--header">
+					<p><a href="/member/user/{{uid}}">{{userName}}</a> Replied</p>
+				</div>
+
+				<div class="acomment--meta">
+					<p><i class="fa mr--8 fa-clock-o"></i>{{#dateFormat}}{{date}}{{/dateFormat}}</p>
+				</div>
+
+				<div class="acomment--content">
+					<p>{{{text}}}</p>
+				</div>
+			</div>
+		</div>
+</li>
+{{/comments}}

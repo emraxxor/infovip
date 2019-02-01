@@ -6,11 +6,20 @@ var DefaultTheme = easejs.Class('DefaultTheme').extend(Controller,{
 	'override virtual __construct' : function(node) {
 		this.__super();
 	 },
+	 
+	'public static create' : function() {
+		 return new DefaultTheme();
+	 },
 
-	 'public default' : function() {
+	'public template' : function() {
 		    var $wn = jQuery(window),
 	        $document = jQuery(document),
 	        $body = jQuery('body');
+		    
+		    var checkData = function (data, value) {
+		        return typeof data === 'undefined' ? value : data;
+		    };
+
 		    
 		    // bg image
 	        var $bgImg = jQuery('[data-bg-img]');

@@ -40,12 +40,12 @@ var ActivityPostController = easejs.Class('ActivityPostController').extend(UICon
     	var w = DefaultInformationDialog().display(__tr('msg.loading'));
 		controller.async( ActivityPostController.$('HANDLER').ADD , { text : controller.getText() } , function( data , o ) {
 			w.hide();
-			controller.addText(controller.getText());
+			controller.addItem(data);
 		} , controller );
 	 },
 	 
-	'public addText' : function(text) {
-		this.wall.addItem(text);
+	'public addItem' : function(item) {
+		this.wall.addItem(item);
 		this.clear();
  	 },
 	

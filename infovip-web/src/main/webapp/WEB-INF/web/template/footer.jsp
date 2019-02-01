@@ -135,7 +135,7 @@
             <div class="footer--copyright pt--30 pb--30 bg-darkest">
                 <div class="container">
                     <div class="text fw--500 fs--14 float--left">
-                        <p>Copyright © Infovip. All Rights Reserved.</p>
+                        <p>Copyright © Infovip. All Rights Reserved. Template: #TODO</p>
                     </div>
 
                     <div class="social float--right">

@@ -20,6 +20,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.infovip.configuration.DefaultWebAppConfiguration;
 import com.github.infovip.configuration.UserConfiguration;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESDataElement;
@@ -31,6 +32,7 @@ import com.github.infovip.entities.User;
 import com.github.infovip.web.application.es.activity.ActivityCommentElement;
 import com.github.infovip.web.application.es.activity.ActivityPost;
 import com.github.infovip.web.application.es.activity.ActivityPostElement;
+import com.google.gson.Gson;
 
 
 /**
@@ -72,7 +74,6 @@ public class ActivityController {
     public @ResponseBody Object comment(
     		@RequestParam String id,
     		@RequestParam String text,
-    		BindingResult result, 
     		HttpServletRequest request, 
     		HttpServletResponse response,  
     		SessionStatus status, 
@@ -85,9 +86,11 @@ public class ActivityController {
     	ace.setUid(u.getUserId());
     	ace.setUserName(u.getUserRealName());
     	ace.setText(text);
+    	
     	ActivityPost<ActivityCommentElement> doc = new ActivityPost<ActivityCommentElement>(ace);
-    	esContainer.executeThenGet(doc);
-    	return null;
+    	doc.setRouting(id);
+    	
+    	return esContainer.create(doc);
     }
 
 	
@@ -106,8 +109,7 @@ public class ActivityController {
     	post.setUid(u.getUserId());
     	post.setUserName(u.getUserRealName());
     	ActivityPost<ActivityPostElement> doc = new ActivityPost<ActivityPostElement>(post);
-    	esContainer.executeThenGet(doc);
-    	return null;
+    	return esContainer.create(doc);
     }
 	
 	

@@ -1,6 +1,7 @@
 package com.github.infovip.web.application.es.activity;
 
 import com.github.infovip.core.date.DefaultDateFormatter;
+import com.google.gson.annotations.Expose;
 
 /**
  * 
@@ -9,16 +10,20 @@ import com.github.infovip.core.date.DefaultDateFormatter;
  */
 public class ActivityPostElement extends ActivityElement {
 
+	@Expose(serialize=true,deserialize=true)
 	private String date;
 
-	private String joinComment;
+	@Expose(serialize=true,deserialize=false)
+	private String join;
 	
+	@Expose(serialize=true,deserialize=true)
 	private String postType;
 	
 	public ActivityPostElement() {
+		super();
 		this.date = DefaultDateFormatter.current();
 		this.postType = ActivityJoinType.POST.value();
-		this.joinComment = ActivityJoinType.POST.value(); 
+		this.join = ActivityJoinType.POST.value(); 
 	}
 	
 	/**
@@ -36,23 +41,21 @@ public class ActivityPostElement extends ActivityElement {
 	}
 	
 	
-
+	
 	/**
-	 * @return the joinComment
+	 * @return the join
 	 */
-	public String getJoinComment() {
-		return joinComment;
+	public String getJoin() {
+		return join;
 	}
 
 	/**
-	 * @param joinComment the joinComment to set
+	 * @param join the join to set
 	 */
-	public void setJoinComment(String joinComment) {
-		this.joinComment = joinComment;
+	public void setJoin(String join) {
+		this.join = join;
 	}
 
-	
-	
 	/**
 	 * @return the postType
 	 */
@@ -75,10 +78,6 @@ public class ActivityPostElement extends ActivityElement {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((text == null) ? 0 : text.hashCode());
-		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
-		result = prime * result + ((userImage == null) ? 0 : userImage.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
 
@@ -98,26 +97,6 @@ public class ActivityPostElement extends ActivityElement {
 			if (other.date != null)
 				return false;
 		} else if (!date.equals(other.date))
-			return false;
-		if (text == null) {
-			if (other.text != null)
-				return false;
-		} else if (!text.equals(other.text))
-			return false;
-		if (uid == null) {
-			if (other.uid != null)
-				return false;
-		} else if (!uid.equals(other.uid))
-			return false;
-		if (userImage == null) {
-			if (other.userImage != null)
-				return false;
-		} else if (!userImage.equals(other.userImage))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
 			return false;
 		return true;
 	}

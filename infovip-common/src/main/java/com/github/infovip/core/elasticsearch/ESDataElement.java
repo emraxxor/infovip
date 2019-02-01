@@ -13,6 +13,8 @@ public interface ESDataElement<T> {
 	
 	public String type();
 	
+	default String routing() { return null; }
+	
 	public ESOperationType operation();
 	
 	public T data();

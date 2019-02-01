@@ -70,7 +70,7 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 			this.synch();
 	 },
 	 
-	'public addItem' : function(text) {
+	'public addItem' : function(item) {
 		this.getNode().find('ul').prepend( 
 				Mustache.render( 
 						   this.getTemplate() ,  {
@@ -80,7 +80,7 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 								}
 							},
 							items:  [
-								jQuery.extend(this.user,{ text : text , date: moment().format("YYYY-MM-DD HH:mm:ss") })
+								item
 							], 
 						} 
 				)

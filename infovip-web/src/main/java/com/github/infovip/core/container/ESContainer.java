@@ -1,6 +1,7 @@
 package com.github.infovip.core.container;
 
 import static com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration.BULK_WAIT_TIME;
+import static org.hamcrest.CoreMatchers.instanceOf;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -8,6 +9,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +18,14 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
-
+import com.google.gson.reflect.TypeToken;
 import com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration;
+import com.github.infovip.core.data.BaseDataElement;
 import com.github.infovip.core.elasticsearch.ESChildElement;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
+import com.github.infovip.web.application.es.activity.ActivityResponseElement;
 
 /**
  * 
@@ -140,32 +145,48 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
     		add(o);
     	}
     }
+   
+    
+    public synchronized Object create(T data) {
+         Object response = executeThenGet(data);
+         
+         if ( response instanceof IndexResponse ) {
+        	 Object o = data.data();
+        	 
+        	 if ( o instanceof BaseDataElement )
+        		 ((BaseDataElement) o).setDocumentId(((IndexResponse)response).getId());
+        	 
+        	 return o;
+         }
+         
+         throw new RuntimeException("Only Index operation is supported!");
+    }
     
     public synchronized Object executeThenGet(T data) {
 		if ( data instanceof ESDataElement ) {
 			if ( data.operation() == ESOperationType.DELETE ) {
 				if ( data instanceof ESChildElement<?> ) {
-					return client.prepareDelete(data.index(), data.type(), data.id() ).setParent( ((ESChildElement<?>) data).parent() ).get();
+					return client.prepareDelete(data.index(), data.type(), data.id() ).setRouting(data.routing()).setParent( ((ESChildElement<?>) data).parent() ).get();
 				} else {
-					return client.prepareDelete(data.index(), data.type(), data.id() ).get();
+					return client.prepareDelete(data.index(), data.type(), data.id() ).setRouting(data.routing()).get();
 				}
 			} else if ( data.operation() == ESOperationType.UPDATE ) {
 				if ( data instanceof ESChildElement<?> ) {
-					return client.prepareUpdate(data.index(), data.type(), data.id() ).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
+					return client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
 				} else {
-					return client.prepareUpdate(data.index(), data.type(), data.id() ).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
+					return client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
 				}
 			} else {
 				if ( data instanceof ESChildElement<?> ) {
 					if ( data.id() == null ) {
-						return client.prepareIndex(data.index(), data.type()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+						return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 					} else {
-						return client.prepareIndex(data.index(), data.type()).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+						return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 					}
 				} else if ( data.id() != null ) {
-					return client.prepareIndex(data.index(), data.type()).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+					return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 				} else {
-					return client.prepareIndex(data.index(), data.type()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();									
+					return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();									
 				}
 			}
 		} 
@@ -178,27 +199,27 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 			if ( data instanceof ESDataElement ) {
 				if ( data.operation() == ESOperationType.DELETE ) {
 					if ( data instanceof ESChildElement<?>  ) {
-						bulkRequest.add( client.prepareDelete(data.index(), data.type(), data.id() ).setParent(((ESChildElement<?>) data).parent()) );
+						bulkRequest.add( client.prepareDelete(data.index(), data.type(), data.id() ).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()) );
 					} else {
-						bulkRequest.add( client.prepareDelete(data.index(), data.type(), data.id() ) );
+						bulkRequest.add( client.prepareDelete(data.index(), data.type(), data.id() ).setRouting(data.routing()) );
 					}
 				} else if ( data.operation() == ESOperationType.UPDATE ) {
 					if ( data instanceof ESChildElement<?> ) {
-						bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
+						bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
 					} else {
-						bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
+						bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
 					}
 				} else {
 					if ( data instanceof ESChildElement<?> ) {
 						if ( data.id() == null ) {
-							bulkRequest.add( client.prepareIndex(data.index(), data.type()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON));
+							bulkRequest.add( client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON));
 						} else {
-							bulkRequest.add( client.prepareIndex(data.index(), data.type()).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON));
+							bulkRequest.add( client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON));
 						}
 					} else if (data.id() != null) { 
-						bulkRequest.add( client.prepareIndex(data.index(), data.type()).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON));									
+						bulkRequest.add( client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON));									
 					} else {
-						bulkRequest.add( client.prepareIndex(data.index(), data.type()).setSource(new Gson().toJson(data.data()),XContentType.JSON));									
+						bulkRequest.add( client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setSource(new Gson().toJson(data.data()),XContentType.JSON));									
 					}
 				} 
 			} 
@@ -216,9 +237,9 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 		synchronized (bulkRequest) {
 				if ( bulkCounter > 0  ) {
 					bulkResponse = bulkRequest.execute().actionGet();
-					if ( bulkResponse.hasFailures() ) {
+					
+					if ( bulkResponse.hasFailures() ) 
 						logger.error(bulkResponse.buildFailureMessage());
-					}
 					
 					bulkCounter = 0;
 					
