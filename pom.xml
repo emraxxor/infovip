@@ -71,6 +71,7 @@
         <module>sitemapgen4j</module>
         <module>infovip-common</module>
 		<module>infovip-ejb-user</module>
+        <module>infovip-user</module>
         <module>infovip-admin</module>
         <module>infovip-web</module>
         <module>infovip-ear</module>

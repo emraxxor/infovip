@@ -44,6 +44,8 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/activity"/>
 			<mvc:mapping path="/activity/**"/>
+			<mvc:mapping path="/user/settings/general"/>
+			<mvc:mapping path="/user/settings/general/**"/>
 			<beans:bean class="com.github.infovip.spring.handler.UserAuthenticationInterceptor"></beans:bean>
 		</mvc:interceptor>
 		

@@ -24,6 +24,9 @@ public class DefaultUser<T> extends FormElement<T> {
     @IgnoreField
     private String userPasswordRepeat;
     
+    @IgnoreField
+    private String oldPassword;
+    
     @MaxLength(size=200)
     @ValidEmail
     private String userMail;
@@ -61,8 +64,12 @@ public class DefaultUser<T> extends FormElement<T> {
     
     public DefaultUser(T s) {
     	super(s);
-    	this.isActive = false;
     }
+    
+    public DefaultUser(T s, java.lang.reflect.Field[] fields) {
+    	super(s, fields);
+    }
+
     
 	/**
 	 * @return the userId
@@ -231,6 +238,14 @@ public class DefaultUser<T> extends FormElement<T> {
 	 */
 	public void setUserPasswordRepeat(String userPasswordRepeat) {
 		this.userPasswordRepeat = userPasswordRepeat;
+	}
+	
+	public String getOldPassword() {
+		return oldPassword;
+	}
+	
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 
 	/* (non-Javadoc)

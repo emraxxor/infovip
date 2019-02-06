@@ -5,8 +5,6 @@ var ActivityPostController = easejs.Class('ActivityPostController').extend(UICon
 	
 	'private form' : null,
 	
-	'private manager' : null,
-	
 	'private container' : null,
 	
 	'private button' : null,
@@ -20,7 +18,6 @@ var ActivityPostController = easejs.Class('ActivityPostController').extend(UICon
 	 },
 	
 	'override virtual __construct' : function() {
-		this.manager = new TinyMceManager();
 		this.editor = new TinyMceEditor();
 		this.wall = new ActivityWall(jQuery("div[class=activity--list]"));
 		this.container = jQuery("[data-uid=post-input-area]");
@@ -51,7 +48,7 @@ var ActivityPostController = easejs.Class('ActivityPostController').extend(UICon
 	
     'public override virtual onCreationComplete' : function() {
     	this.container.append(this.editor.getNode());
-    	this.editor.basic();
+    	this.editor.basic('100%',200);
     	this.button.on('click', { data : this }, this.onSubmitClick );
     	new UIControllerExecutor(  this.wall ).execute(); 
 	}

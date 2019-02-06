@@ -14,7 +14,7 @@
                 
                     <!-- Header Topbar Links Start -->
                     <ul class="header--topbar-links nav ff--primary no--stripes float--left">
-                        <li><a href="#">Settings</a></li>
+                        <li><a href="/user/settings/general">Settings</a></li>
                         <li><a href="/activity">Activity</a></li>
                         <li><a href="#">Find Friends</a></li>
                     </ul>

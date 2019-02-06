@@ -3,9 +3,12 @@
  */
 var UIController = easejs.Class('UIController').extend(Controller,{
   
-	'override virtual __construct' : function () {},
+	'override virtual __construct': function () {
+		this.__super();
+	 },
 
-    'public virtual postConstruct' : function() {}, 
+	
+	'public virtual postConstruct' : function() {}, 
 	
 	'public virtual render' : function() {},
 	

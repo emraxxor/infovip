@@ -1,8 +1,6 @@
 package com.github.infovip.spring.controllers.registration;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,11 +24,9 @@ import com.github.infovip.core.form.validators.RegistrationValidator;
 import com.github.infovip.core.lang.Translate;
 import com.github.infovip.core.mail.DefaultMailConverter;
 import com.github.infovip.core.smtp.SmtpClient;
-import com.github.infovip.core.validator.FormValidator;
-import com.github.infovip.core.validator.GoogleCaptchaValidator;
-import com.github.infovip.core.web.response.ValidationResponse;
-import com.github.infovip.core.web.types.ValidationType;
+import com.github.infovip.entities.LogRegistration;
 import com.github.infovip.entities.User;
+import com.github.infovip.services.interfaces.UserServiceInterface;
 import com.github.infovip.spring.services.UserService;
 
 
@@ -48,13 +44,13 @@ public class RegistrationController {
 	private SmtpClient smtpClient;
 	
 	@Autowired
-	private UserService userService;
+	private UserServiceInterface<User> userService;
 	
 	private Logger logger = Logger.getLogger(RegistrationController.class);
 
-	  @RequestMapping(path = "/add", method = RequestMethod.POST )
-	    public @ResponseBody Object add(
-	    				  @ModelAttribute DefaultUserFormData user,
+	@RequestMapping(path = "/add", method = RequestMethod.POST )
+	public @ResponseBody Object add(
+	    				  @ModelAttribute DefaultUserFormData<User,LogRegistration> user,
 	    		    	  @RequestParam("g-recaptcha-response") String gRecaptchaResponse,
 	    				  BindingResult result, 
 	    				  HttpServletRequest request, 
@@ -72,11 +68,11 @@ public class RegistrationController {
 	    	
 	    **/
 	    	
-	    	RegistrationValidator<DefaultUserFormData> fv = new RegistrationValidator<DefaultUserFormData>(user,userService);
+	    	RegistrationValidator<DefaultUserFormData<User,LogRegistration>> fv = new RegistrationValidator<DefaultUserFormData<User,LogRegistration>>(user,userService);
 	    	
 	    	if ( fv.validate() ) { 
 	    		if ( user.getUserMail() != null ) {
-	    			User u = user.toUser();
+	    			User u = user.toUser(User.class, LogRegistration.class);
 	    			u.getLogRegistration().setIp(request.getRemoteAddr());
 	    			u.getLogRegistration().setCreationTime(DefaultDateFormatter.timestamp());
 	    			userService.save(u);
@@ -89,7 +85,7 @@ public class RegistrationController {
 	    	}
 	    	
 	    	return fv.responses();
-	    }
+	}
 	
 	
     @RequestMapping( headers = "Accept=text/html",method=RequestMethod.GET)

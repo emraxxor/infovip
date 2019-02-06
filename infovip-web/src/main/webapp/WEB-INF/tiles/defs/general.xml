@@ -102,6 +102,20 @@
 		</put-list-attribute>
 	</definition>	
 	
+	
+	<!--  User settings / general page -->
+	<definition name="tile.user.settings.general.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/user/settings/GeneralSettingsBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
+			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
+			<add-attribute value="/js/web/user/settings/general/GeneralSettingsCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>
+	
 	<!--  Login page -->
 	<definition name="tile.login.page" extends="default.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/general/login/LoginPageBody.jsp"></put-attribute>

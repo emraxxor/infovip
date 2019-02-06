@@ -5,6 +5,9 @@ import com.github.infovip.core.lang.Translate;
 import com.github.infovip.core.validator.FormValidator;
 import com.github.infovip.core.web.response.ValidationResponse;
 import com.github.infovip.core.web.types.ValidationType;
+import com.github.infovip.entities.LogRegistration;
+import com.github.infovip.entities.User;
+import com.github.infovip.services.interfaces.UserServiceInterface;
 import com.github.infovip.spring.services.UserService;
 import com.github.infovip.util.BasicUtilities;
 
@@ -15,12 +18,12 @@ import com.github.infovip.util.BasicUtilities;
  *
  * @param <T>
  */
-public class RegistrationValidator<T extends DefaultUserFormData> extends FormValidator<T> {
+public class RegistrationValidator<T extends DefaultUserFormData<User,LogRegistration>> extends FormValidator<T> {
 
 	
-	private final UserService userService;
+	private final UserServiceInterface<User> userService;
 	
-	public RegistrationValidator(T data, UserService service) {
+	public RegistrationValidator(T data, UserServiceInterface<User> service) {
 		super(data);
 		this.userService = service;
 	}

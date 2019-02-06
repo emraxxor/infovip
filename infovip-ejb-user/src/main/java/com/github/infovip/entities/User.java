@@ -24,6 +24,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.github.infovip.core.form.data.UserIface;
+
 /**
  *
  * @author attila
@@ -38,7 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByUpassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword"),
     @NamedQuery(name = "User.findByNameAndUpassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword and u.userName = :userName"),
     @NamedQuery(name = "User.findByUmail", query = "SELECT u FROM User u WHERE u.userMail = :userMail")})
-public class User implements Serializable {
+public class User implements Serializable, UserIface<LogRegistration> {
 
     private static final long serialVersionUID = 1L;
 

@@ -29,8 +29,6 @@ var RegistrationForm = easejs.Class('RegistrationForm').extend(DefaultHTMLForm,{
 		for(var i=0; i < inputs.length; i++ ) 
 			data[inputs[i].name] = inputs[i].value;
 
-		console.log(data);
-		
 		 if ( that.getValidator().validate() ) {
 			 	data['g-recaptcha-response'] = container.find('#g-recaptcha-response').val();
 				var w = DefaultInformationDialog().display(__tr('msg.loading'));

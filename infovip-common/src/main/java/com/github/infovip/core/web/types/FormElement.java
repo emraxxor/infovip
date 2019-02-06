@@ -26,8 +26,7 @@ public class FormElement<T> implements FormData {
 	protected transient Logger logger = Logger.getLogger(this.getClass());
 	
 	
-	public FormElement() {
-	}
+	public FormElement() { }
 
 	public FormElement(T data) {
 		this.data = data;
@@ -51,6 +50,32 @@ public class FormElement<T> implements FormData {
 			logger.error(e);
 		}
 	}
+	
+	public FormElement(T data, Field[] fields) {
+		this.data = data;
+		Class<?> o = data.getClass(); 
+		try {
+			for(Field f : fields ) {
+				if ( f.getAnnotation(IgnoreField.class)  != null ) continue;
+				Method s = this.getClass().getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
+				s.invoke(this,  o.getMethod("get" + StringUtils.capitalize(f.getName())).invoke(data) );
+			}
+		} catch (NoSuchMethodException e) {
+			logger.error(e);
+		} catch (SecurityException e) {
+			logger.error(e);
+		} catch (IllegalAccessException e) {
+			logger.error(e);
+		} catch (IllegalArgumentException e) {
+			logger.error(e);
+		} catch (InvocationTargetException e) {
+			logger.error(e);
+		}
+	}
+
+	
+	
+	
 	
 	public T toDataElement(Class<T> clazz,Field[] fields) {
 		Constructor<?> cons = null;

@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.infovip.entities.User;
+import com.github.infovip.services.interfaces.UserServiceInterface;
 import com.github.infovip.spring.repositories.UserRepository;
 import com.github.infovip.util.BasicUtilities;
 
@@ -44,7 +45,7 @@ import com.github.infovip.util.BasicUtilities;
  */
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserServiceInterface<User> {
 
     @Autowired
     private UserRepository userRepository;
@@ -293,6 +294,10 @@ public class UserService {
     	return entity;
     }
 
+    
+    public User findById(Long id) {
+    	return userRepository.findById(id).get();
+    }
     
     /**
      * Finds users from the repository

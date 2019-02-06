@@ -1,7 +1,6 @@
 package com.github.infovip.core.container;
 
 import static com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration.BULK_WAIT_TIME;
-import static org.hamcrest.CoreMatchers.instanceOf;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -9,7 +8,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -17,15 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration;
 import com.github.infovip.core.data.BaseDataElement;
 import com.github.infovip.core.elasticsearch.ESChildElement;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
-import com.github.infovip.web.application.es.activity.ActivityResponseElement;
+import com.google.gson.Gson;
 
 /**
  * 

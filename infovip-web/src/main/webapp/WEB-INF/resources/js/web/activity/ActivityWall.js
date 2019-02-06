@@ -50,17 +50,7 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
     				)
     		);
     		
-    		
-    		that.getNode().find('ul').find('[data-name=comment]').each(function(){
-    			jQuery(this).off('click').on('click', function(e) {
-    				var id = jQuery(this).attr('data-id');
-    				if ( jQuery(this).parent().parent().find("div[data-id="+id+"]").length == 0  ) {
-    					var commentBox = new ActivityCommentBox( id , jQuery(this));
-    					new UIControllerExecutor(  commentBox ).execute();  
-    				}
-    			} );
-    		});
-    		
+    	    that.updateListeners();
         }, this );
 	},
 	
@@ -70,21 +60,34 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 			this.synch();
 	 },
 	 
+	'public updateListeners' : function() {
+		this.getNode().find('ul').find('[data-name=comment]').each(function(){
+			jQuery(this).off('click').on('click', function(e) {
+				var id = jQuery(this).attr('data-id');
+				if ( jQuery(this).parent().parent().find("div[data-id="+id+"]").length == 0  ) {
+					var commentBox = new ActivityCommentBox( id , jQuery(this));
+					new UIControllerExecutor(  commentBox ).execute();  
+				}
+			} );
+		});
+	 },
+	 
 	'public addItem' : function(item) {
-		this.getNode().find('ul').prepend( 
-				Mustache.render( 
-						   this.getTemplate() ,  {
-							dateFormat : function() {
-								return function(text,render) {
-									return moment(render(text)).format("YYYY-MM-DD HH:mm:ss" );
-								}
-							},
-							items:  [
-								item
-							], 
-						} 
-				)
+		var element = Mustache.render( 
+				   this.getTemplate() ,  {
+						dateFormat : function() {
+							return function(text,render) {
+								return moment(render(text)).format("YYYY-MM-DD HH:mm:ss" );
+							}
+						},
+						items:  [
+							item
+						], 
+					} 
 		);
+		
+		this.getNode().find('ul').prepend(element)
+		this.updateListeners();
 	 },
 	
 	'public getTemplate' : function() {

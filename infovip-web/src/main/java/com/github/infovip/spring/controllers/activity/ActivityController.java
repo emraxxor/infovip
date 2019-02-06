@@ -20,7 +20,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.github.infovip.configuration.DefaultWebAppConfiguration;
 import com.github.infovip.configuration.UserConfiguration;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESDataElement;
@@ -32,7 +31,6 @@ import com.github.infovip.entities.User;
 import com.github.infovip.web.application.es.activity.ActivityCommentElement;
 import com.github.infovip.web.application.es.activity.ActivityPost;
 import com.github.infovip.web.application.es.activity.ActivityPostElement;
-import com.google.gson.Gson;
 
 
 /**

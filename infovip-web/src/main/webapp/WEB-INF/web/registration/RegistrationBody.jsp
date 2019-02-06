@@ -115,7 +115,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <!-- Checkout Form End -->
+                            <!-- Registration Form End -->
                         </div>
                     </div>
                     <!-- Main Content End -->

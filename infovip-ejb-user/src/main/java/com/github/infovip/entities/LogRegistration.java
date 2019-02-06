@@ -41,6 +41,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import com.github.infovip.core.form.data.LogIFace;
+
 /**
  *
  * @author attila
@@ -53,7 +55,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
     @NamedQuery(name = "LogRegistration.findByPid", query = "SELECT l FROM LogRegistration l WHERE l.pid = :pid"),
     @NamedQuery(name = "LogRegistration.findByIp", query = "SELECT l FROM LogRegistration l WHERE l.ip = :ip"),
     @NamedQuery(name = "LogRegistration.findByTime", query = "SELECT l FROM LogRegistration l WHERE l.creationTime = :time")})
-public class LogRegistration implements Serializable {
+public class LogRegistration implements LogIFace<User> , Serializable {
 
     private static final long serialVersionUID = 1L;
 
