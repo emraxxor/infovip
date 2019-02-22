@@ -34,7 +34,7 @@ public class ImageServlet extends HttpServlet {
         this.imageDirectory = imageDirectory;
     }
     
-    private void defaultImage(HttpServletResponse response) {
+    public void defaultImage(HttpServletResponse response) {
     	ServletOutputStream out = null;
     	try {
     		out = response.getOutputStream();

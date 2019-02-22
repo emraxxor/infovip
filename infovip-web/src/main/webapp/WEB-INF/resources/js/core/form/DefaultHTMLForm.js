@@ -52,6 +52,28 @@ var DefaultHTMLForm = easejs.Class('DefaultHTMLForm').extend(Controller,{
     	    }
     	}
 	 },
+	
+	'public virtual find' : function(selector) {
+		return this.container.find(selector);
+	 },
+	 
+	'public addListener' : function(type, func ) {
+		this.container.on(type, this , func );
+	 },
+	 
+	'public getContainer' : function() {
+		return this.container;
+	 },
+	 
+	'public virtual render' : function() {},
+	
+	'public virtual listeners' : function() {},
+ 
+	'public virtual preDestroy' : function() {},
+	 
+	'public virtual postConstruct' : function() {},
+	 
+	'public virtual onCreationComplete' : function() {},
 
 	'public virtual onSuccessfulEvent' : function(data) { throw new Error('Not implemented!'); },
 

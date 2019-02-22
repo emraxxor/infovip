@@ -29,7 +29,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="btn-link">
+                            <a href="/user/profile" class="btn-link">
                                 <i class="fa fa-user-o"></i>
                                 <span>Profile</span>
                             </a>

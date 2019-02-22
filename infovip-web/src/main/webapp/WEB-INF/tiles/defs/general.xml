@@ -12,6 +12,7 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="" />
 		<put-attribute name="preinit" value=""></put-attribute>
+		<put-list-attribute name="userJs"></put-list-attribute>
 		<put-list-attribute name="pageCss">
 			<add-attribute value="/css/profile.css" />
 		</put-list-attribute>
@@ -115,6 +116,36 @@
 		<put-list-attribute name="pageCss" inherit="true">
 		</put-list-attribute>
 	</definition>
+	
+	
+	<!--  User Profile page -->
+	<definition name="tile.user.profile.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/user/UserProfileBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
+			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>
+	
+	
+	<!--  User Activity page -->
+	<definition name="tile.user.activity.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/user/UserActivityBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
+			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
+		</put-list-attribute>
+		<put-list-attribute name="userJs" inherit="true">
+			<add-attribute value="/js/web/user/UserCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>
+	
 	
 	<!--  Login page -->
 	<definition name="tile.login.page" extends="default.tile.front">

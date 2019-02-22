@@ -29,19 +29,13 @@ var GeneralSettingsForm = easejs.Class('GeneralSettingsForm').extend(DefaultHTML
 		var container = that.getContainer();
 		var data = that.getValues();
 		
-		
-		 if ( that.getValidator().validate() ) {
+		if ( that.getValidator().validate() ) {
 			 	data['g-recaptcha-response'] = container.find('#g-recaptcha-response').val();
-				
-			 	console.log(data);
-			 	
-			 	
 			 	var w = DefaultInformationDialog().display(__tr('msg.loading'));
 				that.async( GeneralSettingsForm.$('HANDLER').UPDATE , data , function( data , o ) {
 					DefaultFormValidatorHandlerDialog(data).display();
 					w.hide();
 				} , that );
-				
 		 }
 		
 	},

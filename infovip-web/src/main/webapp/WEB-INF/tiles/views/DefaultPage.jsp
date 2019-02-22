@@ -10,6 +10,7 @@
 
 <tilesx:useAttribute id="currentPageCss" name="pageCss" classname="java.util.List" />
 <tilesx:useAttribute id="currentPageJs" name="pageJs" classname="java.util.List" />
+<tilesx:useAttribute id="userJs" name="userJs" classname="java.util.List" />
 <tilesx:useAttribute id="preinit" name="preinit" classname="java.lang.String" />
 
 <c:if test="${not empty preinit}">
@@ -25,10 +26,19 @@
         <module:js src="${resources}/${js}" />
 </c:forEach>
 
+
+<c:if test="${not empty isAuthenticated and isAuthenticated == true }">
+	<c:forEach items="${userJs}" var="js">
+    	    <module:js src="${resources}/${js}" />
+	</c:forEach>
+</c:if>
+
 <c:if test="${not empty pageTitle}">
 	<module:title title="${pageTitle}" />
 </c:if>      	
 	 
+	 
+	
       		 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="${Configuration.WEB_DIRECTORY}/template/header.jsp" />
