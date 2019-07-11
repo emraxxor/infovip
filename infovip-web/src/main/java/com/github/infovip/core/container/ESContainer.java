@@ -8,7 +8,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.get.GetRequestBuilder;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.support.WriteRequest.RefreshPolicy;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,9 @@ import com.github.infovip.core.elasticsearch.ESChildElement;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
+import com.github.infovip.core.elasticsearch.ESSimpleResquestElement;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * 
@@ -156,6 +161,76 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
          }
          
          throw new RuntimeException("Only Index operation is supported!");
+    }
+    
+    public synchronized Object createSynchronus(T data) {
+        Object response = executeSynchronusRequest(data);
+        
+        if ( response instanceof IndexResponse ) {
+       	 Object o = data.data();
+       	 
+       	 if ( o instanceof BaseDataElement )
+       		 ((BaseDataElement) o).setDocumentId(((IndexResponse)response).getId());
+       	 
+       	 return o;
+        }
+        
+        throw new RuntimeException("Only Index operation is supported!");
+   }
+
+   
+	@SuppressWarnings("unchecked")
+	public synchronized <TDATAELEMENT, TE extends ESDataElement<TDATAELEMENT>> void search(ESSimpleResquestElement<TDATAELEMENT, TE> e) {
+		GetRequestBuilder grb = client.prepareGet(e.index(),e.type(),e.id());
+		
+		if ( e.routing() != null )
+			grb.setRouting(e.routing());
+		
+		GetResponse r = grb.get();
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		
+		if ( e.exclusionStrategies() != null && e.exclusionStrategies().size() > 0 ) 
+			e.exclusionStrategies().stream().forEach(o -> gsonBuilder.addDeserializationExclusionStrategy(o));
+		
+		Gson gson = gsonBuilder.create();
+		
+		TDATAELEMENT d = (TDATAELEMENT) gson.fromJson( r.getSourceAsString() , e.dataType());
+		
+		if ( d instanceof BaseDataElement )  
+			((BaseDataElement) d).setDocumentId(r.getId());
+	
+		e.setResponse( (TDATAELEMENT) d); 
+    }
+    
+    public synchronized Object executeSynchronusRequest(T data) {
+		if ( data instanceof ESDataElement ) {
+			if ( data.operation() == ESOperationType.DELETE ) {
+				if ( data instanceof ESChildElement<?> ) {
+					return client.prepareDelete(data.index(), data.type(), data.id() ).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setParent( ((ESChildElement<?>) data).parent() ).get();
+				} else {
+					return client.prepareDelete(data.index(), data.type(), data.id() ).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).get();
+				}
+			} else if ( data.operation() == ESOperationType.UPDATE ) {
+				if ( data instanceof ESChildElement<?> ) {
+					return client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
+				} else {
+					return client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
+				}
+			} else {
+				if ( data instanceof ESChildElement<?> ) {
+					if ( data.id() == null ) {
+						return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+					} else {
+						return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+					}
+				} else if ( data.id() != null ) {
+					return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
+				} else {
+					return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();									
+				}
+			}
+		} 
+		return null;
     }
     
     public synchronized Object executeThenGet(T data) {

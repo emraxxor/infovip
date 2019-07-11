@@ -6,7 +6,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -23,6 +25,7 @@ import com.github.infovip.core.elasticsearch.ESDataElement;
 import com.github.infovip.core.es.query.DocumentManager;
 import com.github.infovip.web.application.business.BusinessContainerManager;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 /**
@@ -58,20 +61,44 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 		for(Field field : fields ) 
 			query.must(QueryBuilders.termQuery(field.getFieldName(), field.getFieldValue()));
 		
-		SearchResponse response = template.getClient()
+		SearchRequestBuilder srb = template.getClient()
 				.prepareSearch(metaData.getIndexName())
-				.setTypes(metaData.getIndexType())
-				.setQuery(query)
-				.setExplain(false)
-				.setSize(1)
-				.execute()
-				.actionGet(); 
+				.setTypes(metaData.getIndexType());
+
+		if ( metaData.getRouting() != null ) 
+			srb.setRouting(metaData.getRouting());
+
+		
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		
+		if ( metaData.exclusionStrategies().size() > 0 ) 
+			metaData.exclusionStrategies().stream().forEach(o -> gsonBuilder.addDeserializationExclusionStrategy(o));
+		
+		Gson gson = gsonBuilder.create();
+		
+		
+		SearchResponse response = srb
+									.setQuery(query)
+									.setExplain(false)
+									.setSize(1)
+									.execute()
+									.actionGet(); 
+		
+		System.out.println("INDEX" + metaData.getIndexName());
+		System.out.println("TYPE" + metaData.getIndexType());
+		System.out.println(query);
+		
+		System.out.println("RESPONSE LENGTH : " + response.getHits().getHits().length );
 		
 		if ( response.getHits().getHits().length == 1 ) {
-			T data = new Gson().fromJson(response.getHits().getHits()[0].getSourceAsString(), type);
+			T data = gson.fromJson(response.getHits().getHits()[0].getSourceAsString(), type);
 			
-			if ( data instanceof BaseDataElement ) 
+			if ( data instanceof BaseDataElement )  {
 				((BaseDataElement)data).setDocumentId(response.getHits().getHits()[0].getId());
+				
+				if ( metaData.getRouting() != null ) 
+					((BaseDataElement)data).setRouting(metaData.getRouting());
+			}
 			
 			return data;
 		}
@@ -81,11 +108,28 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 
 
 	public <T> T findDocumentByDocumentId(String id, IndexMetaData meta, Type type ) {
-		GetResponse gr = esClient.prepareGet(meta.getIndexName(), meta.getIndexType(), id).get();
-		T o = new Gson().fromJson(gr.getSourceAsString(), type );
+		GetRequestBuilder grb = esClient.prepareGet(meta.getIndexName(), meta.getIndexType(), id);
 		
-		if ( o instanceof BaseDataElement)
+		if ( meta.getRouting() != null ) 
+			grb.setRouting(meta.getRouting());
+		
+		
+		GetResponse gr = grb.get();
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		
+		if ( meta.exclusionStrategies().size() > 0 ) 
+			meta.exclusionStrategies().stream().forEach(o -> gsonBuilder.addDeserializationExclusionStrategy(o));
+		
+		Gson gson = gsonBuilder.create();
+		
+		T o = gson.fromJson(gr.getSourceAsString(), type );
+		
+		if ( o instanceof BaseDataElement) 
 			((BaseDataElement)o).setDocumentId(gr.getId());
+		
+		if ( meta.getRouting() != null ) 
+			((BaseDataElement)o).setRouting(meta.getRouting());
+	
 		
 		return o;
 	}
@@ -96,14 +140,19 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 		for(Field field : fields ) 
 			query.must(QueryBuilders.termQuery(field.getFieldName(), field.getFieldValue()));
 		
-		SearchResponse response = template.getClient()
+		SearchRequestBuilder srb = template.getClient()
 				.prepareSearch(metaData.getIndexName())
-				.setTypes(metaData.getIndexType())
-				.setQuery(query)
-				.setExplain(false)
-				.setSize(1)
-				.execute()
-				.actionGet(); 
+				.setTypes(metaData.getIndexType());
+		
+		if ( metaData.getRouting() != null ) 
+			srb.setRouting(metaData.getRouting());
+	
+		SearchResponse response = srb
+									.setQuery(query)
+									.setExplain(false)
+									.setSize(1)
+									.execute()
+									.actionGet(); 
 		
 		return response.getHits().getTotalHits();
 	}
@@ -114,22 +163,38 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 		
 		for(Field field : fields ) 
 			query.must(QueryBuilders.termQuery(field.getFieldName(), field.getFieldValue()));
-		
-		SearchResponse response = template.getClient()
+	
+		SearchRequestBuilder srb = template.getClient()
 				.prepareSearch(metaData.getIndexName())
-				.setTypes(metaData.getIndexType())
-				.setQuery(query)
-				.setExplain(false)
-				.setFrom(from)
-				.setSize(size)
-				.execute()
-				.actionGet(); 
+				.setTypes(metaData.getIndexType());
+
+		if ( metaData.getRouting() != null ) 
+			srb.setRouting(metaData.getRouting());
+
+		SearchResponse response = srb
+									.setQuery(query)
+									.setExplain(false)
+									.setFrom(from)
+									.setSize(size)
+									.execute()
+									.actionGet(); 
+	
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		
+		if ( metaData.exclusionStrategies().size() > 0 ) 
+			metaData.exclusionStrategies().stream().forEach(o -> gsonBuilder.addDeserializationExclusionStrategy(o));
+		
+		Gson gson = gsonBuilder.create();
 		
 		if ( response.getHits().getHits().length > 0 ) {
-			T data = new Gson().fromJson(response.getHits().getHits()[0].getSourceAsString(), type);
+			T data = gson.fromJson(response.getHits().getHits()[0].getSourceAsString(), type);
 			
-			if ( data instanceof BaseDataElement ) 
+			if ( data instanceof BaseDataElement ) { 
 				((BaseDataElement)data).setDocumentId(response.getHits().getHits()[0].getId());
+				
+				if ( metaData.getRouting() != null ) 
+					((BaseDataElement)data).setRouting(metaData.getRouting());	
+			}
 			
 			result.add(data);
 		}

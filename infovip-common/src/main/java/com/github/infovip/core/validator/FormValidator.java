@@ -15,9 +15,11 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
+import org.apache.tika.Tika;
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Mode;
 
+import com.github.infovip.core.exceptions.InvalidImageDataException;
 import com.github.infovip.core.lang.Translate;
 import com.github.infovip.core.web.response.ValidationResponse;
 import com.github.infovip.core.web.types.FormData;
@@ -62,24 +64,30 @@ public abstract class FormValidator<T extends FormData> {
 		return true;
 	}
 	
-	public String convertImage(String image, Mode mode, int targetSize ) throws IOException {
+	public String convertImage(String image, Mode mode, int targetSize ) throws IOException, InvalidImageDataException {
 		String[] parts = image.split(",");
 		String imageString = parts[1];
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decodeBase64(imageString));
 		BufferedImage img = ImageIO.read(bis);
+		
+		
+		String contentType = new Tika().detect(Base64.decodeBase64(imageString));
+
+		if ( contentType.indexOf("image") == -1 )
+			throw new InvalidImageDataException("Unsupported image data.");
+
+		
 		BufferedImage bi = Scalr.resize(img, mode, targetSize) ;
 	    ImageIO.write(bi, "png", bos);
-	    
 	    String result = Base64.encodeBase64String(bos.toByteArray());
-	    
 	    bis.close();
 	    bos.close();
 	    return result;
 	}
 	
 	
-	public String convertImage(String image, int targetSize) throws IOException {
+	public String convertImage(String image, int targetSize) throws IOException, InvalidImageDataException {
 		return convertImage(image, Mode.FIT_TO_WIDTH, targetSize);
 	}
 

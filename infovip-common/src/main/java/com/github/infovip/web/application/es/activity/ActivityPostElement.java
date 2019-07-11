@@ -1,6 +1,7 @@
 package com.github.infovip.web.application.es.activity;
 
 import com.github.infovip.core.date.DefaultDateFormatter;
+import com.github.infovip.core.es.type.IgnoreField;
 import com.google.gson.annotations.Expose;
 
 /**
@@ -11,13 +12,12 @@ import com.google.gson.annotations.Expose;
 public class ActivityPostElement extends ActivityElement {
 
 	@Expose(serialize=true,deserialize=true)
+	@IgnoreField
 	private String date;
 
 	@Expose(serialize=true,deserialize=false)
+	@IgnoreField
 	private String join;
-	
-	@Expose(serialize=true,deserialize=true)
-	private String postType;
 	
 	public ActivityPostElement() {
 		super();
@@ -25,6 +25,8 @@ public class ActivityPostElement extends ActivityElement {
 		this.postType = ActivityJoinType.POST.value();
 		this.join = ActivityJoinType.POST.value(); 
 	}
+	
+	
 	
 	/**
 	 * @return the date
@@ -56,19 +58,6 @@ public class ActivityPostElement extends ActivityElement {
 		this.join = join;
 	}
 
-	/**
-	 * @return the postType
-	 */
-	public String getPostType() {
-		return postType;
-	}
-
-	/**
-	 * @param postType the postType to set
-	 */
-	public void setPostType(String postType) {
-		this.postType = postType;
-	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

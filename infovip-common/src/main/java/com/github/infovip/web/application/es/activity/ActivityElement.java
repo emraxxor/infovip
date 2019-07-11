@@ -3,6 +3,11 @@ package com.github.infovip.web.application.es.activity;
 import com.github.infovip.core.data.BaseDataElement;
 import com.google.gson.annotations.Expose;
 
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 public class ActivityElement extends BaseDataElement {
 
 	@Expose(serialize=true,deserialize=true)
@@ -17,6 +22,8 @@ public class ActivityElement extends BaseDataElement {
 	@Expose(serialize=true,deserialize=true)
 	protected String text;
 
+	@Expose(serialize=true,deserialize=true)
+	protected String postType;
 	
 	public ActivityElement() {
 		super();
@@ -77,7 +84,24 @@ public class ActivityElement extends BaseDataElement {
 	public void setText(String text) {
 		this.text = text;
 	}
+	
+	
+	/**
+	 * @return the postType
+	 */
+	public String getPostType() {
+		return postType;
+	}
 
+	/**
+	 * @param postType the postType to set
+	 */
+	public void setPostType(String postType) {
+		this.postType = postType;
+	}
+
+
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -85,6 +109,7 @@ public class ActivityElement extends BaseDataElement {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((postType == null) ? 0 : postType.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
 		result = prime * result + ((userImage == null) ? 0 : userImage.hashCode());
@@ -104,6 +129,11 @@ public class ActivityElement extends BaseDataElement {
 		if (getClass() != obj.getClass())
 			return false;
 		ActivityElement other = (ActivityElement) obj;
+		if (postType == null) {
+			if (other.postType != null)
+				return false;
+		} else if (!postType.equals(other.postType))
+			return false;
 		if (text == null) {
 			if (other.text != null)
 				return false;

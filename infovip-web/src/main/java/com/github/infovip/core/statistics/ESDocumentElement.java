@@ -48,5 +48,23 @@ public class ESDocumentElement<T extends DefaultDocumentType> implements ESDataE
 	public T data() {
 		return data;
 	}
+
+	@Override
+	public ESDataElement<T> operationIndex() {
+		
+		return this;
+	}
+
+	@Override
+	public ESDataElement<T> operationUpdate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ESDataElement<T> operationDelete() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

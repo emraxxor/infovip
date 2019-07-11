@@ -9,6 +9,11 @@ import com.github.infovip.spring.components.message.DefaultMessageManager;
 import com.github.infovip.spring.components.thread.DefaultThreadManager;
 import com.github.infovip.spring.components.transaction.DefaultWebAppTransactionManager;
 
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 @Configuration
 public class DefaultContainerConfiguration {
 

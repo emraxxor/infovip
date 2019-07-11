@@ -19,7 +19,31 @@
 				<div class="acomment--content">
 					<p>{{{text}}}</p>
 				</div>
+				
+				<div class="details">
+                      Összesen kedvelték : <span class="like-count">{{totalLikeCount}}</span>
+                </div>
+				
+				 <div class="actions">
+						{{^liked}}
+							<button type="button" data-id="{{documentId}}" data-routing="{{routing}}"  data-name="like" class="btn btn-primary">Like</button>
+						{{/liked}}
+						{{#liked}}
+							<button type="button" data-id="{{documentId}}" data-routing="{{routing}}"  data-name="nolike" class="btn btn-primary">Like</button>
+						{{/liked}}
+						<button type="button" data-id="{{documentId}}" data-routing="{{routing}}" data-name="reply" class="btn btn-primary">Reply</button>
+				 </div>
+				 
+				 <div data-uid="commentbox"></div>	
+				 
+				 <div class="activity--comments fs--12">
+					<ul class="acomment--items nav">
+				    </ul>
+			     </div>
+				 
 			</div>
+			
+			
 		</div>
 </li>
 {{/comments}}

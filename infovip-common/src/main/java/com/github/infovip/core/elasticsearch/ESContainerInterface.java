@@ -28,4 +28,10 @@ public interface ESContainerInterface<T extends ESDataElement<?>> {
 	public Object executeThenGet(T data);
 	
 	public Object create(T data);
+	
+	public Object executeSynchronusRequest(T data);
+	
+	public Object createSynchronus(T data);
+	
+	public <TDATAELEMENT, TE extends ESDataElement<TDATAELEMENT>> void search(ESSimpleResquestElement<TDATAELEMENT, TE> element);
 }

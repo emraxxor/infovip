@@ -21,8 +21,17 @@
                                                 	<p>{{{text}}}</p>
                                                 </div>
                                                 
+                                                <div class="details">
+                                                	Összesen kedvelték : <span class="like-count">{{totalLikeCount}}</span>
+                                                </div>
+                                                
                                                 <div class="actions">
-                                                	<button type="button" data-id="{{documentId}}" data-name="like" class="btn btn-primary">Like</button>
+                                                	{{^liked}}
+                                                		<button type="button" data-id="{{documentId}}" data-routing="{{routing}}"  data-name="like" class="btn btn-primary">Like</button>
+                                                	{{/liked}}
+                                                	{{#liked}}
+                                                		<button type="button" data-id="{{documentId}}" data-routing="{{routing}}"  data-name="nolike" class="btn">Like</button>
+                                                	{{/liked}}
                                                 	<button type="button" data-id="{{documentId}}" data-name="comment" class="btn btn-primary">Comment</button>
                                                 </div>
                                                 <div data-uid="commentbox"></div>
@@ -50,6 +59,50 @@
                                                                     <div class="acomment--content">
                                                                         <p>{{{text}}}</p>
                                                                     </div>
+                                                                    
+                                                                    <div class="details">
+                                                						Összesen kedvelték : <span class="like-count">{{totalLikeCount}}</span>
+                                                					</div>
+                                                                    
+                                                                     <div class="actions">
+																			{{^liked}}
+																				<button type="button" data-id="{{documentId}}" data-routing="{{routing}}"  data-name="like" class="btn btn-primary">Like</button>
+																			{{/liked}}
+																			{{#liked}}
+																				<button type="button" data-id="{{documentId}}" data-routing="{{routing}}"  data-name="nolike" class="btn">Like</button>
+																			{{/liked}}
+																			<button type="button" data-id="{{documentId}}" data-routing="{{routing}}" data-name="reply" class="btn btn-primary">Reply</button>
+																	 </div>
+																	 <div data-uid="commentbox"></div>
+																	 
+																	 <div class="activity--comments fs--12">
+																		 <ul class="acomment--items nav">
+																		 {{#replies}}
+																			<li>
+																			<div class="acomment--item clearfix">
+																				<div class="acomment--avatar">
+																					<a href="/member/user/{{uid}}">
+																						<img src="/user/image/{{userImage}}" alt="">
+																					</a>
+																				</div>
+
+																				<div class="acomment--info">
+																					<div class="acomment--header">
+																						<p><a href="/member/user/{{uid}}">{{userName}}</a> Replied</p>
+																					</div>
+
+																					<div class="acomment--meta">
+																						<p><i class="fa mr--8 fa-clock-o"></i>{{#dateFormat}}{{date}}{{/dateFormat}}</p>
+																					</div>
+
+																					<div class="acomment--content">
+																						<p>{{{text}}}</p>
+																					</div>
+																				</div>
+																			</li>
+																	 	 {{/replies}}
+																		 </ul>
+																	 </div>
                                                                 </div>
                                                             </div>
                                                         </li>

@@ -44,7 +44,7 @@
             "date" : {
                 "type" : "date"
             },
-            "like_counter" : {
+            "like" : {
                 "type" : "long"
             }
        }

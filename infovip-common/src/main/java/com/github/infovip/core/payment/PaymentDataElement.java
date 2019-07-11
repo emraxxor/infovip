@@ -60,6 +60,23 @@ public class PaymentDataElement<T> implements ESDataElement<T> {
 	public void setOperation(ESOperationType operation) {
 		this.operation = operation;
 	}
-	
+
+	@Override
+	public ESDataElement<T> operationIndex() {
+		this.operation = ESOperationType.INDEX;
+		return this;
+	}
+
+	@Override
+	public ESDataElement<T> operationUpdate() {
+		this.operation = ESOperationType.UPDATE;
+		return this;
+	}
+
+	@Override
+	public ESDataElement<T> operationDelete() {
+		this.operation = ESOperationType.DELETE;
+		return this;
+	}
 
 }

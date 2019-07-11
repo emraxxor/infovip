@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Application Lifecycle Listener implementation class DefaultServletListener
- *
+ * @author Attila Barna
  */
 @Configuration
 public class DefaultServletListener implements ServletContextListener {

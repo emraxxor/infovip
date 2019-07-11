@@ -29,8 +29,9 @@
             "join" : {
                 "type" : "join",
                 "relations": {
-                    "post": "comment",
-                    "comment" : "reply"
+                    "eager_global_ordinals": true,
+                    "post": ["comment","like-post"],
+                    "comment" : ["reply","like-comment"]
                 }
             },
             "postType" : {
@@ -50,6 +51,9 @@
             },
             "date" : {
                 "type" : "date"
+            },
+            "like" : {
+                "type" : "long"
             }
        }
     }

@@ -24,6 +24,7 @@ public abstract class AbstractScrollSource<WEB_APP_CONTEXT, DATA_TYPE> implement
 	protected  long total;
 	
 	protected List<?> params;
+
 	
 	public AbstractScrollSource(WEB_APP_CONTEXT context, String token) {
 			this.context = context;
@@ -54,6 +55,10 @@ public abstract class AbstractScrollSource<WEB_APP_CONTEXT, DATA_TYPE> implement
 	@Override
 	public void params(List<?> params) {
 		this.params = params;
+	}
+
+	public <T1,T2> void onProcess(T1 data, T2 element) {
+		
 	}
 
 }

@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 
 import com.github.infovip.core.web.application.ApplicationConfiguration;
 
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 @Component
 public class DefaultContextApplicationListener implements ApplicationListener<ApplicationEvent> {
 

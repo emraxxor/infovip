@@ -4,7 +4,9 @@
 var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 
 	'public static HANDLER' : {
-		DATA : WEB_DIR + "/activity/data"
+		DATA : WEB_DIR + "/activity/data",
+		LIKE : WEB_DIR + "/activity/like",
+		NOLIKE : WEB_DIR + "/activity/nolike"
 	 },
 
 	'public static TEMPLATE' : {
@@ -37,6 +39,15 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 		
         this.async( ActivityWall.$('HANDLER').DATA, data, function(data,o) {
         	that.setToken(data.token);
+        	data.data.forEach(function(o){ o.liked = o.likes.filter(e => e.uid == that.getUser().userId ).length  != 0 ;  });
+        	data.data.forEach(function(o){  
+        		if ( o.comments.length > 0 ) {
+        			o.comments.forEach(function(e){
+        				e.liked = e.likes.filter(e => e.uid == that.getUser().userId ).length  != 0 ;
+        			});
+        		}
+        	});
+
     		that.getNode().find('ul').append( 
     				Mustache.render( 
     						   that.getTemplate() ,  {
@@ -60,15 +71,74 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 			this.synch();
 	 },
 	 
+	 
+	'public onCommentSubmit' : function(sender, o) {
+    	var w = DefaultInformationDialog().display(__tr('msg.loading'));
+		sender.async( ActivityCommentBox.$('HANDLER').ADD , { id : sender.getPostId(),  text : sender.getEditor().getText() } , function( data , sender ) {
+				w.hide();
+				sender.addComment(data);
+				o.updateListeners();
+		} , sender );
+	 },
+	 
+	'public onCommentReplySubmit' : function(sender, o) {
+		var w = DefaultInformationDialog().display(__tr('msg.loading'));
+		sender.async( ActivityCommentBox.$('HANDLER').REPLY , { id : sender.getPostId(), routing: sender.getNode().attr('data-routing'), text : sender.getEditor().getText() } , function( data , sender ) {
+				w.hide();
+				sender.addReply(data);
+				o.updateListeners();
+		} , sender );
+	},
+	 
 	'public updateListeners' : function() {
+		var that = this;
+		
 		this.getNode().find('ul').find('[data-name=comment]').each(function(){
 			jQuery(this).off('click').on('click', function(e) {
 				var id = jQuery(this).attr('data-id');
 				if ( jQuery(this).parent().parent().find("div[data-id="+id+"]").length == 0  ) {
 					var commentBox = new ActivityCommentBox( id , jQuery(this));
+					commentBox.onSubmitEvent(that.onCommentSubmit,that);
 					new UIControllerExecutor(  commentBox ).execute();  
 				}
 			} );
+		});
+		
+		this.getNode().find('ul').find('[data-name=reply]').each(function(){
+			jQuery(this).off('click').on('click', function(e) {
+				var id = jQuery(this).attr('data-id');
+				if ( jQuery(this).parent().parent().find("div[data-id="+id+"]").length == 0  ) {
+					var commentBox = new ActivityCommentBox( id , jQuery(this));
+					commentBox.onSubmitEvent(that.onCommentReplySubmit,that);
+					new UIControllerExecutor(  commentBox ).execute();  
+				}
+			} );
+		});
+		
+		this.getNode().find('ul').find('[data-name=like]').each(function(){
+			jQuery(this).off('click').on('click', function(e) {
+				var o = jQuery(this);
+				that.async( ActivityWall.$('HANDLER').LIKE , { id : o.attr('data-id'), routing : o.attr('data-routing') } , function(data,ob) {
+					o.attr('data-name','nolike');
+					o.removeClass('btn-primary');
+					o.parent().parent().find('span[class=like-count]').each(function(){jQuery(this).html( new Number( jQuery(this).html() + 1  ) ); });
+					ob.updateListeners();
+				} , that  );
+			});
+		});
+		
+		this.getNode().find('ul').find('[data-name=nolike]').each(function(){
+			jQuery(this).off('click').on('click', function(e) {
+				var o = jQuery(this);
+				that.async( ActivityWall.$('HANDLER').NOLIKE , { id : jQuery(this).attr('data-id'), routing : jQuery(this).attr('data-routing') } , function(data,ob) {
+					if ( data.result == "DELETED" ) {
+						o.attr('data-name','like');
+						o.addClass('btn-primary');
+						o.parent().parent().find('span[class=like-count]').each(function(){jQuery(this).html( new Number( jQuery(this).html() - 1  ) ); });
+						ob.updateListeners();
+					}
+				} , that  );
+			});
 		});
 	 },
 	 
@@ -81,7 +151,7 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 							}
 						},
 						items:  [
-							item
+							jQuery.extend( { liked : item.uid == this.getUser().userId } ,item )
 						], 
 					} 
 		);
@@ -104,6 +174,10 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 	 
 	'public getData' : function() {
 		return this.data;
+	 },
+	 
+	'public getUser' : function() {
+		return this.user;
 	 },
 	 
 	'public virtual override onScrollFire' : function() {

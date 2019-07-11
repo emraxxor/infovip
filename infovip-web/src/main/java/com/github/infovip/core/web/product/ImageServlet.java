@@ -66,7 +66,7 @@ public class ImageServlet extends HttpServlet {
 				}
 			}
         } else {
-        	noticeUser(response);
+        	noticeUser(response,out);
         	out.flush();
 			out.close();
         } 
@@ -82,6 +82,9 @@ public class ImageServlet extends HttpServlet {
 	}
 	
 	private void noticeUser(HttpServletResponse response, ServletOutputStream out) throws IOException {
+		if ( out == null ) 
+			out = response.getOutputStream();
+
 		try {
 			response.setContentType("text/html;charset=UTF-8");
 			out.println("Oops... Something went wrong :(");

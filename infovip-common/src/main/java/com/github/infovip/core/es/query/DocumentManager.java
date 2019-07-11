@@ -12,7 +12,7 @@ import com.github.infovip.core.data.IndexMetaData;
  */
 public interface DocumentManager {
 
-	public <T> T findDocumentByField(List<Field> field, IndexMetaData metaData, Type type);
+	public <T> T findDocumentByField(List<Field> fields, IndexMetaData metaData, Type type);
 	
 	public <T> List<T> findDocumentsByField(List<Field> fields, IndexMetaData metaData, Type type, int size, int from);
 

@@ -1,0 +1,55 @@
+// activity-post-4/data/_search
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "join": {
+              "value": "post"
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "has_child": {
+            "query": {
+              "bool": {
+                "must": {
+                  "match_all": {}
+                },
+                "should": {
+                  "has_child": {
+                    "query": {
+                      "match_all": {}
+                    },
+                    "inner_hits": {},
+                    "type": "like-comment"
+                  }
+                }
+              }
+            },
+            "inner_hits": {},
+            "type": "comment"
+          }
+        },
+        {
+          "has_child": {
+            "query": {
+              "bool": {
+                "must": {
+                  "match_all": {}
+                }
+              }
+            },
+            "inner_hits": {},
+            "type": "like-post"
+          }
+        }
+      ]
+    }
+  },
+  "size": 100
+}

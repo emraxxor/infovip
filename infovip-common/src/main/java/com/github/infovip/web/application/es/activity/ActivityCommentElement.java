@@ -1,7 +1,11 @@
 package com.github.infovip.web.application.es.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.infovip.core.data.ESDefaultJoinRelation;
 import com.github.infovip.core.date.DefaultDateFormatter;
+import com.github.infovip.core.es.type.IgnoreField;
 import com.google.gson.annotations.Expose;
 
 /**
@@ -11,19 +15,39 @@ import com.google.gson.annotations.Expose;
  */
 public class ActivityCommentElement extends ActivityElement {
 
+	@IgnoreField
 	private String date;
 
 	@Expose(serialize=true,deserialize=false)
+	@IgnoreField
 	private ESDefaultJoinRelation join;
 	
-	private String postType;
+	@Expose(serialize=false,deserialize=false)
+	private List<ActivityLikeElement> likes;
+	
+	@Expose(serialize=false,deserialize=false)
+	private long totalLikeCount;
+	
+	@Expose(serialize=false,deserialize=false)
+	private List<ActivityCommentElement> replies;
+
+	public ActivityCommentElement() {
+		this.likes = new ArrayList<>();
+		this.replies = new ArrayList<>();
+		this.totalLikeCount = 0L;
+	}
 	
 	public ActivityCommentElement(String parent) {
 		this.postType = ActivityJoinType.COMMENT.value();
 		this.join = new ESDefaultJoinRelation(ActivityJoinType.COMMENT.value(), parent);
+		this.setParentDocument(parent);
 		this.date = DefaultDateFormatter.current();
+		this.likes = new ArrayList<>();
+		this.replies = new ArrayList<>();
+		this.totalLikeCount = 0L;
 	}
 
+	
 	/**
 	 * @return the date
 	 */
@@ -38,8 +62,6 @@ public class ActivityCommentElement extends ActivityElement {
 		this.date = date;
 	}
 
-	
-
 	/**
 	 * @return the join
 	 */
@@ -53,19 +75,49 @@ public class ActivityCommentElement extends ActivityElement {
 	public void setJoin(ESDefaultJoinRelation join) {
 		this.join = join;
 	}
-
+	
+	public void addReply(ActivityCommentElement e) {
+		this.replies.add(e);
+	}
+	
+	public List<ActivityCommentElement> getReplies() {
+		return replies;
+	}
+	
+	public void setReplies(List<ActivityCommentElement> replies) {
+		this.replies = replies;
+	}
+	
 	/**
-	 * @return the postType
+	 * @return the likes
 	 */
-	public String getPostType() {
-		return postType;
+	public List<?> getLikes() {
+		return likes;
+	}
+
+	public void addLike(ActivityLikeElement e) {
+		this.likes.add(e);
+	}
+	
+	/**
+	 * @param likes the likes to set
+	 */
+	public void setLikes(List<ActivityLikeElement> likes) {
+		this.likes = likes;
 	}
 
 	/**
-	 * @param postType the postType to set
+	 * @return the totalLikeCount
 	 */
-	public void setPostType(String postType) {
-		this.postType = postType;
+	public long getTotalLikeCount() {
+		return totalLikeCount;
+	}
+
+	/**
+	 * @param totalLikeCount the totalLikeCount to set
+	 */
+	public void setTotalLikeCount(long totalLikeCount) {
+		this.totalLikeCount = totalLikeCount;
 	}
 
 	/* (non-Javadoc)
@@ -77,7 +129,6 @@ public class ActivityCommentElement extends ActivityElement {
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((join == null) ? 0 : join.hashCode());
-		result = prime * result + ((postType == null) ? 0 : postType.hashCode());
 		return result;
 	}
 
@@ -97,11 +148,6 @@ public class ActivityCommentElement extends ActivityElement {
 			if (other.date != null)
 				return false;
 		} else if (!date.equals(other.date))
-			return false;
-		if (postType == null) {
-			if (other.postType != null)
-				return false;
-		} else if (!postType.equals(other.postType))
 			return false;
 		return true;
 	}

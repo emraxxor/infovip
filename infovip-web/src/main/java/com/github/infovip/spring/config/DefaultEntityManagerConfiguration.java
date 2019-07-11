@@ -10,6 +10,12 @@ import org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
+
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 @Configuration
 @ComponentScan
 @EnableTransactionManagement
