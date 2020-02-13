@@ -84,7 +84,7 @@ public class ActivityController {
     		SessionStatus status, 
     		Model model
     ) {
-    	ActivitySource source = new ActivitySource(context, token, activityService);
+    	ActivitySource source = new ActivitySource(context, token);
     	try {
 			return ScrollResponseGenerator.generate( new DefaultScrollResponse<ActivityPostElement,WebApplicationContext>(),  source, request, response);
 		} catch (UnsupportedTypeException e) {

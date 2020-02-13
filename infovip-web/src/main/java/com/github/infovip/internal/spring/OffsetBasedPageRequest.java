@@ -29,7 +29,7 @@ public class OffsetBasedPageRequest implements Pageable, Serializable {
 	}
 
 	public OffsetBasedPageRequest(long offset, int size, Direction direction, String... properties) {
-		this(offset, size, new Sort(direction, properties));
+		this(offset, size, Sort.by(direction,  properties ));
 	}
 
 	public OffsetBasedPageRequest(long offset, int size, Sort sort) {

@@ -51,11 +51,9 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 	
 	List<ActivityPostElement> content;
 	
-	private final ActivityService activityService;
 	
-	public ActivitySource(WebApplicationContext context, String token, ActivityService as) {
+	public ActivitySource(WebApplicationContext context, String token) {
 		super(context, token);
-		this.activityService = as;
 		this.template = this.context.getBean(ElasticsearchTemplate.class);
 		this.client = this.template.getClient();
 	}

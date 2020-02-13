@@ -25,9 +25,9 @@ public class FormManager {
 	 * @param to
 	 */
 	public static <DB_DATA, CLIENT_DATA extends FormElement<DB_DATA>> List<CLIENT_DATA> convertDataListToFormElement(List<DB_DATA> from, Class<DB_DATA> dd,  Class<CLIENT_DATA> to) {
-		if ( from == null) {
+		if ( from == null) 
 			return new ArrayList<>();
-		}
+		
 		
 		return from.stream().map(o ->  {  
 								CLIENT_DATA cd = null;

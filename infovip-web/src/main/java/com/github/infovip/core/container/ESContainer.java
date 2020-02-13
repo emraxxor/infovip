@@ -89,6 +89,11 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 		documentQueue = new LinkedBlockingQueue<>();
 		bulkSize = ESConfiguration.BULK_SIZE;
 	}
+	
+	public ESContainer(ElasticsearchTemplate template) {
+		this();
+		this.template = template;
+	}
 
 	
 	public void postConstruct() {

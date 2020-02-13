@@ -84,12 +84,6 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 									.execute()
 									.actionGet(); 
 		
-		System.out.println("INDEX" + metaData.getIndexName());
-		System.out.println("TYPE" + metaData.getIndexType());
-		System.out.println(query);
-		
-		System.out.println("RESPONSE LENGTH : " + response.getHits().getHits().length );
-		
 		if ( response.getHits().getHits().length == 1 ) {
 			T data = gson.fromJson(response.getHits().getHits()[0].getSourceAsString(), type);
 			

@@ -25,7 +25,6 @@ public class UserAuthenticationInterceptor extends HandlerInterceptorAdapter {
 		
 		response.sendRedirect("/login");
 
-		
 		return false;
 	}
 	

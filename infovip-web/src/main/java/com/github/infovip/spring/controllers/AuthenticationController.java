@@ -38,12 +38,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.infovip.core.Configuration.SESSION;
-import com.github.infovip.core.validator.GoogleCaptchaValidator;
 import com.github.infovip.core.web.user.DefaultApplicationRole;
 import com.github.infovip.core.web.user.UserSession;
 import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
-import com.github.infovip.spring.services.UserService;
 
 /**
  *

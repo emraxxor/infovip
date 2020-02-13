@@ -26,17 +26,16 @@ import java.util.logging.Logger;
 
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
-import org.elasticsearch.action.admin.indices.alias.IndicesAliasesResponse;
 import org.elasticsearch.action.admin.indices.alias.exists.AliasesExistResponse;
 import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
 import org.elasticsearch.action.admin.indices.alias.get.GetAliasesResponse;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.AliasMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
@@ -175,7 +174,7 @@ public class ESConnection {
      * @param indexName
      */
     public synchronized void removeIndex(String indexName) {
-        DeleteIndexResponse delete = client.admin().indices().delete(new DeleteIndexRequest(indexName)).actionGet();
+        AcknowledgedResponse delete = client.admin().indices().delete(new DeleteIndexRequest(indexName)).actionGet();
         if (delete.isAcknowledged()) {
             Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Index: %s has been successfully removed.", indexName));
         }
@@ -190,7 +189,7 @@ public class ESConnection {
     public synchronized void createAlias(String aliasName, String indexName) throws Exception {
         AliasesExistResponse existResponse = client.admin().indices().prepareAliasesExist(aliasName).execute().actionGet();
         if (existResponse.exists() == false) {
-            IndicesAliasesResponse resp = client.admin().indices().prepareAliases().addAlias(indexName, aliasName).execute().actionGet();
+        	AcknowledgedResponse resp = client.admin().indices().prepareAliases().addAlias(indexName, aliasName).execute().actionGet();
             if (resp.isAcknowledged()) {
                 Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Alias %s to index %s has been created successfully.", aliasName, indexName));
             }
@@ -204,7 +203,7 @@ public class ESConnection {
      * @param indexName
      */
     public synchronized void removeAlias(String aliasName, String indexName) {
-        IndicesAliasesResponse resp = client.admin().indices().prepareAliases().removeAlias(indexName, aliasName).execute().actionGet();
+    	AcknowledgedResponse resp = client.admin().indices().prepareAliases().removeAlias(indexName, aliasName).execute().actionGet();
         if (resp.isAcknowledged()) {
             Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Alias %s to index %s has been removed successfully.", aliasName, indexName));
 

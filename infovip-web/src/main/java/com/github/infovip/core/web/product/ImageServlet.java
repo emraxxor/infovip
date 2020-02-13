@@ -38,7 +38,7 @@ public class ImageServlet extends HttpServlet {
     	ServletOutputStream out = null;
     	try {
     		out = response.getOutputStream();
-    		InputStream resource = getServletContext().getResourceAsStream("/WEB-INF/resources/img/default-gift.jpeg");
+    		InputStream resource = getServletContext().getResourceAsStream("/WEB-INF/resources/img/default-gift-min.jpeg");
     		response.setContentType("image/jpeg");  
 			out.write(IOUtils.toByteArray(resource));
 		} catch (Exception e) {
@@ -55,7 +55,7 @@ public class ImageServlet extends HttpServlet {
         if (request.getQueryString() != null && BasicSecureFunctions.directoryTraversalInputCheckStartsWith(request.getQueryString())) {
         	try {
 				FileInputStream fin = new FileInputStream(this.imageDirectory + '/' +  request.getQueryString() );  
-				response.setContentType("image/png");  
+				response.setContentType("image/jpg");  
 				out.write(IOUtils.toByteArray(fin));
 			} catch (Exception e) {
 				defaultImage(response);

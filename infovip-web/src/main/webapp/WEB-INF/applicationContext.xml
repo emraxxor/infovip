@@ -54,7 +54,14 @@
     	<property name="configuration" ref="Configuration"></property>
     </bean>
     
+    <!--  Deprecation of TransportClient usage.  -->
+    
+    
+    
     <elasticsearch:transport-client id="esClient" cluster-name="elasticsearch" cluster-nodes="127.0.0.1:9300" client-transport-ping-timeout="800s" />
+   
+   
+    <bean id="configurationSupport" class="org.springframework.data.elasticsearch.config.ElasticsearchConfigurationSupport"/>
     
     <bean id="defaultEntityMapper" class="com.github.infovip.core.elasticsearch.DefaultObjectMapper"></bean>
      
@@ -72,7 +79,6 @@
 	</bean>
 
 	
-	
 	<!--  REPOSITORIES -->    
     <jpa:repositories base-package="com.github.infovip.spring.repositories"/>
     <elasticsearch:repositories base-package="com.github.infovip.spring.elasticsearch.repositories"/>	
@@ -81,9 +87,10 @@
 	<context:component-scan base-package="com.github.infovip.spring.services"></context:component-scan>
 	
 	
-    <!--  CONTEXT CONTAINERS -->   
+    <!--  CONTEXT CONTAINERS -->  
    <bean id="esContainer" name="esContainer" class="com.github.infovip.core.container.ESContainer" scope="singleton" destroy-method="preDestroy" init-method="postConstruct"></bean>
    <bean id="esContainerWatcher" name="esContainerWatcher" class="com.github.infovip.core.container.ESContainerWatcher" scope="singleton" destroy-method="preDestroy" init-method="postConstruct"></bean>
    <bean id="statisticsManagerContainer" name="statisticsManagerContainer" class="com.github.infovip.core.statistics.StatisticsManager" scope="singleton" destroy-method="preDestroy" init-method="postConstruct"></bean>
+   
     
 </beans>

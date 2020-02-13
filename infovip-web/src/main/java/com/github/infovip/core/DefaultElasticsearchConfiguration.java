@@ -32,8 +32,8 @@ public class DefaultElasticsearchConfiguration {
 
 	private ElasticsearchTemplate template;
 	
-	public DefaultElasticsearchConfiguration() {
-	}
+	
+	public DefaultElasticsearchConfiguration() {}
 	
 	public void postConstruct() {
 		this.client = template.getClient();

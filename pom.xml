@@ -10,7 +10,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>central</id>
-			<url>http://repo.maven.apache.org/maven2</url>
+			<url>https://repo.maven.apache.org/maven2</url>
 		</pluginRepository>
 		<pluginRepository>
 			<id>dtrott</id>
@@ -22,15 +22,15 @@
 			<id>central</id>
 			<name>Maven Repository Switchboard</name>
 			<layout>default</layout>
-			<url>http://repo1.maven.org/maven2</url>
+			<url>https://repo1.maven.org/maven2</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-		<repository>
+		<!--   repository>
 			<id>fdvsolution.public</id>
 			<url>http://archiva.fdvs.com.ar/repository/public1/</url>
-		</repository>
+		</repository -->
 	</repositories>
 
 
@@ -40,11 +40,11 @@
            <spring.boot.framework.version>2.0.0.RELEASE</spring.boot.framework.version>
            <jboss.scope>compile</jboss.scope>
            <faster.xml.version>2.9.4</faster.xml.version>
-           <spring.version>5.0.4.RELEASE</spring.version>
+           <spring.version>5.2.3.RELEASE</spring.version>
            <jooq.version>3.11.9</jooq.version>
            <postgresql.driver.version>9.4.1212</postgresql.driver.version>
-           <spring.data.elasticsearch.version>3.1.4.RELEASE</spring.data.elasticsearch.version>
-           <spring.data.jpa.version>2.1.4.RELEASE</spring.data.jpa.version>
+           <spring.data.elasticsearch.version>3.2.4.RELEASE</spring.data.elasticsearch.version>
+           <spring.data.jpa.version>2.2.4.RELEASE</spring.data.jpa.version>
            <project.version>1.0-SNAPSHOT</project.version>
            <org.springframework.version>5.0.4.RELEASE</org.springframework.version>
            <log4j.version>1.2.17</log4j.version>

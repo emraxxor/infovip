@@ -104,6 +104,44 @@
 	</definition>	
 	
 	
+	<!--  Gallery page -->
+	<definition name="tile.gallery.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/gallery/GalleryBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
+			<add-attribute value="/lib/bingdian-waterfall/waterfall.js" />
+			<add-attribute value="/lib/jquery/owl.carousel.min.js" />
+			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
+			<add-attribute value="/js/web/activity/ActivityCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+			<add-attribute value="/css/flexslider-for-posts.min.css" />
+			<add-attribute value="/css/flexslider.min.css" />
+			<add-attribute value="/css/icon-font.min.css" />
+			<add-attribute value="/css/icons-fonts.min.css" />
+			<add-attribute value="/css/animate.min.css" />
+			<add-attribute value="/lib/unibox/unibox.min.css" />
+			<add-attribute value="/lib/bingdian-waterfall/css/reset.css" />
+		</put-list-attribute>
+	</definition>	
+	
+	
+	
+	
+	<!--  User gallery -->
+	<definition name="tile.user.gallery.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/user/gallery/UserGalleryBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
+			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
+			<add-attribute value="/js/web/activity/ActivityCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>	
+	
 	<!--  User settings / general page -->
 	<definition name="tile.user.settings.general.page" extends="default.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/settings/GeneralSettingsBody.jsp"></put-attribute>
