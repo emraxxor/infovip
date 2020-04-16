@@ -23,6 +23,7 @@ hs_err_pid*
 .settings/
 infovip-ear/.project
 infovip-ear/.settings/
+**/.classpath
 infovip-ejb/.classpath
 infovip-ejb/.project
 infovip-ejb/.settings/
