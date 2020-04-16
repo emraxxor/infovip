@@ -14,7 +14,7 @@
 		</pluginRepository>
 		<pluginRepository>
 			<id>dtrott</id>
-			<url>http://maven.davidtrott.com/repository</url>
+			<url>https://maven.davidtrott.com/repository</url>
 		</pluginRepository>
 	</pluginRepositories>
 	<repositories>
@@ -41,7 +41,7 @@
            <jboss.scope>compile</jboss.scope>
            <faster.xml.version>2.9.4</faster.xml.version>
            <spring.version>5.2.3.RELEASE</spring.version>
-           <jooq.version>3.11.9</jooq.version>
+           <jooq.version>3.13.1</jooq.version>
            <postgresql.driver.version>9.4.1212</postgresql.driver.version>
            <spring.data.elasticsearch.version>3.2.4.RELEASE</spring.data.elasticsearch.version>
            <spring.data.jpa.version>2.2.4.RELEASE</spring.data.jpa.version>
@@ -60,6 +60,7 @@
            <commons.email.version>1.4</commons.email.version>
            <jquery.version>3.1.0</jquery.version>
            <jquery.ui.version>1.12.1</jquery.ui.version>
+           <bootstrap.version>4.4.1-1</bootstrap.version>
            <commons.io.version>2.5</commons.io.version>
            <commons.lang.version>3.4</commons.lang.version>
            <commons.collections.version>3.2.2</commons.collections.version>
