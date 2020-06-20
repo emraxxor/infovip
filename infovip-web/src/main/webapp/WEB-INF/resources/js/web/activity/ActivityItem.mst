@@ -37,7 +37,7 @@
                                                 <div data-uid="commentbox"></div>
                                                 
                                                 <div class="activity--comments fs--12">
-                                                    <ul class="acomment--items nav">
+                                                    <ul class="acomment--items">
                                                        {{#comments}}
                                                         <li>
                                                             <div class="acomment--item clearfix">
@@ -76,7 +76,7 @@
 																	 <div data-uid="commentbox"></div>
 																	 
 																	 <div class="activity--comments fs--12">
-																		 <ul class="acomment--items nav">
+																		 <ul class="acomment--items">
 																		 {{#replies}}
 																			<li>
 																			<div class="acomment--item clearfix">

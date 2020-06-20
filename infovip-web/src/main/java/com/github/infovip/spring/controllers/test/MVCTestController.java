@@ -29,7 +29,7 @@ public class MVCTestController {
 	@Autowired
     private ApplicationContext appContext;
     
-    @PersistenceContext
+    @PersistenceContext(unitName = "infovipPU")
     private EntityManager em;
     
 

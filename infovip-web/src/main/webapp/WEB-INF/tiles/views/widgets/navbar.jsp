@@ -10,7 +10,7 @@
             <!-- Header Topbar Start -->
             <c:if test="${not empty isAuthenticated && isAuthenticated == true}">
             <div class="header--topbar bg-dark">
-                <div class="container">
+                <div class="container col-xl-12">
                 
                     <!-- Header Topbar Links Start -->
                     <ul class="header--topbar-links nav ff--primary no--stripes float--left">
@@ -48,32 +48,26 @@
             <!-- Header Topbar End -->
 
             <!-- Header Navbar Start -->
-            <div id="sticky-wrapper" class="sticky-wrapper" style="height: 80px;"><div class="header--navbar navbar bg-default" data-trigger="sticky" style="">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle style--3 collapsed" data-toggle="collapse" data-target="#headerNav">
-                            <span class="sr-only">Toggle Navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-
+            <div id="sticky-wrapper" class="sticky-wrapper" style="height: 80px !important; max-height: 80px !important;">
+            
+            <div class="header--navbar navbar bg-default" data-trigger="sticky" style="">
+                <div class="container col-xl-12 col-xs-12 col-md-12">
+                    <div class="col-xl-2">
                         <!-- Header Navbar Logo Start -->
-                        <div class="header--navbar-logo navbar-brand">
-                            <a href="index.html">
+                        <div class="">
+                            <a href="/">
                                 <img src="${resources}/img/logo-black.png" alt="">
                             </a>
                         </div>
                         <!-- Header Navbar Logo End -->
                     </div>
 
-                    <div id="headerNav" class="navbar-collapse collapse float--right">
+                    <div id="headerNav" class="col-xl-10 navbar-collapse collapse">
                         <!-- Header Nav Links Start -->
-                        <ul class="header--nav-links style--3 nav ff--primary">
+                        <ul class="nav ff--primary">
                             <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <span>Home</span>
-                                    <i class="fa fa-caret-down"></i>
                                 </a>
 
                                 <ul class="dropdown-menu">
@@ -84,7 +78,6 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <span>Community</span>
-                                    <i class="fa fa-caret-down"></i>
                                 </a>
 
                                 <ul class="dropdown-menu">
@@ -97,7 +90,6 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <span>Products</span>
-                                    <i class="fa fa-caret-down"></i>
                                 </a>
 
                                 <ul class="dropdown-menu">

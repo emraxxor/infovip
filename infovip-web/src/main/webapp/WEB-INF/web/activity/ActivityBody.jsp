@@ -48,7 +48,7 @@
                             <!-- Activity List Start -->
                             <div class="activity--list">
                                 <!-- Activity Items Start -->
-                                <ul class="activity--items nav">
+                                <ul class="activity--items">
                                     <li>
                                         <!-- Activity Item Start -->
                                         <div class="activity--item">
