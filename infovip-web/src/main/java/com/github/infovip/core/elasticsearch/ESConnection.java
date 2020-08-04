@@ -41,6 +41,7 @@ import org.elasticsearch.cluster.metadata.AliasMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 import com.carrotsearch.hppc.ObjectContainer;
@@ -72,7 +73,7 @@ public class ESConnection {
     /**
      * Default template
      */
-    private ElasticsearchTemplate template;
+    private ElasticsearchRestTemplate template;
     
     private DefaultElasticsearchConfiguration elasticsearchConfiguration;
     
@@ -93,11 +94,11 @@ public class ESConnection {
         bulkRequest = client.prepareBulk();
     }
     
-    public ElasticsearchTemplate getTemplate() {
+    public ElasticsearchRestTemplate getTemplate() {
 		return template;
 	}
     
-    public void setTemplate(ElasticsearchTemplate template) {
+    public void setTemplate(ElasticsearchRestTemplate template) {
 		this.template = template;
 	}
 
@@ -286,7 +287,7 @@ public class ESConnection {
     public synchronized long getDocumentsNumber(String indexName) {
         if (existsIndex(indexName)) {
             SearchResponse response = client.prepareSearch(indexName).setQuery(QueryBuilders.matchAllQuery()).setSize(0).execute().actionGet();
-            return response.getHits().getTotalHits();
+            return response.getHits().getTotalHits().value;
         }
         return 0;
     }

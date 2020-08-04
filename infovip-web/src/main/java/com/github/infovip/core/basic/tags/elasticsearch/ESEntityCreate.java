@@ -16,7 +16,6 @@
  */
 package com.github.infovip.core.basic.tags.elasticsearch;
 
-import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import static com.github.infovip.core.basic.jsp.Scope.scope;
 
 import java.util.logging.Level;
@@ -26,11 +25,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 
 /**
  * ESEntityCreate actually creates a new document then the document will be
@@ -49,7 +46,7 @@ public class ESEntityCreate extends BodyTagSupport {
     /**
      * Default template
      */
-    private ElasticsearchTemplate template;
+    private ElasticsearchRestTemplate template;
 
     /**
      * Application context
@@ -85,7 +82,7 @@ public class ESEntityCreate extends BodyTagSupport {
     public int doStartTag() throws JspException {
         try {
             applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-            template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
+            template =  applicationContext.getBean(ElasticsearchRestTemplate.class);
             entity = Class.forName(entityClass).newInstance();
             indexQuery = new IndexQuery();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
@@ -97,8 +94,7 @@ public class ESEntityCreate extends BodyTagSupport {
     @Override
     public int doAfterBody() throws JspException {
         indexQuery.setObject(entity);
-        template.index(indexQuery);
-        template.refresh(entity.getClass());
+        template.index(indexQuery, template.getIndexCoordinatesFor(entity.getClass()));
         if (result != null) {
             pageContext.setAttribute(result, entity, scope(scope));
         }

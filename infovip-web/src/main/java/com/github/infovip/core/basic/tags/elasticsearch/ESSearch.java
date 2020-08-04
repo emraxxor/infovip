@@ -16,9 +16,9 @@
  */
 package com.github.infovip.core.basic.tags.elasticsearch;
 
-import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
 import static com.github.infovip.core.basic.jsp.Scope.scope;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,16 +26,18 @@ import java.util.logging.Logger;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 
 /**
  * ESSearch allows to use native json object as a search query.
@@ -54,13 +56,10 @@ public class ESSearch extends BodyTagSupport {
     /**
      * Default template
      */
-    private ElasticsearchTemplate template;
+    private ElasticsearchRestTemplate template;
 
-    /**
-     * The client
-     */
-    private Client client;
-
+    private RestHighLevelClient restHighLevelClient;
+    
     /**
      * Parsed json string
      */
@@ -101,8 +100,8 @@ public class ESSearch extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
-        client = template.getClient();
+        template =  applicationContext.getBean(ElasticsearchRestTemplate.class);
+        restHighLevelClient = applicationContext.getBean(RestHighLevelClient.class);
         return EVAL_BODY_BUFFERED;
     }
 
@@ -112,16 +111,26 @@ public class ESSearch extends BodyTagSupport {
         if (entityClass != null) {
             try {
                 Class c = Class.forName(entityClass);
-                SearchQuery sq = new NativeSearchQuery(QueryBuilders.wrapperQuery(jsonString));
-                List res = template.queryForList(sq, c);
-                pageContext.setAttribute(result, res, scope(scope));
-                pageContext.getRequest().setAttribute(result, res);
+                Query sq = new NativeSearchQuery(QueryBuilders.wrapperQuery(jsonString));
+                SearchHits res = template.search( sq , c );
+                
+                List resultAsList = res.getSearchHits(); 
+                pageContext.setAttribute(result, resultAsList, scope(scope));
+                pageContext.getRequest().setAttribute(result, resultAsList);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ESSearch.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (index != null && type != null) {
-            SearchResponse response = client.prepareSearch(index).setTypes(type).setQuery(QueryBuilders.wrapperQuery(jsonString)).execute().actionGet();
-            pageContext.setAttribute(result, response, scope(scope));
+			try {
+				SearchRequest searchRequest = new SearchRequest(index); 
+				SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 				
+				sourceBuilder.query( QueryBuilders.wrapperQuery(jsonString) ); 
+				searchRequest.source(sourceBuilder);
+				SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+				pageContext.setAttribute(result, response, scope(scope));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
         return SKIP_BODY;
     }

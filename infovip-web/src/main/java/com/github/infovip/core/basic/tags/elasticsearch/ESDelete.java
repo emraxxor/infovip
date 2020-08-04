@@ -16,8 +16,6 @@
  */
 package com.github.infovip.core.basic.tags.elasticsearch;
 
-import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -32,10 +30,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 
 /**
  * ESDelete removes a simply entity using ElasticsearchTemplate
@@ -49,7 +45,7 @@ public class ESDelete extends BodyTagSupport {
     /**
      * Default template
      */
-    private ElasticsearchTemplate template;
+    private ElasticsearchRestTemplate template;
 
     /**
      * Application context
@@ -91,8 +87,7 @@ public class ESDelete extends BodyTagSupport {
             }
         }
         if (documentId != null) {
-            template.delete(d.indexName(), d.type(), documentId);
-            template.refresh(entityClass);
+        	template.delete(entity);
         } else {
             throw new JspException("Document cannot be deleted! The id of the document is not specified.");
         }
@@ -101,7 +96,7 @@ public class ESDelete extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
+        template = applicationContext.getBean(ElasticsearchRestTemplate.class);
         deleteDocumentById();
         return SKIP_PAGE;
     }

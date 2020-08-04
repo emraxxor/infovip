@@ -30,9 +30,13 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.support.WriteRequest.RefreshPolicy;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -62,8 +66,10 @@ public class ESUpdate extends BodyTagSupport {
     /**
      * Default template
      */
-    private ElasticsearchTemplate template;
+    private ElasticsearchRestTemplate template;
 
+    private RestHighLevelClient restHighLevelClient;
+    
     /**
      * Application context
      *
@@ -85,7 +91,8 @@ public class ESUpdate extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
+        template = applicationContext.getBean(ElasticsearchRestTemplate.class);
+        restHighLevelClient = applicationContext.getBean(RestHighLevelClient.class);
         return SKIP_BODY;
     }
 
@@ -99,7 +106,6 @@ public class ESUpdate extends BodyTagSupport {
 
             Document d = (Document) classAnnotation;
             indexRequest.index(d.indexName());
-            indexRequest.type(d.type());
 
             // updating the whole document
             for (Field f : fields) {
@@ -113,14 +119,9 @@ public class ESUpdate extends BodyTagSupport {
                 }
             }
             
-            template.index(new IndexQueryBuilder()
-                    .withId(indexRequest.id())
-                    .withIndexName(indexRequest.index())
-                    .withObject(entity)
-                    .withType(indexRequest.type())
-                    .build()
-            );
-            template.refresh(entityClass);
+            indexRequest.source(entity);
+            indexRequest.setRefreshPolicy(RefreshPolicy.IMMEDIATE);
+            restHighLevelClient.index( indexRequest , RequestOptions.DEFAULT );
         } catch (Exception ex) {
             Logger.getLogger(ESUpdate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

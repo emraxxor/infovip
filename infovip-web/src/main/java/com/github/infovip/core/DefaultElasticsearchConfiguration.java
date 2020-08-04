@@ -16,9 +16,8 @@
  */
 package com.github.infovip.core;
 
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.Settings;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 /**
  * @author Attila Barna
@@ -26,34 +25,27 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
  */
 public class DefaultElasticsearchConfiguration {
 
-	private Client client;
+	private RestHighLevelClient client;
 	
-	private Settings settings;
-
-	private ElasticsearchTemplate template;
+	private ElasticsearchRestTemplate template;
 	
-	
-	public DefaultElasticsearchConfiguration() {}
-	
-	public void postConstruct() {
-		this.client = template.getClient();
-		this.settings = client.settings();
+	public DefaultElasticsearchConfiguration(ElasticsearchRestTemplate template,RestHighLevelClient client) {
+		this.template = template;
+		this.client = client;
 	}
 	
-	public ElasticsearchTemplate getTemplate() {
+	public void postConstruct() {
+	}
+	
+	public ElasticsearchRestTemplate getTemplate() {
 		return template;
 	}
 	
-	public void setTemplate(ElasticsearchTemplate template) {
+	public void setTemplate(ElasticsearchRestTemplate template) {
 		this.template = template;
 	}
     
-    public Client getClient() {
+    public RestHighLevelClient getClient() {
 		return client;
 	}
-    
-    public Settings getSettings() {
-		return settings;
-	}
-
 }

@@ -55,24 +55,26 @@
     </bean>
     
     <!--  Deprecation of TransportClient usage.  -->
-    
-    
-    
-    <elasticsearch:transport-client id="esClient" cluster-name="elasticsearch" cluster-nodes="127.0.0.1:9300" client-transport-ping-timeout="800s" />
+    <!--  elasticsearch:transport-client id="esClient" cluster-name="elasticsearch" cluster-nodes="127.0.0.1:9300" client-transport-ping-timeout="800s" / -->
    
    
     <bean id="configurationSupport" class="org.springframework.data.elasticsearch.config.ElasticsearchConfigurationSupport"/>
+   
+    
+    <!--  -
+    TransportClient and EntityMapper are no longer user !
     
     <bean id="defaultEntityMapper" class="com.github.infovip.core.elasticsearch.DefaultObjectMapper"></bean>
-     
     <bean name="elasticsearchTemplate" class="org.springframework.data.elasticsearch.core.ElasticsearchTemplate">
         <constructor-arg name="client" ref="esClient"/>
         <constructor-arg name="entityMapper" ref="defaultEntityMapper"></constructor-arg>
     </bean>
+    -->
     
-    <bean id="defaultElasticsearchConfiguration" class="com.github.infovip.core.DefaultElasticsearchConfiguration" init-method="postConstruct">
+    <!--  Moved to ElasticsearchConfiguration -->
+    <!--   bean id="defaultElasticsearchConfiguration" class="com.github.infovip.core.DefaultElasticsearchConfiguration" init-method="postConstruct">
     	<property name="template" ref="elasticsearchTemplate"></property>
-    </bean>
+    </bean -->
 	
 	<bean id="esConnection" class="com.github.infovip.core.elasticsearch.ESConnection" init-method="init">
 		<constructor-arg name="esConfiguration" ref="defaultElasticsearchConfiguration" />

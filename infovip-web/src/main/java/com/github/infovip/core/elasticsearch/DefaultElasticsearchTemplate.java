@@ -1,17 +1,26 @@
 package com.github.infovip.core.elasticsearch;
 
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.EntityMapper;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Component;
 
-import com.github.infovip.core.DefaultElasticsearchConfiguration;
+/**
+ * Usage of the ElasticsearchTemplate is deprecated as of version 4.0, use ElasticsearchRestTemplate instead.
 
+ * @author attila
+ *
+ */
 @Component
-public class DefaultElasticsearchTemplate extends ElasticsearchTemplate {
-	
-	
+public class DefaultElasticsearchTemplate extends ElasticsearchRestTemplate /** extends ElasticsearchTemplate  **/ {
+
+	public DefaultElasticsearchTemplate(RestHighLevelClient client) {
+		super(client);
+	}
+		
+	/**
 	public DefaultElasticsearchTemplate(DefaultElasticsearchConfiguration config,  EntityMapper mapper) {
 		super(config.getClient(), mapper);
 	}
+	**/
 
 }

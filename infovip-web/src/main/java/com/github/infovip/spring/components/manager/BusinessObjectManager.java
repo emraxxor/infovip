@@ -8,11 +8,15 @@ import javax.annotation.PostConstruct;
 
 import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Component;
@@ -38,10 +42,8 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 
 	
 	@Autowired
-	private ElasticsearchTemplate template;
+	private RestHighLevelClient restHighLevelClient;
 
-	private Client esClient;
-	
 	@Autowired
 	private ESContainerInterface<ESDataElement<?>> esContainer;
 
@@ -51,7 +53,6 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 	
 	@PostConstruct
 	public void postConstruct() {
-		esClient = template.getClient();
 	}
 	
 	
@@ -60,14 +61,18 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 		
 		for(Field field : fields ) 
 			query.must(QueryBuilders.termQuery(field.getFieldName(), field.getFieldValue()));
+	
 		
-		SearchRequestBuilder srb = template.getClient()
-				.prepareSearch(metaData.getIndexName())
-				.setTypes(metaData.getIndexType());
+		SearchRequest sr = new SearchRequest(metaData.getIndexName());
+		SearchSourceBuilder src = new SearchSourceBuilder();
+		src.query(query);
+		src.size(1);
+		src.explain(false);
 
 		if ( metaData.getRouting() != null ) 
-			srb.setRouting(metaData.getRouting());
+			sr.routing(metaData.getRouting());
 
+		SearchResponse response = restHighLevelClient.search(sr, RequestOptions.DEFAULT);
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		
@@ -76,13 +81,6 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 		
 		Gson gson = gsonBuilder.create();
 		
-		
-		SearchResponse response = srb
-									.setQuery(query)
-									.setExplain(false)
-									.setSize(1)
-									.execute()
-									.actionGet(); 
 		
 		if ( response.getHits().getHits().length == 1 ) {
 			T data = gson.fromJson(response.getHits().getHits()[0].getSourceAsString(), type);
@@ -148,7 +146,7 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 									.execute()
 									.actionGet(); 
 		
-		return response.getHits().getTotalHits();
+		return response.getHits().getTotalHits().value;
 	}
 	
 	public <T> List<T> findDocumentsByField(List<Field> fields, IndexMetaData metaData, Type type, int size, int from) {

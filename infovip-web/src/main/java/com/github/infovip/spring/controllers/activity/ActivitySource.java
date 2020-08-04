@@ -1,13 +1,18 @@
 package com.github.infovip.spring.controllers.activity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.search.join.ScoreMode;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.InnerHitBuilder;
@@ -15,7 +20,9 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.join.query.JoinQueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -41,9 +48,9 @@ import com.google.gson.reflect.TypeToken;
  */
 public class ActivitySource extends AbstractScrollSource<WebApplicationContext, ActivityResponseElement> {
 
-	private ElasticsearchTemplate template;
+	private ElasticsearchRestTemplate template;
 
-	private Client client;
+	private RestHighLevelClient client;
 
 	private SearchResponse response;
 	
@@ -54,29 +61,34 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 	
 	public ActivitySource(WebApplicationContext context, String token) {
 		super(context, token);
-		this.template = this.context.getBean(ElasticsearchTemplate.class);
-		this.client = this.template.getClient();
+		this.template = this.context.getBean(ElasticsearchRestTemplate.class);
+		this.client = this.context.getBean(RestHighLevelClient.class);
 	}
 
 	@Override
-	public void query() {
-		if ( token == null || (token != null && token.equalsIgnoreCase("") ) )  {
-			response = client
-						.prepareSearch(DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_POST_INDEX, DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX )
-						.setTypes(DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_POST_TYPE,DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_TYPE)
-						.setScroll(new TimeValue(30000L))
-						.setQuery(query)
-						.addSort("date",  SortOrder.DESC )
-						.setExplain(true)
-						.setSize(this.size)
-						.execute()
-						.actionGet();
-		} else {
-			response = client.prepareSearchScroll(token).setScroll(new TimeValue(60000)).execute().actionGet();
+	public void query()  {
+		try {
+			if ( token == null || (token != null && token.equalsIgnoreCase("") ) )  {
+				SearchRequest searchRequest = new SearchRequest(DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_POST_INDEX, DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX ); 
+				SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
+				sourceBuilder.query(query);
+				sourceBuilder.sort("data", SortOrder.DESC);
+				sourceBuilder.size(this.size);
+				searchRequest.scroll(new TimeValue(30000L));
+				searchRequest.source(sourceBuilder);			
+				response = client.search(searchRequest, RequestOptions.DEFAULT);
+				
+			} else {
+				SearchScrollRequest scrollRequest = new SearchScrollRequest(token);
+				scrollRequest.scroll(new TimeValue(30000L));
+				response = client.scroll(scrollRequest, RequestOptions.DEFAULT);
+			}
+			token = response.getScrollId();
+			total = response.getHits().getTotalHits().value;
+			count = response.getHits().getHits().length;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		token = response.getScrollId();
-		total = response.getHits().getTotalHits();
-		count = response.getHits().getHits().length;
 	}
 
 	@Override
@@ -130,7 +142,7 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 					  }
 					  
 					  e.addCommentElement(  comment );
-					  comment.setTotalLikeCount( hit.getInnerHits().get("like-comment").getTotalHits()  );
+					  comment.setTotalLikeCount( hit.getInnerHits().get("like-comment").getTotalHits().value  );
 				  }
 				  
 				  for ( SearchHit sh : o.getInnerHits().get("like-post").getHits() ) {
@@ -141,7 +153,7 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 				  }
 				 
 				  e.setRouting(o.getId());
-				  e.setTotalLikeCount( o.getInnerHits().get("like-post").getTotalHits() );
+				  e.setTotalLikeCount( o.getInnerHits().get("like-post").getTotalHits().value );
 				  e.setDocumentId(o.getId());
 				  return e;
 			  }).collect(Collectors.toList()) ;

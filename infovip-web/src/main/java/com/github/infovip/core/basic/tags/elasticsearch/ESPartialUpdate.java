@@ -1,7 +1,5 @@
 package com.github.infovip.core.basic.tags.elasticsearch;
 
-import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -16,18 +14,17 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.action.support.WriteRequest.RefreshPolicy;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.query.UpdateQuery;
-import org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 
 
 public class ESPartialUpdate extends BodyTagSupport {
@@ -40,7 +37,9 @@ public class ESPartialUpdate extends BodyTagSupport {
 	/**
 	 * Default template
 	 */
-	private ElasticsearchTemplate template;
+	private ElasticsearchRestTemplate template;
+	
+	private RestHighLevelClient highLevelClient;
 
 	/**
 	 * Application context
@@ -63,7 +62,9 @@ public class ESPartialUpdate extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
+        template = applicationContext.getBean(ElasticsearchRestTemplate.class);
+        highLevelClient = applicationContext.getBean(RestHighLevelClient.class);
+
         fieldsToUpdate = new HashMap<>();
         return EVAL_BODY_BUFFERED;
     }
@@ -84,7 +85,6 @@ public class ESPartialUpdate extends BodyTagSupport {
             UpdateRequest updateRequest = new UpdateRequest();
             Document d = (Document) classAnnotation;
             updateRequest.index(d.indexName());
-            updateRequest.type(d.type());
             XContentBuilder builder = XContentFactory.jsonBuilder();
 
             for (Field f : fields) {
@@ -112,9 +112,9 @@ public class ESPartialUpdate extends BodyTagSupport {
           
             updateRequest.id(id);
             updateRequest.doc(builder);
-            UpdateQuery updateQuery = new UpdateQueryBuilder().withId(id).withClass(entityClass).withUpdateRequest(updateRequest).build();
-            template.update(updateQuery);
-            template.refresh(entityClass);
+            updateRequest.setRefreshPolicy(RefreshPolicy.IMMEDIATE);
+            highLevelClient.update(updateRequest, RequestOptions.DEFAULT);
+            
         } catch (IOException ex) {
             Logger.getLogger(ESUpdate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

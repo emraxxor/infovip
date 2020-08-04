@@ -1,5 +1,6 @@
 package com.github.infovip.core.statistics;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,20 +8,23 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.client.RestClients.ElasticsearchRestClient;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.Gson;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration;
 import com.github.infovip.core.browser.BrowserDetector;
 import com.github.infovip.core.container.ESContainer;
 import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.google.gson.Gson;
 
 /**
  * The component that is responsible for maintaining statistical events.
@@ -43,12 +47,13 @@ public class StatisticsManager {
      * Default template
      */
 	@Autowired
-    private ElasticsearchTemplate template;
+    private ElasticsearchRestTemplate restTemplate;
     
-    /**
-     * The client
-     */
-    private Client client;
+	@Autowired
+	private ElasticsearchRestClient restClient;
+	
+	@Autowired
+	private RestHighLevelClient restHighLevelClient;
 
 	
 	/**
@@ -78,7 +83,6 @@ public class StatisticsManager {
 	}
 	
 	public void postConstruct() {
-    	client = template.getClient();
 	}
 	
 	public void preDestroy() {
@@ -90,26 +94,35 @@ public class StatisticsManager {
     public void synchronize() {
     	synchronized (data) {
     		for(StatisticalElement<StatisticalEventData<?>> e : data.values() ) {
-    	    	SearchResponse response = client
-    	    							  .prepareSearch(ESConfiguration.IVIP_STAT_INDEX)
-    	    							  .setTypes(ESConfiguration.IVIP_STAT_TYPE)
-    	    							  .setQuery(
-    	    									  QueryBuilders.boolQuery()
-    	    									  	.must(QueryBuilders.termQuery("sessionId", e.getSessionId() ))
-    	    									  	.must(QueryBuilders.termQuery("sessionCreated", e.getSessionCreated()))
-    	    								)
-    	    							   .setSize(1)
-    	    							   .execute()
-    	    							   .actionGet();
+    		
+    			SearchRequest searchRequest = new SearchRequest(); 
+    			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder(); 
+    			searchSourceBuilder.query(
+    					 QueryBuilders.boolQuery()
+						  	.must(QueryBuilders.termQuery("sessionId", e.getSessionId() ))
+						  	.must(QueryBuilders.termQuery("sessionCreated", e.getSessionCreated()))
+    			); 
+    			searchSourceBuilder.size(1);
+    			searchRequest.source(searchSourceBuilder); 
+
+    	    	SearchResponse response;
+				try {
+					response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+
+					if ( response.getHits().getTotalHits().value == 0L ) {
+						container.add(e.getDataItem());
+					}
+					
+					for( StatisticalEventData<?> o : e.getEvents() ) {
+						logger.info("Adding to container: " +  new Gson().toJson(o,StatisticalEventData.class));
+						container.add(o);
+					}
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
     	    	
-    	    	if ( response.getHits().getTotalHits() == 0L ) {
-    	    		container.add(e.getDataItem());
-    	    	}
-    			
-    	    	for( StatisticalEventData<?> o : e.getEvents() ) {
-    	    		logger.info("Adding to container: " +  new Gson().toJson(o,StatisticalEventData.class));
-    	    		container.add(o);
-    			}
     		}
     		
     		data.clear();
