@@ -4,7 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Component;
 
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
@@ -21,7 +21,7 @@ public class PaymentTransactionManager {
 
 	
 	@Autowired
-	private ElasticsearchTemplate esTemplate;
+	private ElasticsearchRestTemplate esTemplate;
 
 	private Client esClient;
 	
@@ -34,7 +34,6 @@ public class PaymentTransactionManager {
 	
 	@PostConstruct
 	public void postConstruct() {
-		esClient = esTemplate.getClient();
 	}
 
 }

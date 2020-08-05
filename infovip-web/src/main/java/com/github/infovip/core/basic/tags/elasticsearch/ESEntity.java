@@ -16,8 +16,6 @@
  */
 package com.github.infovip.core.basic.tags.elasticsearch;
 
-import static com.github.infovip.core.Configuration.ELASTICSEARCH_TEMPLATE_NAME;
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,11 +25,10 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 
 /**
  * Since the JSTL "foreach" tag cannot iterate the entities I created a simple
@@ -76,7 +73,9 @@ public class ESEntity extends BodyTagSupport {
     /**
      * Default template
      */
-    private ElasticsearchTemplate template;
+    private ElasticsearchRestTemplate template;
+    
+    private RestHighLevelClient restHighLevelClient;
 
     /**
      * The given entity or iterable object
@@ -101,7 +100,8 @@ public class ESEntity extends BodyTagSupport {
     @Override
     public int doStartTag() throws JspException {
         applicationContext = WebApplicationContextUtils.findWebApplicationContext(pageContext.getServletContext());
-        template = (ElasticsearchTemplate) applicationContext.getBean(ELASTICSEARCH_TEMPLATE_NAME, DefaultElasticsearchTemplate.class);
+        template = applicationContext.getBean(ElasticsearchRestTemplate.class);
+        restHighLevelClient = applicationContext.getBean(RestHighLevelClient.class);
 
         if (var != null) {
             pageContext.setAttribute(var, entity, PageContext.PAGE_SCOPE);
@@ -140,11 +140,11 @@ public class ESEntity extends BodyTagSupport {
         return entity;
     }
 
-    public ElasticsearchTemplate getTemplate() {
+    public ElasticsearchRestTemplate getTemplate() {
         return template;
     }
 
-    public void setTemplate(ElasticsearchTemplate template) {
+    public void setTemplate(ElasticsearchRestTemplate template) {
         this.template = template;
     }
 

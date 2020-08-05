@@ -15,7 +15,6 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.client.RestClients.ElasticsearchRestClient;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -49,9 +48,6 @@ public class StatisticsManager {
 	@Autowired
     private ElasticsearchRestTemplate restTemplate;
     
-	@Autowired
-	private ElasticsearchRestClient restClient;
-	
 	@Autowired
 	private RestHighLevelClient restHighLevelClient;
 

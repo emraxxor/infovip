@@ -366,12 +366,13 @@
 			<version>${spring.boot.starter.batch}</version>
 		</dependency>
 
-		<dependency>
+
+		<!--   dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>${org.apache.httpclient.version}</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency -->
 	
 		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
 		<dependency>

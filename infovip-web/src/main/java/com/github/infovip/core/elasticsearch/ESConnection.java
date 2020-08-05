@@ -18,35 +18,47 @@ package com.github.infovip.core.elasticsearch;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
-import org.elasticsearch.action.admin.indices.alias.exists.AliasesExistResponse;
-import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
-import org.elasticsearch.action.admin.indices.alias.get.GetAliasesResponse;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
+import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest.AliasActions;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
-import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.ActiveShardCount;
+import org.elasticsearch.action.support.IndicesOptions;
+import org.elasticsearch.action.support.WriteRequest.RefreshPolicy;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.DeleteAliasRequest;
 import org.elasticsearch.cluster.metadata.AliasMetaData;
-import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
-import com.carrotsearch.hppc.ObjectContainer;
-import com.carrotsearch.hppc.cursors.ObjectCursor;
 import com.github.infovip.core.DefaultElasticsearchConfiguration;
+import com.google.gson.Gson;
 
 /**
  *
@@ -58,7 +70,7 @@ public class ESConnection {
     /**
      * Transportclient for ElasticSearch Engine
      */
-    private Client client;
+    private RestHighLevelClient client;
 
     /**
      * Settings for bulkrequest
@@ -68,12 +80,14 @@ public class ESConnection {
     /**
      * Instance of bulkrequest
      */
-    private BulkRequestBuilder bulkRequest;
+    private BulkRequest bulkRequest;
 
     /**
      * Default template
      */
     private ElasticsearchRestTemplate template;
+    
+    private Lock lock = new ReentrantLock();
     
     private DefaultElasticsearchConfiguration elasticsearchConfiguration;
     
@@ -91,28 +105,54 @@ public class ESConnection {
      * Prepares a request
      */
     public void preapreRequest() {
-        bulkRequest = client.prepareBulk();
+        bulkRequest = new BulkRequest();
     }
     
-    public ElasticsearchRestTemplate getTemplate() {
-		return template;
-	}
-    
-    public void setTemplate(ElasticsearchRestTemplate template) {
-		this.template = template;
-	}
-
     /**
      * Closes the client
      */
     public void close() {
-        client.close();
+        try {
+			client.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public <T> T doQuery( Supplier<T> s ) {
+    	try {
+    		return s.get();
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
     }
 
-    public Client getClient() {
+    public RestHighLevelClient getClient() {
         return client;
     }
 
+    private void indices(Consumer<org.elasticsearch.client.indices.GetIndexResponse> c) {
+		try {
+			org.elasticsearch.client.indices.GetIndexRequest request = new org.elasticsearch.client.indices.GetIndexRequest("*");
+			org.elasticsearch.client.indices.GetIndexResponse response = client.indices().get(request, RequestOptions.DEFAULT);
+			c.accept(response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    private List<String> indices() {
+    	try {
+			org.elasticsearch.client.indices.GetIndexRequest request = new org.elasticsearch.client.indices.GetIndexRequest("*");
+			org.elasticsearch.client.indices.GetIndexResponse response = client.indices().get(request, RequestOptions.DEFAULT);
+			return  Arrays.asList(response.getIndices());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return null;
+    }
+    
     /**
      * Gets a list which contains the indices
      *
@@ -120,16 +160,10 @@ public class ESConnection {
      * @return
      */
     public synchronized String getIndex(String match) {
-        ClusterStateResponse response = client.admin().cluster().prepareState().execute().actionGet();
-        Iterator<ObjectCursor<String>> lindices = response.getState().metaData().getIndices().keys().iterator();
-        while (lindices.hasNext()) {
-            ObjectCursor<String> oc = lindices.next();
-            String indexName = oc.value;
-            if (indexName.indexOf(match) != -1) {
-                return indexName;
-            }
-        }
-        return null;
+    	Optional<String> ind = indices().stream().filter(e -> e.indexOf(match) != -1 ).findAny();
+    	if ( ind.isPresent() ) 
+    		return ind.get();
+    	return null;
     }
 
     /**
@@ -139,16 +173,11 @@ public class ESConnection {
      * @return
      */
     public synchronized List<String> getIndices(String match) {
-        List<String> indices = new ArrayList<String>();
-        ClusterStateResponse response = client.admin().cluster().prepareState().execute().actionGet();
-        Iterator<ObjectCursor<String>> lindices = response.getState().metaData().getIndices().keys().iterator();
-        while (lindices.hasNext()) {
-            ObjectCursor<String> oc = lindices.next();
-            String indexName = oc.value;
-            if (indexName.indexOf(match) != -1) {
-                indices.add(indexName);
-            }
-        }
+        final List<String> indices = new ArrayList<String>();
+        indices( e -> {
+        	List<String> ic = Arrays.asList( e.getIndices() );
+        	ic.stream().filter( f -> f.indexOf(match) != -1 ).forEach(indices::add); 
+        }); 
         return indices;
     }
 
@@ -158,15 +187,9 @@ public class ESConnection {
      * @return
      */
     public synchronized List<String> getIndicesAsList() {
-        List<String> indices = new ArrayList<String>();
-        ClusterStateResponse response = client.admin().cluster().prepareState().execute().actionGet();
-        Iterator<ObjectCursor<String>> lindices = response.getState().metaData().getIndices().keys().iterator();
-        while (lindices.hasNext()) {
-            ObjectCursor<String> oc = lindices.next();
-            String indexName = oc.value;
-            indices.add(indexName);
-        }
-        return indices;
+    	final List<String> indices = new ArrayList<String>();
+    	indices( e -> Arrays.asList( e.getIndices() ).forEach(indices::add) );
+    	return indices;
     }
 
     /**
@@ -175,10 +198,19 @@ public class ESConnection {
      * @param indexName
      */
     public synchronized void removeIndex(String indexName) {
-        AcknowledgedResponse delete = client.admin().indices().delete(new DeleteIndexRequest(indexName)).actionGet();
-        if (delete.isAcknowledged()) {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Index: %s has been successfully removed.", indexName));
-        }
+    	try {
+			DeleteIndexRequest request = new DeleteIndexRequest("posts"); 
+			request.timeout(TimeValue.timeValueMinutes(2)); 
+			request.masterNodeTimeout(TimeValue.timeValueMinutes(1));
+			request.indicesOptions(IndicesOptions.lenientExpandOpen());
+			AcknowledgedResponse delete = client.indices().delete(request, RequestOptions.DEFAULT);
+			if (delete.isAcknowledged()) {
+			    Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Index: %s has been successfully removed.", indexName));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -188,13 +220,22 @@ public class ESConnection {
      * @param indexName
      */
     public synchronized void createAlias(String aliasName, String indexName) throws Exception {
-        AliasesExistResponse existResponse = client.admin().indices().prepareAliasesExist(aliasName).execute().actionGet();
-        if (existResponse.exists() == false) {
-        	AcknowledgedResponse resp = client.admin().indices().prepareAliases().addAlias(indexName, aliasName).execute().actionGet();
-            if (resp.isAcknowledged()) {
-                Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Alias %s to index %s has been created successfully.", aliasName, indexName));
-            }
-        }
+    	try {
+			IndicesAliasesRequest request = new IndicesAliasesRequest(); 
+			AliasActions aliasAction = new AliasActions(AliasActions.Type.ADD)
+			        					 	.index(indexName)
+			        					 	.alias(aliasName); 
+			request.addAliasAction(aliasAction); 
+			request.timeout(TimeValue.timeValueMinutes(2));
+			request.masterNodeTimeout(TimeValue.timeValueMinutes(1));
+			
+			AcknowledgedResponse resp = client.indices().updateAliases(request, RequestOptions.DEFAULT);
+			if (resp.isAcknowledged()) 
+			        Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Alias %s to index %s has been created successfully.", aliasName, indexName));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -204,11 +245,16 @@ public class ESConnection {
      * @param indexName
      */
     public synchronized void removeAlias(String aliasName, String indexName) {
-    	AcknowledgedResponse resp = client.admin().indices().prepareAliases().removeAlias(indexName, aliasName).execute().actionGet();
-        if (resp.isAcknowledged()) {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Alias %s to index %s has been removed successfully.", aliasName, indexName));
-
-        }
+    	try {
+			DeleteAliasRequest request = new DeleteAliasRequest(indexName, aliasName);
+			request.setTimeout(TimeValue.timeValueMinutes(2));
+			request.setMasterTimeout(TimeValue.timeValueMinutes(1));
+			org.elasticsearch.client.core.AcknowledgedResponse resp = client.indices().deleteAlias(request, RequestOptions.DEFAULT);
+			if (resp.isAcknowledged()) 
+			    Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Alias %s to index %s has been removed successfully.", aliasName, indexName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -216,10 +262,10 @@ public class ESConnection {
      *
      * @return
      */
-    public synchronized ObjectContainer<List<AliasMetaData>> getAliases() {
-        GetAliasesResponse response = client.admin().indices().getAliases(new GetAliasesRequest()).actionGet();
-        ImmutableOpenMap<String, List<AliasMetaData>> res = response.getAliases();
-        return res.values();
+    public synchronized List<AliasMetaData> getAliases() {
+    	final List<AliasMetaData> meta = new ArrayList<AliasMetaData>();
+    	indices( e ->  e.getAliases().entrySet().stream().flatMap( x -> x.getValue().stream() ).forEach(meta::add)  );
+    	return meta;
     }
 
     /**
@@ -228,16 +274,7 @@ public class ESConnection {
      * @return
      */
     public synchronized List<String> getAliasesAsList() {
-        List<String> aliases = new ArrayList<>();
-        ObjectContainer<List<AliasMetaData>> laliases = getAliases();
-        Iterator<ObjectCursor<List<AliasMetaData>>> e = laliases.iterator();
-        while (e.hasNext()) {
-            ObjectCursor<List<AliasMetaData>> oc = e.next();
-            for (AliasMetaData am : oc.value) {
-                aliases.add(am.getAlias());
-            }
-        }
-        return aliases;
+    	return getAliases().stream().map(e -> e.get().getAlias()).collect(Collectors.toList());
     }
 
     /**
@@ -248,15 +285,18 @@ public class ESConnection {
      * @throws ElasticsearchException
      */
     public synchronized void createIndex(String indexName) throws IOException, ElasticsearchException {
-        IndicesExistsResponse res = client.admin().indices().prepareExists(indexName).execute().actionGet();
-        if (res.isExists() == false) {
-            CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate(indexName);
-            CreateIndexResponse resp = createIndexRequestBuilder.execute().actionGet();
-            if (resp.isAcknowledged()) {
-                Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Index : %s has been successfully created.", indexName));
+        CreateIndexRequest request = new CreateIndexRequest(indexName);
+        request.settings(Settings.builder() 
+        	    .put("index.number_of_shards", 5)
+        );
+        request.setTimeout(TimeValue.timeValueMinutes(2));
+        request.setMasterTimeout(TimeValue.timeValueMinutes(1));
+        request.waitForActiveShards(ActiveShardCount.DEFAULT);
+        org.elasticsearch.client.indices.CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
 
-            }
-        }
+        if ( createIndexResponse.isAcknowledged() ) 
+        	Logger.getLogger(getClass().getName()).log(Level.INFO, String.format("Index : %s has been successfully created.", indexName));
+        	
     }
 
     /**
@@ -266,16 +306,7 @@ public class ESConnection {
      * @return
      */
     public synchronized boolean existsIndex(String match) {
-        ClusterStateResponse response = client.admin().cluster().prepareState().execute().actionGet();
-        Iterator<ObjectCursor<String>> lindices = response.getState().metaData().getIndices().keys().iterator();
-        while (lindices.hasNext()) {
-            ObjectCursor<String> oc = lindices.next();
-            String indexName = oc.value;
-            if (indexName.contains(match)) {
-                return true;
-            }
-        }
-        return false;
+    	return getIndices(match).size() > 0;
     }
 
     /**
@@ -285,10 +316,19 @@ public class ESConnection {
      * @return
      */
     public synchronized long getDocumentsNumber(String indexName) {
-        if (existsIndex(indexName)) {
-            SearchResponse response = client.prepareSearch(indexName).setQuery(QueryBuilders.matchAllQuery()).setSize(0).execute().actionGet();
-            return response.getHits().getTotalHits().value;
-        }
+        try {
+			if (existsIndex(indexName)) {
+				SearchRequest searchRequest = new SearchRequest(indexName); 
+				SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder(); 
+				searchSourceBuilder.query(QueryBuilders.matchAllQuery()); 
+				searchRequest.source(searchSourceBuilder); 
+				SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+				return response.getHits().getTotalHits().value;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return 0;
     }
 
@@ -299,8 +339,7 @@ public class ESConnection {
      * @return
      */
     public synchronized boolean existAlias(String aname) {
-        ClusterStateResponse response = client.admin().cluster().prepareState().execute().actionGet();
-        return getAliasesAsList().contains(aname);
+    	return getAliasesAsList().contains(aname);
     }
 
     /**
@@ -309,10 +348,11 @@ public class ESConnection {
      * @param ob
      */
     public synchronized void putRow(String indexName, String type, Map<String, Object> ob) {
-        bulkRequest.add(client.prepareIndex(indexName, type).setSource(ob));
+		IndexRequest request = new IndexRequest(indexName);
+		request.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
+		//request.id(data.id());
+		request.source(ob);
+		bulkRequest.add( request );
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
 }

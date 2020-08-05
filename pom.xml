@@ -52,7 +52,7 @@
            <jdk.version>1.8</jdk.version>
            <hibernate.core.version>5.2.10.Final</hibernate.core.version>
            <hibernate.validator.version>5.2.1.Final</hibernate.validator.version>
-           <org.apache.httpclient.version>4.5.3</org.apache.httpclient.version>
+           <org.apache.httpclient.version>4.5.10</org.apache.httpclient.version>
            <org.imgscalr.version>4.2</org.imgscalr.version>
            <spring.boot.starter.batch>1.5.4.RELEASE</spring.boot.starter.batch>
            <commons.codec.version>1.10</commons.codec.version>

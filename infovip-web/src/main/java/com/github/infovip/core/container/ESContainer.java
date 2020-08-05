@@ -240,7 +240,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 				} else if ( data.operation() == ESOperationType.UPDATE ) {
 					if ( data instanceof ESChildElement<?> ) {
 						UpdateRequest request = new UpdateRequest(data.index(), data.id());
-						request.doc(XContentType.JSON, new Gson().toJson(data.data()));
+						request.doc(new Gson().toJson(data.data()), XContentType.JSON);
 						request.routing(data.routing());
 						request.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
 						// PARENT ?? DEPRECATED ??
@@ -249,7 +249,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 					} else {
 						UpdateRequest request = new UpdateRequest(data.index(), data.id());
 						request.routing(data.routing());
-						request.doc(XContentType.JSON, new Gson().toJson(data.data()));
+						request.doc(new Gson().toJson(data.data()), XContentType.JSON);
 						request.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
 						return client.update(request, RequestOptions.DEFAULT);
 						//return client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
@@ -260,7 +260,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 							IndexRequest request = new IndexRequest(data.index());
 							request.routing(data.routing());
 							request.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
-							request.source(XContentType.JSON, new Gson().toJson(data.data()));
+							request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 							return client.index(request, RequestOptions.DEFAULT);
 							//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 						} else {
@@ -268,7 +268,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 							request.routing(data.routing());
 							request.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
 							request.id(data.id());
-							request.source(XContentType.JSON, new Gson().toJson(data.data()));
+							request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 							return client.index(request, RequestOptions.DEFAULT);
 							//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 						}
@@ -277,7 +277,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 						request.routing(data.routing());
 						request.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
 						request.id(data.id());
-						request.source(XContentType.JSON, new Gson().toJson(data.data()));
+						request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 						return client.index(request, RequestOptions.DEFAULT);
 
 						//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
@@ -287,7 +287,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 						request.routing(data.routing());
 						request.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
 						//request.id(data.id());
-						request.source(XContentType.JSON, new Gson().toJson(data.data()));
+						request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 						return client.index(request, RequestOptions.DEFAULT);
 
 						//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();									
@@ -322,14 +322,14 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 				} else if ( data.operation() == ESOperationType.UPDATE ) {
 					if ( data instanceof ESChildElement<?> ) {
 						UpdateRequest request = new UpdateRequest(data.index(), data.id());
-						request.doc(XContentType.JSON, new Gson().toJson(data.data()));
+						request.doc(new Gson().toJson(data.data()), XContentType.JSON);
 						request.routing(data.routing());
 						// PARENT ?? DEPRECATED ??
 						return client.update(request, RequestOptions.DEFAULT);
 						//return client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON).get();
 					} else {
 						UpdateRequest request = new UpdateRequest(data.index(), data.id());
-						request.doc(XContentType.JSON, new Gson().toJson(data.data()));
+						request.doc(new Gson().toJson(data.data()), XContentType.JSON);
 						request.routing(data.routing());
 						// PARENT ?? DEPRECATED ??
 						return client.update(request, RequestOptions.DEFAULT);
@@ -340,14 +340,14 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 						if ( data.id() == null ) {
 							IndexRequest request = new IndexRequest(data.index());
 							request.routing(data.routing());
-							request.source(XContentType.JSON, new Gson().toJson(data.data()));
+							request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 							return client.index(request, RequestOptions.DEFAULT);
 							//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 						} else {
 							IndexRequest request = new IndexRequest(data.index());
 							request.routing(data.routing());
 							request.id(data.id());
-							request.source(XContentType.JSON, new Gson().toJson(data.data()));
+							request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 							return client.index(request, RequestOptions.DEFAULT);
 							//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 						}
@@ -355,14 +355,14 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 						IndexRequest request = new IndexRequest(data.index());
 						request.routing(data.routing());
 						request.id(data.id());
-						request.source(XContentType.JSON, new Gson().toJson(data.data()));
+						request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 						return client.index(request, RequestOptions.DEFAULT);
 						//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 					} else {
 						IndexRequest request = new IndexRequest(data.index());
 						request.routing(data.routing());
 						//request.id(data.id());
-						request.source(XContentType.JSON, new Gson().toJson(data.data()));
+						request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 						return client.index(request, RequestOptions.DEFAULT);
 						
 						//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();									
@@ -399,14 +399,14 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 				} else if ( data.operation() == ESOperationType.UPDATE ) {
 					if ( data instanceof ESChildElement<?> ) {
 						UpdateRequest request = new UpdateRequest(data.index(), data.id());
-						request.doc(XContentType.JSON, new Gson().toJson(data.data()));
+						request.doc(new Gson().toJson(data.data()), XContentType.JSON);
 						request.routing(data.routing());
 						// PARENT ?? DEPRECATED ??
 						bulkRequest.add(request);
 						//bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
 					} else {
 						UpdateRequest request = new UpdateRequest(data.index(), data.id());
-						request.doc(XContentType.JSON, new Gson().toJson(data.data()));
+						request.doc(new Gson().toJson(data.data()), XContentType.JSON);
 						request.routing(data.routing());
 						bulkRequest.add(request);
 						//bulkRequest.add( client.prepareUpdate(data.index(), data.type(), data.id() ).setRouting(data.routing()).setDoc(new Gson().toJson(data.data()), XContentType.JSON) );
@@ -416,14 +416,14 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 						if ( data.id() == null ) {
 							IndexRequest request = new IndexRequest(data.index());
 							request.routing(data.routing());
-							request.source(XContentType.JSON, new Gson().toJson(data.data()));
+							request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 							bulkRequest.add(request);
 							//bulkRequest.add( client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON));
 						} else {
 							IndexRequest request = new IndexRequest(data.index());
 							request.routing(data.routing());
 							request.id(data.id());
-							request.source(XContentType.JSON, new Gson().toJson(data.data()));
+							request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 							bulkRequest.add(request);
 							//bulkRequest.add( client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setId(data.id()).setParent(((ESChildElement<?>) data).parent()).setSource(new Gson().toJson(data.data()),XContentType.JSON));
 						}
@@ -431,13 +431,13 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 						IndexRequest request = new IndexRequest(data.index());
 						request.routing(data.routing());
 						request.id(data.id());
-						request.source(XContentType.JSON, new Gson().toJson(data.data()));
+						request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 						bulkRequest.add(request);
 						//bulkRequest.add( client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON));									
 					} else {
 						IndexRequest request = new IndexRequest(data.index());
 						request.routing(data.routing());
-						request.source(XContentType.JSON, new Gson().toJson(data.data()));
+						request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 						bulkRequest.add(request);
 						//bulkRequest.add( client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setSource(new Gson().toJson(data.data()),XContentType.JSON));									
 					}

@@ -16,14 +16,16 @@
  */
 package com.github.infovip.spring.services;
 
-import com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity;
-import com.github.infovip.spring.elasticsearch.repositories.TimelineRepository;
 import java.io.Serializable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Service;
+
+import com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity;
+import com.github.infovip.spring.elasticsearch.repositories.TimelineRepository;
 
 /**
  *
@@ -36,7 +38,7 @@ public class TimelineService implements Serializable {
     private TimelineRepository timelineRepository;
 
     @Autowired
-    private ElasticsearchTemplate elasticsearchTemplate;
+    private ElasticsearchRestTemplate elasticsearchTemplate;
 
     public TimelineService() {
     }

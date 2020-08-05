@@ -74,11 +74,13 @@
     <!--  Moved to ElasticsearchConfiguration -->
     <!--   bean id="defaultElasticsearchConfiguration" class="com.github.infovip.core.DefaultElasticsearchConfiguration" init-method="postConstruct">
     	<property name="template" ref="elasticsearchTemplate"></property>
-    </bean -->
+    </bean 
 	
 	<bean id="esConnection" class="com.github.infovip.core.elasticsearch.ESConnection" init-method="init">
 		<constructor-arg name="esConfiguration" ref="defaultElasticsearchConfiguration" />
-	</bean>
+	</bean> 
+	
+	-->
 
 	
 	<!--  REPOSITORIES -->    

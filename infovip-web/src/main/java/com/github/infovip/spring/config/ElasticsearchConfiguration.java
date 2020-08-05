@@ -1,21 +1,25 @@
 package com.github.infovip.spring.config;
 
 import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 import com.github.infovip.core.DefaultElasticsearchConfiguration;
+import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
+import com.github.infovip.core.elasticsearch.ESConnection;
 
 @Configuration
 public class ElasticsearchConfiguration  extends  AbstractElasticsearchConfiguration { 
 
 	
     @Override
-    @Bean
+    @Bean(name = "elasticsearchClient")
     public RestHighLevelClient elasticsearchClient() {
 
         final ClientConfiguration clientConfiguration = ClientConfiguration.builder()  
@@ -25,15 +29,29 @@ public class ElasticsearchConfiguration  extends  AbstractElasticsearchConfigura
         return RestClients.create(clientConfiguration).rest();                         
     }
     
-    @Bean
+   /**
+    @Bean(name = "elasticsearchRestTemplate")
+    @Primary
     public ElasticsearchRestTemplate elasticsearchTemplate() {
         return new ElasticsearchRestTemplate(elasticsearchClient());
-    }
+    } **/
     
+
+    @Bean(name = "elasticsearchRestTemplate")
+    @Primary
+    public DefaultElasticsearchTemplate deafultElasticsearchTemplate() {
+    	return new DefaultElasticsearchTemplate(elasticsearchClient());
+    }
+
 
     @Bean(name = "defaultElasticsearchConfiguration" )
     public DefaultElasticsearchConfiguration defaultElasticsearchConfiguration() {
-    	return new DefaultElasticsearchConfiguration(elasticsearchTemplate(), elasticsearchClient());
+    	return new DefaultElasticsearchConfiguration(deafultElasticsearchTemplate(), elasticsearchClient());
+    }
+    
+    @Bean(name = "esConnection")
+    public ESConnection esConnection() {
+    	return new ESConnection(defaultElasticsearchConfiguration());
     }
     
 	  //@Bean

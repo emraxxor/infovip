@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +34,7 @@ public class SiteMapXMLController<T> {
 	private ESConnection esConnection;
 	
 	@Autowired
-	private ElasticsearchTemplate template;
+	private ElasticsearchRestTemplate template;
 	
 	private DefaultSitemapIndexGenerator siteMapIndexGenerator;
 	

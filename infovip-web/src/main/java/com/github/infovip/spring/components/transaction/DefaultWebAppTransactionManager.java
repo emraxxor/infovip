@@ -3,9 +3,9 @@ package com.github.infovip.spring.components.transaction;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Component;
 
 import com.github.infovip.core.data.type.TransactionType;
@@ -19,9 +19,9 @@ import com.github.infovip.web.application.transaction.TransactionValue;
 public class DefaultWebAppTransactionManager {
 	
 	@Autowired
-	private ElasticsearchTemplate template;
+	private ElasticsearchRestTemplate template;
 
-	private Client esClient;
+	private RestHighLevelClient esClient;
 	
 	@Autowired
 	private ESContainerInterface<ESDataElement<?>> esContainer;
@@ -35,7 +35,6 @@ public class DefaultWebAppTransactionManager {
 	
 	@PostConstruct
 	public void postConstruct() {
-		esClient = template.getClient();
 	}
 	
 	
