@@ -36,8 +36,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.github.infovip.core.Configuration.SESSION;
+import com.github.infovip.core.log.BaseLogDataElement;
+import com.github.infovip.core.log.BaseLogElement;
+import com.github.infovip.core.log.LogManager;
+import com.github.infovip.core.log.LogType;
 import com.github.infovip.core.web.user.DefaultApplicationRole;
 import com.github.infovip.core.web.user.UserSession;
 import com.github.infovip.entities.User;
@@ -58,7 +63,9 @@ public class AuthenticationController {
     @Autowired
     @Qualifier(value = "userSession")
     private UserSession userSession;
-    
+   
+	@Autowired
+	private LogManager<BaseLogElement<?>, WebApplicationContext, HttpServletRequest> logManager;
     
     @Autowired
     private UserServiceInterface<User> userService;
@@ -117,8 +124,28 @@ public class AuthenticationController {
                 request.getSession().setAttribute(SESSION.AUTH_TIME.toString(), new Date(System.currentTimeMillis()));
                 request.getSession().setAttribute(SESSION.REMOTE_ADDR.toString(), request.getRemoteAddr());
                 request.getSession().setAttribute(SESSION.HEADER.toString(), request.getHeader("User-Agent"));
+                
+    			logManager.synch(
+						logManager
+						.create( new BaseLogDataElement() , request)
+						.user(u.getUserName())
+						.type(LogType.AUTH)
+						.component(AuthenticationController.class.getName())
+						.message("Successful login into the system.")
+						.getLogElement()
+    			);
+                
                 response.sendRedirect("/");
             } else {
+    			logManager.synch(
+						logManager
+						.create( new BaseLogDataElement() , request)
+						.user(email)
+						.type(LogType.AUTH)
+						.component(AuthenticationController.class.getName())
+						.message("Unsuccessful login to the system.")
+						.getLogElement()
+    			);
                 response.sendRedirect("/login?err=invalid");
             }
         } catch (IOException ex) {
@@ -142,6 +169,16 @@ public class AuthenticationController {
                 && session.getAttribute(sessionValue(SESSION.USER_SESSION)) != null
                 && ((UserSession) session.getAttribute(sessionValue(SESSION.USER_SESSION))).isAuthenticated()) {
             try {
+    			logManager.synch(
+						logManager
+						.create( new BaseLogDataElement() , request)
+						.user(((UserSession) session.getAttribute(sessionValue(SESSION.USER_SESSION))).getUserName())
+						.type(LogType.AUTH)
+						.component(AuthenticationController.class.getName())
+						.message("Successfully logged out of the system.")
+						.getLogElement()
+    			);
+
                 /**
                  * @todo
                  * A nullpointer exception is occurred due to default filter settings.

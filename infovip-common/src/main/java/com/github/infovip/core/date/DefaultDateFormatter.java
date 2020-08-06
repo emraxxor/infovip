@@ -7,6 +7,12 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Helper class for managing dates.
+ * 
+ * @author Attila Barna
+ *
+ */
 public class DefaultDateFormatter {
 
 	private static final Logger logger = Logger.getLogger(DefaultDateFormatter.class);
