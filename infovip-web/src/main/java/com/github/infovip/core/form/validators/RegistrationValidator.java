@@ -8,7 +8,6 @@ import com.github.infovip.core.web.types.ValidationType;
 import com.github.infovip.entities.LogRegistration;
 import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
-import com.github.infovip.spring.services.UserService;
 import com.github.infovip.util.BasicUtilities;
 
 
@@ -31,7 +30,7 @@ public class RegistrationValidator<T extends DefaultUserFormData<User,LogRegistr
 	@Override
 	public boolean validate() {
 		boolean result = super.validate();
-		
+
 		if ( userService.findUserByEmail(this.data.getUserMail()) != null ) {
 			addResponse(new ValidationResponse(ValidationType.EMAIL_ALREADY_EXISTS, Translate.tr("Email already exists"), "email"));
 			result = false;

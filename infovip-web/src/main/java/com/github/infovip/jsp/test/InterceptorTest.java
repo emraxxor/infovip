@@ -16,7 +16,7 @@
  */
 package com.github.infovip.jsp.test;
 
-import static com.github.infovip.core.Configuration.SESSION.USER_SESSION;
+import static com.github.infovip.configuration.DefaultWebAppConfiguration.SESSION.USER_SESSION;
 import com.github.infovip.core.basic.jsp.tags.interceptor.AfterDisplay;
 import com.github.infovip.core.basic.jsp.tags.interceptor.BeforeDisplay;
 import com.github.infovip.core.basic.jsp.tags.interceptor.ModuleApplicationContext;

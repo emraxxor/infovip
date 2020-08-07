@@ -67,7 +67,7 @@
                 
         <c:forEach items="${container.javascriptManager.data}" var="js">
             ${js}
-        </c:forEach>
+        </c:forEach>     
         
     </head>
     

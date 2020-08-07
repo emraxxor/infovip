@@ -1,8 +1,6 @@
 package com.github.infovip.web.user;
 
-import com.github.infovip.core.data.DefaultUser;
-import com.github.infovip.core.form.data.DefaultUserFormData;
-import com.github.infovip.core.web.user.UserSessionInterface;
+import com.github.infovip.core.data.UserPublicFormElement;
 import com.github.infovip.entities.User;
 
 /**
@@ -12,18 +10,18 @@ import com.github.infovip.entities.User;
  */
 public class UserInfo {
 
-	private DefaultUserFormData data;
+	private UserPublicFormElement<User> data;
 	
-	public UserInfo(UserSessionInterface<User> session) {
-		this.data = new DefaultUserFormData(session.getUser(), DefaultUser.class.getDeclaredFields() );
-		this.data.setUserPassword("");
+	
+	public UserInfo(User u) {
+		this.data = new UserPublicFormElement<User>(  u );
 	}
 	
-	public DefaultUserFormData getData() {
+	public  UserPublicFormElement<User> getData() {
 		return data;
 	}
 	
-	public void setData(DefaultUserFormData data) {
+	public void setData( UserPublicFormElement<User> data) {
 		this.data = data;
 	}
 	

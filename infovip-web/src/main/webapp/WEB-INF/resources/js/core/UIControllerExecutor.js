@@ -15,6 +15,7 @@ var UIControllerExecutor = easejs.Class('UIControllerExecutor').extend({
 		if ( this.uiComponent != null ) {
 			this.uiComponent.postConstruct();
 			this.uiComponent.render();
+			this.uiComponent.events();
 			this.uiComponent.onCreationComplete();
 			this.uiComponent.preDestroy();
 			this.uiComponent.destroy();

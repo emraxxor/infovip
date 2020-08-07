@@ -66,7 +66,6 @@ public class ActivityController {
 	
 	/**
 	 * @deprecated
-	 * Doesn't support routing..
 	 */
 	@Autowired
 	private ActivityService activityService;

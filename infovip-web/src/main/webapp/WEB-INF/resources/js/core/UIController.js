@@ -9,6 +9,8 @@ var UIController = easejs.Class('UIController').extend(Controller,{
 
 	
 	'public virtual postConstruct' : function() {}, 
+
+	'public virtual events' : function() {}, 
 	
 	'public virtual render' : function() {},
 	

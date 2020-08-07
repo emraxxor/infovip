@@ -1,0 +1,33 @@
+<div class="modal fade show" id="UserProfileAvatarDialogModal" role="dialog">
+	<div class="modal-dialog" style="top:30%">
+		<div class="modal-body modal-mobile-body">
+			<div class="modal-content">
+			
+			<div class="card">
+			  <div class="card-body">
+			    
+			    
+			    <div class="row m-3">
+				    <div class="cover--avatar online m-auto" data-overlay="0.3" data-overlay-color="primary">
+	                	 <img src="/user/image/cover?default" alt="">
+	                </div>
+	            </div>
+			  
+			  
+			    <div class="form-group">
+				    <label for="ChooseNewProfilePicture">Choose your new profile picture:</label>
+				    <input type="file" class="form-control-file" id="ChooseNewProfilePicture">
+				</div>
+
+				<div class="row">
+				    <input type="button" value="Mentés" btn-model="SUBMIT" class="btn btn-success btn-submit m-auto">
+			    </div>
+			    <input type="button" value="X" btn-model="CLOSE" class="btn btn-dialog-close" style="position: absolute;top:0;right:0;">
+			  </div>
+			</div>
+			
+		
+			</div>
+		</div>
+	</div>
+</div>

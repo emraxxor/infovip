@@ -14,7 +14,7 @@ var DefaultAlertDialog = easejs.Class('DefaultAlertDialog').extend({
 				this.title,
 				__tr(message),
 				DefaultDialogWindow.$('ALERT_MESSAGE'),
-				function(cparam,window){callback(cparam,window);},
+				function(cparam,window){callback(cparam,window); window.hide();},
 				params
 		);
 	}

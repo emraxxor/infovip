@@ -38,12 +38,20 @@ public class ImageServlet extends HttpServlet {
     	ServletOutputStream out = null;
     	try {
     		out = response.getOutputStream();
-    		InputStream resource = getServletContext().getResourceAsStream("/WEB-INF/resources/img/default-gift-min.jpeg");
+    		InputStream resource = getServletContext().getResourceAsStream("/WEB-INF/resources/img/default-cover.jpg");
     		response.setContentType("image/jpeg");  
-			out.write(IOUtils.toByteArray(resource));
+    		out.write(IOUtils.toByteArray(resource));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-		} 
+		} finally {
+			if ( out != null ) {
+				try {
+					out.flush();
+				} catch (IOException e) {
+					logger.error(e.getMessage(), e);
+				}
+			}
+		}
     }
 
 	/**
@@ -55,20 +63,18 @@ public class ImageServlet extends HttpServlet {
         if (request.getQueryString() != null && BasicSecureFunctions.directoryTraversalInputCheckStartsWith(request.getQueryString())) {
         	try {
 				FileInputStream fin = new FileInputStream(this.imageDirectory + '/' +  request.getQueryString() );  
-				response.setContentType("image/jpg");  
+				response.setContentType("image/jpeg");  
 				out.write(IOUtils.toByteArray(fin));
 			} catch (Exception e) {
 				defaultImage(response);
 			} finally {
 				if ( out != null  ) {
 					out.flush();
-					out.close();
 				}
 			}
         } else {
         	noticeUser(response,out);
         	out.flush();
-			out.close();
         } 
 	} 
 	
@@ -84,7 +90,7 @@ public class ImageServlet extends HttpServlet {
 	private void noticeUser(HttpServletResponse response, ServletOutputStream out) throws IOException {
 		if ( out == null ) 
 			out = response.getOutputStream();
-
+		
 		try {
 			response.setContentType("text/html;charset=UTF-8");
 			out.println("Oops... Something went wrong :(");

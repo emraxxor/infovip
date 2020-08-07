@@ -1,5 +1,7 @@
 package com.github.infovip.configuration;
 
+import java.io.Serializable;
+
 import com.github.infovip.core.config.deprecated.TemporaryConfig;
 
 /**
@@ -8,6 +10,36 @@ import com.github.infovip.core.config.deprecated.TemporaryConfig;
  *
  */
 public class DefaultWebAppConfiguration implements WebAppConfiguration {
+	
+    /**
+     * The completely path of the images of products
+     */
+    public static String PRODUCT_IMAGE_PATH = "/opt/images";
+    
+    /**
+     * User image path
+     */
+    public static String USER_IMAGE_PATH = "/opt/images/user";
+   
+    /**
+     * The absolute path of the images of blogs
+     */
+    public static String BLOG_IMAGE_PATH = "/opt/images/blog";
+   
+    
+    /**
+     * The absolute path of the storage files
+     */
+    public static String STORAGE_IMAGE_PATH  = "/opt/images/files";
+    
+    /**
+     * If it is set to true then the debug messages are displayed
+     */
+    public static final Boolean DEBUG = true;
+    
+    
+    public static final Boolean PRODUCT_VERSION = false;
+
 	
     public static final class ESConfiguration {
     	public static final String INDEX = "hu-product"; 
@@ -54,5 +86,42 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
 
     
 	public TemporaryConfig getTemporaryConfig() { throw new RuntimeException("Not implemented!"); };
+	
+    /**
+     * Some identifier to manage session
+     */
+    public enum SESSION implements Serializable {
+        USER_SESSION("userSession"),
+        AUTH_TIME("authTime"),
+        REMOTE_ADDR("remoteAddr"),
+        HEADER("clientHeader");
+
+        private String value;
+
+        private SESSION(String val) {
+            this.value = val;
+        }
+
+        /**
+         *
+         * @param v
+         * @return
+         */
+        public SESSION valueOfSession(String v) {
+            for (SESSION s : SESSION.values()) {
+                if (s.toString().equals(v)) {
+                    return s;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+    }
+
 
 }

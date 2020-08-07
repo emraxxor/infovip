@@ -7,7 +7,15 @@
 <div  data-type="cover-image" class="cover--header pt--80 text-center bg--img" data-overlay="0.6" data-overlay-color="white" data-rjs="2" style="background-image: url(/user/image/cover?default);">
             <div class="container">
                 <div class="cover--avatar online" data-overlay="0.3" data-overlay-color="primary">
-                    <img src="/user/image/cover?default" alt="">
+                   <c:choose>
+					  <c:when test="${not empty user.picture}">
+						  <img src="/user/image/cover?${user.picture}" alt="">
+					  </c:when>
+					  <c:otherwise>
+						 <img src="/user/image/cover?default" alt="">
+					  </c:otherwise>
+					</c:choose>
+
                 </div>
 
                 <div class="cover--user-name">

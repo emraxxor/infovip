@@ -124,70 +124,7 @@ public class Configuration extends DefaultWebAppConfiguration {
      */
     public static Map<String, String> ES_CLIENT_SETTINGS;
     
-    
-    /**
-     * The completely path of the images of products
-     */
-    public static String PRODUCT_IMAGE_PATH = "/opt/images";
-    
-    /**
-     * User image path
-     */
-    public static String USER_IMAGE_PATH = "";
-   
-    /**
-     * The absolute path of the images of blogs
-     */
-    public static String BLOG_IMAGE_PATH = "/opt/images/blog";
-    
-    /**
-     * The absolute path of the storage files
-     */
-    public static String STORAGE_IMAGE_PATH  = "/opt/images/files";
-    
-    /**
-     * If it is set to true then the debug messages are displayed
-     */
-    public static final Boolean DEBUG = true;
-    
-    
-    public static final Boolean PRODUCT_VERSION = false;
 
-    /**
-     * Some identifier to manage session
-     */
-    public enum SESSION implements Serializable {
-        USER_SESSION("userSession"),
-        AUTH_TIME("authTime"),
-        REMOTE_ADDR("remoteAddr"),
-        HEADER("clientHeader");
-
-        private String value;
-
-        private SESSION(String val) {
-            this.value = val;
-        }
-
-        /**
-         *
-         * @param v
-         * @return
-         */
-        public SESSION valueOfSession(String v) {
-            for (SESSION s : SESSION.values()) {
-                if (s.toString().equals(v)) {
-                    return s;
-                }
-            }
-            return null;
-        }
-
-        @Override
-        public String toString() {
-            return this.value;
-        }
-
-    }
 
     /**
      * Creates the jndi string

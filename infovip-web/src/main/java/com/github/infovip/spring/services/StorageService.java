@@ -29,7 +29,6 @@ public class StorageService implements Serializable {
 	private Logger logger = Logger.getLogger(StorageService.class);
 	
 	public StorageService() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public File storeFile(byte[] data) {

@@ -58,7 +58,7 @@
            <commons.codec.version>1.10</commons.codec.version>
            <google.oauth2.version>v2-rev137-1.23.0</google.oauth2.version>
            <commons.email.version>1.4</commons.email.version>
-           <jquery.version>3.1.0</jquery.version>
+           <jquery.version>3.2.1</jquery.version>
            <jquery.ui.version>1.12.1</jquery.ui.version>
            <bootstrap.version>4.4.1-1</bootstrap.version>
            <commons.io.version>2.5</commons.io.version>

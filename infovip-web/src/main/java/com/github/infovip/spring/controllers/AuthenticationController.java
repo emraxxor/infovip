@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.github.infovip.core.Configuration.SESSION;
+import com.github.infovip.configuration.DefaultWebAppConfiguration.SESSION;
 import com.github.infovip.core.log.BaseLogDataElement;
 import com.github.infovip.core.log.BaseLogElement;
 import com.github.infovip.core.log.LogManager;

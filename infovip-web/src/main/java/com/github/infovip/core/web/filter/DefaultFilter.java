@@ -1,19 +1,12 @@
 package com.github.infovip.core.web.filter;
 
-import com.github.infovip.core.Configuration;
-import com.github.infovip.core.Container;
-import com.github.infovip.core.Configuration.SESSION;
-import com.github.infovip.core.basic.jsp.ModuleManager;
-import com.github.infovip.core.basic.sql.SqlConnection;
-import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
-import com.github.infovip.core.web.user.UserSession;
-
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -23,8 +16,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+
+import com.github.infovip.configuration.DefaultWebAppConfiguration.SESSION;
+import com.github.infovip.core.Configuration;
+import com.github.infovip.core.basic.jsp.ModuleManager;
+import com.github.infovip.core.basic.sql.SqlConnection;
+import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
+import com.github.infovip.core.web.user.UserSession;
 
 /**
  *

@@ -164,6 +164,9 @@
 			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
 			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
 		</put-list-attribute>
+		<put-list-attribute name="userJs" inherit="true">
+			<add-attribute value="/js/web/user/profile/UserProfileCore.js" />
+		</put-list-attribute>
 		<put-list-attribute name="pageCss" inherit="true">
 		</put-list-attribute>
 	</definition>

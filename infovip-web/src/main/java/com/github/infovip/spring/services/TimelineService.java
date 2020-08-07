@@ -24,12 +24,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Service;
 
+import com.github.infovip.spring.controllers.activity.ActivityController;
 import com.github.infovip.spring.elasticsearch.entities.TimelinePostEntity;
 import com.github.infovip.spring.elasticsearch.repositories.TimelineRepository;
 
 /**
- *
+ * Timeline is going to be deprecated, use {@link ActivityController} instead of it
  * @author attila
+ * @deprecated
  */
 @Service
 public class TimelineService implements Serializable {

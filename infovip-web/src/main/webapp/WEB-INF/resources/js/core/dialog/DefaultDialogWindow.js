@@ -70,25 +70,25 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
     	
     	if ( type == DefaultDialogWindow.$('WARNING_MESSAGE') ) {
     		dWindow.setFooter(
-    				jQuery("<div></div>",{class : 'global-warning-message-footer'})
-            		.append(jQuery("<input></input>",{type:'button',value:'OK','btn-model':'OK', class:'btn btn-success'}))
-            		.append(jQuery("<input></input>",{type:'button',value:'Cancel','btn-model':'CANCEL',class:'btn btn-primary'}))
+    				jQuery("<div></div>",{class : 'global-warning-message-footer row m-3'})
+            		.append(jQuery("<input></input>",{type:'button',value:'OK','btn-model':'OK', class:'btn btn-success m-auto'}))
+            		.append(jQuery("<input></input>",{type:'button',value:'Cancel','btn-model':'CANCEL',class:'btn btn-primary m-auto'}))
             );
     	}
     	
     	if ( type == DefaultDialogWindow.$('CONFIRM_MESSAGE') ) {
     		dWindow.setFooter(
-    				jQuery("<div></div>",{class : 'global-confirm-message-footer'})
-            		.append(jQuery("<input></input>",{type:'button',value:'OK','btn-model':'CONFIRM', class:'btn btn-success'}))
-            		.append(jQuery("<input></input>",{type:'button',value:'Cancel','btn-model':'CANCEL',class:'btn btn-primary'}))
+    				jQuery("<div></div>",{class : 'global-confirm-message-footer row m-3'})
+            		.append(jQuery("<input></input>",{type:'button',value:'OK','btn-model':'CONFIRM', class:'btn btn-success m-auto'}))
+            		.append(jQuery("<input></input>",{type:'button',value:'Cancel','btn-model':'CANCEL',class:'btn btn-primary m-auto'}))
             );
     	}
     	
     	
     	if ( type == DefaultDialogWindow.$('ALERT_MESSAGE') ) {
     		dWindow.setFooter(
-    				jQuery("<div></div>",{class : 'global-confirm-message-footer'})
-            		.append(jQuery("<input></input>",{type:'button',value:'OK','btn-model':'CONFIRM', class:'btn btn-success'}))
+    				jQuery("<div></div>",{class : 'global-confirm-message-footer row m-3'})
+            		.append(jQuery("<input></input>",{type:'button',value:'OK','btn-model':'CONFIRM', class:'btn btn-success m-auto'}))
             );
     	}
 
