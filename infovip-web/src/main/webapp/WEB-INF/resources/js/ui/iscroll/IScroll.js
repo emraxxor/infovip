@@ -28,12 +28,14 @@ var IScroll = easejs.Class('IScroll').extend(UIController,{
 	},
 
     'public override virtual onCreationComplete' : function() {
-        var that = this;
-        var node = this.node;
-        jQuery(window).scroll(function () {
-            if(jQuery(window).scrollTop() >= node.offset().top + node.outerHeight() - window.innerHeight) {
+        const that = this;
+        const node = this.node;
+        jQuery(window).scroll( () => {
+        	if (  ( window.scrollY ) > node[0].getClientRects()[0].height  ) {
+            //if(jQuery(window).scrollTop() >= node.offset().top + node.outerHeight() - window.innerHeight) {
                 that.onScrollFire();
-            }
+            //}
+        	}
         });
 	}
 	

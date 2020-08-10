@@ -3,7 +3,7 @@ package com.github.infovip.spring.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.github.infovip.spring.components.manager.BusinessObjectManager;
+import com.github.infovip.spring.components.manager.DefaultDocumentManager;
 import com.github.infovip.spring.components.manager.PaymentTransactionManager;
 import com.github.infovip.spring.components.manager.WebshopComponent;
 
@@ -26,7 +26,7 @@ public class BusinessConfiguration {
 	}
 	
 	@Bean
-	public BusinessObjectManager businessObjectManager() {
-		return new BusinessObjectManager();
+	public DefaultDocumentManager businessObjectManager() {
+		return new DefaultDocumentManager();
 	}
 }

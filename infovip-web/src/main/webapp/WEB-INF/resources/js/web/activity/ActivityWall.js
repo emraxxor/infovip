@@ -19,7 +19,7 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 	
 	'private data' : null,
 	
-	'private size' : 50,
+	'private size' : 10,
 	
 	'private user' : null,
 	
@@ -27,6 +27,10 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 		this.__super(node);
 		this.itemTemplate = this.load( ActivityWall.$('TEMPLATE').ITEM , {}, 'GET'  );
 		this.user = CurrentUser.info();
+		if ('scrollRestoration' in history) {
+			  history.scrollRestoration = 'manual';
+		}
+
 	 },
 	 
 	'public synch' : function() {
@@ -36,7 +40,8 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 		if ( this.token != null ) 
 			data['token'] = this.token;
 		
-		
+		const w = DefaultInformationDialog().display('Loading...');
+		const sy = window.scrollY;
         this.async( ActivityWall.$('HANDLER').DATA, data, function(data,o) {
         	that.setToken(data.token);
         	data.data.forEach(function(o){ o.liked = o.likes.filter(e => e.uid == that.getUser().userId ).length  != 0 ;  });
@@ -48,7 +53,7 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
         		}
         	});
 
-    		that.getNode().find('ul').append( 
+    		that.getNode().find('ul.activity--items').last().append( 
     				Mustache.render( 
     						   that.getTemplate() ,  {
     							dateFormat : function() {
@@ -60,8 +65,11 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
     						} 
     				)
     		);
-    		
+
+    		that.setData(data);
     	    that.updateListeners();
+    	    w.hide();
+    	    window.scrollTo(0,sy);
         }, this );
 	},
 	
@@ -151,7 +159,7 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 							}
 						},
 						items:  [
-							jQuery.extend( { liked : item.uid == this.getUser().userId } ,item )
+							jQuery.extend( { totalLikeCount : 0 ,  liked : item.uid == this.getUser().userId } ,item )
 						], 
 					} 
 		);
@@ -181,14 +189,16 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 	 },
 	 
 	'public virtual override onScrollFire' : function() {
-		 if ( this.data != null && this.data.count >= this.size ) {
-			this.synch(); 
+		 if ( this.data != null && this.data.token != null && this.data.count > 0) {
+			 this.synch(); 
 		 }
 	 },
 	 
 	'public override virtual onCreationComplete' : function() {
 		this.__super();
 		this.reload();
+		window.scrollTo(0,0);
+
 	 },
 
 

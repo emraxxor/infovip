@@ -264,7 +264,8 @@ public class ActivityController {
     	post.setUid(u.getUserId());
     	post.setUserName(u.getUserRealName());
     	ActivityPost<ActivityPostElement> doc = new ActivityPost<ActivityPostElement>(post);
-    	return esContainer.executeSynchronusRequest(doc.operationIndex());
+    	IndexResponse ir = (IndexResponse) esContainer.executeSynchronusRequest(doc.operationIndex());
+    	return documentManager.findByDocumentId(ir.getId(), ir.getIndex(),  new TypeToken<ActivityPostElement>(){}.getType() );
     }
 	
 	

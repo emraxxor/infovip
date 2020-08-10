@@ -229,6 +229,10 @@ var DefaultDialogWindow = easejs.Class('DefaultDialogWindow').extend(DialogWindo
 
     'public virtual override hide' : function() {
         jQuery(this.currentDiv).modal("hide");
+        var d = this.currentDiv;
+		  setTimeout(function() {
+			d.modal("hide");
+		  }, 800);
     },
 
 

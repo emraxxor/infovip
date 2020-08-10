@@ -59,6 +59,7 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 		super(context, token);
 		this.template = this.context.getBean(ElasticsearchRestTemplate.class);
 		this.client = this.context.getBean(RestHighLevelClient.class);
+		this.size = 10;
 	}
 
 	@Override

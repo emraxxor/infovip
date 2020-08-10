@@ -36,8 +36,8 @@ var ActivityPostController = easejs.Class('ActivityPostController').extend(UICon
     	var controller = e.data.data;
     	var w = DefaultInformationDialog().display(__tr('msg.loading'));
 		controller.async( ActivityPostController.$('HANDLER').ADD , { text : controller.getText() } , function( data , o ) {
-			w.hide();
 			controller.addItem(data);
+			w.hide();
 		} , controller );
 	 },
 	 

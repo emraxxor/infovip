@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -18,6 +20,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.github.infovip.core.data.BaseDataElement;
@@ -39,7 +42,8 @@ import com.google.gson.JsonSyntaxException;
  *
  */
 @Component
-public class BusinessObjectManager implements BusinessContainerManager, DocumentManager {
+@Primary
+public class DefaultDocumentManager implements BusinessContainerManager,  DocumentManager {
 
 	
 	@Autowired
@@ -52,12 +56,36 @@ public class BusinessObjectManager implements BusinessContainerManager, Document
 	private ESConnection esConnection;
 	
 	
-	public BusinessObjectManager() {}
-	
+	public DefaultDocumentManager() {}
+
+	private final Logger logger = LogManager.getLogger(DefaultDocumentManager.class);
 	
 	@PostConstruct
 	public void postConstruct() {}
 	
+
+	@Override
+	public <T> T findByDocumentId(String id, String index, Type type) {
+		try {
+			GetRequest request = new GetRequest(index, id);
+			request.fetchSourceContext(FetchSourceContext.FETCH_SOURCE);
+			GetResponse response = restHighLevelClient.get(request, RequestOptions.DEFAULT);
+			if ( response.isExists() ) {
+				T data = new Gson().fromJson(response.getSourceAsString(), type);
+				
+				if ( data instanceof BaseDataElement )  
+					((BaseDataElement)data).setDocumentId(response.getId());
+				
+				return data;
+				
+			}
+		} catch (JsonSyntaxException e) {
+			logger.error(e);
+		} catch (IOException e) {
+			logger.error(e);
+		}
+		return null;
+	}
 	
 	public <T> T findDocumentByField(List<Field> fields, IndexMetaData metaData, Type type) {
 		try {
