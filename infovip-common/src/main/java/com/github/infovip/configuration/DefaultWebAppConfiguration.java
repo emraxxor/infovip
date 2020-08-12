@@ -62,6 +62,8 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
     	public static final String IVIP_STAT_TYPE = "ivip-stat-data";
     	public static final String PAYMENT_INDEX = "payments";
     	public static final String PAYMENT_DATA_TYPE = "payment-data";
+    
+    	public static final String USERS_INDEX = "users";
     	
     	public static final String LOGS_INDEX = "logs";
     	public static final String LOGS_TYPE = "log";

@@ -47,9 +47,12 @@ var ActivityPostController = easejs.Class('ActivityPostController').extend(UICon
  	 },
 	
     'public override virtual onCreationComplete' : function() {
-    	this.container.append(this.editor.getNode());
-    	this.editor.basic('100%',200);
-    	this.button.on('click', { data : this }, this.onSubmitClick );
+    	if ( this.container.length > 0 ) {
+    		this.container.append(this.editor.getNode());
+    		this.editor.basic('100%',200);
+    		this.button.on('click', { data : this }, this.onSubmitClick );
+    	}
+    	debugger;
     	new UIControllerExecutor(  this.wall ).execute(); 
 	}
 	

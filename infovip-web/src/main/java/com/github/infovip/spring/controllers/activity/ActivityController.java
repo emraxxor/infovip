@@ -30,6 +30,7 @@ import com.github.infovip.core.data.DefaultESSimpleGetElement;
 import com.github.infovip.core.data.ESDefaultJoinRelation;
 import com.github.infovip.core.data.Field;
 import com.github.infovip.core.data.IndexMetaData;
+import com.github.infovip.core.data.UserPublicElement;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESDataElement;
 import com.github.infovip.core.es.query.DocumentManager;
@@ -64,12 +65,6 @@ public class ActivityController {
 	@Autowired
 	private WebApplicationContext context;
 	
-	/**
-	 * @deprecated
-	 */
-	@Autowired
-	private ActivityService activityService;
-	
 	@Autowired
 	private DocumentManager documentManager;
 	
@@ -85,7 +80,7 @@ public class ActivityController {
     ) {
     	ActivitySource source = new ActivitySource(context, token);
     	try {
-			return ScrollResponseGenerator.generate( new DefaultScrollResponse<ActivityPostElement,WebApplicationContext>(),  source, request, response);
+			return ScrollResponseGenerator.generate( new DefaultScrollResponse<UserPublicElement<?>,WebApplicationContext>(),  source, request, response);
 		} catch (UnsupportedTypeException e) {
 			logger.error(e.getMessage(),e);
 			return null;

@@ -19,7 +19,7 @@
 
 		<!-- Nav Widget Start -->
 		<div class="nav--widget">
-			<ul class="nav">
+			<ul class="nav display-block">
 				<li><a href="/user/settings/general"> <i class="fa fa-cogs"></i> <span
 						class="text">General</span>
 				</a></li>

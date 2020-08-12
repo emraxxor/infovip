@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.logging.Level;
@@ -32,7 +31,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest.AliasActions;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -44,7 +42,6 @@ import org.elasticsearch.action.support.ActiveShardCount;
 import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.action.support.WriteRequest.RefreshPolicy;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
-import org.elasticsearch.client.Client;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -52,20 +49,19 @@ import org.elasticsearch.client.indices.DeleteAliasRequest;
 import org.elasticsearch.cluster.metadata.AliasMetaData;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
+import com.github.infovip.configuration.DefaultElasticsearchConnection;
 import com.github.infovip.core.DefaultElasticsearchConfiguration;
-import com.google.gson.Gson;
 
 /**
  *
  * @author Attila Barna
  * @category infovip.core.data.configuration
  */
-public class ESConnection {
+public class ESConnection implements DefaultElasticsearchConnection<RestHighLevelClient, ElasticsearchRestTemplate> {
 
     /**
      * Transportclient for ElasticSearch Engine
@@ -353,6 +349,16 @@ public class ESConnection {
 		//request.id(data.id());
 		request.source(ob);
 		bulkRequest.add( request );
+    }
+    
+    @Override
+    public RestHighLevelClient client() {
+    	return client;
+    }
+    
+    @Override
+    public ElasticsearchRestTemplate template() {
+    	return template;
     }
 
 }

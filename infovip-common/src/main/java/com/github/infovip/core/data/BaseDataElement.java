@@ -6,7 +6,7 @@ package com.github.infovip.core.data;
  * @author Attila Barna
  *
  */
-public class BaseDataElement  {
+public class BaseDataElement implements ESDataElement<BaseDataElement> , ESDefaultRoute<BaseDataElement>, ESParentElement {
 
 	private String documentId = null;
 	

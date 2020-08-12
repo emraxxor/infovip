@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.infovip.core.data.UserPublicFormElement;
 import com.github.infovip.core.date.DefaultDateFormatter;
 import com.github.infovip.core.form.data.DefaultUserFormData;
 import com.github.infovip.core.form.validators.RegistrationValidator;
@@ -76,6 +77,7 @@ public class RegistrationController {
 	    			u.getLogRegistration().setIp(request.getRemoteAddr());
 	    			u.getLogRegistration().setCreationTime(DefaultDateFormatter.timestamp());
 	    			userService.save(u);
+	    			
 	    			smtpClient.sendHTML(
 	    					new String[] { user.getUserMail() }, 
 	    					Translate.tr("tr.registration.email.subject"), 

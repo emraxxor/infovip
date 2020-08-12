@@ -12,7 +12,7 @@ import com.github.infovip.util.BasicUtilities;
 
 /**
  * 
- * @author attila
+ * @author Attila Barna
  *
  * @param <T>
  */

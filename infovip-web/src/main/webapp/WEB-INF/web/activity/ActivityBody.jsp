@@ -39,7 +39,7 @@
                             <!-- Filter Nav Start -->
                             <div class="filter--nav pb--60 clearfix">
                                 <div class="filter--link float--left">
-                                    <h2 class="h4"><a href="members.html" class="btn-link">Activities</a></h2>
+                                    <h2 class="h4"><a href="/activity" class="btn-link">Activities</a></h2>
                                 </div>
 
                             </div>
@@ -49,62 +49,8 @@
                             <div class="activity--list">
                                 <!-- Activity Items Start -->
                                 <ul class="activity--items">
-                                    <li>
-                                        <!-- Activity Item Start -->
-                                        <div class="activity--item">
-                                            <div class="activity--avatar">
-                                                <a href="member-activity-personal.html">
-                                                    <img src="img/activity-img/avatar-01.jpg" alt="">
-                                                </a>
-                                            </div>
-
-                                            <div class="activity--info fs--14">
-                                                <div class="activity--header">
-                                                    <p><a href="member-activity-personal.html">Eileen K. Ruiz</a> update her profile picture</p>
-                                                </div>
-
-                                                <div class="activity--meta fs--12">
-                                                    <p><i class="fa mr--8 fa-clock-o"></i>Yeasterday at 08:20 am</p>
-                                                </div>
-
-                                                <div class="activity--content">
-                                                    <div class="img--embed">
-                                                        <img src="img/activity-img/profile-pic-01.jpg" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Activity Item End -->
-                                    </li>
-                                    <li>
-                                        <!-- Activity Item Start -->
-                                        <div class="activity--item">
-                                            <div class="activity--avatar">
-                                                <a href="member-activity-personal.html">
-                                                    <img src="img/activity-img/avatar-02.jpg" alt="">
-                                                </a>
-                                            </div>
-
-                                            <div class="activity--info fs--14">
-                                                <div class="activity--header">
-                                                    <p><a href="member-activity-personal.html">Samuel C. Azevedo</a> posted an update in the group <a href="group-home.html">Travel Guides</a></p>
-                                                </div>
-
-                                                <div class="activity--meta fs--12">
-                                                    <p><i class="fa mr--8 fa-clock-o"></i>Yeasterday at 08:20 am</p>
-                                                </div>
-
-                                                <div class="activity--content">
-                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration  If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything.</p>
-                                                </div>
-
-                                                <div class="activity--action fw--700">
-                                                    <a href="#">See More...</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Activity Item End -->
-                                    </li>
+                            
+                                   
                                 </ul>
                                 <!-- Activity Items End -->
                             </div>

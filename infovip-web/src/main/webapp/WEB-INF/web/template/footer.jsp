@@ -8,8 +8,8 @@
             <!-- Footer Widgets Start -->
             <div class="footer--widgets pt--70 pb--20 bg-lightdark bg--img" data-rjs="2" style="background-image: url(&quot;${resources}/img/footer-img/footer-widgets-bg.png&quot;);">
                 <div class="container">
-                    <div class="row AdjustRow" style="position: relative; height: 425px;">
-                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="position: absolute; left: 0px; top: 0px;">
+                    <div class="row" style="position: relative; height: 425px;">
+                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="">
                             <!-- Widget Start -->
                             <div class="widget">
                                 <h2 class="h4 fw--700 widget--title">About</h2>
@@ -29,14 +29,14 @@
                             <!-- Widget End -->
                         </div>
 
-                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="position: absolute; left: 292px; top: 0px;">
+                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="">
                             <!-- Widget Start -->
                             <div class="widget">
                                 <h2 class="h4 fw--700 widget--title">Recent Post</h2>
 
                                 <!-- Recent Posts Widget Start -->
                                 <div class="recent-posts--widget">
-                                    <ul class="nav">
+                                    <ul class="nav display-block">
                                         <li>
                                             <p class="date fw--300">
                                                 <a href="#"><i class="fa mr--8 fa-file-text-o"></i>#TODO</a>
@@ -71,7 +71,7 @@
                             <!-- Widget End -->
                         </div>
 
-                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="position: absolute; left: 585px; top: 0px;">
+                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="">
                             <!-- Widget Start -->
                             <div class="widget">
                                 <h2 class="h4 fw--700 widget--title">Recent Active Members</h2>
@@ -89,7 +89,7 @@
 
                                 <!-- Links Widget Start -->
                                 <div class="links--widget">
-                                    <ul class="nav">
+                                    <ul class="nav display-block">
                                         <li><a href="/registration">Register</a></li>
                                         <li><a href="/login">Login</a></li>
                                         <li><a href="/contact">Contact</a></li>
@@ -100,14 +100,14 @@
                             <!-- Widget End -->
                         </div>
 
-                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="position: absolute; left: 877px; top: 0px;">
+                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="">
                             <!-- Widget Start -->
                             <div class="widget">
                                 <h2 class="h4 fw--700 widget--title">Forums</h2>
 
                                 <!-- Links Widget Start -->
                                 <div class="links--widget">
-                                    <ul class="nav">
+                                    <ul class="nav display-block">
                                         <li><a href="sub-forums.html">Design element 1</a></li>
                                         <li><a href="sub-forums.html">Design element 2</a></li>
                                         <li><a href="sub-forums.html">Design element 3</a></li>
@@ -139,7 +139,7 @@
                     </div>
 
                     <div class="social float--right">
-                        <ul class="nav">
+                        <ul class="nav display-block">
                             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="#"><i class="fa fa-google-plus"></i></a></li>

@@ -26,6 +26,10 @@ public class FormElement<T> implements FormData {
 	protected transient Logger logger = Logger.getLogger(this.getClass());
 	
 	
+	@IgnoreField
+	private static transient Logger FormElementLogger = Logger.getLogger(FormElement.class);
+
+	
 	public FormElement() { }
 
 	public FormElement(T data) {
@@ -74,9 +78,6 @@ public class FormElement<T> implements FormData {
 	}
 
 	
-	
-	
-	
 	public T toDataElement(Class<T> clazz,Field[] fields) {
 		Constructor<?> cons = null;
 		T object = null;
@@ -109,9 +110,58 @@ public class FormElement<T> implements FormData {
 		return this.toDataElement(clazz,  this.getClass().getDeclaredFields());
 	}
 	
-	
 	public T original() {
 		return this.data;
+	}
+	
+	public static <Y,Z>  Z convertTo(Y from, Class<Z> to) {
+		Constructor<?> cons = null;
+		Z object = null;
+		Field[] fields = to.getDeclaredFields();
+
+		try {
+			cons = to.getConstructor();
+			object = (Z) cons.newInstance();
+			
+			for(Field f : fields ) {
+				if ( f.getAnnotation(IgnoreField.class)  != null ) continue;
+				Method s = to.getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
+				s.invoke(object, from.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(from) );
+			}
+			
+		} catch (NoSuchMethodException | SecurityException e) {
+			FormElementLogger.error(e);
+		} catch (InstantiationException e) {
+			FormElementLogger.error(e);
+		} catch (IllegalAccessException e) {
+			FormElementLogger.error(e);
+		} catch (IllegalArgumentException e) {
+			FormElementLogger.error(e);
+		} catch (InvocationTargetException e) {
+			FormElementLogger.error(e);
+		}
+		
+		return object;
+
+	}
+	
+	public static <Y,Z>  void update(Y from, Z to) {
+		Field[] fields = to.getClass().getDeclaredFields();
+		try {
+			for(Field f : fields ) {
+				if ( f.getAnnotation(IgnoreField.class)  != null ) continue;
+				Method s = to.getClass().getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
+				s.invoke(to, from.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(from) );
+			}
+		} catch (NoSuchMethodException | SecurityException e) {
+			FormElementLogger.error(e);
+		} catch (IllegalAccessException e) {
+			FormElementLogger.error(e);
+		} catch (IllegalArgumentException e) {
+			FormElementLogger.error(e);
+		} catch (InvocationTargetException e) {
+			FormElementLogger.error(e);
+		}
 	}
 }
 

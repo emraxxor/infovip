@@ -27,6 +27,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,8 +35,13 @@ import org.springframework.data.jpa.repository.JpaContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.infovip.core.elasticsearch.ESContainerInterface;
+import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.web.types.FormElement;
 import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
+import com.github.infovip.spring.elasticsearch.entities.UserEntity;
+import com.github.infovip.spring.elasticsearch.repositories.ESUserRepository;
 import com.github.infovip.spring.repositories.UserRepository;
 import com.github.infovip.util.BasicUtilities;
 
@@ -53,16 +59,25 @@ public class UserService implements UserServiceInterface<User> {
 
     @Autowired
     private JpaContext jpaContext;
+    
+    @Autowired
+    private ESUserRepository esUserRepository;
 
     @PersistenceContext(unitName = "infovipPU")
     private EntityManager em;
     
     
     protected CriteriaBuilder cb;
-
-    public UserService() {
-    }
-
+    
+	@Autowired
+	private ESContainerInterface<ESDataElement<?>> esContainer;
+	
+	@Autowired
+	private RestHighLevelClient restHighLevelClient;
+	
+    public UserService() { }
+    
+    
 
     
     @PostConstruct
@@ -79,7 +94,7 @@ public class UserService implements UserServiceInterface<User> {
      * @return
      */
     public List<User> users(int offset, int limit) {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        CriteriaQuery<User> cq = em.getCriteriaBuilder().createQuery(User.class);
         cq.select(cq.from(User.class));
         try {
             return em.createQuery(cq).setFirstResult(offset).setMaxResults(limit).getResultList();
@@ -89,8 +104,6 @@ public class UserService implements UserServiceInterface<User> {
     }
 
     
-    
-
     /**
      * It is needed for the authorization process that finds the user by account
      * name and password.
@@ -168,7 +181,7 @@ public class UserService implements UserServiceInterface<User> {
      * @return If the user doesn't exists then null will be returned
      */
     public User findUserByName(String name) {
-        CriteriaQuery cq = cb.createQuery();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
         Root<User> u = cq.from(User.class);
         cq.select(u).where(cb.equal(u.get("userName"), name));
         try {
@@ -186,7 +199,7 @@ public class UserService implements UserServiceInterface<User> {
      * @return
      */
     public User userByNameAndPassword(String userName, String password) {
-        CriteriaQuery cq = cb.createQuery();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
         Root<User> u = cq.from(User.class);
         cq.select(u).where(new Predicate[]{
             cb.equal(u.get("userName"), userName),
@@ -206,7 +219,7 @@ public class UserService implements UserServiceInterface<User> {
      * @return If the user doesn't exists then null will be returned
      */
     public User getUser(long id) {
-        CriteriaQuery cq = cb.createQuery();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
         Root<User> u = cq.from(User.class);
         cq.select(u).where(cb.equal(u.get("userId"), id));
         try {
@@ -255,7 +268,23 @@ public class UserService implements UserServiceInterface<User> {
      */
     @Transactional
     public User save(User u) {
-        return userRepository.save(u);
+    	u = userRepository.save(u);
+    	List<UserEntity> r = esUserRepository.findByUserId(u.getUserId());
+    	if ( r.size() == 0 ) {
+    		esUserRepository.save( FormElement.convertTo(u, UserEntity.class) );
+    	} else if ( r.size() == 1 ){
+    		UserEntity ue = r.get(0);
+    		FormElement.update(u, ue);
+    		esUserRepository.save(ue);
+    	} else {
+    		try {
+				throw new IllegalStateException("This could not be happen!");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+    	return  u;
+    	
     }
 
     /**
@@ -334,5 +363,10 @@ public class UserService implements UserServiceInterface<User> {
      */
     public void detach(User entity) {
         jpaContext.getEntityManagerByManagedType(entity.getClass()).detach(entity);
+    }
+    
+    @Override
+    public <X> List<User> findAll(X pageable) {
+    	return userRepository.findAll( (Pageable) pageable).toList();
     }
 }

@@ -16,6 +16,11 @@ import com.github.infovip.configuration.UserConfiguration;
 import com.github.infovip.core.data.DefaultUser;
 import com.github.infovip.entities.User;
 
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 @Controller
 @RequestMapping("/user/activity")
 public class UserActivityController {

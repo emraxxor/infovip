@@ -14,6 +14,8 @@ public class Smtp {
 	
 	private String from;
 	
+	private String fromName;
+	
 	private boolean forceSSL;
 	
 	private boolean useStartTLS;
@@ -88,6 +90,15 @@ public class Smtp {
 		this.ssl = ssl;
 	}
 
+	
+
+	public String getFromName() {
+		return fromName;
+	}
+
+	public void setFromName(String fromName) {
+		this.fromName = fromName;
+	}
 
 	@Override
 	public int hashCode() {
@@ -95,6 +106,7 @@ public class Smtp {
 		int result = 1;
 		result = prime * result + (forceSSL ? 1231 : 1237);
 		result = prime * result + ((from == null) ? 0 : from.hashCode());
+		result = prime * result + ((fromName == null) ? 0 : fromName.hashCode());
 		result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + port;
@@ -119,6 +131,11 @@ public class Smtp {
 			if (other.from != null)
 				return false;
 		} else if (!from.equals(other.from))
+			return false;
+		if (fromName == null) {
+			if (other.fromName != null)
+				return false;
+		} else if (!fromName.equals(other.fromName))
 			return false;
 		if (hostname == null) {
 			if (other.hostname != null)

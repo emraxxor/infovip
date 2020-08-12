@@ -25,6 +25,11 @@ import com.github.infovip.core.web.types.ImageData;
 import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
 
+/**
+ * 
+ * @author Attila Barna
+ *
+ */
 @Controller
 @RequestMapping("/user/profile")
 public class UserProfileController {

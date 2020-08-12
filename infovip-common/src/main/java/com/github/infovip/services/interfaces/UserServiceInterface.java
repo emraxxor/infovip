@@ -36,4 +36,7 @@ public interface UserServiceInterface<T> {
 	public T findById(Long id);
 	
 	public T save(T u);
+
+	public <X> List<T> findAll(X pageable);
+
 }
