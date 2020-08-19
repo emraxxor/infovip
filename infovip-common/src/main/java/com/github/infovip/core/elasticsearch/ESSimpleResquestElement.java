@@ -12,7 +12,7 @@ import com.google.gson.ExclusionStrategy;
  *
  * @param <T>
  */
-public interface ESSimpleResquestElement<TDATAELEMENT, T extends ESDataElement<TDATAELEMENT>> {
+public interface ESSimpleResquestElement<TDATAELEMENT, T extends ESExtendedDataElement<TDATAELEMENT>> {
 	
 	public String index();
 	

@@ -26,6 +26,12 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
      */
     public static String BLOG_IMAGE_PATH = "/opt/images/blog";
    
+   
+    /**
+     * The absolute path of the images of media
+     */
+    public static String MEDIA_IMAGE_PATH = "/opt/images/media";
+
     
     /**
      * The absolute path of the storage files
@@ -67,6 +73,9 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
     	
     	public static final String LOGS_INDEX = "logs";
     	public static final String LOGS_TYPE = "log";
+    	
+    	public static final String USER_MEDIA_INDEX = "user-media";
+    	public static final String USER_MEDIA_PHOTO = "user-media-photo";
 
     	
     	/**

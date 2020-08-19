@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration;
 import com.github.infovip.core.browser.BrowserDetector;
 import com.github.infovip.core.container.ESContainer;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.google.gson.Gson;
 
 /**
@@ -40,7 +40,7 @@ public class StatisticsManager {
 	private Logger logger = Logger.getLogger(StatisticsManager.class);
 	
 	@Autowired
-	private ESContainer<ESDataElement<?>> container;
+	private ESContainer<ESExtendedDataElement<?>> container;
 
     /**
      * Default template

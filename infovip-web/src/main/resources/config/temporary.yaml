@@ -32,6 +32,7 @@ nfs:
   blogImagePath: /opt/ivip-images/blog
   fileStorePath: /opt/ivip-images/files
   userImagePath: /opt/ivip-images/user
+  mediaPath : /opt/ivip-images/media
 websiteAddress: https://ivip.com
 staticSiteAddress:
   - /faq

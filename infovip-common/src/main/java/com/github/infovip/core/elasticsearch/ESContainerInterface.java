@@ -11,7 +11,7 @@ import java.util.List;
  * @todo @missingdoc
  * @param <T>
  */
-public interface ESContainerInterface<T extends ESDataElement<?>> {
+public interface ESContainerInterface<T extends ESExtendedDataElement<?>> {
 
     public void add(T document);
 
@@ -33,5 +33,5 @@ public interface ESContainerInterface<T extends ESDataElement<?>> {
 	
 	public Object createSynchronus(T data);
 	
-	public <TDATAELEMENT, TE extends ESDataElement<TDATAELEMENT>> void search(ESSimpleResquestElement<TDATAELEMENT, TE> element);
+	public <TDATAELEMENT, TE extends ESExtendedDataElement<TDATAELEMENT>> void search(ESSimpleResquestElement<TDATAELEMENT, TE> element);
 }

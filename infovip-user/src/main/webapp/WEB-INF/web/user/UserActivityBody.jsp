@@ -8,8 +8,7 @@
 	<tiles:insertTemplate template="${Configuration.WEB_DIRECTORY}/user/template/DefaultUserPage.jsp">
 		<tiles:putAttribute name="MAIN_CONTENT">
 
-			<div class="theiaStickySidebar"
-				style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+			<div>
 				<div class="main--content-inner drop--shadow">
 
 

@@ -1,10 +1,10 @@
  {{#result}}                                               
-<div class="col-md-3 col-xs-6 col-xxs-12" style="position: absolute; left: 0px; top: 0px;">
+<div class="item item-waterfall col-md-3 col-xs-6 col-xxs-12" style="">
             <!-- Member Item Start -->
             <div class="member--item online">
-                <div class="img img-circle">
-                    <a href="member-activity-personal.html" class="btn-link">
-                        <img src="{{image}}" alt=""> 
+                <div class="">
+                    <a href="#" class="btn-link">
+                        <img src="{{image}}" class="img-fluid img-thumbnail"  alt=""> 
                     </a>
                 </div>
 

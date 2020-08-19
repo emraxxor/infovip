@@ -47,9 +47,6 @@ public class UserProfileController {
 			User current = userService.findById(  UserConfiguration.config(request).getId() );
 			File f = ImageData.randomFileName(DefaultWebAppConfiguration.USER_IMAGE_PATH);
 			
-			System.out.println(f.getName());
-			System.out.println(f.getCanonicalPath());
-			
 			if ( f.createNewFile() ) {
 				
 				if ( current.getPicture() != null ) 
@@ -57,6 +54,7 @@ public class UserProfileController {
 				
 				ImageData.createThumbnail(base64EncodedImageData, f);
 			}
+			
 			current.setPicture(f.getName());
 			userService.save(current);
 			return StatusResponse.success();

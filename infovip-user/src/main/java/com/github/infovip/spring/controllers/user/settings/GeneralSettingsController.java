@@ -18,6 +18,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.infovip.configuration.UserConfiguration;
+import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.form.data.DefaultUserFormData;
 import com.github.infovip.core.lang.Translate;
 import com.github.infovip.core.mail.DefaultMailConverter;
@@ -42,6 +43,7 @@ public class GeneralSettingsController {
 
 	 @Autowired
 	 private UserServiceInterface<User> userService;
+	 
 	
 	 @RequestMapping(path = "/update", method = RequestMethod.POST )
 	 public @ResponseBody Object update(

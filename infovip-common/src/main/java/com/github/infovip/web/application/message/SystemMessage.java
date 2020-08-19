@@ -2,7 +2,7 @@ package com.github.infovip.web.application.message;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
 import com.github.infovip.core.data.BaseDataElement;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
 
 public class SystemMessage<T extends BaseMessage> implements Message<T> {
@@ -48,19 +48,19 @@ public class SystemMessage<T extends BaseMessage> implements Message<T> {
 	}
 	
 	@Override
-	public ESDataElement<T> operationIndex() {
+	public ESExtendedDataElement<T> operationIndex() {
 		this.operationType = ESOperationType.INDEX;
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationUpdate() {
+	public ESExtendedDataElement<T> operationUpdate() {
 		this.operationType = ESOperationType.UPDATE;
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationDelete() {
+	public ESExtendedDataElement<T> operationDelete() {
 		this.operationType = ESOperationType.DELETE;
 		return this;
 	}

@@ -28,7 +28,7 @@ import com.github.infovip.core.data.Field;
 import com.github.infovip.core.data.IndexMetaData;
 import com.github.infovip.core.elasticsearch.ESConnection;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.es.query.DocumentManager;
 import com.github.infovip.web.application.business.BusinessContainerManager;
 import com.google.gson.Gson;
@@ -50,7 +50,7 @@ public class DefaultDocumentManager implements BusinessContainerManager,  Docume
 	private RestHighLevelClient restHighLevelClient;
 
 	@Autowired
-	private ESContainerInterface<ESDataElement<?>> esContainer;
+	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
 	@Autowired
 	private ESConnection esConnection;

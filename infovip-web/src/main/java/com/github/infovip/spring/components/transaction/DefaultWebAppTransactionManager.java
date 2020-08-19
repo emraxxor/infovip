@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.infovip.core.data.type.TransactionType;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.es.type.DefaultDocumentType;
 import com.github.infovip.web.application.business.BusinessContainerManager;
 import com.github.infovip.web.application.transaction.TransactionValue;
@@ -24,7 +24,7 @@ public class DefaultWebAppTransactionManager {
 	private RestHighLevelClient esClient;
 	
 	@Autowired
-	private ESContainerInterface<ESDataElement<?>> esContainer;
+	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
 	@Autowired
 	private BusinessContainerManager<?> businessContainer;

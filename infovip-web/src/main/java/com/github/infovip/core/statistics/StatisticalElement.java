@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration;
 import com.github.infovip.core.date.DefaultDateFormatter;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
 
 /***
@@ -63,9 +63,9 @@ public class StatisticalElement<T extends StatisticalEventData<?>> {
 	 * Gets the data item that will be stored later
 	 * @return
 	 */
-	public ESDataElement<ESStatisticsDataElement> getDataItem() {
+	public ESExtendedDataElement<ESStatisticsDataElement> getDataItem() {
 		
-		return new ESDataElement<ESStatisticsDataElement>() {
+		return new ESExtendedDataElement<ESStatisticsDataElement>() {
 
 			@Override
 			public String id() {

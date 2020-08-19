@@ -189,6 +189,46 @@
 	</definition>
 	
 	
+	<!--  User media page -->
+	<definition name="tile.user.media.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/user/media/UserMediaBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/lib/unibox/unibox.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
+			<add-attribute value="/lib/bingdian-waterfall/waterfall.js" />
+			<add-attribute value="/lib/jquery/owl.carousel.min.js" />
+			<add-attribute value="/lib/numeral/numeral.min.js" />
+			<add-attribute value="/js/web/user/media/MediaCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="userJs" inherit="true">
+			<add-attribute value="/js/web/user/UserCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>
+	
+	
+	<!--  User photo page -->
+	<definition name="tile.user.photo.page" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/user/photo/UserPhotoBody.jsp"></put-attribute>
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/lib/unibox/unibox.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
+			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
+			<add-attribute value="/lib/bingdian-waterfall/waterfall.js" />
+			<add-attribute value="/lib/jquery/owl.carousel.min.js" />
+			<add-attribute value="/lib/numeral/numeral.min.js" />
+			<add-attribute value="/js/web/user/photo/PhotoCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="userJs" inherit="true">
+			<add-attribute value="/js/web/user/UserCore.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
+		</put-list-attribute>
+	</definition>
+	
+	
 	<!--  Login page -->
 	<definition name="tile.login.page" extends="default.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/general/login/LoginPageBody.jsp"></put-attribute>

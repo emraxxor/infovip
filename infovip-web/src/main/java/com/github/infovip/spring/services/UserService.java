@@ -36,7 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.web.types.FormElement;
 import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
@@ -70,7 +70,7 @@ public class UserService implements UserServiceInterface<User> {
     protected CriteriaBuilder cb;
     
 	@Autowired
-	private ESContainerInterface<ESDataElement<?>> esContainer;
+	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
 	@Autowired
 	private RestHighLevelClient restHighLevelClient;

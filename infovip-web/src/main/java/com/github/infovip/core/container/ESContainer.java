@@ -28,7 +28,7 @@ import com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfigurati
 import com.github.infovip.core.data.BaseDataElement;
 import com.github.infovip.core.elasticsearch.ESChildElement;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
 import com.github.infovip.core.elasticsearch.ESSimpleResquestElement;
 import com.google.gson.Gson;
@@ -41,7 +41,7 @@ import com.google.gson.JsonSyntaxException;
  * @category infovip.core.data.manager
  */
 @Component
-public class ESContainer<T extends ESDataElement<?>> extends Thread implements ESContainerInterface<T>  {
+public class ESContainer<T extends ESExtendedDataElement<?>> extends Thread implements ESContainerInterface<T>  {
 
 	/**
 	 * Default logger for the current component
@@ -186,7 +186,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
 
    
 	@SuppressWarnings("unchecked")
-	public synchronized <TDATAELEMENT, TE extends ESDataElement<TDATAELEMENT>> void search(ESSimpleResquestElement<TDATAELEMENT, TE> e) {
+	public synchronized <TDATAELEMENT, TE extends ESExtendedDataElement<TDATAELEMENT>> void search(ESSimpleResquestElement<TDATAELEMENT, TE> e) {
 		try {
 			GetRequest gq = new GetRequest(e.index(), e.id());
 			
@@ -218,7 +218,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
     }
     
     public synchronized Object executeSynchronusRequest(T data) {
-		if ( data instanceof ESDataElement ) {
+		if ( data instanceof ESExtendedDataElement ) {
 			try {
 				if ( data.operation() == ESOperationType.DELETE ) {
 					if ( data instanceof ESChildElement<?> ) {
@@ -302,7 +302,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
     }
     
     public synchronized Object executeThenGet(T data) {
-		if ( data instanceof ESDataElement ) {
+		if ( data instanceof ESExtendedDataElement ) {
 			try {
 				if ( data.operation() == ESOperationType.DELETE ) {
 					if ( data instanceof ESChildElement<?> ) {
@@ -379,7 +379,7 @@ public class ESContainer<T extends ESDataElement<?>> extends Thread implements E
    
 	public synchronized void process(T data) {
 		synchronized (bulkRequest) {
-			if ( data instanceof ESDataElement ) {
+			if ( data instanceof ESExtendedDataElement ) {
 				if ( data.operation() == ESOperationType.DELETE ) {
 					if ( data instanceof ESChildElement<?>  ) {
 						DeleteRequest dq = new DeleteRequest(data.index());

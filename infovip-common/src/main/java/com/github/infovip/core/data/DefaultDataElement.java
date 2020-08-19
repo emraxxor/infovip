@@ -7,11 +7,11 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
 import com.github.infovip.core.es.type.IgnoreField;
 
-public class DefaultDataElement<T> implements ESDataElement<T> {
+public class DefaultDataElement<T> implements ESExtendedDataElement<T> {
 
 	private String documentId;
 	
@@ -124,19 +124,19 @@ public class DefaultDataElement<T> implements ESDataElement<T> {
 	}
 
 	@Override
-	public ESDataElement<T> operationIndex() {
+	public ESExtendedDataElement<T> operationIndex() {
 		this.operation = ESOperationType.INDEX;
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationUpdate() {
+	public ESExtendedDataElement<T> operationUpdate() {
 		this.operation = ESOperationType.UPDATE;
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationDelete() {
+	public ESExtendedDataElement<T> operationDelete() {
 		this.operation = ESOperationType.DELETE;
 		return this;
 	}

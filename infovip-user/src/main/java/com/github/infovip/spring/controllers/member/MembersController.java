@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.scroll.DefaultScrollResponse;
 import com.github.infovip.core.scroll.ScrollResponseGenerator;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
@@ -40,7 +40,7 @@ public class MembersController {
 	private RestHighLevelClient restHighLevelClient;
 	
 	@Autowired
-	private ESContainerInterface<ESDataElement<?>> esContainer;
+	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
 	@Autowired
 	private WebApplicationContext context;

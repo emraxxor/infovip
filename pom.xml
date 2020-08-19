@@ -60,7 +60,7 @@
            <commons.email.version>1.4</commons.email.version>
            <jquery.version>3.2.1</jquery.version>
            <jquery.ui.version>1.12.1</jquery.ui.version>
-           <bootstrap.version>4.4.1-1</bootstrap.version>
+           <bootstrap.version>4.5.0</bootstrap.version>
            <commons.io.version>2.5</commons.io.version>
            <commons.lang.version>3.4</commons.lang.version>
            <commons.collections.version>3.2.2</commons.collections.version>
@@ -71,6 +71,7 @@
     <modules>
         <module>sitemapgen4j</module>
         <module>infovip-common</module>
+        <module>infovip-web-common</module>
 		<module>infovip-ejb-user</module>
         <module>infovip-user</module>
         <module>infovip-admin</module>

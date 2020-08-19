@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.smtp.SmtpClient;
 import com.github.infovip.web.application.message.ApplicationMessageManager;
 import com.github.infovip.web.application.message.Message;
@@ -13,7 +13,7 @@ import com.github.infovip.web.application.message.Message;
 public class DefaultMessageManager implements ApplicationMessageManager {
 
 	@Autowired
-	private ESContainerInterface<ESDataElement<?>> esContainer;
+	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
 	@Autowired
 	private SmtpClient smtpClient;

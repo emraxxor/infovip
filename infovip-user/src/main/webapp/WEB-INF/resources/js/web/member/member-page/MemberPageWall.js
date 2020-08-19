@@ -28,7 +28,7 @@ var MemberPageWall = easejs.Class('MemberPageWall').extend(BaseWaterfall,{
 	'public override display' : function() {
     	const that = this;
     	this.waterfall = jQuery('#' + this.id).waterfall({
-    		itemCls: 'item', 
+    		itemCls: 'item-waterfall', 
     		prefix: 'waterfall',
     		fitWidth: true, 
     		colWidth: 204, 
@@ -112,7 +112,7 @@ var MemberPageWall = easejs.Class('MemberPageWall').extend(BaseWaterfall,{
     		            
     					for(var i=0; i<data.data.length; i++) {
     						var o = data.data[i];
-    						var image = new String( WEB_DIR + "/user/image/cover?" + o.picture);
+    						var image = new String( WEB_DIR + "/user/image?" + o.picture);
     						result.push( {image : image, data: o } );
     					}
     					

@@ -364,7 +364,7 @@
 			<version>1.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-
+		
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -410,6 +410,11 @@
 			<type>war</type>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.github.infovip</groupId>
+			<artifactId>infovip-web-common</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
     </dependencies>
 
 

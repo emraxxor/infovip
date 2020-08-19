@@ -6,7 +6,7 @@ package com.github.infovip.core.elasticsearch;
  *
  * @param <T>
  */
-public interface ESChildElement<T> extends ESDataElement<T> {
+public interface ESChildElement<T> extends ESExtendedDataElement<T> {
 
 	public String parent();
 	

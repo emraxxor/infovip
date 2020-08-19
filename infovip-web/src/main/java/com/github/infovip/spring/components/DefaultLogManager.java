@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.log.BaseLogDataElement;
 import com.github.infovip.core.log.BaseLogElement;
 import com.github.infovip.core.log.DefaultLogGenerator;
@@ -26,7 +26,7 @@ public class DefaultLogManager<D extends BaseLogDataElement, T extends BaseLogEl
     private WebApplicationContext webAppContext;
     
     @Autowired
-    private ESContainerInterface<ESDataElement<?>> esContainer;
+    private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 
     @Override
     public <K extends BaseLogDataElement> LogGenerator<K, HttpServletRequest> create(K element, HttpServletRequest request) {

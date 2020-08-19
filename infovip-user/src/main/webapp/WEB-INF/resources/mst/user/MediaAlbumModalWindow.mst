@@ -1,0 +1,24 @@
+
+<div class="">
+ 
+   <div class="form-group">
+    <label for="albumName">Album name:</label>
+    <input type="text" name="albumName" class="form-control" id="albumName" placeholder="Enter the name of the album">
+  </div>
+  <div class="form-group grid">
+    <label for="">Pictures</label>
+    <div class="gallery--upload-btn ff--primary float--left">
+        <a class="btn btn-sm btn-default btn-upload-picture"><i class="mr--10 fa fa-cloud-upload"></i>Upload picture</a>
+    </div>
+    
+    <div class="pictures-list row mt-5 pt-5">
+    
+    </div>
+    
+  </div>
+  
+</div>
+			
+  <div class="container m-5 p-5 row"">
+	  <button type="submit" class="btn btn-primary btn-submit m-auto">Submit</button>
+  </div>

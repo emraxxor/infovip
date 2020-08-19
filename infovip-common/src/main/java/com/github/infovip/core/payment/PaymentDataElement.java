@@ -1,10 +1,10 @@
 package com.github.infovip.core.payment;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
 
-public class PaymentDataElement<T> implements ESDataElement<T> {
+public class PaymentDataElement<T> implements ESExtendedDataElement<T> {
 
 	private String documentId = null;
 	
@@ -62,19 +62,19 @@ public class PaymentDataElement<T> implements ESDataElement<T> {
 	}
 
 	@Override
-	public ESDataElement<T> operationIndex() {
+	public ESExtendedDataElement<T> operationIndex() {
 		this.operation = ESOperationType.INDEX;
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationUpdate() {
+	public ESExtendedDataElement<T> operationUpdate() {
 		this.operation = ESOperationType.UPDATE;
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationDelete() {
+	public ESExtendedDataElement<T> operationDelete() {
 		this.operation = ESOperationType.DELETE;
 		return this;
 	}

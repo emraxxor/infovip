@@ -1,7 +1,7 @@
 package com.github.infovip.core.statistics;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
 import com.github.infovip.core.es.type.DefaultDocumentType;
 
@@ -11,7 +11,7 @@ import com.github.infovip.core.es.type.DefaultDocumentType;
  *
  * @param <T>
  */
-public class ESDocumentElement<T extends DefaultDocumentType> implements ESDataElement<T> {
+public class ESDocumentElement<T extends DefaultDocumentType> implements ESExtendedDataElement<T> {
 
 	
 	private T data;
@@ -50,19 +50,19 @@ public class ESDocumentElement<T extends DefaultDocumentType> implements ESDataE
 	}
 
 	@Override
-	public ESDataElement<T> operationIndex() {
+	public ESExtendedDataElement<T> operationIndex() {
 		
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationUpdate() {
+	public ESExtendedDataElement<T> operationUpdate() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ESDataElement<T> operationDelete() {
+	public ESExtendedDataElement<T> operationDelete() {
 		// TODO Auto-generated method stub
 		return null;
 	}

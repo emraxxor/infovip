@@ -20,8 +20,9 @@
                                     <li><a href="/user/activity">Activity</a></li>
                                     <li><a href="/user/profile">Profile</a></li>
                                     <li><a href="/user/friends">Friends</a></li>
-                                    <li><a href="/user/pictures">Pictures</a></li>
-                                    
+                                    <li><a href="/user/media">Media</a></li>
+                                    <li><a href="/user/photo">Photo</a></li>
+                                     
 	                                <c:forEach items="${MENU_AFTER}" var="umenu">
 									        <c:out value="${umenu}" escapeXml="false"></c:out><br/>
 									</c:forEach>

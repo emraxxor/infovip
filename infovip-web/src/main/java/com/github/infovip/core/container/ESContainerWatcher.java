@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 /**
  * 
  * * @author Attila Barna
@@ -24,7 +24,7 @@ public class ESContainerWatcher extends Thread {
 	private boolean isRunning = true;
 	
 	@Autowired
-	private ESContainer<ESDataElement<?>> esContainer;
+	private ESContainer<ESExtendedDataElement<?>> esContainer;
 	
 	
 	public ESContainerWatcher() {

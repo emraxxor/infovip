@@ -32,7 +32,7 @@ import com.github.infovip.core.data.Field;
 import com.github.infovip.core.data.IndexMetaData;
 import com.github.infovip.core.data.UserPublicElement;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.es.query.DocumentManager;
 import com.github.infovip.core.scroll.DefaultScrollResponse;
 import com.github.infovip.core.scroll.ScrollResponseGenerator;
@@ -60,7 +60,7 @@ import com.google.gson.reflect.TypeToken;
 public class ActivityController {
 
 	@Autowired
-	private ESContainerInterface<ESDataElement<?>> esContainer;
+	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
 	@Autowired
 	private WebApplicationContext context;

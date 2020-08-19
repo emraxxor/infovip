@@ -5,7 +5,7 @@ package com.github.infovip.core.elasticsearch;
  * @author attila
  *
  */
-public interface ESDataElement<T> {
+public interface ESExtendedDataElement<T> {
 
 	public String id();
 	
@@ -21,9 +21,9 @@ public interface ESDataElement<T> {
 	
 	public T data();
 	
-	default public ESDataElement<T> operationIndex() { return null; }
+	default public ESExtendedDataElement<T> operationIndex() { return null; }
 	
-	default public ESDataElement<T> operationUpdate() { return null; }
+	default public ESExtendedDataElement<T> operationUpdate() { return null; }
 	
-	default public ESDataElement<T> operationDelete() { return null; }
+	default public ESExtendedDataElement<T> operationDelete() { return null; }
 }

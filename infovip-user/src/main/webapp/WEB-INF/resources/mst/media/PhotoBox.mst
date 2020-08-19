@@ -1,0 +1,21 @@
+ {{#result}}                                               
+<div class="item item-waterfall col-md-3 col-xs-6 col-xxs-12 mt-3" style="">
+            <!-- Member Item Start -->
+            <div class="member--item online">
+                <div class="">
+                    <a href="" class="btn-link">
+                        <img src="{{image}}" class="img-fluid img-thumbnail" alt=""> 
+                    </a>
+                </div>
+
+                <div class="name">
+                    <h3 class="h6 fs--12">
+                        {{data.title}}
+                    </h3>
+                </div>
+
+         
+            </div>
+            <!-- Member Item End -->
+</div>
+{{/result}}                                                                                                                                                                                                      

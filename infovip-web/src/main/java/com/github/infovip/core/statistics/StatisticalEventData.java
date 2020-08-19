@@ -3,7 +3,7 @@ package com.github.infovip.core.statistics;
 import static com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration.IVIP_STAT_INDEX;
 import static com.github.infovip.configuration.DefaultWebAppConfiguration.ESConfiguration.IVIP_STAT_TYPE;
 
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
 
 /**
@@ -13,7 +13,7 @@ import com.github.infovip.core.elasticsearch.ESOperationType;
  * @author attila
  *
  */
-public class StatisticalEventData<T extends DefaultStatisticalEvent<?>> implements ESDataElement<T> , GeneralEvent  {
+public class StatisticalEventData<T extends DefaultStatisticalEvent<?>> implements ESExtendedDataElement<T> , GeneralEvent  {
 
 	public String documentID;
 

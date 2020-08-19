@@ -3,7 +3,7 @@ package com.github.infovip.core.data;
 import org.apache.log4j.Logger;
 
 import com.github.infovip.core.elasticsearch.ESChildElement;
-import com.github.infovip.core.elasticsearch.ESDataElement;
+import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.elasticsearch.ESOperationType;
 
 /**
@@ -111,19 +111,19 @@ public class DefaultChildElement<T> implements ESChildElement<T>  {
 	}
 
 	@Override
-	public ESDataElement<T> operationIndex() {
+	public ESExtendedDataElement<T> operationIndex() {
 		this.operation = ESOperationType.INDEX;
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationUpdate() {
+	public ESExtendedDataElement<T> operationUpdate() {
 		this.operation = ESOperationType.UPDATE;
 		return this;
 	}
 
 	@Override
-	public ESDataElement<T> operationDelete() {
+	public ESExtendedDataElement<T> operationDelete() {
 		this.operation = ESOperationType.DELETE;
 		return this;
 	}

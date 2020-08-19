@@ -52,7 +52,6 @@ var ActivityPostController = easejs.Class('ActivityPostController').extend(UICon
     		this.editor.basic('100%',200);
     		this.button.on('click', { data : this }, this.onSubmitClick );
     	}
-    	debugger;
     	new UIControllerExecutor(  this.wall ).execute(); 
 	}
 	

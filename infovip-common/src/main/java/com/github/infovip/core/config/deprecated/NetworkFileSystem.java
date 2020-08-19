@@ -9,6 +9,8 @@ public class NetworkFileSystem {
 	private String fileStorePath;
 	
 	private String userImagePath;
+
+	private String mediaPath;
 	
 	public NetworkFileSystem() {
 		// TODO Auto-generated constructor stub
@@ -69,6 +71,16 @@ public class NetworkFileSystem {
 	public void setUserImagePath(String userImagePath) {
 		this.userImagePath = userImagePath;
 	}
+
+	public String getMediaPath() {
+		return mediaPath;
+	}
+
+	public void setMediaPath(String mediaPath) {
+		this.mediaPath = mediaPath;
+	}
+	
+	
 	
 	
 }

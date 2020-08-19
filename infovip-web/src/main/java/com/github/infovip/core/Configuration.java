@@ -221,6 +221,7 @@ public class Configuration extends DefaultWebAppConfiguration {
 			PRODUCT_IMAGE_PATH = temporaryConfig.getNfs().getProductImagePath();
 			STORAGE_IMAGE_PATH = temporaryConfig.getNfs().getFileStorePath();
 			USER_IMAGE_PATH = temporaryConfig.getNfs().getUserImagePath();
+			MEDIA_IMAGE_PATH = temporaryConfig.getNfs().getMediaPath();
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
