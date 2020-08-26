@@ -6,6 +6,7 @@
 package com.github.infovip.entities;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 import javax.persistence.Basic;
@@ -90,6 +91,9 @@ public class User implements Serializable, UserIface<LogRegistration> {
     
     @Column(name="county")
     private String county;
+    
+    @Column(name="last_seen")
+    private Timestamp lastSeen;
     
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "uid")
     private LogRegistration logRegistration;
@@ -241,6 +245,15 @@ public class User implements Serializable, UserIface<LogRegistration> {
 	
 	public String getUserRealName() {
 		return firstName + " " + lastName;
+	}
+	
+
+	public Timestamp getLastSeen() {
+		return lastSeen;
+	}
+
+	public void setLastSeen(Timestamp lastSeen) {
+		this.lastSeen = lastSeen;
 	}
 
 	/* (non-Javadoc)

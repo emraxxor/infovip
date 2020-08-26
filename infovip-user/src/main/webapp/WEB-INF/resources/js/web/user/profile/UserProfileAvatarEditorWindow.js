@@ -90,7 +90,7 @@ var UserProfileAvatarEditorWindow = easejs.Class('UserProfileAvatarEditorWindow'
         body.style.margin = "0 auto";
 
 		if ( this.user.picture != null ) 
-			this.window.find('.cover--avatar')[0].querySelector('img').setAttribute('src','/user/image/cover?' + this.user.picture);
+			this.window.find('.cover--avatar')[0].querySelector('img').setAttribute('src','/user/image?' + this.user.picture);
 
 		
         this.window.find('.btn-dialog-close').on('click', x => this.window.modal('hide'));

@@ -2,6 +2,7 @@ package com.github.infovip.spring.controllers.user;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,10 +70,14 @@ public class UserMediaController {
 	    		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
 	    	
 	    	File f = ImageData.randomFileName(DefaultWebAppConfiguration.MEDIA_IMAGE_PATH);
-			
+			File flarge = new File(DefaultWebAppConfiguration.MEDIA_IMAGE_PATH + "/" + f.getName()  + "_BIG");
+	    	
 			if ( f.createNewFile() ) 
 				ImageData.createThumbnail(new String(Base64.decodeBase64(src)), f);
 		
+			if ( flarge.createNewFile() ) 
+				ImageData.createLargeImage(new String(Base64.decodeBase64(src)), flarge);
+			
 			UserPhotoElement up = new UserPhotoElement(id,name,UserConfiguration.config(request).getId(),f.getName());
 	    	IndexResponse ir = (IndexResponse) esContainer.executeSynchronusRequest( 
 	    				new DefaultDataElement<UserPhotoElement>(up).setIndex(DefaultWebAppConfiguration.ESConfiguration.USER_MEDIA_PHOTO) );
@@ -92,6 +98,13 @@ public class UserMediaController {
     	return ume;
     }
 
+    @RequestMapping( value= {"/album/{aid}"}, headers = "Accept=text/html",method=RequestMethod.GET)
+    public ModelAndView album(
+    		@PathVariable("aid") Optional<String> aid,
+    		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
+    	ModelAndView mv = new ModelAndView("tile.user.photo.page");
+    	return mv;
+    }
 	
     @RequestMapping( headers = "Accept=text/html",method=RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {

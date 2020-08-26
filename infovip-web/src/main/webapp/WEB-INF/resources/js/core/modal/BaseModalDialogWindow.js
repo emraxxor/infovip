@@ -17,10 +17,13 @@ var BaseModalDialogWindow = easejs.Class('BaseModalDialogWindow').extend(UIContr
 	
 	'private header' : null,
 	
+	'private top' : null,
+	
     'virtual override __construct' : function(template) {
     	const base = this.load( ApplicationScope.config.RESOURCES_PATH  + '/mst/base/BaseDialogWindow.mst' ,  {}, 'GET'  );
     	this.template = this.load( template , {}, 'GET'  );
         this.panel = jQuery("<div></div>");
+        this.top = 30;
         this.window = jQuery(Mustache.render( base  , { }));
         this.header = this.window[0].querySelector('.modal-header');
         this.dialog = this.window[0].querySelector('.modal-dialog');
@@ -38,6 +41,7 @@ var BaseModalDialogWindow = easejs.Class('BaseModalDialogWindow').extend(UIContr
      'public onClose' : function() {
     	 if ( this.closeCallback !== null )
     		 this.closeCallback(this);
+    	 
      },
      
      'public getHeader' : function() {
@@ -54,6 +58,10 @@ var BaseModalDialogWindow = easejs.Class('BaseModalDialogWindow').extend(UIContr
      
     'public getBody' : function() {
     	 return this.body;
+     },
+     
+    'public setTop' : function(top) {
+    	this.top = top;
      },
      
      
@@ -82,10 +90,14 @@ var BaseModalDialogWindow = easejs.Class('BaseModalDialogWindow').extend(UIContr
   	'public virtual display' : function () { },
 	
     'public override virtual events' : function() { },
+    
+    'public virtual beforeDisplay' : function() {
+    	 this.dialog.style.top = this.top + '%';
+     },
 	 	 
 	'public override virtual onCreationComplete' : function() {
 		const that = this;
-		
+		this.beforeDisplay();
 		this.display();
 
 		this.window.on('hidden.bs.modal',function(){
@@ -98,9 +110,11 @@ var BaseModalDialogWindow = easejs.Class('BaseModalDialogWindow').extend(UIContr
 		this.window.on('shown.bs.modal', e => this.onComponentCreationComplete() );
 	 },
 	 
-	'public onComponentCreationComplete' : function() {		
+	'public virtual onComponentCreationComplete' : function() {},
+
+	'public virtual hide' : function() {
+		this.window.modal('hide');
 	 },
-	
 	 
 	'public close' : function() {
 			this.onClose();

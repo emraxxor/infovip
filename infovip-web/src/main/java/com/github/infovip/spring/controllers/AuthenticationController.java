@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration.SESSION;
+import com.github.infovip.core.date.DefaultDateFormatter;
 import com.github.infovip.core.log.BaseLogDataElement;
 import com.github.infovip.core.log.BaseLogElement;
 import com.github.infovip.core.log.LogManager;
@@ -124,6 +125,9 @@ public class AuthenticationController {
                 request.getSession().setAttribute(SESSION.AUTH_TIME.toString(), new Date(System.currentTimeMillis()));
                 request.getSession().setAttribute(SESSION.REMOTE_ADDR.toString(), request.getRemoteAddr());
                 request.getSession().setAttribute(SESSION.HEADER.toString(), request.getHeader("User-Agent"));
+               
+                u.setLastSeen(DefaultDateFormatter.timestamp());
+                userService.save(u);
                 
     			logManager.synch(
 						logManager

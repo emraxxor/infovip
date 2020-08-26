@@ -1,5 +1,7 @@
 package com.github.infovip.core.data;
 
+import com.github.infovip.core.date.DefaultDateFormatter.DATE_FORMAT;
+import com.github.infovip.core.es.type.TimestampToString;
 import com.github.infovip.core.web.types.FormElement;
 import com.github.infovip.core.web.validation.AllowEmpty;
 import com.github.infovip.core.web.validation.MaxLength;
@@ -33,6 +35,9 @@ public class UserPublicFormElement<T> extends FormElement<T>  {
     @MaxLength(size=200)
     @AllowEmpty
     private String city;
+    
+    @TimestampToString(type = DATE_FORMAT.STRICT_DATE_TIME)
+    private String lastSeen;
 
     @MaxLength(size=200)
     @AllowEmpty
@@ -49,6 +54,7 @@ public class UserPublicFormElement<T> extends FormElement<T>  {
     
     public UserPublicFormElement(T s) {
     	super(s);
+    	
     }
     
     public UserPublicFormElement(T s, java.lang.reflect.Field[] fields) {
@@ -133,6 +139,14 @@ public class UserPublicFormElement<T> extends FormElement<T>  {
 
 	public void setCounty(String county) {
 		this.county = county;
+	}
+	
+	public String getLastSeen() {
+		return lastSeen;
+	}
+
+	public void setLastSeen(String lastSeen) {
+		this.lastSeen = lastSeen;
 	}
 
 	@Override

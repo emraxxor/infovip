@@ -7,7 +7,6 @@ var MediaPageWall = easejs.Class('MediaPageWall').extend(BaseWaterfall,{
 	'public static TEMPLATE_MST' : ApplicationScope.config.RESOURCES_PATH + '/mst/media/MediaBox.mst',
 
 	'private template' : null,
-
 	
     'override __construct': function (id) {
     	this.__super(id);
@@ -17,16 +16,19 @@ var MediaPageWall = easejs.Class('MediaPageWall').extend(BaseWaterfall,{
 
     'public override onCreationComplete' : function() {
      },
-     
-     
-
+    
+    'public reloadWaterfall' : function() {
+    	this.setScroll(null);
+    	this.waterfall.waterfall('reload');
+     },
+    
     'public getTemplate' : function() {
     	return this.template;
      },
 
 	'public override display' : function() {
     	const that = this;
-    	this.waterfall = jQuery('#' + this.id).waterfall({
+    	const waterfall = jQuery('#' + this.id).waterfall({
     		itemCls: 'item-waterfall', 
     		prefix: 'waterfall',
     		fitWidth: true, 
@@ -133,6 +135,7 @@ var MediaPageWall = easejs.Class('MediaPageWall').extend(BaseWaterfall,{
     		debug: false
     	});
 
+    	this.setWaterfall(waterfall);
 	}
 	
 });

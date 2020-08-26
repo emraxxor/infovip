@@ -48,8 +48,12 @@ var BaseWaterfall = easejs.Class('BaseWaterfall').extend(Controller,{
         return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     },
     
-    'public virtual getWaterfall' : function() {
+    'public getWaterfall' : function() {
     	return this.waterfall;
+    },
+   
+    'public setWaterfall' : function(v) {
+    	this.waterfall = v;
     },
     
     'public virtual onCreationComplete' : function() {

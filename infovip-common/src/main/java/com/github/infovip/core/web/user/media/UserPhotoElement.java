@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 
 import com.github.infovip.core.data.ESDataElement;
+import com.github.infovip.core.date.DefaultDateFormatter;
 import com.github.infovip.core.es.type.IgnoreField;
 import com.github.infovip.core.web.validation.AllowEmpty;
 
@@ -23,6 +24,8 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 
 	private String data;
 	
+	private String creationTime;
+	
 	@AllowEmpty
 	private String title = "Untitled";
 
@@ -34,6 +37,7 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 		this.mediaId = parent;
 		this.title = title;
 		this.userId = userId;
+		this.creationTime = DefaultDateFormatter.current();
 		this.data = image;
 	}
 	
@@ -81,10 +85,21 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 		this.title = title;
 	}
 
+	
+	
+	public String getCreationTime() {
+		return creationTime;
+	}
+
+	public void setCreationTime(String creationTime) {
+		this.creationTime = creationTime;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((creationTime == null) ? 0 : creationTime.hashCode());
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
 		result = prime * result + ((mediaId == null) ? 0 : mediaId.hashCode());
@@ -102,6 +117,11 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 		if (getClass() != obj.getClass())
 			return false;
 		UserPhotoElement other = (UserPhotoElement) obj;
+		if (creationTime == null) {
+			if (other.creationTime != null)
+				return false;
+		} else if (!creationTime.equals(other.creationTime))
+			return false;
 		if (data == null) {
 			if (other.data != null)
 				return false;

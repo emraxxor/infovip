@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.infovip.core.data.ESDataElement;
 import com.github.infovip.core.es.type.IgnoreField;
+import com.github.infovip.core.es.type.TimestampToString;
 import com.github.infovip.core.web.validation.AllowEmpty;
 import com.github.infovip.core.web.validation.MaxLength;
 import com.github.infovip.core.web.validation.ValidEmail;
@@ -90,6 +91,13 @@ public class UserEntity  implements ESDataElement<UserEntity>,  Serializable  {
     @MaxLength(size=200)
     @AllowEmpty
     private String county;
+	
+	
+	@JsonProperty("lastSeen")
+    @Field(type = FieldType.Auto)
+	@AllowEmpty
+	@TimestampToString
+	private String lastSeen;
 
     
     public UserEntity() {
@@ -184,6 +192,16 @@ public class UserEntity  implements ESDataElement<UserEntity>,  Serializable  {
 
 	public void setCounty(String county) {
 		this.county = county;
+	}
+	
+	
+
+	public String getLastSeen() {
+		return lastSeen;
+	}
+
+	public void setLastSeen(String lastSeen) {
+		this.lastSeen = lastSeen;
 	}
 
 	@Override

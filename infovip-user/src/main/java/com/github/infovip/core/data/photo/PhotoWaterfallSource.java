@@ -14,6 +14,8 @@ public class PhotoWaterfallSource extends AbstractBoolScrollSource<UserPhotoElem
 
 	private Long userId;
 	
+	private String mediaId;
+	
 	public PhotoWaterfallSource(WebApplicationContext context, String token, Long uid) {
 		super(context, token, DefaultWebAppConfiguration.ESConfiguration.USER_MEDIA_PHOTO);
 		this.userId = uid; 
@@ -23,6 +25,10 @@ public class PhotoWaterfallSource extends AbstractBoolScrollSource<UserPhotoElem
 	@Override
 	public void initializeQuery() {
 		query = QueryBuilders.boolQuery().must( QueryBuilders.termQuery("userId", userId) );
+		
+		if ( mediaId != null ) 
+			query.must( QueryBuilders.termQuery("mediaId.keyword", mediaId) );
+		
 	}
 
 	
@@ -31,6 +37,11 @@ public class PhotoWaterfallSource extends AbstractBoolScrollSource<UserPhotoElem
 		UserPhotoElement me = new Gson().fromJson(o.getSourceAsString(), new TypeToken<UserPhotoElement>(){}.getType()) ;
 		me.setDocumentId(o.getId());
 		return me;
+	}
+	
+	public PhotoWaterfallSource setMediaId(String mediaId) {
+		this.mediaId = mediaId;
+		return this;
 	}
 	
 	@Override

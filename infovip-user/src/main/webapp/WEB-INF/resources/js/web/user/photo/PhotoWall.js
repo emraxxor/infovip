@@ -8,18 +8,18 @@ var PhotoWall = easejs.Class('PhotoWall').extend(BaseWaterfall,{
 
 	'private template' : null,
 
+	'private controller' : null,
 	
-    'override __construct': function (id) {
+    'override __construct': function (id, controller) {
     	this.__super(id);
+    	this.controller = controller;
     	this.template = this.load( PhotoWall.$('TEMPLATE_MST') , {}, 'GET'  );
-
      },
 
     'public override onCreationComplete' : function() {
+    	this.controller.getViewer().update();
      },
      
-     
-
     'public getTemplate' : function() {
     	return this.template;
      },
@@ -50,7 +50,12 @@ var PhotoWall = easejs.Class('PhotoWall').extend(BaseWaterfall,{
     		checkImagesLoaded: true,
     		dataType: 'json', 
     		path: function(page) {
-    			return '/user/photo/data/?token=' + that.getScroll() ;
+    			let aid = "";
+    			
+    			if ( self.location.pathname.split('/').indexOf('album') !== -1 ) 
+    				aid = "&aid=" + self.location.pathname.split('/').pop();
+    			
+    			return '/user/photo/data/?token=' + that.getScroll() + aid;
     		},
     		params: {},     		
     		loadingMsg: '<div style="text-align:center;padding:10px 0; color:#999;"><img src="data:image/gif;base64,R0lGODlhEAALAPQAAP///zMzM+Li4tra2u7u7jk5OTMzM1hYWJubm4CAgMjIyE9PT29vb6KiooODg8vLy1JSUjc3N3Jycuvr6+Dg4Pb29mBgYOPj4/X19cXFxbOzs9XV1fHx8TMzMzMzMzMzMyH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7" alt=""><br />Loading...</div>',
@@ -115,7 +120,8 @@ var PhotoWall = easejs.Class('PhotoWall').extend(BaseWaterfall,{
     						if ( o.data != undefined ) {
     							image = new String( WEB_DIR + "/user/media-image?" + o.data);
     						}
-    						result.push( {image : image, data: o } );
+    						
+    						result.push( {image : image, data: o , encoded : Base64.encode(JSON.stringify(o))  } );
     					}
     					
     					that.setScroll(data.token);

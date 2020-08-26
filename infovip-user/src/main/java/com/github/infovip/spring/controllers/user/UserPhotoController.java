@@ -1,6 +1,7 @@
 package com.github.infovip.spring.controllers.user;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,6 @@ import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.scroll.DefaultScrollResponse;
 import com.github.infovip.core.scroll.ScrollResponseGenerator;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
-import com.github.infovip.core.web.user.media.UserMediaElement;
 import com.github.infovip.core.web.user.media.UserPhotoElement;
 
 /**
@@ -43,9 +43,15 @@ public class UserPhotoController {
 	private WebApplicationContext context;
 
 	@RequestMapping(path = { "/data" }, method = { RequestMethod.GET, RequestMethod.POST })
-	public @ResponseBody Object result(@RequestParam(name = "token", defaultValue = "", required = false) String token,
+	public @ResponseBody Object result(
+			@RequestParam(name = "token", defaultValue = "", required = false) String token,
+			@RequestParam(name = "aid", required = false) Optional<String> aid,
 			HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {
 		PhotoWaterfallSource source = new PhotoWaterfallSource(context, token, UserConfiguration.config(request).getId());
+		
+		if ( aid.isPresent() ) 
+			source.setMediaId(aid.get());
+				
 		try {
 			return ScrollResponseGenerator.generate(
 					new DefaultScrollResponse<UserPhotoElement, WebApplicationContext>(), source, request, response);

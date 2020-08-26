@@ -14,7 +14,11 @@ var MediaController = easejs.Class('MediaController').extend(UIController,{
      },
 
 	'public override virtual events' : function() {
-		this.btnNewAlbum.addEventListener('click' , x => UIControllerExecutor(  MediaAlbumDialogWindow() ).execute() );
+		this.btnNewAlbum.addEventListener('click' , x => UIControllerExecutor(  MediaAlbumDialogWindow(this) ).execute() );
+	 },
+	 
+	'public getWall' : function() {
+		return this.mediaPageWall;
 	 },
 	 
 	'public override virtual onCreationComplete' : function() {

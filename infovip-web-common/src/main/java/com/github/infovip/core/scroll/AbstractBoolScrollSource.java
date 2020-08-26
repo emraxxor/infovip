@@ -48,7 +48,6 @@ public abstract class AbstractBoolScrollSource<T> extends AbstractScrollSource<W
 	@Override
 	public void query()  {
 		try {
-			System.out.println("THE TOKEN IS " + token);
 			if ( token == null || (token != null && token.equalsIgnoreCase("")) || (token != null && token.equalsIgnoreCase("null") ) )  {
 				SearchRequest searchRequest = new SearchRequest(index); 
 				SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 

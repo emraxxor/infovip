@@ -1,9 +1,9 @@
  {{#result}}                                               
-<div class="item item-waterfall col-md-3 col-xs-6 col-xxs-12 mt-3" style="">
+<div class="item item-waterfall col-md-3 col-xs-6 col-xxs-12 mt-3" data-encoded="{{encoded}}" style="">
             <!-- Member Item Start -->
             <div class="member--item online">
                 <div class="">
-                    <a href="" class="btn-link">
+                    <a href="#" class="btn-link" data-did="{{data.documentId}}">
                         <img src="{{image}}" class="img-fluid img-thumbnail" alt=""> 
                     </a>
                 </div>

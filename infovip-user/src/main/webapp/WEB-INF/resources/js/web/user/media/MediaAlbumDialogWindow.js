@@ -8,8 +8,11 @@ var MediaAlbumDialogWindow = easejs.Class('MediaAlbumDialogWindow').extend(BaseM
 
 	'private btnNewAlbum' : null,
 	
-    'override virtual __construct' : function(template) {
+	'private controller' : null,
+	
+    'override virtual __construct' : function(o) {
     	this.__super( MediaAlbumDialogWindow.$('DIALOG_WINDOW') );
+    	this.controller = o;
     	this.setTitle('Create new album');
     	this.setWidth(80);
     	this.setHeight(60);
@@ -31,11 +34,13 @@ var MediaAlbumDialogWindow = easejs.Class('MediaAlbumDialogWindow').extend(BaseM
 		 const name = this.getBody().querySelector("input[name=albumName]").value;
 		 const photos = this.getBody().querySelectorAll(".photo");
 		 const upload = (e) => that.async('/user/media/upload', e , (res,o) => {}, that ) ;
-		 
+
 		 if ( photos.length == 0 ) {
     		 DefaultAlertDialog().display("You haven't uploaded any photos yet!", (ops, win) => {} , this );
 			 return;
 		 } 
+		 
+		 const w = DefaultInformationDialog().display(__tr('msg.loading'));
 		 
 		 this.async('/user/media/create', { name : name == "" ? 'Untitled' : name } , (res,o) => {
 			 if ( res.documentId != undefined ) {
@@ -48,9 +53,13 @@ var MediaAlbumDialogWindow = easejs.Class('MediaAlbumDialogWindow').extend(BaseM
 				 
 				 ps.forEach( e => upload(e) );
 				 
+				 setTimeout( () =>  o.controller.getWall().reloadWaterfall() , 1500);
+				 w.hide();
+				 o.hide();
 			 }
 		 } , this);
-		 debugger;
+		 
+		 
 		 
 	 },
 	 

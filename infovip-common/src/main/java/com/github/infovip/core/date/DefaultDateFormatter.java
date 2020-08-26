@@ -48,7 +48,17 @@ public class DefaultDateFormatter {
 		return DefaultDateFormatter.format(date, DATE_FORMAT.STRICT_DATE_FORMAT);
 	}
 	
+	public static String format(Timestamp date) {
+		return DefaultDateFormatter.format(date, DATE_FORMAT.STRICT_DATE_FORMAT);
+	}
+	
+	
 	public static String format(Date date, DATE_FORMAT df) {
+		SimpleDateFormat sdf = new SimpleDateFormat(df.value);
+		return sdf.format(date);
+	}
+	
+	public static String format(Timestamp date, DATE_FORMAT df) {
 		SimpleDateFormat sdf = new SimpleDateFormat(df.value);
 		return sdf.format(date);
 	}
