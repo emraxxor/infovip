@@ -8,6 +8,8 @@
         <class>com.github.infovip.entities.CfgAdmin</class>
         <class>com.github.infovip.entities.LogRegistration</class>
         <class>com.github.infovip.entities.User</class>
+        <class>com.github.infovip.entities.UserBlog</class>
+        
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
         	<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>

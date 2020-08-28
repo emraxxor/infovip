@@ -13,7 +13,7 @@ public class StatusResponse {
 	
 	public String message;
 	
-	
+	private Object object;
 	
 	public StatusResponse(int code, String statusType, String message) {
 		this.code = code;
@@ -33,6 +33,12 @@ public class StatusResponse {
 		return StatusResponse.create(ResponseStatusType.SUCCESS);
 	}
 	
+	public static StatusResponse success(Object o) {
+		StatusResponse r = StatusResponse.create(ResponseStatusType.SUCCESS);
+		r.setObject(o);
+		return r;
+	}
+	
 	public static StatusResponse error() {
 		return StatusResponse.create(ResponseStatusType.ERROR);
 	}
@@ -46,6 +52,7 @@ public class StatusResponse {
 		return StatusResponse.create(ResponseStatusType.ERROR,msg);
 	}
 
+	
 	
 	public static StatusResponse error(Exception e) {
 		return StatusResponse.create(ResponseStatusType.ERROR,e);
@@ -86,5 +93,13 @@ public class StatusResponse {
 	
 	public String getMessage() {
 		return message;
+	}
+	
+	public void setObject(Object object) {
+		this.object = object;
+	}
+	
+	public Object getObject() {
+		return object;
 	}
 }

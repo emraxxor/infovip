@@ -6,10 +6,12 @@
         <jta-data-source>java:/Infovip</jta-data-source>
 		<class>com.github.infovip.entities.LogRegistration</class>
         <class>com.github.infovip.entities.User</class>
+        <class>com.github.infovip.entities.UserBlog</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
         	<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
 			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="false"/>
 			<property name="hibernate.jdbc.time_zone" value="UTC"/>
 			<property name="hibernate.default_schema" value="public"/>
 			<property name="hibernate.max_fetch_depth" value="4"/>                            

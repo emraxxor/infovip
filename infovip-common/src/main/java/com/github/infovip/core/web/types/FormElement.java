@@ -126,8 +126,8 @@ public class FormElement<T> implements FormData {
 					Method s = clazz.getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
 					
 					s.invoke(object, 
-							DefaultDateFormatter.format(  
-								(Timestamp) this.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(this) ,
+							DefaultDateFormatter.timestamp(  
+								(String) this.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(this) ,
 								f.getAnnotation(TimestampToString.class).type()
 							)
 					);

@@ -54,6 +54,15 @@ public class EJBConfiguration {
      * @param classz
      * @return
      */
+    public static <T> T lookupLocal(Class<T> classz,EJB_MODULE module) {
+    	return lookup(classz, module);
+    }
+    
+    /**
+     * Default lookup method
+     * @param classz
+     * @return
+     */
     public static <T> T lookup(Class<T> classz,EJB_MODULE module) {
         try {
             Context c = new InitialContext();
