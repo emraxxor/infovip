@@ -107,6 +107,11 @@ public class UserSession implements Serializable, WebUser, UserSessionInterface<
     }
     
     @Override
+    public String userName() {
+    	return this.userName;
+    }
+    
+    @Override
     public String userMailAddress() {
     	return this.userMail;
     }

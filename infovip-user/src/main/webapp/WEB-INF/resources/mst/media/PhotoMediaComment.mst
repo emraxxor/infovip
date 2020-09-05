@@ -1,0 +1,22 @@
+{{#comment}}
+<div class="media--comment">
+                                <!-- Media Author Start -->
+                                <div class="media--author clearfix">
+                                    <div class="media--avatar float--left" data-overlay="0.3" data-overlay-color="primary">
+                                        <img src="/api/public/image/user/{{commenter}}" alt="">
+                                    </div>
+
+                                    <div class="media--author-info ov--h">
+                                        <p class="name"><a href="#" class="btn-link">{{commenterName}}</a> Replied</p>
+                                        <p class="date"><i class="mr--8 fa fa-clock-o"></i>{{#dateFormat}}{{creationTime}}{{/dateFormat}}</p>
+
+                                        <!-- Media Comment Content Start -->
+                                        <div class="media--comment-content">
+                                            <p>{{comment}}</p>
+                                        </div>
+                                        <!-- Media Comment Content End -->
+                                    </div>
+                                </div>
+                                <!-- Media Author End -->
+</div>
+{{/comment}}

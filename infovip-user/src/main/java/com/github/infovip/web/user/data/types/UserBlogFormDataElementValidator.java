@@ -20,14 +20,16 @@ public class UserBlogFormDataElementValidator extends FormValidator<UserBlogForm
 	public boolean validate() {
 		boolean valid = super.validate();
 		
-		if ( data.getBname().isEmpty()  ) {
-			addResponse(new ValidationResponse(ValidationType.EMPTY_FIELD, Translate.tr("validation.msg.field.empty"), "name"));
-			return false;
-		}
-		
-		if ( data.getBname().length() > 200  ) {
-			addResponse(new ValidationResponse(ValidationType.EMPTY_FIELD, Translate.tr("validation.msg.field.long"), "name"));
-			return false;
+		if ( valid ) {
+			if ( data.getBname().isEmpty()  ) {
+				addResponse(new ValidationResponse(ValidationType.EMPTY_FIELD, Translate.tr("validation.msg.field.empty"), "name"));
+				return false;
+			}
+			
+			if ( data.getBname().length() > 200  ) {
+				addResponse(new ValidationResponse(ValidationType.EMPTY_FIELD, Translate.tr("validation.msg.field.long"), "name"));
+				return false;
+			}
 		}
 		
 		return valid;

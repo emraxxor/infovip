@@ -76,6 +76,8 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
     	
     	public static final String USER_MEDIA_INDEX = "user-media";
     	public static final String USER_MEDIA_PHOTO = "user-media-photo";
+    	public static final String USER_MEDIA_PHOTO_COMMENT = "user-media-photo-comment";
+
 
     	
     	/**

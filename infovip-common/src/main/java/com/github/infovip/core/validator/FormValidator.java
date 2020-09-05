@@ -91,7 +91,6 @@ public abstract class FormValidator<T extends FormData> {
 		return convertImage(image, Mode.FIT_TO_WIDTH, targetSize);
 	}
 
-	
 	public boolean validate() {
 		boolean result = true;
 

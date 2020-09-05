@@ -43,12 +43,16 @@ public class DefaultDateFormatter {
 	}
 	
 	public static Timestamp timestamp(String date, DATE_FORMAT df) {
-		return (Timestamp) parse(date, df);
+		return new Timestamp(  parse(date, df).getTime() );
 	}
 
 	
 	public static String current() {
 		return format(new Date());
+	}
+	
+	public static String current(DATE_FORMAT format) {
+		return format(new Date(), format);
 	}
 	
 	public static String format(Date date) {

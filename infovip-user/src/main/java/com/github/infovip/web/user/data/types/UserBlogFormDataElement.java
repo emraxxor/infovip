@@ -1,6 +1,7 @@
 package com.github.infovip.web.user.data.types;
 
 import com.github.infovip.core.date.DefaultDateFormatter.DATE_FORMAT;
+import com.github.infovip.core.es.type.EntityProperty;
 import com.github.infovip.core.es.type.TimestampToString;
 import com.github.infovip.core.web.types.FormElement;
 import com.github.infovip.core.web.validation.AllowEmpty;
@@ -22,6 +23,9 @@ public class UserBlogFormDataElement extends FormElement<UserBlog> {
 
 	@TimestampToString(type = DATE_FORMAT.STRICT_DATE_TIME)
 	private String creationTime;
+	
+	@EntityProperty(property = "userId")
+	private Long user;
 
 	public UserBlogFormDataElement() {
 		// TODO Auto-generated constructor stub
@@ -55,6 +59,15 @@ public class UserBlogFormDataElement extends FormElement<UserBlog> {
 		this.creationTime = creationTime;
 	}
 
+	
+	public Long getUser() {
+		return user;
+	}
+
+	public void setUser(Long user) {
+		this.user = user;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -62,6 +75,7 @@ public class UserBlogFormDataElement extends FormElement<UserBlog> {
 		result = prime * result + ((bid == null) ? 0 : bid.hashCode());
 		result = prime * result + ((bname == null) ? 0 : bname.hashCode());
 		result = prime * result + ((creationTime == null) ? 0 : creationTime.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -88,6 +102,11 @@ public class UserBlogFormDataElement extends FormElement<UserBlog> {
 			if (other.creationTime != null)
 				return false;
 		} else if (!creationTime.equals(other.creationTime))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -15,6 +16,8 @@ import com.github.infovip.configuration.EJBConfiguration;
 import com.github.infovip.configuration.EJBConfiguration.EJB_MODULE;
 import com.github.infovip.configuration.UserConfiguration;
 import com.github.infovip.core.BlogManager;
+import com.github.infovip.core.date.DefaultDateFormatter;
+import com.github.infovip.core.date.DefaultDateFormatter.DATE_FORMAT;
 import com.github.infovip.entities.UserBlog;
 import com.github.infovip.web.user.data.types.UserBlogFormDataElement;
 import com.github.infovip.web.user.data.types.UserBlogFormDataElementValidator;
@@ -34,6 +37,15 @@ import com.github.infovip.web.user.data.types.UserBlogFormDataElementValidator;
 public class BlogController {
 	
 	private BlogManager bm = EJBConfiguration.lookupLocal(BlogManager.class, EJB_MODULE.INFOVIP_USER);
+
+	
+	@RequestMapping(path= "/list",method = {RequestMethod.GET, RequestMethod.POST })
+    public  @ResponseBody Object list(
+    		@RequestParam(name = "offset", defaultValue = "0", required = false) Integer offset,
+    		HttpServletRequest request, HttpServletResponse response,  
+    		SessionStatus status, Model model) {
+		return bm.findAll( UserConfiguration.config(request).getId(), offset, 12 ).stream().map( e -> new UserBlogFormDataElement(e));
+	}
 	
 	
 	@RequestMapping(path= "/update",method = {RequestMethod.GET, RequestMethod.POST })
@@ -43,6 +55,10 @@ public class BlogController {
     		SessionStatus status, Model model) {
 		UserBlogFormDataElementValidator validator = new UserBlogFormDataElementValidator(data);
 		if ( validator.validate() ) { 
+			
+			if ( data.getCreationTime() == null )
+				data.setCreationTime(DefaultDateFormatter.current(DATE_FORMAT.STRICT_DATE_TIME));
+			
 			UserBlog ub = data.toDataElement(UserBlog.class);
 			ub.setUserId( UserConfiguration.config(request).getId() );
 			bm.update(ub);

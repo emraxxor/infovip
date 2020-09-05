@@ -34,6 +34,7 @@ jQuery(document).ready(function() {
         .js('js/core/form/DefaultHTMLFormExecutor')
         .js('js/core/form/DefaultHTMLForm')
         .js('js/core/form/DefaultHTMLFormValidator')
+        .js('js/web/user/photo/PhotoCommentBox')
         .js('js/web/user/photo/PhotoDialogWindow')
         .js('js/web/user/photo/PhotoViewer')
         .js('js/web/user/photo/PhotoWall')

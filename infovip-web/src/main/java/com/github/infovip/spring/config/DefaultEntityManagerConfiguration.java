@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.instrument.classloading.jboss.JBossLoadTimeWeaver;
 import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect;
+import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
@@ -51,6 +51,6 @@ public class DefaultEntityManagerConfiguration {
     
     @Bean
     public JpaDialect jpaDialect() {
-        return new EclipseLinkJpaDialect();
+        return new HibernateJpaDialect();
     }
 }

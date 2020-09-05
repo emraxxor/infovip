@@ -62,7 +62,7 @@
    
     
     <!--  -
-    TransportClient and EntityMapper are no longer user !
+    TransportClient and EntityMapper are no longer used !
     
     <bean id="defaultEntityMapper" class="com.github.infovip.core.elasticsearch.DefaultObjectMapper"></bean>
     <bean name="elasticsearchTemplate" class="org.springframework.data.elasticsearch.core.ElasticsearchTemplate">

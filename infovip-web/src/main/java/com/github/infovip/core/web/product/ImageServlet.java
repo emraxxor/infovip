@@ -59,7 +59,6 @@ public class ImageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletOutputStream out = response.getOutputStream();
-		
         if (request.getQueryString() != null && BasicSecureFunctions.directoryTraversalInputCheckStartsWith(request.getQueryString())) {
         	try {
 				FileInputStream fin = new FileInputStream(this.imageDirectory + '/' +  request.getQueryString() );  

@@ -1,6 +1,5 @@
 package com.github.infovip.core.web.types;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -11,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.github.infovip.core.date.DefaultDateFormatter;
+import com.github.infovip.core.es.type.EntityProperty;
 import com.github.infovip.core.es.type.IgnoreField;
 import com.github.infovip.core.es.type.TimestampToString;
 
@@ -57,6 +57,15 @@ public class FormElement<T> implements FormData {
 					continue;
 				}
 				
+				if ( f.getAnnotation(EntityProperty.class) != null ) {
+					Object rel = o.getMethod("get"+ StringUtils.capitalize(f.getName()) ).invoke(this.data);
+					Method s = this.getClass().getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
+					Method property = rel.getClass().getMethod( "get" + StringUtils.capitalize( f.getAnnotation(EntityProperty.class).property()  ) );
+					Object value = property.invoke(rel);
+					s.invoke(this, value);
+					continue;
+				}
+				
 				Method s = this.getClass().getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
 				s.invoke(this,  o.getMethod("get" + StringUtils.capitalize(f.getName())).invoke(data) );
 			}
@@ -95,6 +104,15 @@ public class FormElement<T> implements FormData {
 					continue;
 				}
 				
+				if ( f.getAnnotation(EntityProperty.class) != null ) {
+					Object rel = o.getMethod("get"+ StringUtils.capitalize(f.getName()) ).invoke(this.data);
+					Method s = this.getClass().getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
+					Method property = rel.getClass().getMethod( "get" + StringUtils.capitalize( f.getAnnotation(EntityProperty.class).property()  )  );
+					Object value = property.invoke(rel);
+					s.invoke(this, value);
+					continue;
+				}
+				
 				Method s = this.getClass().getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
 				s.invoke(this,  o.getMethod("get" + StringUtils.capitalize(f.getName())).invoke(data) );
 			}
@@ -123,18 +141,17 @@ public class FormElement<T> implements FormData {
 				if ( f.getAnnotation(IgnoreField.class)  != null ) continue;
 				
 				if ( f.getAnnotation(TimestampToString.class) != null ) {
-					Method s = clazz.getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
+					Method s = clazz.getMethod("set" + StringUtils.capitalize(f.getName()) , f.getAnnotation(TimestampToString.class).dateType());
+					String u = (String) this.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(this);
 					
-					s.invoke(object, 
-							DefaultDateFormatter.timestamp(  
-								(String) this.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(this) ,
-								f.getAnnotation(TimestampToString.class).type()
-							)
-					);
+					if ( u != null ) 
+						s.invoke(object, DefaultDateFormatter.timestamp(  u , f.getAnnotation(TimestampToString.class).type() ) );
 					
 					continue;
 				}
 
+				if ( f.getAnnotation(EntityProperty.class) != null ) 
+					continue;
 				
 				Method s = clazz.getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
 				s.invoke(object,  this.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(this) );
@@ -187,6 +204,9 @@ public class FormElement<T> implements FormData {
 					
 					continue;
 				}
+				
+				if ( f.getAnnotation(EntityProperty.class) != null ) 
+					continue;
 
 				
 				Method s = to.getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());
@@ -227,6 +247,9 @@ public class FormElement<T> implements FormData {
 					
 					continue;
 				}
+
+				if ( f.getAnnotation(EntityProperty.class) != null ) 
+					continue;
 
 				
 				Method s = to.getClass().getMethod("set" + StringUtils.capitalize(f.getName()) , f.getType());

@@ -40,7 +40,7 @@
                         <!-- Media Meta End -->
 
                         <!-- Media Comments Start -->
-                        <div class="media--comments">
+                        <div class="media--comments row p-5">
                         </div>
                         <!-- Media Comments End -->
 

@@ -45,14 +45,26 @@ public class UserProfileController {
 		 
 		try {
 			User current = userService.findById(  UserConfiguration.config(request).getId() );
-			File f = ImageData.randomFileName(DefaultWebAppConfiguration.USER_IMAGE_PATH);
+			File f = ImageData.randomFileName(DefaultWebAppConfiguration.USER_IMAGE_PATH) ;
 			
 			if ( f.createNewFile() ) {
 				
 				if ( current.getPicture() != null ) 
 					new File(DefaultWebAppConfiguration.USER_IMAGE_PATH + "/" + current.getPicture()).delete();
 				
+				File profile = new File(DefaultWebAppConfiguration.USER_IMAGE_PATH + "/" + current.getUserId() );
+				
+				if ( ! profile.exists() ) 
+					profile.mkdir();
+				
+				File profilePicture = new File(DefaultWebAppConfiguration.USER_IMAGE_PATH + "/" + current.getUserId() + "/thumbnail" );
+				
+				if ( profilePicture.exists() ) 
+					profilePicture.delete();
+				
+				
 				ImageData.createThumbnail(base64EncodedImageData, f);
+				ImageData.createThumbnail(base64EncodedImageData, profilePicture);
 			}
 			
 			current.setPicture(f.getName());

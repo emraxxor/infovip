@@ -46,8 +46,7 @@ public class UserBlog implements Serializable {
 	@JoinColumn(name="userid",referencedColumnName="uid", updatable = false, insertable = true)
 	private User user;
 	
-	public UserBlog() {
-	}
+	public UserBlog() {}
 	
 	public UserBlog(User u, String name) {
 		this.user = u;

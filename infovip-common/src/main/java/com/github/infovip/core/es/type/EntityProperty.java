@@ -5,9 +5,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.sql.Timestamp;
-
-import com.github.infovip.core.date.DefaultDateFormatter;
 
 /**
  * 
@@ -17,9 +14,13 @@ import com.github.infovip.core.date.DefaultDateFormatter;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.FIELD})
-public @interface TimestampToString {
-
-	DefaultDateFormatter.DATE_FORMAT type() default DefaultDateFormatter.DATE_FORMAT.STRICT_DATE_FORMAT;
+public @interface EntityProperty {
 	
-	Class<?> dateType() default Timestamp.class;
+	/**
+	 * Name of the property that is going to be converted
+	 * @return
+	 */
+	String property();
+	
+	
 }

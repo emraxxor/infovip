@@ -11,6 +11,8 @@ public interface UserSessionInterface<T> {
 	public String getUserMail();
 	
 	public Date getRegistrationDate();
+
+	public String userName();
 	
 	public Long userId();
 	

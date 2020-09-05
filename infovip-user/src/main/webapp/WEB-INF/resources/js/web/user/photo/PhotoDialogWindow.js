@@ -14,6 +14,8 @@ var PhotoDialogWindow = easejs.Class('PhotoDialogWindow').extend(BaseModalDialog
 
 	'private event' : null,
 	
+	'private textarea' : null,
+	
     'override virtual __construct' : function(o,d,e) {
     	this.__super( PhotoDialogWindow.$('DIALOG_WINDOW') );
     	this.controller = o;
@@ -37,7 +39,6 @@ var PhotoDialogWindow = easejs.Class('PhotoDialogWindow').extend(BaseModalDialog
 		const udiv = this.getBody().querySelector("div.user");
 		udiv.querySelector("img").src = img;
 		udiv.querySelector("p.name") .append(u.userName);
-		udiv.querySelector("p.name") .append(u.userName);
 		udiv.querySelector("p.date").prepend(u.lastSeen);
 	},
 	 
@@ -45,6 +46,8 @@ var PhotoDialogWindow = easejs.Class('PhotoDialogWindow').extend(BaseModalDialog
 		this.getBody().querySelector("img.photo").src = WEB_DIR + "/user/media-image?" + this.data.data + "_BIG"; 
 		this.getBody().querySelector("p.figcaption").append(this.data.title);
 		this.setUserInfo();
+    	UIControllerExecutor(  new PhotoCommentBox(this) ).execute(); 
+
 	 },
 
 	'public override events' : function() {

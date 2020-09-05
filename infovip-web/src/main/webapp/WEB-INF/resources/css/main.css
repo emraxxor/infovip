@@ -135,3 +135,7 @@ span .warn-message ,  span.warn-message {
 .display-block {
 	display: block !important;	
 }
+
+div.media--comments textarea {
+	width: 100%;
+}
