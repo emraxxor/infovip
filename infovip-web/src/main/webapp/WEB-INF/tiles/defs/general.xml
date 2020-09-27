@@ -14,7 +14,7 @@
 		<put-attribute name="preinit" value=""></put-attribute>
 		<put-list-attribute name="userJs"></put-list-attribute>
 		<put-list-attribute name="pageCss">
-			<add-attribute value="/css/profile.css" />
+			<!--  >add-attribute value="/css/profile.css" / -->
 		</put-list-attribute>
 		<put-list-attribute name="pageJs">
 			<add-attribute value="/js/ui/UILogger.js" />
@@ -48,13 +48,14 @@
 			<add-attribute value="/lib/unibox/unibox.js" />
 			<!--  add-attribute value="/js/web/google/google.js" / -->
 			<add-attribute value="/lib/numeral/numeral.min.js" />
+			<add-attribute value="/webpack/dist/front.bundle.js" />
 		</put-list-attribute>
 		<put-list-attribute name="pageCss" inherit="true">
 			<add-attribute value="/lib/unibox/unibox.min.css" />
-			<add-attribute value="/template/social/template.css" />
+			<!--  add-attribute value="/template/social/template.css" />
 			<add-attribute value="/template/social/style.css" />
 			<add-attribute value="/template/social/responsive.css" />
-			<add-attribute value="/css/home.css" />
+			<add-attribute value="/css/home.css" / -->
 			<add-attribute value="/css/flexslider-for-posts.min.css" />
 			<add-attribute value="/css/flexslider.min.css" />
 			<add-attribute value="/css/icon-font.min.css" />

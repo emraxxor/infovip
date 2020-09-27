@@ -47,6 +47,10 @@ public class Configuration extends DefaultWebAppConfiguration {
      */
     public static final String LIB_DIRECTORY = "/lib";
 
+    /**
+     * Location of the lib directory
+     */
+    public static final String WEBPACK_DIRECTORY = "/resources/webpack/dist";
 
     /**
      * Location of the modules directory

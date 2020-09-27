@@ -1,0 +1,29 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "author": "Attila Barna",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "bootstrap": "^4.5.2",
+    "css-loader": "^4.3.0",
+    "file-loader": "^6.1.0",
+    "jquery": "^3.5.1",
+    "jquery-ui": "^1.12.1",
+    "lodash": "^4.17.20",
+    "popper.js": "^1.16.1",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "vue": "^2.6.12",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  }
+}
