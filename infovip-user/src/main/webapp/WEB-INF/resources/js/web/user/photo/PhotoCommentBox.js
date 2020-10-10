@@ -1,7 +1,7 @@
 /**
- * @author Attila Barna 
+ * @author Attila Barna
+ * @deprecated  
  */
-
 class PhotoCommentBox extends UIController {
 
 	constructor(dialog) {

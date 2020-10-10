@@ -21,6 +21,23 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
     'public static create' : function () {
         return new DependencyLoader();
     },
+    
+    'public static WebpackComponent' : function(name, components = {} , bundle = true ) {
+    	window.components = components ;
+    	
+    	jQuery.ajax({
+			url: ApplicationScope.config.RESOURCES_PATH + '/webpack/dist/' + name +  ( bundle ? '.bundle' : '' ) + '.js',
+			dataType: "script",
+			async: false,
+			success: function () {},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.error(jqXHR);
+				console.error(textStatus);
+				console.error(errorThrown);
+				throw new Error("Following element could not be loaded " + dependency.url);
+			}
+		});
+    },
 
     /**
      * Appends a new js file
@@ -59,7 +76,7 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
     'public getDependency' : function(i) {
         return this.dependencies[i];
     },
-    
+   
 
     'public import' : function(callback,param) {
         var _self = this;

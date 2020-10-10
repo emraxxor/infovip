@@ -1,4 +1,4 @@
-<div class="row">
+<div id="PhotoDialogWindowComponent" class="row">
                 <div class="col-md-8">
                     <figure class="media--img">
                         <img class="photo img-responsive responsive" src="" alt="">
@@ -7,49 +7,6 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="media--details">
-
-                        <div class="media--author user clearfix">
-                            <div class="media--avatar float--left" data-overlay="0.3" data-overlay-color="primary">
-                                <img src="" alt="">
-                            </div>
-
-                            <div class="media--author-info ov--h">
-                                <p class="name fs--14 fw--700 text-darkest"></p>
-                                <p class="date"><i class="ml--8 fa fa-globe"></i></p>
-                            </div>
-                        </div>
-
-                        <!-- Media Meta Start -->
-                        <div class="media--meta">
-                            <ul class="nav">
-                                <li>
-                                    <a href="#">
-                                        <i class="bg-primary text-white mr--6 fa fa-hand-o-right"></i>
-                                        <span>LIKE_NUMBER</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="bg-primary text-white mr--6 fa fa-comment-o"></i>
-                                        <span>SHOW_COMMENTS_BOX</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Media Meta End -->
-
-                        <!-- Media Comments Start -->
-                        <div class="media--comments row p-5">
-                        </div>
-                        <!-- Media Comments End -->
-
-                        <!-- Media All Comments Start -->
-                        <div class="media--all-comments text-center">
-                            <a href="#" class="btn-link">Show more</a>
-                        </div>
-                        <!-- Media All Comments End -->
-                    </div>
-                    <!-- Media Details End -->
+               		<photo-comment-view></photo-comment-view> 
                 </div>
-            </div>
+ </div>

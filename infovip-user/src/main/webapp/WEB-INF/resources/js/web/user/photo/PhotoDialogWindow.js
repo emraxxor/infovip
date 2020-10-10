@@ -41,13 +41,15 @@ var PhotoDialogWindow = easejs.Class('PhotoDialogWindow').extend(BaseModalDialog
 		udiv.querySelector("p.name") .append(u.userName);
 		udiv.querySelector("p.date").prepend(u.lastSeen);
 	},
+	
+	'public getPhotoData' : function() {
+		return this.data;
+	 },
 	 
 	'public override onComponentCreationComplete' : function() {		
 		this.getBody().querySelector("img.photo").src = WEB_DIR + "/user/media-image?" + this.data.data + "_BIG"; 
 		this.getBody().querySelector("p.figcaption").append(this.data.title);
-		this.setUserInfo();
-    	UIControllerExecutor(  new PhotoCommentBox(this) ).execute(); 
-
+		DependencyLoader.WebpackComponent('PhotoCommentCore', { PHOTO_WINDOW : this });
 	 },
 
 	'public override events' : function() {

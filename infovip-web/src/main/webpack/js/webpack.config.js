@@ -1,19 +1,28 @@
 const path = require('path');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   mode : 'development',
   entry:     {
       app:  './src/app.js',
+      PhotoCommentCore : './src/user/ui/photo/PhotoCommentCore.js',
       bootstrap : './src/bootstrap.js',
       front : './src/front.js',
       vue : './src/vue.js',
       shared: 'lodash',
+  },
+  resolve: {
+    alias: {
+        'vue$': 'vue/dist/vue.esm.js'
+    },
+    extensions: ['*', '.js', '.vue', '.json']
   },
   module: {
     rules: [
       {
         test: /\.css$/,
         use: [
+          'vue-style-loader',
           'style-loader',
           'css-loader',
           'sass-loader'
@@ -26,6 +35,14 @@ module.exports = {
       {
         test: /\.svg$/,
         use: 'file-loader'
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
       },
       {
         test: /\.s[ac]ss$/i,
@@ -51,6 +68,10 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    // make sure to include the plugin!
+    new VueLoaderPlugin()
+  ],
   output: {
     publicPath : '/resources/webpack/dist/',
     filename : '[name].bundle.js',

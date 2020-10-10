@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
 import com.github.infovip.configuration.UserConfiguration;
 import com.github.infovip.core.data.DefaultDataElement;
+import com.github.infovip.core.data.photo.PhotoCommentSource;
 import com.github.infovip.core.data.photo.PhotoWaterfallSource;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
@@ -67,8 +68,25 @@ public class UserPhotoController {
 		}
 	}
 	
+	@RequestMapping(path = { "/comments" }, method = { RequestMethod.POST })
+	public @ResponseBody Object result(
+			@RequestParam(name = "token", defaultValue = "", required = false) String token,
+			@RequestParam(name = "photoId", required = true) String photoId,
+			HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {
+		
+		PhotoCommentSource source = new PhotoCommentSource(context, token, photoId);
+		
+				
+		try {
+			return ScrollResponseGenerator.generate(
+					new DefaultScrollResponse<UserPhotoCommentElement, WebApplicationContext>(), source, request, response);
+		} catch (UnsupportedTypeException e) {
+			return null;
+		}
+	}
 	
-	@RequestMapping(path = { "/comment" }, method = { RequestMethod.GET, RequestMethod.POST })
+	
+	@RequestMapping(path = { "/comment" }, method = {  RequestMethod.POST })
 	public @ResponseBody Object comment(
 			@ModelAttribute UserPhotoCommentElement comment,
 			HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {

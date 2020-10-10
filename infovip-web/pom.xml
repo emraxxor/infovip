@@ -367,11 +367,10 @@
 		
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-batch</artifactId>
-			<version>${spring.boot.starter.batch}</version>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.14</version>
 		</dependency>
-
 
 		<!--   dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -502,11 +501,6 @@
 				</configuration> <goals> <goal>minify</goal> </goals> </execution> </executions> 
 				</plugin -->
         	
-        	<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

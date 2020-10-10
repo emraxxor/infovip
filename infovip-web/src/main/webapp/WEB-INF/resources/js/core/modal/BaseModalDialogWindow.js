@@ -19,16 +19,19 @@ var BaseModalDialogWindow = easejs.Class('BaseModalDialogWindow').extend(UIContr
 	
 	'private top' : null,
 	
+	'private templateDOM' : null,
+	
     'virtual override __construct' : function(template) {
     	const base = this.load( ApplicationScope.config.RESOURCES_PATH  + '/mst/base/BaseDialogWindow.mst' ,  {}, 'GET'  );
     	this.template = this.load( template , {}, 'GET'  );
+    	this.templateDOM = jQuery( Mustache.render( this.template, {} ) ) ;
         this.panel = jQuery("<div></div>");
         this.top = 30;
         this.window = jQuery(Mustache.render( base  , { }));
         this.header = this.window[0].querySelector('.modal-header');
         this.dialog = this.window[0].querySelector('.modal-dialog');
         this.body = this.window[0].querySelector('.modal-body');
-        this.panel.append( jQuery( Mustache.render( this.template, {} ) ) ); 
+        this.panel.append( this.templateDOM ); 
 		this.window.find('.modal-body').append(this.panel);
 
      },
