@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +41,7 @@ import com.github.infovip.core.web.user.media.UserPhotoElement;
  *
  */
 @Controller
-@RequestMapping("/user/photo")
+@RequestMapping("/user/{id}/photo")
 public class UserPhotoController {
 	
 	
@@ -52,10 +53,11 @@ public class UserPhotoController {
 
 	@RequestMapping(path = { "/data" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody Object result(
+			@PathVariable("id") Long userId,
 			@RequestParam(name = "token", defaultValue = "", required = false) String token,
 			@RequestParam(name = "aid", required = false) Optional<String> aid,
 			HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {
-		PhotoWaterfallSource source = new PhotoWaterfallSource(context, token, UserConfiguration.config(request).getId());
+		PhotoWaterfallSource source = new PhotoWaterfallSource(context, token, userId );
 		
 		if ( aid.isPresent() ) 
 			source.setMediaId(aid.get());
@@ -73,10 +75,7 @@ public class UserPhotoController {
 			@RequestParam(name = "token", defaultValue = "", required = false) String token,
 			@RequestParam(name = "photoId", required = true) String photoId,
 			HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {
-		
 		PhotoCommentSource source = new PhotoCommentSource(context, token, photoId);
-		
-				
 		try {
 			return ScrollResponseGenerator.generate(
 					new DefaultScrollResponse<UserPhotoCommentElement, WebApplicationContext>(), source, request, response);
@@ -85,29 +84,6 @@ public class UserPhotoController {
 		}
 	}
 	
-	
-	@RequestMapping(path = { "/comment" }, method = {  RequestMethod.POST })
-	public @ResponseBody Object comment(
-			@ModelAttribute UserPhotoCommentElement comment,
-			HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {
-		
-		comment.setCommenter(UserConfiguration.config(request).getId());	
-		comment.setCommenterName(UserConfiguration.config(request).getSession().userName() );
-		
-		DefaultFormValidator<UserPhotoCommentElement> validator = new DefaultFormValidator<>(comment);
-		
-		if ( validator.validate() ) {
-	    	IndexResponse ir = (IndexResponse) esContainer.executeSynchronusRequest( 
-							new DefaultDataElement<UserPhotoCommentElement>(comment)
-								.setIndex(DefaultWebAppConfiguration.ESConfiguration.USER_MEDIA_PHOTO_COMMENT) 
-							);
-	    	
-	    	comment.setDocumentId(ir.getId());
-	    	return comment;
-		}
-		
-		return validator.responses();
-	}
 	
     @RequestMapping( headers = "Accept=text/html",method=RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {

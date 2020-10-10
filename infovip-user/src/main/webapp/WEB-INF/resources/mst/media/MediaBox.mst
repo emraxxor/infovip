@@ -3,7 +3,7 @@
             <!-- Member Item Start -->
             <div class="member--item online">
                 <div class="">
-                    <a href="/user/media/album/{{data.documentId}}" class="btn-link">
+                    <a href="/user/{{uid}}/media/album/{{data.documentId}}" class="btn-link">
                         <img src="{{image}}" class="img-fluid img-thumbnail" alt=""> 
                     </a>
                 </div>

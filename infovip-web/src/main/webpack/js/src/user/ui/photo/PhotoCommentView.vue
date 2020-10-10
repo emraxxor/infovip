@@ -31,7 +31,7 @@
             <!-- Media Meta End -->
 
             <!-- Media Comments Start -->
-            <div class="media--comments row p-5">
+            <div v-if="user" class="media--comments row p-5">
                     <textarea v-model="message"></textarea>
                     <button class="btn btn-primary m-auto" style="margin-top: 5% !important;" @click="onSubmitMessage">Send</button>
             </div>
@@ -79,7 +79,7 @@ export default {
 
         data() {
             return {
-                user  : {},
+                user  : null,
                 message : '',
                 comments : [],
                 token : null,
@@ -127,7 +127,7 @@ export default {
                     o.token = data.token;             
                 }
 
-                 this.post('/user/photo/comments', request, result, this );    
+                 this.post('/user/' + dialog.getMediaUserId() + '/photo/comments', request, result, this );    
             },
 
             onSubmitMessage : function(event) {

@@ -42,6 +42,10 @@ var PhotoDialogWindow = easejs.Class('PhotoDialogWindow').extend(BaseModalDialog
 		udiv.querySelector("p.date").prepend(u.lastSeen);
 	},
 	
+   'public getMediaUserId' : function() {
+    	return self.location.pathname.split('/')[2];
+	},
+	
 	'public getPhotoData' : function() {
 		return this.data;
 	 },

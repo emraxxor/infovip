@@ -40,7 +40,7 @@ import com.github.infovip.core.web.user.media.UserPhotoElement;
  *
  */
 @Controller
-@RequestMapping("/user/media")
+@RequestMapping("/user/{id}/media")
 public class UserMediaController {
 	
 	
@@ -51,9 +51,11 @@ public class UserMediaController {
 	private WebApplicationContext context;
 
 	@RequestMapping(path = { "/data" }, method = { RequestMethod.GET, RequestMethod.POST })
-	public @ResponseBody Object result(@RequestParam(name = "token", defaultValue = "", required = false) String token,
+	public @ResponseBody Object result(
+			@PathVariable("id") Long userId,
+			@RequestParam(name = "token", defaultValue = "", required = false) String token,
 			HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {
-		MediaWaterfallSource source = new MediaWaterfallSource(context, token, UserConfiguration.config(request).getId());
+		MediaWaterfallSource source = new MediaWaterfallSource(context, token, userId );
 		try {
 			return ScrollResponseGenerator.generate(
 					new DefaultScrollResponse<UserMediaElement, WebApplicationContext>(), source, request, response);
@@ -62,53 +64,22 @@ public class UserMediaController {
 		}
 	}
 	 
-	 @RequestMapping( value = { "/upload" } , method= {RequestMethod.POST })
-	 public @ResponseBody Object upload(
-	    		@RequestParam(name="id",required=true) String id, 
-	    		@RequestParam(name="src",required=true) String src, 
-	    		@RequestParam(name="name",required=true) String name, 
-	    		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
-	    	
-	    	File f = ImageData.randomFileName(DefaultWebAppConfiguration.MEDIA_IMAGE_PATH);
-			File flarge = new File(DefaultWebAppConfiguration.MEDIA_IMAGE_PATH + "/" + f.getName()  + "_BIG");
-	    	
-			if ( f.createNewFile() ) 
-				ImageData.createThumbnail(new String(Base64.decodeBase64(src)), f);
-		
-			if ( flarge.createNewFile() ) 
-				ImageData.createLargeImage(new String(Base64.decodeBase64(src)), flarge);
-			
-			UserPhotoElement up = new UserPhotoElement(id,name,UserConfiguration.config(request).getId(),f.getName());
-	    	IndexResponse ir = (IndexResponse) esContainer.executeSynchronusRequest( 
-	    				new DefaultDataElement<UserPhotoElement>(up).setIndex(DefaultWebAppConfiguration.ESConfiguration.USER_MEDIA_PHOTO) );
-	    	up.setDocumentId(ir.getId());
-	    	return up;
-	  }
-	 
-    @RequestMapping( value = { "/create" } , method= {RequestMethod.POST })
-    public @ResponseBody Object create(
-    		@RequestParam(name="name",required=false,defaultValue="Untitled") String name, 
-    		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
-    	UserMediaElement ume = new UserMediaElement();
-    	ume.setName(name);
-    	ume.setUserId(UserConfiguration.config(request).getId());
-    	IndexResponse ir = (IndexResponse) esContainer.executeSynchronusRequest( 
-    				new DefaultDataElement<UserMediaElement>(ume).setIndex(DefaultWebAppConfiguration.ESConfiguration.USER_MEDIA_INDEX) );
-    	ume.setDocumentId(ir.getId());
-    	return ume;
-    }
 
     @RequestMapping( value= {"/album/{aid}"}, headers = "Accept=text/html",method=RequestMethod.GET)
     public ModelAndView album(
+    		@PathVariable("id") Long userId, 
     		@PathVariable("aid") Optional<String> aid,
     		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
     	ModelAndView mv = new ModelAndView("tile.user.photo.page");
     	return mv;
     }
 	
-    @RequestMapping( headers = "Accept=text/html",method=RequestMethod.GET)
-    public ModelAndView main(HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
+    @RequestMapping(headers = "Accept=text/html",method=RequestMethod.GET)
+    public ModelAndView main(
+    		@PathVariable("id") Long userId, 
+    		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
     	ModelAndView mv = new ModelAndView("tile.user.media.page");
+    	mv.addObject("MediaUserId", userId);
     	return mv;
     }
 }

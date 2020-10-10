@@ -32,11 +32,13 @@
 							</ul>
 						</div>
 
-						<div class="filter--options float--right">
-								<div class="gallery--upload-btn ff--primary float--right">
-                                    <a class="btn btn-sm btn-default btn-new-album"><i class="mr--10 fa fa-cloud-upload"></i>New Album</a>
-                                </div>
-						</div>
+						<c:if test="${ userSession.user.userId == MediaUserId }">
+							<div class="filter--options float--right">
+									<div class="gallery--upload-btn ff--primary float--right">
+	                                    <a class="btn btn-sm btn-default btn-new-album"><i class="mr--10 fa fa-cloud-upload"></i>New Album</a>
+	                                </div>
+							</div>
+						</c:if>
 					</div>
 					<!-- Filter Nav End -->
 

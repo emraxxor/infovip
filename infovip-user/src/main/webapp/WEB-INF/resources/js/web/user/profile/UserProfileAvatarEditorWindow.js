@@ -116,7 +116,7 @@ var UserProfileAvatarEditorWindow = easejs.Class('UserProfileAvatarEditorWindow'
 				that.setImageData(r.result);
 			} );			
 		} );
-		
+	
 		
 		content.querySelector('.btn-success').addEventListener('click', e => {
 			if ( that.getImageData() != null ) {
