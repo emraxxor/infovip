@@ -118,17 +118,6 @@ public class Configuration extends DefaultWebAppConfiguration {
     public static final String TILES = "/WEB-INF/tiles/";
     
     
-    /**
-     * Options for the client
-     */
-    public static Map<String, String> ES_CLIENT_OPTIONS;
-
-    /**
-     * Settings for the client
-     */
-    public static Map<String, String> ES_CLIENT_SETTINGS;
-    
-
 
     /**
      * Creates the jndi string
@@ -197,22 +186,7 @@ public class Configuration extends DefaultWebAppConfiguration {
         return WEB_DIRECTORY;
     }
 
-    public Map<String, String> getES_CLIENT_OPTIONS() {
-        return ES_CLIENT_OPTIONS;
-    }
 
-    public void setES_CLIENT_OPTIONS(Map<String, String> ES_CLIENT_OPTIONS) {
-        Configuration.ES_CLIENT_OPTIONS = ES_CLIENT_OPTIONS;
-    }
-
-    public Map<String, String> getES_CLIENT_SETTINGS() {
-        return ES_CLIENT_SETTINGS;
-    }
-
-    public void setES_CLIENT_SETTINGS(Map<String, String> ES_CLIENT_SETTINGS) {
-        Configuration.ES_CLIENT_SETTINGS = ES_CLIENT_SETTINGS;
-    }
-    
     private TemporaryConfig temporaryConfig;
     
     private Logger logger = org.apache.log4j.Logger.getLogger(Configuration.class);

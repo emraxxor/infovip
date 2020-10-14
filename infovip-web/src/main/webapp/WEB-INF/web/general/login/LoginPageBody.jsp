@@ -14,7 +14,9 @@
                           
                             <!-- Login Form Start -->
                             <div class="checkout--form pt--30 fs--14">
-                                <form action="${pageContext.servletContext.contextPath}/login/do" method="post">
+                            
+                           
+                                <form action="${pageContext.servletContext.contextPath}/login" method="post">
                                     <div class="row">
                                         <div class="col-md-6 pb--40">
                                             <h3 class="h4 pb--30"><tr:tr val="Login"></tr:tr></h3>

@@ -24,7 +24,7 @@ public class Container implements Serializable {
 
     private String pageTitle;
     
-    public Container(JavascriptManager jsManager, CSSManager cssManager) throws UnsupportedTypeException {
+    public Container(JavascriptManager jsManager, CSSManager cssManager)  {
         this.javascriptManager = jsManager;
         this.cssManager = cssManager;
         this.pageTitle = "";

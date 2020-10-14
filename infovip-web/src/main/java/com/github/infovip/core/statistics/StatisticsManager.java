@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -78,9 +80,11 @@ public class StatisticsManager {
 		}
 	}
 	
+	@PostConstruct
 	public void postConstruct() {
 	}
 	
+	@PreDestroy
 	public void preDestroy() {
 		data.clear();
 	}

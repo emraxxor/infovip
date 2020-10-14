@@ -25,7 +25,7 @@ public class UserInfoController {
 
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(path = "/current",  method = RequestMethod.POST)
+	@RequestMapping(path = "/current",  method = { RequestMethod.GET , RequestMethod.POST } )
 	public @ResponseBody Object current(HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model)  {
 		if ( UserConfiguration.config(request).isAuthenticated() )  {
 			User current = userService.findById(  UserConfiguration.config(request).getId() );

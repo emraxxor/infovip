@@ -1,14 +1,11 @@
 package com.github.infovip.spring.controllers.user;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64;
-import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,18 +18,13 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.github.infovip.configuration.DefaultWebAppConfiguration;
-import com.github.infovip.configuration.UserConfiguration;
-import com.github.infovip.core.data.DefaultDataElement;
 import com.github.infovip.core.data.photo.MediaWaterfallSource;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.scroll.DefaultScrollResponse;
 import com.github.infovip.core.scroll.ScrollResponseGenerator;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
-import com.github.infovip.core.web.types.ImageData;
 import com.github.infovip.core.web.user.media.UserMediaElement;
-import com.github.infovip.core.web.user.media.UserPhotoElement;
 
 /**
  * 
@@ -44,10 +36,10 @@ import com.github.infovip.core.web.user.media.UserPhotoElement;
 public class UserMediaController {
 	
 	
-	 @Autowired
-	 private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
+	@Autowired
+	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
-	 @Autowired
+	@Autowired
 	private WebApplicationContext context;
 
 	@RequestMapping(path = { "/data" }, method = { RequestMethod.GET, RequestMethod.POST })

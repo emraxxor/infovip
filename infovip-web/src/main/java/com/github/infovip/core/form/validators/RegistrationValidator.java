@@ -1,5 +1,7 @@
 package com.github.infovip.core.form.validators;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.github.infovip.core.form.data.DefaultUserFormData;
 import com.github.infovip.core.lang.Translate;
 import com.github.infovip.core.validator.FormValidator;
@@ -22,10 +24,17 @@ public class RegistrationValidator<T extends DefaultUserFormData<User,LogRegistr
 	
 	private final UserServiceInterface<User> userService;
 	
+	private PasswordEncoder encoder;
+	
 	public RegistrationValidator(T data, UserServiceInterface<User> service) {
 		super(data);
 		this.userService = service;
 	}
+	
+	public void setEncoder(PasswordEncoder encoder) {
+		this.encoder = encoder;
+	}
+	
 	
 	@Override
 	public boolean validate() {
@@ -52,7 +61,7 @@ public class RegistrationValidator<T extends DefaultUserFormData<User,LogRegistr
 		}
 		
 		if ( data.getUserPassword() != null ) 
-			data.setUserPassword( BasicUtilities.getMD5(data.getUserPassword()) );
+			data.setUserPassword( encoder.encode(data.getUserPassword()));
 		
 		
 		return result;

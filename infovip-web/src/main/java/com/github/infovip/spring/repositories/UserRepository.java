@@ -50,6 +50,10 @@ public interface UserRepository extends CrudRepository<User, Long> {
      * @return
      */
     public User findByUserName(@Param("uname") String userName);
+    
+    
+    public User findByUserMail(String mail);
+
 
     /**
      * Find the user with the given username. This method will be translated

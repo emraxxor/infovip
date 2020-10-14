@@ -2,6 +2,9 @@ package com.github.infovip.core.container;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,10 +33,12 @@ public class ESContainerWatcher extends Thread {
 	public ESContainerWatcher() {
 	}
 	
+	@PostConstruct
 	public void postConstruct() {
 		start();
 	}
 	
+	@PreDestroy
 	public void preDestroy() {
 		isRunning = false;
 	}

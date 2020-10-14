@@ -39,8 +39,9 @@ function UICore() {
 /**
  * Reference of the webix object
  * @type {*|webix}
+ * @deprecated
  */
-UICore.webix = webix;
+// UICore.webix = webix;
 
 /**
  * Path of the library

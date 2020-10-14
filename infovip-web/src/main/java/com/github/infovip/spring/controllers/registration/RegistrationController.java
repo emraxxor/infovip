@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,6 +48,9 @@ public class RegistrationController {
 	@Autowired
 	private UserServiceInterface<User> userService;
 	
+	@Autowired
+	private PasswordEncoder pwEncoder;
+	
 	private Logger logger = Logger.getLogger(RegistrationController.class);
 
 	@RequestMapping(path = "/add", method = RequestMethod.POST )
@@ -70,6 +74,7 @@ public class RegistrationController {
 	    **/
 	    	
 	    	RegistrationValidator<DefaultUserFormData<User,LogRegistration>> fv = new RegistrationValidator<DefaultUserFormData<User,LogRegistration>>(user,userService);
+	    	fv.setEncoder(pwEncoder);
 	    	
 	    	if ( fv.validate() ) { 
 	    		if ( user.getUserMail() != null ) {

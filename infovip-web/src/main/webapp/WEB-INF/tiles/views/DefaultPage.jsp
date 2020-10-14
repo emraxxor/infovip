@@ -19,17 +19,17 @@
 
 
  <c:forEach items="${currentPageCss}" var="css">
- 		<module:css src="${resources}/${css}" />
+ 		<module:css src="${resources}${css}" />
  </c:forEach>
  
 <c:forEach items="${currentPageJs}" var="js">
-        <module:js src="${resources}/${js}" />
+        <module:js src="${resources}${js}" />
 </c:forEach>
 
 
 <c:if test="${not empty isAuthenticated and isAuthenticated == true }">
 	<c:forEach items="${userJs}" var="js">
-    	    <module:js src="${resources}/${js}" />
+    	    <module:js src="${resources}${js}" />
 	</c:forEach>
 </c:if>
 

@@ -30,7 +30,7 @@ import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.validator.DefaultFormValidator;
 import com.github.infovip.core.web.response.StatusResponse;
 import com.github.infovip.core.web.types.ImageData;
-import com.github.infovip.core.web.user.UserSessionInterface;
+import com.github.infovip.core.web.user.CurrentUserInfo;
 import com.github.infovip.core.web.user.media.UserMediaElement;
 import com.github.infovip.core.web.user.media.UserPhotoCommentElement;
 import com.github.infovip.core.web.user.media.UserPhotoElement;
@@ -39,7 +39,6 @@ import com.github.infovip.services.interfaces.UserServiceInterface;
 
 @Controller
 @RequestMapping("/user")
-@Scope("session")
 public class UserController {
 
 	@Autowired
@@ -52,25 +51,22 @@ public class UserController {
 	private WebApplicationContext context;
 	
 	@Autowired
-	private UserSessionInterface<User> userSession;
-	
-	private User user;
-	
-	private Long userId;
+	private CurrentUserInfo<User> u;
 	
 	@PostConstruct
 	public void init() {
-	   this.user = userSession.getUser();
-	   this.userId = userSession.userId();
+
 	}
 
 
 	@RequestMapping(path = { "/photo/comment" }, method = { RequestMethod.POST })
-	public @ResponseBody Object comment(@ModelAttribute UserPhotoCommentElement comment, HttpServletRequest request,
+	public @ResponseBody Object comment(
+			@ModelAttribute UserPhotoCommentElement comment,
+			HttpServletRequest request,
 			HttpServletResponse response, SessionStatus status, Model model) {
 
-		comment.setCommenter( userId );
-		comment.setCommenterName(user.getUserName());
+		comment.setCommenter( u.userId() );
+		comment.setCommenterName( u.userName() );
 
 		DefaultFormValidator<UserPhotoCommentElement> validator = new DefaultFormValidator<>(comment);
 
@@ -87,9 +83,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = { "/media/upload" }, method = { RequestMethod.POST })
-	public @ResponseBody Object upload(@RequestParam(name = "id", required = true) String id,
+	public @ResponseBody Object upload(
+			@RequestParam(name = "id", required = true) String id,
 			@RequestParam(name = "src", required = true) String src,
-			@RequestParam(name = "name", required = true) String name, HttpServletRequest request,
+			@RequestParam(name = "name", required = true) String name, 
+			HttpServletRequest request,
 			HttpServletResponse response, SessionStatus status, Model model) throws IOException {
 
 		File f = ImageData.randomFileName(DefaultWebAppConfiguration.MEDIA_IMAGE_PATH);
@@ -101,7 +99,7 @@ public class UserController {
 		if (flarge.createNewFile())
 			ImageData.createLargeImage(new String(Base64.decodeBase64(src)), flarge);
 
-		UserPhotoElement up = new UserPhotoElement(id, name, userId , f.getName());
+		UserPhotoElement up = new UserPhotoElement(id, name, u.userId() , f.getName());
 		IndexResponse ir = (IndexResponse) esContainer
 				.executeSynchronusRequest(new DefaultDataElement<UserPhotoElement>(up)
 						.setIndex(DefaultWebAppConfiguration.ESConfiguration.USER_MEDIA_PHOTO));
@@ -116,7 +114,7 @@ public class UserController {
 			throws IOException {
 		UserMediaElement ume = new UserMediaElement();
 		ume.setName(name);
-		ume.setUserId( userId );
+		ume.setUserId( u.userId() );
 		IndexResponse ir = (IndexResponse) esContainer
 				.executeSynchronusRequest(new DefaultDataElement<UserMediaElement>(ume)
 						.setIndex(DefaultWebAppConfiguration.ESConfiguration.USER_MEDIA_INDEX));
@@ -126,11 +124,12 @@ public class UserController {
 
 	@RequestMapping(path = "/profile/update", method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody Object updatePicture(
-			@RequestParam(name = "picture", required = true) String base64EncodedImageData, HttpServletRequest request,
+			@RequestParam(name = "picture", required = true) String base64EncodedImageData, 
+			HttpServletRequest request,
 			HttpServletResponse response, SessionStatus status, Model model) {
 
 		try {
-			User current = userService.findById( userId );
+			User current = userService.findById( u.userId() );
 			File f = ImageData.randomFileName(DefaultWebAppConfiguration.USER_IMAGE_PATH);
 
 			if (f.createNewFile()) {
@@ -164,14 +163,17 @@ public class UserController {
 	}
 
 	@RequestMapping(path = "/profile/view", method = { RequestMethod.GET, RequestMethod.POST })
-	public @ResponseBody Object view(@RequestParam(name = "uid", required = true) Long uid, HttpServletRequest request,
+	public @ResponseBody Object view(
+			@RequestParam(name = "uid", required = true) Long uid, 
+			HttpServletRequest request,
 			HttpServletResponse response, SessionStatus status, Model model) {
 		return new UserPublicFormElement<User>(userService.findById(uid));
 	}
 	
     @RequestMapping(path = "/profile", headers = "Accept=text/html",method=RequestMethod.GET)
-    public ModelAndView profile(HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
-    	return new ModelAndView("forward:/user/" + userSession.userId() + "/profile");
+    public ModelAndView profile(
+    		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
+    	return new ModelAndView("forward:/user/" + u.userId() + "/profile");
     }
 
 }

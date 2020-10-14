@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,8 +38,9 @@ import com.github.infovip.core.es.query.DocumentManager;
 import com.github.infovip.core.scroll.DefaultScrollResponse;
 import com.github.infovip.core.scroll.ScrollResponseGenerator;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
-import com.github.infovip.core.web.user.UserSessionInterface;
+import com.github.infovip.core.web.user.CurrentUserInfo;
 import com.github.infovip.entities.User;
+import com.github.infovip.spring.config.ApplicationUser;
 import com.github.infovip.spring.services.ActivityService;
 import com.github.infovip.web.application.es.activity.ActivityCommentElement;
 import com.github.infovip.web.application.es.activity.ActivityElement;
@@ -73,12 +75,13 @@ public class ActivityController {
     @RequestMapping(path="/data",method = {RequestMethod.GET, RequestMethod.POST })
     public  @ResponseBody Object data(
     		@RequestParam(name="token",defaultValue="",required=false) String token,
+    		Authentication auth,
     		HttpServletRequest request, 
     		HttpServletResponse response,  
     		SessionStatus status, 
     		Model model
     ) {
-    	ActivitySource source = new ActivitySource(context, token);
+    	ActivitySource source = new ActivitySource(context, token, (ApplicationUser) auth.getPrincipal() );
     	try {
 			return ScrollResponseGenerator.generate( new DefaultScrollResponse<UserPublicElement<?>,WebApplicationContext>(),  source, request, response);
 		} catch (UnsupportedTypeException e) {
@@ -97,7 +100,7 @@ public class ActivityController {
     		Model model
     ) {
     	
-		UserSessionInterface<User> usession = UserConfiguration.config(request).getSession();
+		CurrentUserInfo<User> usession = UserConfiguration.config(request).getSession();
     	User u = usession.getUser();
     	
     	List<Field> fields = new ArrayList<>();
@@ -136,7 +139,7 @@ public class ActivityController {
     		Model model
     ) {
     	@SuppressWarnings("unchecked")
-		UserSessionInterface<User> usession = UserConfiguration.config(request).getSession();
+		CurrentUserInfo<User> usession = UserConfiguration.config(request).getSession();
     	User u = usession.getUser();
     	
     	ActivityPost<ActivityElement> doc = new ActivityPost<ActivityElement>(new ActivityElement());
@@ -194,7 +197,7 @@ public class ActivityController {
     		Model model
     ) {
     	@SuppressWarnings("unchecked")
-		UserSessionInterface<User> usession = UserConfiguration.config(request).getSession();
+		CurrentUserInfo<User> usession = UserConfiguration.config(request).getSession();
     	User u = usession.getUser();
     	
     	ActivityCommentElement ace = new ActivityCommentElement(id);
@@ -224,7 +227,7 @@ public class ActivityController {
     		Model model
     ) {
     	@SuppressWarnings("unchecked")
-		UserSessionInterface<User> usession = UserConfiguration.config(request).getSession();
+		CurrentUserInfo<User> usession = UserConfiguration.config(request).getSession();
     	User u = usession.getUser();
     	
     	ActivityCommentElement ace = new ActivityCommentElement(id);
@@ -254,7 +257,7 @@ public class ActivityController {
     		Model model
     ) {
     	@SuppressWarnings("unchecked")
-		UserSessionInterface<User> usession = UserConfiguration.config(request).getSession();
+		CurrentUserInfo<User> usession = UserConfiguration.config(request).getSession();
     	User u = usession.getUser();
     	post.setUid(u.getUserId());
     	post.setUserName(u.getUserRealName());

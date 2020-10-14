@@ -16,22 +16,18 @@
  */
 package com.github.infovip.core.web.user;
 
-import com.github.infovip.core.Container;
-import com.github.infovip.entities.User;
-
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+
+import com.github.infovip.core.Container;
+import com.github.infovip.entities.User;
 
 /**
  *
  * @author attila
  */
-@Component
-@Scope("session")
-public class UserSession implements Serializable, WebUser, UserSessionInterface<User> {
+
+public class UserSession implements CurrentUserInfo<User>, WebUser {
 
     /**
      * True if the user is authenticated, default false
@@ -71,21 +67,10 @@ public class UserSession implements Serializable, WebUser, UserSessionInterface<
      */
     private DefaultApplicationRole role;
     
+
     public UserSession() {
     }
-
-    /**
-     * Checks if the current user is authenticated to the site
-     *
-     * @return the value of authenticated
-     */
-    public Boolean isAuthenticated() {
-        return authenticated;
-    }
-
-    public Boolean getAuthenticated() {
-        return this.isAuthenticated();
-    }
+    
     
     public void setRole(DefaultApplicationRole role) {
     	this.role = role;
@@ -93,41 +78,26 @@ public class UserSession implements Serializable, WebUser, UserSessionInterface<
     
     public DefaultApplicationRole getRole() {
     	return this.role;
-    }
+    }    
+    
+    public Long getUserId() {
+		return userId;
+	}
 
-    
-    @Override
-    public Long userId() {
-    	return this.userId;
-    }
-    
-    @Override
-    public String userIdentifier() {
-    	return this.userName;
-    }
-    
-    @Override
-    public String userName() {
-    	return this.userName;
-    }
-    
-    @Override
-    public String userMailAddress() {
-    	return this.userMail;
-    }
-    
-    public void setUserId(Long userId) {
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setAuthenticated(Boolean authenticated) {
+		this.authenticated = authenticated;
+	}
+
+
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-    
-    /**
-     * Set the value of authenticated
-     *
-     * @param authenticated new value of authenticated
-     */
-    public void setAuthenticated(boolean authenticated) {
-        this.authenticated = authenticated;
-    }
 
     public Container getContainer() {
         return container;
@@ -160,15 +130,38 @@ public class UserSession implements Serializable, WebUser, UserSessionInterface<
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
-    
-    @Override
-    public User getUser() {
-		return user;
-	}
+
     
     public void setUser(User user) {
 		this.user = user;
 	}
+
+    @Override
+    public Boolean isAuthenticated() {
+    	return this.authenticated;
+    }
+    
+    @Override
+    public String userIdentifier() {
+    	return userName;
+    }
+    
+    
+    @Override
+    public String userMailAddress() {
+    	return userMail;
+    }
+    
+    @Override
+    public String userName() {
+    	return this.userName;
+    }
+    
+    
+    @Override
+    public Long userId() {
+    	return userId;
+    }
 
     @Override
     public String toString() {
@@ -211,5 +204,9 @@ public class UserSession implements Serializable, WebUser, UserSessionInterface<
         }
         return true;
     }
+
+
+
+
 
 }

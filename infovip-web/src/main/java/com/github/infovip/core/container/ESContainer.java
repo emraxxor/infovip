@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -98,6 +101,7 @@ public class ESContainer<T extends ESExtendedDataElement<?>> extends Thread impl
 	}
 	
 	
+	@PostConstruct
 	public void postConstruct() {
     	documentQueue = new LinkedBlockingQueue<>(ESConfiguration.QUEUE_MAX_SIZE);
     	preapreRequest();
@@ -112,6 +116,7 @@ public class ESContainer<T extends ESExtendedDataElement<?>> extends Thread impl
         bulkRequest = new BulkRequest();
     } 
 
+    @PreDestroy
     public void preDestroy() {
     	terminate();
     }

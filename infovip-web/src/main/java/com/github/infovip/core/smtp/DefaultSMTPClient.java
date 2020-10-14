@@ -1,6 +1,10 @@
 package com.github.infovip.core.smtp;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.github.infovip.core.Configuration;
 import com.github.infovip.core.config.deprecated.TemporaryConfig;
@@ -12,6 +16,8 @@ import com.github.infovip.web.application.message.Message;
  * @author Attila Barna
  *
  */
+
+@Component
 public class DefaultSMTPClient implements SmtpClient {
 
 	private Configuration configuration;
@@ -20,13 +26,12 @@ public class DefaultSMTPClient implements SmtpClient {
 	
 	private Logger logger = Logger.getLogger(DefaultSMTPClient.class);
 	
-	public DefaultSMTPClient() {
-	}
-
+	@Autowired
 	public DefaultSMTPClient(Configuration c) {
 		this.configuration = c;
 	}
 	
+	@PostConstruct
 	public void postInit() {
 		this.temporaryConfig = this.configuration.getTemporaryConfig();
 	}

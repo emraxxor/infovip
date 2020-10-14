@@ -3,7 +3,7 @@ package com.github.infovip.configuration;
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.infovip.core.session.SESSION;
-import com.github.infovip.core.web.user.UserSessionInterface;
+import com.github.infovip.core.web.user.CurrentUserInfo;
 import com.github.infovip.core.web.user.WebUser;
 
 /**
@@ -48,9 +48,9 @@ public class UserConfiguration {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public UserSessionInterface getSession() {
+	public CurrentUserInfo getSession() {
 		if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) 
-			return (UserSessionInterface) request.getSession().getAttribute(SESSION.USER_SESSION.value()) ;
+			return (CurrentUserInfo) request.getSession().getAttribute(SESSION.USER_SESSION.value()) ;
 		
 		return null;
 	}
@@ -59,7 +59,7 @@ public class UserConfiguration {
 	public Boolean isAuthenticated() {
 		try {
 			if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
-				return ((UserSessionInterface)request.getSession().getAttribute(SESSION.USER_SESSION.value())).isAuthenticated();
+				return ((CurrentUserInfo)request.getSession().getAttribute(SESSION.USER_SESSION.value())).isAuthenticated();
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Not supported session!");

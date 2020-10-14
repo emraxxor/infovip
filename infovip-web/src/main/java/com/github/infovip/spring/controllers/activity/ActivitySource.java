@@ -25,6 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
 import com.github.infovip.core.scroll.AbstractScrollSource;
+import com.github.infovip.spring.config.ApplicationUser;
 import com.github.infovip.web.application.es.activity.ActivityCommentElement;
 import com.github.infovip.web.application.es.activity.ActivityJoinType;
 import com.github.infovip.web.application.es.activity.ActivityLikeElement;
@@ -54,11 +55,13 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 	
 	List<ActivityPostElement> content;
 	
+	private final ApplicationUser appUser;
 	
-	public ActivitySource(WebApplicationContext context, String token) {
+	public ActivitySource(WebApplicationContext context, String token, ApplicationUser appUser) {
 		super(context, token);
 		this.template = this.context.getBean(ElasticsearchRestTemplate.class);
 		this.client = this.context.getBean(RestHighLevelClient.class);
+		this.appUser = appUser;
 		this.size = 10;
 	}
 
@@ -169,6 +172,7 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 	@Override
 	public void initializeQuery() {
 		query = QueryBuilders.boolQuery()
+				.must( QueryBuilders.termQuery("uid", appUser.getUser().getUserId()) )
 				.must( QueryBuilders.termQuery("join", ActivityJoinType.POST.value() ) )
 				.should( 
 						JoinQueryBuilders
