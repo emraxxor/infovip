@@ -17,7 +17,11 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.github.infovip.core.data.ESDataElement;
 import com.github.infovip.core.scroll.AbstractScrollSource;
+import com.github.infovip.core.web.user.media.UserPhotoElement;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * 
@@ -74,7 +78,13 @@ public abstract class AbstractBoolScrollSource<T> extends AbstractScrollSource<W
 		return this.count;
 	}
 	
-	public abstract T convert(SearchHit o);
+	
+	public T convert(SearchHit o) {
+		T e = new Gson().fromJson(o.getSourceAsString(), new TypeToken<T>(){}.getType());
+		if ( e instanceof ESDataElement<?> ) 
+			((ESDataElement<?>)e).setDocumentId(o.getId());
+		return e;
+	}
 	
 	@Override
 	public List<T> content() {
