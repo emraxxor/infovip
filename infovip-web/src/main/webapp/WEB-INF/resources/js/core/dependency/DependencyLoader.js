@@ -87,7 +87,7 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
             	if ( dependency.type == 'javascript' ) {
             	
             		if ( DependencyLoader.$('loadedComponents').indexOf(dependency.url) != -1 )
-            			return;
+            			continue;
             		
             		DependencyLoader.$('loadedComponents').push(dependency.url);
             		
@@ -109,9 +109,8 @@ var DependencyLoader = easejs.FinalClass('DependencyLoader',{
             	}
             }
         	
-        	if ( callback != undefined ) {
+        	if ( callback != undefined ) 
         		callback(param);
-        	}
         });
         return this;
     }

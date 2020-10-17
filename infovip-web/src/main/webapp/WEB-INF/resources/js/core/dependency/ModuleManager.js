@@ -13,12 +13,15 @@ var ModuleManager = easejs.FinalClass('ModuleManager',{
     	this.modules = new Array();
     },
     
-    'public load' : function(url) {
-    	jQuery.ajax({url: ApplicationScope.config.RESOURCES_PATH + '/' + url + '.js',dataType: "script", async: false});
+    'public load' : function(
+    		url , 
+    		path = ApplicationScope.config.RESOURCES_PATH  
+    	) { 
+    	jQuery.ajax({url: path + '/' + url + '.js',dataType: "script", async: false});
     	return this;
     },
     
-	'public addModule' : function(o) {  
+	'public addModule' : function(o) { 
 		if (easejs.Class.isA(Module, o)) {
         	this.modules.push(o);
         } else {

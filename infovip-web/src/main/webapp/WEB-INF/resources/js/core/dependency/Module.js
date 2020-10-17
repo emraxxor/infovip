@@ -26,7 +26,7 @@ var Module = easejs.Class('Module',{
     },
     
     'public dependency' : function(url) {
-    		this.dependencies.push(url);
+    	this.dependencies.push(url);
     },
     
     'public removeCallback' : function(v) {
@@ -51,10 +51,9 @@ var Module = easejs.Class('Module',{
     },
     
     'public load' : function() {
-    	let loader = DependencyLoader.create();
+    	const loader = DependencyLoader.create();
     	this.dependencies.forEach(o=>loader.js(o));
     	loader.import( o => this.onComplete()  ,{});
-
     },
     
     'public virtual run' : function() {
@@ -69,11 +68,8 @@ var Module = easejs.Class('Module',{
      },
     
     'private url' : function() {
-    	if ( ApplicationScope.config.MINIFIED ) 
-    		return this.path + '/' + name + '.min.js'; 
-    	
-    	return this.path + '/' + name + '.js';
-    }
+    	return this.path + '/' + this.name + '.js';
+     }
     	
 });
 
