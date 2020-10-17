@@ -20,9 +20,14 @@
 
 
 <section class="gallery-list">
-			<div id="gallery-data" class="waterfall-container row">
 
+			<div vue-component="init">
+					<gallery-waterfall-component  
+						waterfall-id="gallery-data" 
+						source-url="/gallery/data"
+					></gallery-waterfall-component>
 			</div>
+
 </section>
 
 <script type="text/x-handlebars-template" id="waterfall-tpl">                                                                                                                                                    

@@ -9,6 +9,7 @@ module.exports = {
       bootstrap : './src/bootstrap.js',
       front : './src/front.js',
       vue : './src/vue.js',
+      module: './src/module.js',
       shared: 'lodash',
   },
   resolve: {

@@ -1,9 +1,11 @@
 package com.github.infovip.spring.controllers.user;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -99,7 +101,12 @@ public class UserController {
 		if (flarge.createNewFile())
 			ImageData.createLargeImage(new String(Base64.decodeBase64(src)), flarge);
 
+		BufferedImage buff = ImageIO.read(f);
+		
 		UserPhotoElement up = new UserPhotoElement(id, name, u.userId() , f.getName());
+		up.setWidth(buff.getWidth());
+		up.setHeight(buff.getHeight());
+		
 		IndexResponse ir = (IndexResponse) esContainer
 				.executeSynchronusRequest(new DefaultDataElement<UserPhotoElement>(up)
 						.setIndex(DefaultWebAppConfiguration.ESConfiguration.USER_MEDIA_PHOTO));

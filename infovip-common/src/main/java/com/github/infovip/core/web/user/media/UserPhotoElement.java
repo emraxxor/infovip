@@ -2,7 +2,6 @@ package com.github.infovip.core.web.user.media;
 
 import java.io.Serializable;
 
-
 import com.github.infovip.core.data.ESDataElement;
 import com.github.infovip.core.date.DefaultDateFormatter;
 import com.github.infovip.core.es.type.IgnoreField;
@@ -26,6 +25,10 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 	
 	private String creationTime;
 	
+	private Integer width;
+	
+	private Integer height;
+	
 	@AllowEmpty
 	private String title = "Untitled";
 
@@ -40,8 +43,7 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 		this.creationTime = DefaultDateFormatter.current();
 		this.data = image;
 	}
-	
-	
+
 	@Override
 	public String getDocumentId() {
 		return this.documentId;
@@ -77,22 +79,36 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 		this.data = data;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	
-	
 	public String getCreationTime() {
 		return creationTime;
 	}
 
 	public void setCreationTime(String creationTime) {
 		this.creationTime = creationTime;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	@Override
@@ -102,9 +118,11 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 		result = prime * result + ((creationTime == null) ? 0 : creationTime.hashCode());
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
+		result = prime * result + ((height == null) ? 0 : height.hashCode());
 		result = prime * result + ((mediaId == null) ? 0 : mediaId.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((width == null) ? 0 : width.hashCode());
 		return result;
 	}
 
@@ -132,6 +150,11 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 				return false;
 		} else if (!documentId.equals(other.documentId))
 			return false;
+		if (height == null) {
+			if (other.height != null)
+				return false;
+		} else if (!height.equals(other.height))
+			return false;
 		if (mediaId == null) {
 			if (other.mediaId != null)
 				return false;
@@ -147,11 +170,14 @@ public class UserPhotoElement implements ESDataElement<UserPhotoElement>,  Seria
 				return false;
 		} else if (!userId.equals(other.userId))
 			return false;
+		if (width == null) {
+			if (other.width != null)
+				return false;
+		} else if (!width.equals(other.width))
+			return false;
 		return true;
 	}
 	
 	
-	
-	
-	
+
 }

@@ -10,14 +10,8 @@ import 'jquery-ui/ui/widgets/mouse';
 window._ = require('lodash');
 
 try {
-    
     window.Popper = require('popper.js').default;
     window.jQuery = require('jquery'),  require('jquery-ui');
-} catch (e) {
-    console.error(e);
-}
-
-try {
     require('bootstrap');
 } catch (e) {
     console.error(e);
