@@ -1,11 +1,9 @@
 <template>
-    <div class="item item-waterfall" style="">
+    <div v-on:click="onClickItem" class="item item-waterfall" style="">
             <!-- Member Item Start -->
             <div class="member--item online">
                 <div class="">
-                    <a href="#" class="btn-link">
                         <img :src="image(wdata)" class="img-fluid img-thumbnail" alt="">
-                    </a>
                 </div>
 
                 <div class="name">
@@ -27,6 +25,13 @@ export default {
 
     extends : DefaultElementComponentVue,
     
+    props: {
+        onClick : {
+            type : Function,
+            required : true
+        }
+    },
+
     created : function() {
 
     },
@@ -37,6 +42,10 @@ export default {
 
     methods : {
 
+        onClickItem : function() {
+            this.onClick(this.wdata);
+        },
+
         image : function(item) {
             if ( item.data !== undefined  ) 
                 return '/public/media/image?' + item.data;
@@ -44,6 +53,8 @@ export default {
             return '/public/media/image?noimage';
         }
     },
+
+
 
     mounted: function () {
     },

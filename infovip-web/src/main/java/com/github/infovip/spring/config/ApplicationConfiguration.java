@@ -10,8 +10,6 @@ import com.github.infovip.core.Container;
 import com.github.infovip.core.web.CSSManager;
 import com.github.infovip.core.web.JavascriptManager;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
-import com.github.infovip.core.web.user.CurrentUserInfo;
-import com.github.infovip.spring.components.CurrentUserFacade;
 
 @Configuration
 @ComponentScans( value =  { 

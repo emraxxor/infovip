@@ -1,6 +1,5 @@
 package com.github.infovip.spring.controllers.user;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,17 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.github.infovip.configuration.DefaultWebAppConfiguration;
-import com.github.infovip.configuration.UserConfiguration;
 import com.github.infovip.core.data.DefaultUser;
-import com.github.infovip.core.data.UserPublicFormElement;
-import com.github.infovip.core.web.response.StatusResponse;
-import com.github.infovip.core.web.types.ImageData;
 import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
 

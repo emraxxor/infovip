@@ -16,14 +16,14 @@ export default {
     methods: {
 
         get( url, data, callback = (e,a) => {} , args = {} , options = { method: 'GET' , headers : {} } ) {
-            
             axios({
                 method: options.method,
                 url: url,
                 data: this.params(data),
                 headers : options.headers
-            }).then((response) => callback(response,args),
-                    (error) => console.log(error) );
+            })
+            .then((response) => callback(response,args),
+                  (error) => console.log(error) );
         },
 
         post( url, data,  callback = (e,a) => {} , args = {} , options = {method : 'POST', headers : {}  }) {

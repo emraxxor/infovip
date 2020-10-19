@@ -99,7 +99,6 @@
             this.dataToken = e.data.token;
             this.lastSize = e.data.count;
             this.$emit('onDataLoaded', e);
-            e.data.data.forEach(f => this.waterfallData.push(f) );
         },
 
     }

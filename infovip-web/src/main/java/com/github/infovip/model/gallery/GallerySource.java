@@ -8,6 +8,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.github.infovip.core.scroll.AbstractBoolScrollSource;
 import com.github.infovip.core.web.user.media.UserPhotoElement;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * 
@@ -29,7 +31,13 @@ public class GallerySource extends AbstractBoolScrollSource<UserPhotoElement>  {
 	public void beforeDestroy() {
 		
 	}
-
+	
+	@Override
+	public UserPhotoElement convert(SearchHit o) {
+		UserPhotoElement me = new Gson().fromJson(o.getSourceAsString(), new TypeToken<UserPhotoElement>(){}.getType()) ;
+		me.setDocumentId(o.getId());
+		return me;
+	}
 
 	@Override
 	public void initializeQuery() {
