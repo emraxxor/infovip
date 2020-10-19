@@ -50,6 +50,7 @@ public class UserProfileController {
 			return new ModelAndView("redirect:/404");
 		
     	mv.addObject("user", new DefaultUser<User>( current ) );
+    	
     	return mv;
     }
 

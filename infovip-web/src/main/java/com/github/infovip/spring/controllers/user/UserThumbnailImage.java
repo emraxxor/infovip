@@ -19,7 +19,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
 
 @Controller
-@RequestMapping("/api/public/image")
+@RequestMapping("/public/image")
 public class UserThumbnailImage {
 
 	

@@ -227,7 +227,11 @@
 		</put-list-attribute>
 	</definition>	
 	
-	
+
+	<!--  Members page -->
+	<definition name="tile.exception.404" extends="default.tile.front">
+		<put-attribute name="body" value="/WEB-INF/web/static/404Body.jsp"></put-attribute>
+	</definition>	
 	
 	<!--  Members page -->
 	<definition name="tile.members.general.page" extends="default.tile.front">

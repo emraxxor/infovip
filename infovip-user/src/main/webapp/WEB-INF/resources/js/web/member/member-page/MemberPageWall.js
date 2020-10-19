@@ -112,7 +112,7 @@ var MemberPageWall = easejs.Class('MemberPageWall').extend(BaseWaterfall,{
     		            
     					for(var i=0; i<data.data.length; i++) {
     						var o = data.data[i];
-    						var image = new String( WEB_DIR + "/user/image?" + o.picture);
+    						var image = new String( WEB_DIR + "/public/user/image?" + o.picture);
     						result.push( {image : image, data: o } );
     					}
     					

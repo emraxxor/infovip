@@ -9,10 +9,10 @@ import com.github.infovip.core.Configuration;
  * @author Attila Barna
  *
  */
-@WebServlet("/public/user/image")
-public class UserPublicImage extends ImageServlet {
+@WebServlet("/public/media/image")
+public class PublicMediaImage extends ImageServlet {
 
-	public UserPublicImage() {
+	public PublicMediaImage() {
         super(Configuration.MEDIA_IMAGE_PATH);
 	}
 }

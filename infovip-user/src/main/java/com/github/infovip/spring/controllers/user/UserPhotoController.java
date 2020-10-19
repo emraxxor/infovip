@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
 import com.github.infovip.configuration.UserConfiguration;
 import com.github.infovip.core.data.DefaultDataElement;
+import com.github.infovip.core.data.DefaultUser;
 import com.github.infovip.core.data.photo.PhotoCommentSource;
 import com.github.infovip.core.data.photo.PhotoWaterfallSource;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
@@ -34,6 +35,8 @@ import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
 import com.github.infovip.core.web.response.StatusResponse;
 import com.github.infovip.core.web.user.media.UserPhotoCommentElement;
 import com.github.infovip.core.web.user.media.UserPhotoElement;
+import com.github.infovip.entities.User;
+import com.github.infovip.services.interfaces.UserServiceInterface;
 
 /**
  * 
@@ -44,9 +47,11 @@ import com.github.infovip.core.web.user.media.UserPhotoElement;
 @RequestMapping("/user/{id}/photo")
 public class UserPhotoController {
 	
-	
-	 @Autowired
-	 private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
+	@Autowired
+    private UserServiceInterface<User> userService;
+
+	@Autowired
+	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
 	 @Autowired
 	private WebApplicationContext context;
@@ -86,8 +91,16 @@ public class UserPhotoController {
 	
 	
     @RequestMapping( headers = "Accept=text/html",method=RequestMethod.GET)
-    public ModelAndView main(HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
+    public ModelAndView main(
+    		@PathVariable("id") Long userId, 
+    		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {
     	ModelAndView mv = new ModelAndView("tile.user.photo.page");
+		User current = userService.findById(  userId );
+		
+		if ( current == null ) 
+			return new ModelAndView("redirect:/404");
+
+    	mv.addObject("user", new DefaultUser<User>( current ) );
     	return mv;
     }
 

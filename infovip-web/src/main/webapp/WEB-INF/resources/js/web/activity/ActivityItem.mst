@@ -3,14 +3,14 @@
 <!-- Activity Item Start -->
                                         <div class="activity--item">
                                             <div class="activity--avatar">
-                                                <a href="/member/user/{{uid}}">
-                                                    <img src="/user/image/{{userImage}}" alt="">
+                                                <a href="/user/{{uid}}/profile">
+                                                    <img src="/public/image/user/{{ uid }}" alt="">
                                                 </a>
                                             </div>
 
                                             <div class="activity--info fs--14">
                                                 <div class="activity--header">
-                                                    <p><a href="/member/user/{{uid}}">{{userName}}</a></p>
+                                                    <p><a href="/user/{{uid}}/profile">{{userName}}</a></p>
                                                 </div>
 
                                                 <div class="activity--meta fs--12">
@@ -42,14 +42,14 @@
                                                         <li>
                                                             <div class="acomment--item clearfix">
                                                                 <div class="acomment--avatar">
-                                                                    <a href="/member/user/{{uid}}">
-                                                                        <img src="/user/image/{{userImage}}" alt="">
+                                                                    <a href="/user/{{uid}}/profile">
+                                                                        <img src="/public/image/user/{{uid}}" alt="">
                                                                     </a>
                                                                 </div>
 
                                                                 <div class="acomment--info">
                                                                     <div class="acomment--header">
-                                                                        <p><a href="/member/user/{{uid}}">{{userName}}</a> Replied</p>
+                                                                        <p><a href="/user/{{uid}}/profile">{{userName}}</a> Replied</p>
                                                                     </div>
 
                                                                     <div class="acomment--meta">
@@ -81,14 +81,14 @@
 																			<li>
 																			<div class="acomment--item clearfix">
 																				<div class="acomment--avatar">
-																					<a href="/member/user/{{uid}}">
-																						<img src="/user/image/{{userImage}}" alt="">
+																					<a href="/user/{{uid}}/profile">
+																						<img src="/public/image/user/{{uid}}" alt="">
 																					</a>
 																				</div>
 
 																				<div class="acomment--info">
 																					<div class="acomment--header">
-																						<p><a href="/member/user/{{uid}}">{{userName}}</a> Replied</p>
+																						<p><a href="/user/{{uid}}/profile">{{userName}}</a> Replied</p>
 																					</div>
 
 																					<div class="acomment--meta">

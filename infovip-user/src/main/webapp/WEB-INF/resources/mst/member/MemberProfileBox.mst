@@ -3,14 +3,14 @@
             <!-- Member Item Start -->
             <div class="member--item online">
                 <div class="">
-                    <a href="#" class="btn-link">
+                    <a href="/user/{{data.userId}}/profile" class="btn-link">
                         <img src="{{image}}" class="img-fluid img-thumbnail"  alt=""> 
                     </a>
                 </div>
 
                 <div class="name">
                     <h3 class="h6 fs--12">
-                        <a href="/member/profile/{{data.userId}}" class="btn-link">{{data.firstName}} {{data.lastName}}</a>
+                        <a href="/user/{{data.userId}}/profile" class="btn-link">{{data.firstName}} {{data.lastName}}</a>
                     </h3>
                 </div>
 

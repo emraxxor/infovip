@@ -20,11 +20,11 @@ public class GlobalExceptionHandlerController {
 	@ExceptionHandler(NoHandlerFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public String handle(NoHandlerFoundException ex,HttpServletRequest request) {
-      logger.error(ex.getMessage(), ex);
-	  return "tile.exception.404";
+		logger.error(ex.getMessage(), ex);
+		return "tile.exception.404";
 	}
-	
 
+	
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handle(Exception ex, HttpServletRequest request, HttpServletResponse response) {
         logger.error(ex.getMessage(), ex);

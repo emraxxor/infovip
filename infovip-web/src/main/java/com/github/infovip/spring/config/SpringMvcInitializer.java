@@ -1,5 +1,7 @@
 package com.github.infovip.spring.config;
 
+import javax.servlet.ServletRegistration.Dynamic;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -21,6 +23,11 @@ public class SpringMvcInitializer extends AbstractAnnotationConfigDispatcherServ
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		return new Class[] { WebMvcConfiguration.class };
+	}
+	
+	@Override
+	protected void customizeRegistration(Dynamic registration) {
+	    registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
 	}
 
 	@Override

@@ -13,7 +13,7 @@
                         {{wdata.title}}
                     </h6>
                     <h6 v-else>
-                        Unknown
+                        No title
                     </h6>
                 </div>
             </div>
@@ -39,9 +39,9 @@ export default {
 
         image : function(item) {
             if ( item.data !== undefined  ) 
-                return '/public/user/image?' + item.data;
+                return '/public/media/image?' + item.data;
         
-            return '/public/user/image?noimage';
+            return '/public/media/image?noimage';
         }
     },
 

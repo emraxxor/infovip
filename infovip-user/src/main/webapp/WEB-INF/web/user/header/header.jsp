@@ -17,7 +17,7 @@
 					</c:choose>
 
                 </div>
-
+                
                 <div class="cover--user-name">
                     <h2 class="h3 fw--600">${user.firstName} ${user.lastName}</h2>
                 </div>

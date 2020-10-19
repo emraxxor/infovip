@@ -33,6 +33,7 @@
 		<meta charset=utf-8 >
 		<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 		<meta name="robots" content="index, follow" /> 
+		
 		<c:if test="${not empty metaDescription}">
         	<meta name="description" content="${metaDescription}" />
         </c:if>
@@ -50,17 +51,10 @@
         
         <c:if test="${not empty ogDescription}">
         	<meta property="og:type" content="${ogDescription}" />
-        </c:if>
-        
-        <c:if test="${not empty ogImage}">
-        	<meta property="og:image" content="${Configuration.temporaryConfig.websiteAddress}/ProductImage?${ogImage}" />
-        </c:if>
-        
+        </c:if>     
          
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		
-        
-        
         <c:forEach items="${container.cssManager.data}" var="css">
             ${css}
         </c:forEach>

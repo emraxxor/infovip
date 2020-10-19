@@ -104,7 +104,7 @@ export default {
 
         methods : {
             uImage : function(v) {
-                    return "/api/public/image/user/" + v.commenter ; 
+                    return "/public/image/user/" + v.commenter ; 
             },
 
             dateFormatter : function(v) {
