@@ -1,10 +1,13 @@
 package com.github.infovip.core.basic.tags.sql;
 
-import com.github.infovip.core.Configuration;
-import com.github.infovip.core.basic.sql.SqlConnection;
+import static com.github.infovip.core.Configuration.BEAN_SQL_ID;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+
+import com.github.infovip.core.basic.sql.SqlConnection;
+
 
 public class SqlInit extends SimpleTagSupport {
 
@@ -14,8 +17,9 @@ public class SqlInit extends SimpleTagSupport {
 
     @Override
     public void doTag() throws JspException {
-        SqlConnection sqlcon = (SqlConnection) getJspContext().getAttribute(Configuration.BEAN_SQL_ID, PageContext.APPLICATION_SCOPE);
-        sqlcon.init(dburl, user, password);
+    	SqlConnection sqlcon = new SqlConnection();
+    	sqlcon.init(dburl, user, password);
+    	getJspContext().setAttribute( BEAN_SQL_ID  , sqlcon, PageContext.REQUEST_SCOPE);
     }
 
     public void setDburl(String dburl) {

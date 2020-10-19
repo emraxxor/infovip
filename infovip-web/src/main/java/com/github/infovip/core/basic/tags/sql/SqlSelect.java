@@ -19,9 +19,9 @@ public class SqlSelect extends BodyTagSupport {
 
     @Override
     public int doAfterBody() throws JspException {
-        SqlConnection sqlcon = (SqlConnection) pageContext.getAttribute(Configuration.BEAN_SQL_ID, PageContext.APPLICATION_SCOPE);
+        SqlConnection sqlcon = (SqlConnection) pageContext.getAttribute(Configuration.BEAN_SQL_ID, PageContext.REQUEST_SCOPE);
         ResultSet rs = sqlcon.selectQuery(bodyContent.getString());
-        pageContext.setAttribute(var, rs, PageContext.APPLICATION_SCOPE);
+        pageContext.setAttribute(var, rs, PageContext.REQUEST_SCOPE);
         return EVAL_PAGE;
     }
 

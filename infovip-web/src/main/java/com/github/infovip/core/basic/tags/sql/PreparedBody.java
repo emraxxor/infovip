@@ -54,7 +54,7 @@ public class PreparedBody extends BodyTagSupport {
     public int doAfterBody() throws JspException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = (PreparedStatement) ((SqlConnection) pageContext.getAttribute(Configuration.BEAN_SQL_ID, PageContext.APPLICATION_SCOPE)).getConn().prepareStatement(bodyContent.getString());
+            pstmt = (PreparedStatement) ((SqlConnection) pageContext.getAttribute(Configuration.BEAN_SQL_ID, PageContext.REQUEST_SCOPE)).getConn().prepareStatement(bodyContent.getString());
         } catch (SQLException ex) {
             Logger.getLogger(PreparedBody.class.getName()).log(Level.SEVERE, null, ex);
         }

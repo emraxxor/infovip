@@ -19,7 +19,8 @@ public class DestroyConnection extends SimpleTagSupport {
 
     @Override
     public void doTag() throws JspException {
-        ((SqlConnection) getJspContext().getAttribute(Configuration.BEAN_SQL_ID, PageContext.APPLICATION_SCOPE)).destroyConnect();
+        ((SqlConnection) getJspContext().getAttribute(Configuration.BEAN_SQL_ID, PageContext.REQUEST_SCOPE)).destroyConnect();
+        getJspContext().removeAttribute(Configuration.BEAN_SQL_ID);
     }
 
 }

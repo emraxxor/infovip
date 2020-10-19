@@ -15,7 +15,7 @@ public class Free extends BodyTagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        ResultSet rs = ((ResultSet) pageContext.getAttribute(var, PageContext.APPLICATION_SCOPE));
+        ResultSet rs = ((ResultSet) pageContext.getAttribute(var, PageContext.REQUEST_SCOPE));
         if (rs != null) {
             try {
                 rs.close();

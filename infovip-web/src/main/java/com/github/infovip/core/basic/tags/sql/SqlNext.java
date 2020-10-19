@@ -28,7 +28,7 @@ public class SqlNext extends BodyTagSupport {
     public int doAfterBody() throws JspException {
         try {
             setHasRow(true);
-            rs = (ResultSet) pageContext.getAttribute(var, PageContext.APPLICATION_SCOPE);
+            rs = (ResultSet) pageContext.getAttribute(var, PageContext.REQUEST_SCOPE);
             JspWriter out = null;
 
             if (bodyContent == null) {

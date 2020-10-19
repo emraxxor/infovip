@@ -55,7 +55,7 @@ public class PreparedSelect extends BodyTagSupport {
     public int doAfterBody() throws JspException {
         PreparedStatement pstmt = null;
         try {
-            pstmt = (PreparedStatement) ((SqlConnection) pageContext.getAttribute(Configuration.BEAN_SQL_ID, PageContext.APPLICATION_SCOPE))
+            pstmt = (PreparedStatement) ((SqlConnection) pageContext.getAttribute(Configuration.BEAN_SQL_ID, PageContext.REQUEST_SCOPE))
                     .getConn().prepareStatement(bodyContent.getString());
         } catch (SQLException ex) {
             Logger.getLogger(PreparedSelect.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,7 +91,7 @@ public class PreparedSelect extends BodyTagSupport {
         }
 
         try {
-            pageContext.setAttribute(var, pstmt.executeQuery(), PageContext.APPLICATION_SCOPE);
+            pageContext.setAttribute(var, pstmt.executeQuery(), PageContext.REQUEST_SCOPE);
         } catch (SQLException ex) {
             Logger.getLogger(PreparedSelect.class.getName()).log(Level.SEVERE, null, ex);
         }
