@@ -17,15 +17,7 @@ public class CSSManager extends DefaultManager<CSS> {
 
     public CSSManager() throws UnsupportedTypeException {
         super();
-        //this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/css/main.css", CSS.CSSType.TEXT_CSS, CSS.CSSREL.STYLESHEET));
-        //this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/css/navbar.css", CSS.CSSType.TEXT_CSS, CSS.CSSREL.STYLESHEET));
-        //this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.LIB_DIRECTORY + "/jquery-ui/1.12.1/jquery-ui.min.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
-        //this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/webix/codebase/webix.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
-        //this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/bootstrap/css/bootstrap.min.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
-        //this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/bootstrap/css/bootstrap-theme.min.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
         this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/highslide/highslide/highslide.css", CSS.CSSType.TEXT_CSS, CSS.CSSMedia.SCREEN, CSS.CSSREL.STYLESHEET));
-		//this.addElement(new CSS(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/css/core.css", CSS.CSSType.TEXT_CSS, CSS.CSSREL.STYLESHEET));
-
     }
 
 }

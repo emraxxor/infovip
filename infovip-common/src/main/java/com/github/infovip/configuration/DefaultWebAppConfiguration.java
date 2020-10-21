@@ -103,15 +103,15 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
     /**
      * Some identifier to manage session
      */
-    public enum SESSION implements Serializable {
-        USER_SESSION("userSession"),
+    public enum BaseSessionInformation implements Serializable {
+        USER_SESSION("CurrentUser"),
         AUTH_TIME("authTime"),
         REMOTE_ADDR("remoteAddr"),
         HEADER("clientHeader");
 
         private String value;
 
-        private SESSION(String val) {
+        private BaseSessionInformation(String val) {
             this.value = val;
         }
 
@@ -120,8 +120,8 @@ public class DefaultWebAppConfiguration implements WebAppConfiguration {
          * @param v
          * @return
          */
-        public SESSION valueOfSession(String v) {
-            for (SESSION s : SESSION.values()) {
+        public BaseSessionInformation valueOfSession(String v) {
+            for (BaseSessionInformation s : BaseSessionInformation.values()) {
                 if (s.toString().equals(v)) {
                     return s;
                 }

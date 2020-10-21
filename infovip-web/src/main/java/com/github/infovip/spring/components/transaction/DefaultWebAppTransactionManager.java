@@ -12,7 +12,7 @@ import com.github.infovip.core.data.type.TransactionType;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.es.type.DefaultDocumentType;
-import com.github.infovip.web.application.business.BusinessContainerManager;
+import com.github.infovip.web.application.business.ClientContainerManager;
 import com.github.infovip.web.application.transaction.TransactionValue;
 
 @Component
@@ -27,7 +27,7 @@ public class DefaultWebAppTransactionManager {
 	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
 	
 	@Autowired
-	private BusinessContainerManager<?> businessContainer;
+	private ClientContainerManager<?> businessContainer;
 	
 	public DefaultWebAppTransactionManager() {
 		

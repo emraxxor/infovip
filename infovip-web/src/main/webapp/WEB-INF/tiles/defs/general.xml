@@ -28,43 +28,29 @@
 		<put-attribute name="header" value="/WEB-INF/tiles/views/internal/DefaultHeader.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/tiles/views/internal/DefaultFooter.jsp" />
 	</definition>
-   
-
-	<!--  New home page -->
+  
+  
 	<definition name="default.tile.front" extends="default.internal.page">
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/jquery/jquery.nav.js" />
-			<add-attribute value="/lib/jquery/jquery.magnific-popup.min.js" />
-			<add-attribute value="/lib/jquery/isotope.pkgd.min.js" />
-			<add-attribute value="/lib/jquery/imagesloaded.pkgd.min.js" />
-			<add-attribute value="/lib/jquery/masonry.pkgd.min.js" />
-			<add-attribute value="/lib/jquery/jquery.countTo.js" />
-			<add-attribute value="/lib/jquery/jquery.sticky.js" />
-			<add-attribute value="/lib/jquery/jquery.appear.js" />
-			<add-attribute value="/lib/jquery/owl.carousel.min.js" />
-			<add-attribute value="/lib/jquery/jquery.stellar.min.js" />
-			<add-attribute value="/lib/jquery/moment.js" />
-			<add-attribute value="/lib/jquery/bootstrap-datetimepicker.min.js" />
-			<add-attribute value="/lib/unibox/unibox.js" />
 			<!--  add-attribute value="/js/web/google/google.js" / -->
 			<add-attribute value="/lib/numeral/numeral.min.js" />
 			<add-attribute value="/webpack/dist/front.bundle.js" />
 		</put-list-attribute>
 		<put-list-attribute name="pageCss" inherit="true">
-			<add-attribute value="/lib/unibox/unibox.min.css" />
-			<!--  add-attribute value="/template/social/template.css" />
-			<add-attribute value="/template/social/style.css" />
-			<add-attribute value="/template/social/responsive.css" />
-			<add-attribute value="/css/home.css" / -->
 			<add-attribute value="/css/flexslider-for-posts.min.css" />
 			<add-attribute value="/css/flexslider.min.css" />
 			<add-attribute value="/css/icon-font.min.css" />
 			<add-attribute value="/css/icons-fonts.min.css" />
 			<add-attribute value="/css/fonts-awesome.css" />
 			<add-attribute value="/css/animate.min.css" />
-			<add-attribute value="/lib/jquery/owl-carousel/css/owl.carousel.css" />
-			<add-attribute value="/lib/jquery/owl-carousel/css/owl.theme.css" />
-			<add-attribute value="/lib/jquery/owl-carousel/css/owl.transitions.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="default.user.tile.front" extends="default.tile.front">
+		<put-list-attribute name="pageJs" inherit="true">
+			<add-attribute value="/webpack/dist/user.bundle.js" />
+		</put-list-attribute>
+		<put-list-attribute name="pageCss" inherit="true">
 		</put-list-attribute>
 	</definition>
 
@@ -92,12 +78,10 @@
 	
 	
 	<!--  Acitivity page -->
-	<definition name="tile.activity.page" extends="default.tile.front">
+	<definition name="tile.activity.page" extends="default.user.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/activity/ActivityBody.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
-			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
+			<add-attribute value="/webpack/dist/tinymce.bundle.js" />
 			<add-attribute value="/js/web/activity/ActivityCore.js" />
 		</put-list-attribute>
 		<put-list-attribute name="pageCss" inherit="true">
@@ -119,12 +103,10 @@
 	
 	
 	<!--  User gallery -->
-	<definition name="tile.user.gallery.page" extends="default.tile.front">
+	<definition name="tile.user.gallery.page" extends="default.user.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/gallery/UserGalleryBody.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
-			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
+			<add-attribute value="/webpack/dist/user.js"></add-attribute>
 			<add-attribute value="/js/web/activity/ActivityCore.js" />
 		</put-list-attribute>
 		<put-list-attribute name="pageCss" inherit="true">
@@ -132,12 +114,9 @@
 	</definition>	
 	
 	<!--  User settings / general page -->
-	<definition name="tile.user.settings.general.page" extends="default.tile.front">
+	<definition name="tile.user.settings.general.page" extends="default.user.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/settings/GeneralSettingsBody.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
-			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
 			<add-attribute value="/js/web/user/settings/general/GeneralSettingsCore.js" />
 		</put-list-attribute>
 		<put-list-attribute name="pageCss" inherit="true">
@@ -146,12 +125,9 @@
 	
 	
 	<!--  User Profile page -->
-	<definition name="tile.user.profile.page" extends="default.tile.front">
+	<definition name="tile.user.profile.page" extends="default.user.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/UserProfileBody.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
-			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
 		</put-list-attribute>
 		<put-list-attribute name="userJs" inherit="true">
 			<add-attribute value="/js/web/user/profile/UserProfileCore.js" />
@@ -162,12 +138,9 @@
 	
 	
 	<!--  User Activity page -->
-	<definition name="tile.user.activity.page" extends="default.tile.front">
+	<definition name="tile.user.activity.page" extends="default.user.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/UserActivityBody.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
-			<add-attribute value="/lib/webix/codebase/tinymce/tinymce.min.js" />
 			<add-attribute value="/js/web/activity/ActivityCore.js" />
 		</put-list-attribute>
 		<put-list-attribute name="userJs" inherit="true">
@@ -179,14 +152,10 @@
 	
 	
 	<!--  User media page -->
-	<definition name="tile.user.media.page" extends="default.tile.front">
+	<definition name="tile.user.media.page" extends="default.user.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/media/UserMediaBody.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/unibox/unibox.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
 			<add-attribute value="/lib/bingdian-waterfall/waterfall.js" />
-			<add-attribute value="/lib/jquery/owl.carousel.min.js" />
 			<add-attribute value="/lib/numeral/numeral.min.js" />
 			<add-attribute value="/js/web/user/media/MediaCore.js" />
 		</put-list-attribute>
@@ -199,14 +168,10 @@
 	
 	
 	<!--  User photo page -->
-	<definition name="tile.user.photo.page" extends="default.tile.front">
+	<definition name="tile.user.photo.page" extends="default.user.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/photo/UserPhotoBody.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/unibox/unibox.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
-			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
 			<add-attribute value="/lib/bingdian-waterfall/waterfall.js" />
-			<add-attribute value="/lib/jquery/owl.carousel.min.js" />
 			<add-attribute value="/lib/numeral/numeral.min.js" />
 			<add-attribute value="/js/web/user/photo/PhotoCore.js" />
 		</put-list-attribute>
@@ -228,7 +193,7 @@
 	</definition>	
 	
 
-	<!--  Members page -->
+	<!--  404 page -->
 	<definition name="tile.exception.404" extends="default.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/static/404Body.jsp"></put-attribute>
 	</definition>	
@@ -237,11 +202,9 @@
 	<definition name="tile.members.general.page" extends="default.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/member/UserMemberPage.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/lib/unibox/unibox.js" />
 			<add-attribute value="/lib/bingdian-waterfall/libs/handlebars/handlebars.js" />
 			<add-attribute value="/lib/bingdian-waterfall/libs/mustache/mustache.js" />
 			<add-attribute value="/lib/bingdian-waterfall/waterfall.js" />
-			<add-attribute value="/lib/jquery/owl.carousel.min.js" />
 			<add-attribute value="/lib/numeral/numeral.min.js" />
 			<add-attribute value="/js/web/member/member-page/MemberPageCore.js" />
 		</put-list-attribute>

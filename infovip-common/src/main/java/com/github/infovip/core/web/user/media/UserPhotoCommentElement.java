@@ -11,11 +11,14 @@ import com.github.infovip.core.web.validation.AllowEmpty;
 import com.github.infovip.core.web.validation.NotEmpty;
 import com.github.infovip.core.web.validation.Numeric;
 
+import lombok.Data;
+
 /**
  * 
  * @author Attila Barna
  *
  */
+@Data
 public class UserPhotoCommentElement implements ESDataElement<UserPhotoCommentElement>, FormData, Serializable {
 
 	/**
@@ -70,57 +73,6 @@ public class UserPhotoCommentElement implements ESDataElement<UserPhotoCommentEl
 		this.documentId = documentId;
 		return this;
 	}
-
-	public String getMediaId() {
-		return mediaId;
-	}
-
-	public void setMediaId(String mediaId) {
-		this.mediaId = mediaId;
-	}
-
-	public String getPhotoId() {
-		return photoId;
-	}
-
-	public void setPhotoId(String photoId) {
-		this.photoId = photoId;
-	}
-
-
-	public String getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(String creationTime) {
-		this.creationTime = creationTime;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
-	public Long getCommenter() {
-		return commenter;
-	}
-
-	public void setCommenter(Long commenter) {
-		this.commenter = commenter;
-	}
-
-	public String getCommenterName() {
-		return commenterName;
-	}
-
-	public void setCommenterName(String commenterName) {
-		this.commenterName = commenterName;
-	}
-
-	
 
 
 }

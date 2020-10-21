@@ -8,11 +8,14 @@ import com.github.infovip.core.date.DefaultDateFormatter;
 import com.github.infovip.core.es.type.IgnoreField;
 import com.github.infovip.core.web.validation.AllowEmpty;
 
+import lombok.Data;
+
 /**
  * 
  * @author Attila Barna
  *
  */
+@Data
 public class UserMediaElement implements ESDataElement<UserMediaElement>,  Serializable  {
 
 	@IgnoreField
@@ -44,92 +47,6 @@ public class UserMediaElement implements ESDataElement<UserMediaElement>,  Seria
 		this.documentId = documentId;
 		return this;
 	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public UserPhotoElement getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(UserPhotoElement photo) {
-		this.photo = photo;
-	}
-	
-	
-
-	public String getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(String creationTime) {
-		this.creationTime = creationTime;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((creationTime == null) ? 0 : creationTime.hashCode());
-		result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((photo == null) ? 0 : photo.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UserMediaElement other = (UserMediaElement) obj;
-		if (creationTime == null) {
-			if (other.creationTime != null)
-				return false;
-		} else if (!creationTime.equals(other.creationTime))
-			return false;
-		if (documentId == null) {
-			if (other.documentId != null)
-				return false;
-		} else if (!documentId.equals(other.documentId))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (photo == null) {
-			if (other.photo != null)
-				return false;
-		} else if (!photo.equals(other.photo))
-			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		return true;
-	}
-	
-	
-	
 
 	
 }

@@ -30,7 +30,7 @@ import com.github.infovip.core.elasticsearch.ESConnection;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.es.query.DocumentManager;
-import com.github.infovip.web.application.business.BusinessContainerManager;
+import com.github.infovip.web.application.business.ClientContainerManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -43,7 +43,7 @@ import com.google.gson.JsonSyntaxException;
  */
 @Component
 @Primary
-public class DefaultDocumentManager implements BusinessContainerManager,  DocumentManager {
+public class DefaultDocumentManager implements ClientContainerManager,  DocumentManager {
 
 	
 	@Autowired

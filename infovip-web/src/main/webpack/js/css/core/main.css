@@ -139,3 +139,14 @@ span .warn-message ,  span.warn-message {
 div.media--comments textarea {
 	width: 100%;
 }
+
+.activity--avatar img {
+    margin: 0 !important;
+    width: 100%;
+    height: 100%;
+}
+
+
+.header--topbar-links > li > a {
+    color: white;
+}

@@ -117,7 +117,7 @@ export default {
                     o.v.user = o.res;
                     o.v.fetchComments();
                 });
-            this.mediaImage = '/public/media/image?' + this.item.data;
+            this.mediaImage = '/public/media/image?' + this.item.data + '_BIG';
         }
     },
 

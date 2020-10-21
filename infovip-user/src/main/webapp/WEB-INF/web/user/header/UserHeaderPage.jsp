@@ -17,11 +17,11 @@
 										<c:out value="${umenu}" escapeXml="false"></c:out>
 									</c:forEach>
 									
-                                    <li><a href="/user/${userSession.user.userId}/activity">Activity</a></li>
-                                    <li><a href="/user/${userSession.user.userId}/profile">Profile</a></li>
-                                    <li><a href="/user/${userSession.user.userId}/friends">Friends</a></li>
-                                    <li><a href="/user/${userSession.user.userId}/media">Media</a></li>
-                                    <li><a href="/user/${userSession.user.userId}/photo">Photo</a></li>
+                                    <li><a href="/user/${CurrentUser.user.userId}/activity">Activity</a></li>
+                                    <li><a href="/user/${CurrentUser.user.userId}/profile">Profile</a></li>
+                                    <li><a href="/user/${CurrentUser.user.userId}/friends">Friends</a></li>
+                                    <li><a href="/user/${CurrentUser.user.userId}/media">Media</a></li>
+                                    <li><a href="/user/${CurrentUser.user.userId}/photo">Photo</a></li>
                                      
 	                                <c:forEach items="${MENU_AFTER}" var="umenu">
 									        <c:out value="${umenu}" escapeXml="false"></c:out><br/>

@@ -9,7 +9,7 @@
 <%@taglib uri="http://tiles.apache.org/tags-tiles-extras" prefix="tilesx" %>
 
 
-<c:if test="${userSession.authenticated}">
+<c:if test="${CurrentUser.authenticated}">
 	<tilesx:useAttribute id="currentPageCss" name="pageCss" classname="java.util.List" />
 	<tilesx:useAttribute id="currentPageJs" name="pageJs" classname="java.util.List" />
 	

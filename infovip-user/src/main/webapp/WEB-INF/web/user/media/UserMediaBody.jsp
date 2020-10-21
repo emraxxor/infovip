@@ -5,8 +5,6 @@
 <%@ taglib uri="/tlds/module-manager" prefix="module"%>
 <%@ taglib uri="/tlds/translate" prefix="tr"%>
 
-<c:if test="${not empty isAuthenticated and isAuthenticated == true }">
-
 	<tiles:insertTemplate template="${Configuration.WEB_DIRECTORY}/user/template/DefaultUserPage.jsp">
 		<tiles:putAttribute name="MAIN_CONTENT">
 
@@ -32,7 +30,7 @@
 							</ul>
 						</div>
 
-						<c:if test="${ userSession.user.userId == MediaUserId }">
+						<c:if test="${ CurrentUser.user.userId == MediaUserId }">
 							<div class="filter--options float--right">
 									<div class="gallery--upload-btn ff--primary float--right">
 	                                    <a class="btn btn-sm btn-default btn-new-album"><i class="mr--10 fa fa-cloud-upload"></i>New Album</a>
@@ -51,5 +49,3 @@
 		</tiles:putAttribute>
 
 	</tiles:insertTemplate>
-	
-</c:if>		

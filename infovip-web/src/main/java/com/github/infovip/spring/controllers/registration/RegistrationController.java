@@ -82,6 +82,7 @@ public class RegistrationController {
 	    			u.getLogRegistration().setIp(request.getRemoteAddr());
 	    			u.getLogRegistration().setCreationTime(DefaultDateFormatter.timestamp());
 	    			u.setLastSeen(DefaultDateFormatter.timestamp());
+	    			u.setIsActive(true);
 	    			userService.save(u);
 	    			
 	    			smtpClient.sendHTML(

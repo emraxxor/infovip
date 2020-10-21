@@ -3,22 +3,23 @@ package com.github.infovip.spring.controllers.user.blog;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.github.infovip.configuration.EJBConfiguration;
-import com.github.infovip.configuration.EJBConfiguration.EJB_MODULE;
 import com.github.infovip.configuration.UserConfiguration;
-import com.github.infovip.core.BlogManager;
 import com.github.infovip.core.date.DefaultDateFormatter;
 import com.github.infovip.core.date.DefaultDateFormatter.DATE_FORMAT;
 import com.github.infovip.entities.UserBlog;
+import com.github.infovip.services.UserBlogService;
+import com.github.infovip.user.CurrentUser;
 import com.github.infovip.web.user.data.types.UserBlogFormDataElement;
 import com.github.infovip.web.user.data.types.UserBlogFormDataElementValidator;
 
@@ -32,24 +33,25 @@ import com.github.infovip.web.user.data.types.UserBlogFormDataElementValidator;
  * @author Attila Barna
  *
  */
-@Controller
-@RequestMapping("/user/blog")
+@RestController
+@RequestMapping("/user/{id}/blog")
 public class BlogController {
 	
-	private BlogManager bm = EJBConfiguration.lookupLocal(BlogManager.class, EJB_MODULE.INFOVIP_USER);
-
+	@Autowired
+	private UserBlogService blogService;
 	
 	@RequestMapping(path= "/list",method = {RequestMethod.GET, RequestMethod.POST })
-    public  @ResponseBody Object list(
-    		@RequestParam(name = "offset", defaultValue = "0", required = false) Integer offset,
+    public  Object list(
+    		@PathVariable(name = "id") Long id,
+    		@RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
     		HttpServletRequest request, HttpServletResponse response,  
     		SessionStatus status, Model model) {
-		return bm.findAll( UserConfiguration.config(request).getId(), offset, 12 ).stream().map( e -> new UserBlogFormDataElement(e));
+		return blogService.findAllByUser( id  ,  PageRequest.of( page , 12) ).stream().map( e -> new UserBlogFormDataElement(e));
 	}
 	
 	
 	@RequestMapping(path= "/update",method = {RequestMethod.GET, RequestMethod.POST })
-    public  @ResponseBody Object update(
+    public  Object update(
     		@ModelAttribute UserBlogFormDataElement data, 
     		HttpServletRequest request, HttpServletResponse response,  
     		SessionStatus status, Model model) {
@@ -61,21 +63,21 @@ public class BlogController {
 			
 			UserBlog ub = data.toDataElement(UserBlog.class);
 			ub.setUserId( UserConfiguration.config(request).getId() );
-			bm.update(ub);
+			blogService.save(ub);
 		}
 		
 		return validator.responses();	
 	}
 	
 	@RequestMapping(path= "/create",method = {RequestMethod.GET, RequestMethod.POST })
-    public  @ResponseBody Object create(
+    public Object create(
     		@ModelAttribute UserBlogFormDataElement data, 
     		HttpServletRequest request, HttpServletResponse response,  
     		SessionStatus status, Model model) {
 		
 		UserBlogFormDataElementValidator validator = new UserBlogFormDataElementValidator(data);
 		if ( validator.validate() ) {
-			UserBlog ub = bm.createBlog(UserConfiguration.config(request).getId(), data.getBname());
+			UserBlog ub = blogService.createBlog( CurrentUser.id() , data.getBname());
 			return new UserBlogFormDataElement(ub);
 		} 
 

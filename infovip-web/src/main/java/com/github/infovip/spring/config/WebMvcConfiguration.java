@@ -65,7 +65,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/lib/**").addResourceLocations("/webjars");
         registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
-        registry.addResourceHandler("/modules/**").addResourceLocations("/WEB-INF/web/modules/");
+        //registry.addResourceHandler("/modules/**").addResourceLocations("/WEB-INF/web/modules/");
         registry.addResourceHandler("/robots.txt").addResourceLocations("/WEB-INF/robots.txt");
     }
 

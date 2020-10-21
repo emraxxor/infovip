@@ -28,8 +28,6 @@ public class JavascriptManager extends DefaultManager<JavaScript> {
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.WEBPACK_DIRECTORY + "/bootstrap.bundle.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.WEBPACK_DIRECTORY + "/vue.bundle.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.WEBPACK_DIRECTORY + "/app.bundle.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/easejs/ease-latest.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
-        this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/jquery/infinite-scroll/jquery.infinitescroll.min.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/lib/highslide/highslide/highslide-full.packed.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/core/runnable/Runnable.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));
         this.addElement(new JavaScript(Configuration.APPLICATION_CONTEXT_NAME + Configuration.RESOURCES_DIRECTORY + "/js/core/Configuration.js", JavaScript.ScriptType.TEXT_JAVASCRIPT));

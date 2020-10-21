@@ -35,7 +35,9 @@ public class DefaultEntityManagerConfiguration {
         emf.setLoadTimeWeaver(new JBossLoadTimeWeaver());
         return emf;
     }
-   
+  
+    
+    
     
     /**
      * Default transaction-manager that is used by the repositories

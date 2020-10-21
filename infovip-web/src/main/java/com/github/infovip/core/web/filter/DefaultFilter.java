@@ -4,7 +4,7 @@ import static com.github.infovip.core.Configuration.BEAN_MODULE_ID;
 import static com.github.infovip.core.Configuration.CONTEXT_PATH_ID;
 import static com.github.infovip.core.Configuration.RESOURCES_ID;
 import static com.github.infovip.core.Configuration.RESOURCES_DIRECTORY;
-import static com.github.infovip.core.session.SESSION.IS_AUTHENTICATED;
+import static com.github.infovip.core.session.DefaultUserSession.IS_AUTHENTICATED;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -23,7 +23,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.github.infovip.configuration.DefaultWebAppConfiguration.SESSION;
+import com.github.infovip.configuration.DefaultWebAppConfiguration.BaseSessionInformation;
 import com.github.infovip.core.basic.jsp.ModuleManager;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
 import com.github.infovip.core.web.user.UserSession;
@@ -66,7 +66,7 @@ public class DefaultFilter implements Filter {
         this.servletContext.setAttribute(RESOURCES_ID, this.servletContext.getContextPath() + RESOURCES_DIRECTORY);
         this.request.setAttribute(BEAN_MODULE_ID, new ModuleManager());
         
-        if ( this.session.getAttribute(SESSION.USER_SESSION.toString()) != null &&   ( (UserSession) this.session.getAttribute(SESSION.USER_SESSION.toString()) ).isAuthenticated() ) 
+        if ( this.session.getAttribute(BaseSessionInformation.USER_SESSION.toString()) != null &&   ( (UserSession) this.session.getAttribute(BaseSessionInformation.USER_SESSION.toString()) ).isAuthenticated() ) 
         	this.request.setAttribute(IS_AUTHENTICATED.value(), true);
         
     }

@@ -45,7 +45,7 @@ public class WebModule extends DefaultModule {
     @Override
     public int doStartTag() throws JspException {
         context = RequestContextUtils.findWebApplicationContext((HttpServletRequest) pageContext.getRequest());
-        if (authenticated == true && ((UserSession) context.getBean(sessionValue( Configuration.SESSION.USER_SESSION))).isAuthenticated().equals(false)) {
+        if (authenticated == true && ((UserSession) context.getBean(sessionValue( Configuration.BaseSessionInformation.USER_SESSION))).isAuthenticated().equals(false)) {
             return SKIP_PAGE;
         }
         return super.doStartTag();

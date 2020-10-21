@@ -6,16 +6,25 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.github.infovip.core.web.user.CurrentWebUserSession;
+import com.github.infovip.core.web.user.CurrentUserInfo;
 import com.github.infovip.core.web.user.UserSession;
 import com.github.infovip.core.web.user.WebUser;
 import com.github.infovip.entities.User;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 
  * @author Attila Barna
  *
  */
-public class ApplicationUser implements UserDetails, WebUser {
+@Getter
+@Setter
+@EqualsAndHashCode
+public class ApplicationUser implements UserDetails, WebUser, CurrentWebUserSession<User> {
 
 	private final List<? extends GrantedAuthority> grantedAuthorities;
 	
@@ -37,7 +46,6 @@ public class ApplicationUser implements UserDetails, WebUser {
 	
 	private UserSession userSession;
 	
-	
 	public ApplicationUser(List<? extends GrantedAuthority> grantedAuthorities, User u) {
 		super();
 		this.grantedAuthorities = grantedAuthorities;
@@ -51,13 +59,6 @@ public class ApplicationUser implements UserDetails, WebUser {
 		this.user = u;
 	}
 
-	public User getUser() {
-		return user;
-	}
-	
-	public UserSession getUserSession() {
-		return userSession;
-	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -93,10 +94,6 @@ public class ApplicationUser implements UserDetails, WebUser {
 	public boolean isEnabled() {
 		return isEnabled;
 	}
-	
-	public void setUserSession(UserSession userSession) {
-		this.userSession = userSession;
-	}
 
 	@Override
 	public Long userId() {
@@ -112,6 +109,11 @@ public class ApplicationUser implements UserDetails, WebUser {
 	public String userMailAddress() {
 		return this.getUser().getUserMail();
 	}
-	
+
+
+	@Override
+	public CurrentUserInfo<User> current() {
+		return userSession;
+	}
 	
 }

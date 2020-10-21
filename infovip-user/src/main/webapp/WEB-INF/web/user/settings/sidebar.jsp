@@ -10,10 +10,6 @@
 <div class="theiaStickySidebar"
 	style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 382.5px;">
 
-
-
-
-
 	<div class="widget">
 		<h2 class="h4 fw--700 widget--title">General</h2>
 

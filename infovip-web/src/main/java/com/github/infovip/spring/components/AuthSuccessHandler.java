@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.github.infovip.configuration.DefaultWebAppConfiguration.SESSION;
+import com.github.infovip.configuration.DefaultWebAppConfiguration.BaseSessionInformation;
 import com.github.infovip.core.date.DefaultDateFormatter;
 import com.github.infovip.core.log.BaseLogElement;
 import com.github.infovip.core.log.LogManager;
@@ -55,10 +55,10 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         
         au.setUserSession(userSession);
         
-        request.getSession().setAttribute(SESSION.USER_SESSION.toString(), userSession);
-        request.getSession().setAttribute(SESSION.AUTH_TIME.toString(), new Date(System.currentTimeMillis()));
-        request.getSession().setAttribute(SESSION.REMOTE_ADDR.toString(), request.getRemoteAddr());
-        request.getSession().setAttribute(SESSION.HEADER.toString(), request.getHeader("User-Agent"));
+        request.getSession().setAttribute(BaseSessionInformation.USER_SESSION.toString(), userSession);
+        request.getSession().setAttribute(BaseSessionInformation.AUTH_TIME.toString(), new Date(System.currentTimeMillis()));
+        request.getSession().setAttribute(BaseSessionInformation.REMOTE_ADDR.toString(), request.getRemoteAddr());
+        request.getSession().setAttribute(BaseSessionInformation.HEADER.toString(), request.getHeader("User-Agent"));
         u.setLastSeen(DefaultDateFormatter.timestamp());
         userService.save(u);
         

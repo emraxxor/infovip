@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<c:if test="${not empty isAuthenticated and isAuthenticated == true }">
 
 	<tiles:insertTemplate template="${Configuration.WEB_DIRECTORY}/user/template/DefaultUserPage.jsp">
 		<tiles:putAttribute name="MAIN_CONTENT">
@@ -94,4 +93,3 @@
 
 	</tiles:insertTemplate>
 	
-</c:if>

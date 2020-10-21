@@ -204,8 +204,8 @@
 					<jdbc>
 						<driver>org.postgresql.Driver</driver>
 						<url>jdbc:postgresql://127.0.0.1/ivip</url>
-						<user>postgres</user>
-						<password>postgres</password>
+						<user>ivip</user>
+						<password>ivip</password>
 					</jdbc>
 
 					<!-- Generator parameters -->

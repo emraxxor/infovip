@@ -136,7 +136,7 @@ public class Configuration extends DefaultWebAppConfiguration {
      * @param s
      * @return
      */
-    public static final String sessionValue(SESSION s) {
+    public static final String sessionValue(BaseSessionInformation s) {
         return s.toString();
     }
 

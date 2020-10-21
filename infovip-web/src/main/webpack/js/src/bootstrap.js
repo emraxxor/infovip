@@ -11,7 +11,9 @@ window._ = require('lodash');
 
 try {
     window.Popper = require('popper.js').default;
-    window.jQuery = require('jquery'),  require('jquery-ui');
+    window.jQuery = require('jquery'),  require('jquery-ui')
+    require('../lib/jquery/jquery.sticky')
+    require('../lib/jquery/isotope.pkgd.min')
     require('bootstrap');
 } catch (e) {
     console.error(e);

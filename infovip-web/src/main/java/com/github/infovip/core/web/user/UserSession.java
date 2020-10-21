@@ -22,11 +22,16 @@ import java.util.Objects;
 import com.github.infovip.core.Container;
 import com.github.infovip.entities.User;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  *
  * @author attila
  */
 
+@Data
+@NoArgsConstructor
 public class UserSession implements CurrentUserInfo<User>, WebUser {
 
     /**
@@ -68,74 +73,6 @@ public class UserSession implements CurrentUserInfo<User>, WebUser {
     private DefaultApplicationRole role;
     
 
-    public UserSession() {
-    }
-    
-    
-    public void setRole(DefaultApplicationRole role) {
-    	this.role = role;
-    }
-    
-    public DefaultApplicationRole getRole() {
-    	return this.role;
-    }    
-    
-    public Long getUserId() {
-		return userId;
-	}
-
-
-	public User getUser() {
-		return user;
-	}
-
-
-	public void setAuthenticated(Boolean authenticated) {
-		this.authenticated = authenticated;
-	}
-
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-    public Container getContainer() {
-        return container;
-    }
-
-    public void setContainer(Container container) {
-        this.container = container;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserMail() {
-        return userMail;
-    }
-
-    public void setUserMail(String userMail) {
-        this.userMail = userMail;
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    
-    public void setUser(User user) {
-		this.user = user;
-	}
-
     @Override
     public Boolean isAuthenticated() {
     	return this.authenticated;
@@ -162,51 +99,6 @@ public class UserSession implements CurrentUserInfo<User>, WebUser {
     public Long userId() {
     	return userId;
     }
-
-    @Override
-    public String toString() {
-        return "UserSession{" + "authenticated=" + authenticated + ", userName=" + userName + ", userMail=" + userMail + ", registrationDate=" + registrationDate + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 47 * hash + Objects.hashCode(this.authenticated);
-        hash = 47 * hash + Objects.hashCode(this.userName);
-        hash = 47 * hash + Objects.hashCode(this.userMail);
-        hash = 47 * hash + Objects.hashCode(this.registrationDate);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final UserSession other = (UserSession) obj;
-        if (!Objects.equals(this.userName, other.userName)) {
-            return false;
-        }
-        if (!Objects.equals(this.userMail, other.userMail)) {
-            return false;
-        }
-        if (!Objects.equals(this.authenticated, other.authenticated)) {
-            return false;
-        }
-        if (!Objects.equals(this.registrationDate, other.registrationDate)) {
-            return false;
-        }
-        return true;
-    }
-
-
-
 
 
 }

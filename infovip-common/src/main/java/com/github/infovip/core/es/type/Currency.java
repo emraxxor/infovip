@@ -1,7 +1,5 @@
 package com.github.infovip.core.es.type;
 
-import com.github.infovip.core.data.type.TransactionType;
-
 public enum Currency {
 
 	HUF("HUF"),

@@ -20,7 +20,7 @@ public class SqlConnection {
 
     public void init(String dburl, String user, String password) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             setConn(DriverManager.getConnection(dburl, user, password));
             stmt = conn.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {

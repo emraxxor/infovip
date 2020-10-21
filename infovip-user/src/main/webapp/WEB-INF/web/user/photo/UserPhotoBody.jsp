@@ -5,8 +5,6 @@
 <%@ taglib uri="/tlds/module-manager" prefix="module"%>
 <%@ taglib uri="/tlds/translate" prefix="tr"%>
 
-<c:if test="${not empty isAuthenticated and isAuthenticated == true }">
-
 	<tiles:insertTemplate template="${Configuration.WEB_DIRECTORY}/user/template/DefaultUserPage.jsp">
 		<tiles:putAttribute name="MAIN_CONTENT">
 
@@ -46,4 +44,3 @@
 
 	</tiles:insertTemplate>
 	
-</c:if>		

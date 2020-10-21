@@ -202,7 +202,7 @@ public class ActivityController {
     	
     	ActivityCommentElement ace = new ActivityCommentElement(id);
     	ace.setUid(u.getUserId());
-    	ace.setUserName(u.getUserRealName());
+    	ace.setUserName(u.getUserName());
     	ace.setText(text);
     	ace.setPostType(ActivityJoinType.REPLY.value());
     	ace.setJoin(new ESDefaultJoinRelation(ActivityJoinType.REPLY.value(), id));
@@ -232,7 +232,7 @@ public class ActivityController {
     	
     	ActivityCommentElement ace = new ActivityCommentElement(id);
     	ace.setUid(u.getUserId());
-    	ace.setUserName(u.getUserRealName());
+    	ace.setUserName(u.getUserName());
     	ace.setText(text);
     	
     	ActivityPost<ActivityCommentElement> doc = new ActivityPost<ActivityCommentElement>(ace);
@@ -260,7 +260,7 @@ public class ActivityController {
 		CurrentUserInfo<User> usession = UserConfiguration.config(request).getSession();
     	User u = usession.getUser();
     	post.setUid(u.getUserId());
-    	post.setUserName(u.getUserRealName());
+    	post.setUserName(u.getUserName());
     	ActivityPost<ActivityPostElement> doc = new ActivityPost<ActivityPostElement>(post);
     	IndexResponse ir = (IndexResponse) esContainer.executeSynchronusRequest(doc.operationIndex());
     	return documentManager.findByDocumentId(ir.getId(), ir.getIndex(),  new TypeToken<ActivityPostElement>(){}.getType() );

@@ -10,6 +10,8 @@ module.exports = {
       front : './src/front.js',
       vue : './src/vue.js',
       module: './src/module.js',
+      user : './src/user.js',
+      tinymce : './src/tinymce.js',
       shared: 'lodash',
   },
   resolve: {

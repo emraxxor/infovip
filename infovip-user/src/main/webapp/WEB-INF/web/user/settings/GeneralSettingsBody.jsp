@@ -6,8 +6,6 @@
 <%@ taglib uri="/tlds/module-manager" prefix="module"%>
 <%@ taglib uri="/tlds/translate" prefix="tr"%>
 
-<c:if test="${not empty isAuthenticated and isAuthenticated == true }">
-
 	<section class="page--wrapper pt--80 pb--20" style="transform: none;">
 		<div class="container" style="transform: none;">
 			<div class="row" style="transform: none;">
@@ -149,6 +147,3 @@
 			</div>
 		</div>
 	</section>
-
-
-</c:if>

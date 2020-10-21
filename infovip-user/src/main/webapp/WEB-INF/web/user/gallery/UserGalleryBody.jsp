@@ -4,10 +4,3 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="/tlds/module-manager" prefix="module"%>
 <%@ taglib uri="/tlds/translate" prefix="tr"%>
-
-
-<c:if test="${not empty isAuthenticated and isAuthenticated == true }">
-
-
-
-</c:if>

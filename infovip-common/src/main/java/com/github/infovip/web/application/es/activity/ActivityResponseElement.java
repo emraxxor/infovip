@@ -5,11 +5,16 @@ import java.util.List;
 
 import com.google.gson.annotations.Expose;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * 
  * @author Attila Barna
  *
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class ActivityResponseElement extends ActivityPostElement {
 
 	@Expose(serialize=false,deserialize=false)
@@ -34,38 +39,8 @@ public class ActivityResponseElement extends ActivityPostElement {
 		this.comments.add(e);
 	}
 	
-	public void setTotalLikeCount(long totalLikeCount) {
-		this.totalLikeCount = totalLikeCount;
-	}
-	
-	public long getTotalLikeCount() {
-		return totalLikeCount;
-	}
-	
-	/**
-	 * @return the comments
-	 */
-	public List<ActivityCommentElement> getComments() {
-		return comments;
-	}
-
-	/**
-	 * @param comments the comments to set
-	 */
-	public void setComments(List<ActivityCommentElement> comments) {
-		this.comments = comments;
-	}
-
-	public void setLikes(List<ActivityLikeElement> likes) {
-		this.likes = likes;
-	}
-	
 	public void addLike(ActivityLikeElement e) {
 		this.likes.add(e);
-	}
-	
-	public List<?> getLikes() {
-		return likes;
 	}
 	
 	

@@ -2,7 +2,7 @@ package com.github.infovip.configuration;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.infovip.core.session.SESSION;
+import com.github.infovip.core.session.DefaultUserSession;
 import com.github.infovip.core.web.user.CurrentUserInfo;
 import com.github.infovip.core.web.user.WebUser;
 
@@ -25,8 +25,8 @@ public class UserConfiguration {
 	
 	public String userIdentifier() {
 		try {
-			if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
-				WebUser u = (WebUser) request.getSession().getAttribute(SESSION.USER_SESSION.value());
+			if (request.getSession().getAttribute(DefaultUserSession.USER_SESSION.value()) != null) {
+				WebUser u = (WebUser) request.getSession().getAttribute(DefaultUserSession.USER_SESSION.value());
 				return u.userIdentifier();
 			}
 		} catch (Exception e) {
@@ -37,8 +37,8 @@ public class UserConfiguration {
 
 	public Long getId() {
 		try {
-			if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
-				WebUser u = (WebUser) request.getSession().getAttribute(SESSION.USER_SESSION.value());
+			if (request.getSession().getAttribute(DefaultUserSession.USER_SESSION.value()) != null) {
+				WebUser u = (WebUser) request.getSession().getAttribute(DefaultUserSession.USER_SESSION.value());
 				return u.userId();
 			}
 		} catch (Exception e) {
@@ -49,8 +49,8 @@ public class UserConfiguration {
 
 	@SuppressWarnings("rawtypes")
 	public CurrentUserInfo getSession() {
-		if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) 
-			return (CurrentUserInfo) request.getSession().getAttribute(SESSION.USER_SESSION.value()) ;
+		if (request.getSession().getAttribute(DefaultUserSession.USER_SESSION.value()) != null) 
+			return (CurrentUserInfo) request.getSession().getAttribute(DefaultUserSession.USER_SESSION.value()) ;
 		
 		return null;
 	}
@@ -58,8 +58,8 @@ public class UserConfiguration {
 	@SuppressWarnings("rawtypes")
 	public Boolean isAuthenticated() {
 		try {
-			if (request.getSession().getAttribute(SESSION.USER_SESSION.value()) != null) {
-				return ((CurrentUserInfo)request.getSession().getAttribute(SESSION.USER_SESSION.value())).isAuthenticated();
+			if (request.getSession().getAttribute(DefaultUserSession.USER_SESSION.value()) != null) {
+				return ((CurrentUserInfo)request.getSession().getAttribute(DefaultUserSession.USER_SESSION.value())).isAuthenticated();
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Not supported session!");
