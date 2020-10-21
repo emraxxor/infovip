@@ -1,0 +1,17 @@
+{
+	"user-media": {
+		"mappings": {
+			"properties": {
+				"creationTime": {
+					"type": "date"
+				},
+				"name": {
+					"type": "keyword"
+				},
+				"userId": {
+					"type": "long"
+				}
+			}
+		}
+	}
+}

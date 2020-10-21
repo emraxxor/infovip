@@ -1,0 +1,73 @@
+{
+			"properties": {
+				"date": {
+					"type": "date"
+				},
+				"doc": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"documentId": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"join": {
+					"type": "join",
+					"eager_global_ordinals": true,
+					"relations": {
+						"eager_global_ordinals": "true",
+						"post": ["comment", "like-post"],
+						"comment": ["like-comment", "reply"]
+					}
+				},
+				"like": {
+					"type": "long"
+				},
+				"parentDocument": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"postType": {
+					"type": "keyword"
+				},
+				"text": {
+					"type": "text"
+				},
+				"totalLikeCount": {
+					"type": "long"
+				},
+				"type": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"uid": {
+					"type": "long"
+				},
+				"userImage": {
+					"type": "keyword"
+				},
+				"userName": {
+					"type": "keyword"
+				}
+			}
+}
