@@ -18,8 +18,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.github.infovip.core.data.ESDataElement;
+import com.github.infovip.core.model.UserPhotoElement;
 import com.github.infovip.core.scroll.AbstractScrollSource;
-import com.github.infovip.core.web.user.media.UserPhotoElement;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

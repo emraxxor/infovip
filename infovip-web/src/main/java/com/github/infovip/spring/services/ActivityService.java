@@ -2,12 +2,14 @@ package com.github.infovip.spring.services;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.infovip.spring.elasticsearch.entities.ActivityLikeEntity;
 import com.github.infovip.spring.elasticsearch.repositories.ActivityLikeRepository;
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -45,9 +47,9 @@ public class ActivityService implements Serializable {
     * @param e
     * @return
     */
-   public ActivityLikeEntity save(ActivityLikeEntity e) {
+    public ActivityLikeEntity save(ActivityLikeEntity e) {
        repository.save(e);
        return e;
-   }
+    }
 
 }

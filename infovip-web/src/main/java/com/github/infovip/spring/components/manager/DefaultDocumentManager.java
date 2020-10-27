@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.github.infovip.core.data.BaseDataElement;
+import com.github.infovip.core.data.ESDataElement;
 import com.github.infovip.core.data.Field;
 import com.github.infovip.core.data.IndexMetaData;
 import com.github.infovip.core.elasticsearch.ESConnection;
@@ -43,18 +44,10 @@ import com.google.gson.JsonSyntaxException;
  */
 @Component
 @Primary
-public class DefaultDocumentManager implements ClientContainerManager,  DocumentManager {
-
+public class DefaultDocumentManager implements ClientContainerManager, DocumentManager {
 	
 	@Autowired
 	private RestHighLevelClient restHighLevelClient;
-
-	@Autowired
-	private ESContainerInterface<ESExtendedDataElement<?>> esContainer;
-	
-	@Autowired
-	private ESConnection esConnection;
-	
 	
 	public DefaultDocumentManager() {}
 
@@ -73,8 +66,8 @@ public class DefaultDocumentManager implements ClientContainerManager,  Document
 			if ( response.isExists() ) {
 				T data = new Gson().fromJson(response.getSourceAsString(), type);
 				
-				if ( data instanceof BaseDataElement )  
-					((BaseDataElement)data).setDocumentId(response.getId());
+				if ( data instanceof  ESDataElement<?>  )  
+					(( ESDataElement<?> )data).setDocumentId(response.getId());
 				
 				return data;
 				
@@ -116,10 +109,10 @@ public class DefaultDocumentManager implements ClientContainerManager,  Document
 			if ( response.getHits().getHits().length == 1 ) {
 				T data = gson.fromJson(response.getHits().getHits()[0].getSourceAsString(), type);
 				
-				if ( data instanceof BaseDataElement )  {
-					((BaseDataElement)data).setDocumentId(response.getHits().getHits()[0].getId());
+				if ( data instanceof ESDataElement<?>  )  {
+					((ESDataElement<?> )data).setDocumentId(response.getHits().getHits()[0].getId());
 					
-					if ( metaData.getRouting() != null ) 
+					if ( data instanceof BaseDataElement && metaData.getRouting() != null ) 
 						((BaseDataElement)data).setRouting(metaData.getRouting());
 				}
 				
@@ -137,6 +130,7 @@ public class DefaultDocumentManager implements ClientContainerManager,  Document
 		
 		try {
 			GetRequest grq = new GetRequest(meta.getIndexName());
+			grq.id(id);
 			grq.fetchSourceContext(FetchSourceContext.FETCH_SOURCE);
 			
 			if ( meta.getRouting() != null ) 
@@ -154,10 +148,12 @@ public class DefaultDocumentManager implements ClientContainerManager,  Document
 			
 			T o = gson.fromJson(gr.getSourceAsString(), type );
 			
-			if ( o instanceof BaseDataElement) 
-				((BaseDataElement)o).setDocumentId(gr.getId());
 			
-			if ( meta.getRouting() != null ) 
+			if ( o instanceof ESDataElement<?> ) {
+				((ESDataElement<?>)o).setDocumentId(gr.getId());
+			}
+			
+			if ( o instanceof BaseDataElement &&  meta.getRouting() != null ) 
 				((BaseDataElement)o).setRouting(meta.getRouting());
 
 			
@@ -227,10 +223,10 @@ public class DefaultDocumentManager implements ClientContainerManager,  Document
 			if ( response.getHits().getHits().length > 0 ) {
 				T data = gson.fromJson(response.getHits().getHits()[0].getSourceAsString(), type);
 				
-				if ( data instanceof BaseDataElement ) { 
-					((BaseDataElement)data).setDocumentId(response.getHits().getHits()[0].getId());
+				if ( data instanceof  ESDataElement<?>  ) { 
+					(( ESDataElement<?> )data).setDocumentId(response.getHits().getHits()[0].getId());
 					
-					if ( metaData.getRouting() != null ) 
+					if (data instanceof BaseDataElement && metaData.getRouting() != null ) 
 						((BaseDataElement)data).setRouting(metaData.getRouting());	
 				}
 				

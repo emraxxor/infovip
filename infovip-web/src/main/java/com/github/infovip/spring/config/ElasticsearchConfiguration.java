@@ -3,6 +3,8 @@ package com.github.infovip.spring.config;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
@@ -15,6 +17,9 @@ import com.github.infovip.core.elasticsearch.DefaultElasticsearchTemplate;
 import com.github.infovip.core.elasticsearch.ESConnection;
 
 @Configuration
+@ComponentScans(value = {
+		@ComponentScan(basePackages = "com.github.infovip.core.model")
+})
 public class ElasticsearchConfiguration  extends  AbstractElasticsearchConfiguration { 
 
 	

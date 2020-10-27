@@ -33,6 +33,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
@@ -93,6 +94,7 @@ public class UserService implements UserServiceInterface<User> {
      * @param limit
      * @return
      */
+    @Transactional(readOnly = true)
     public List<User> users(int offset, int limit) {
         CriteriaQuery<User> cq = em.getCriteriaBuilder().createQuery(User.class);
         cq.select(cq.from(User.class));
@@ -132,6 +134,7 @@ public class UserService implements UserServiceInterface<User> {
      * @param password
      * @return
      */
+    @Transactional(readOnly = true)
     public User findUserByEmail(String userEmail, String password) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<User> query = cb.createQuery(User.class);
@@ -162,6 +165,7 @@ public class UserService implements UserServiceInterface<User> {
      * @param mail
      * @return
      */
+    @Transactional(readOnly = true)
     public User findUserByEmail(String mail) {
         try {
             return (User) em.createNamedQuery("User.findByUmail")
@@ -237,6 +241,7 @@ public class UserService implements UserServiceInterface<User> {
      * @param userName
      * @param newUserName
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void modifyUserName(String userName, String newUserName) {
         User u = findUserByName(userName);
         u.setUserName(newUserName);
@@ -248,25 +253,17 @@ public class UserService implements UserServiceInterface<User> {
      * @param uid
      * @return 
      */
-    @Transactional
     public List<User> removeUserById(Long uid) {
         return userRepository.removeByUserId(uid);
     }
 
-    /**
-     * Gets the current repository
-     * @return 
-     */
-    protected UserRepository getUserRepository() {
-        return userRepository;
-    }
 
     /**
      * Saves the given entity into the repository
      * @param u
      * @return 
      */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User save(User u) {
     	u = userRepository.save(u);
     	List<UserEntity> r = esUserRepository.findByUserId(u.getUserId());
@@ -277,11 +274,7 @@ public class UserService implements UserServiceInterface<User> {
     		FormElement.update(u, ue);
     		esUserRepository.save(ue);
     	} else {
-    		try {
-				throw new IllegalStateException("This could not be happen!");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+    		throw new RuntimeException("The save process could not be completed successfully.");
     	}
     	return  u;
     	
@@ -291,7 +284,6 @@ public class UserService implements UserServiceInterface<User> {
      * Deletes an entity from the repository
      * @param u 
      */
-    @Transactional
     public void delete(User u) {
         userRepository.delete(u);
     }
@@ -303,25 +295,9 @@ public class UserService implements UserServiceInterface<User> {
      * @param pageable
      * @return
      */
+    @Transactional(readOnly = true)
     public Page<User> findUsers(Pageable pageable) {
         return findAll(pageable);
-    }
-
-
-    public User removeEntity(User entity) {
-        em.remove(entity);
-        return entity;
-    }
-
-    public User mergeEntity(User entity) {
-    	em.merge(entity);
-    	return entity;
-    }
-
-    public User createEntity(User entity) {
-    	em.persist(entity);
-    	em.clear();
-    	return entity;
     }
 
     
@@ -335,6 +311,7 @@ public class UserService implements UserServiceInterface<User> {
      * @param pageable
      * @return
      */
+    @Transactional(readOnly = true)
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
@@ -352,7 +329,6 @@ public class UserService implements UserServiceInterface<User> {
     /**
      * Removes everything from the repository
      */
-    @Transactional
     public void deleteAll() {
         userRepository.deleteAll();
     }
@@ -365,8 +341,4 @@ public class UserService implements UserServiceInterface<User> {
         jpaContext.getEntityManagerByManagedType(entity.getClass()).detach(entity);
     }
     
-    @Override
-    public <X> List<User> findAll(X pageable) {
-    	return userRepository.findAll( (Pageable) pageable).toList();
-    }
 }

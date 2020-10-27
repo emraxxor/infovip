@@ -29,11 +29,18 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  *
  * @author attila
  */
-@Document(indexName = "timeline", type = "post")
+@Document(indexName = "timeline")
+@Getter
+@Setter
+@NoArgsConstructor
 public class TimelinePostEntity implements Serializable {
 
     @Id
@@ -60,9 +67,6 @@ public class TimelinePostEntity implements Serializable {
     @Field(type = FieldType.Date,format=DateFormat.custom,pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
     private Date creationTime;
 
-    public TimelinePostEntity() {
-    }
-
     public TimelinePostEntity(Date creationTime, Long userId, String userName, String message, String postType) {
         this.creationTime = creationTime;
         this.userId = userId;
@@ -71,102 +75,5 @@ public class TimelinePostEntity implements Serializable {
         this.postType = postType;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getPostType() {
-        return postType;
-    }
-
-    public void setPostType(String postType) {
-        this.postType = postType;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 19 * hash + Objects.hashCode(this.id);
-        hash = 19 * hash + Objects.hashCode(this.creationTime);
-        hash = 19 * hash + Objects.hashCode(this.userId);
-        hash = 19 * hash + Objects.hashCode(this.userName);
-        hash = 19 * hash + Objects.hashCode(this.message);
-        hash = 19 * hash + Objects.hashCode(this.postType);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final TimelinePostEntity other = (TimelinePostEntity) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.userId, other.userId)) {
-            return false;
-        }
-        if (!Objects.equals(this.userName, other.userName)) {
-            return false;
-        }
-        if (!Objects.equals(this.message, other.message)) {
-            return false;
-        }
-        if (!Objects.equals(this.postType, other.postType)) {
-            return false;
-        }
-        if (!Objects.equals(this.creationTime, other.creationTime)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "TimelinePostEntity{" + "id=" + id + ", creationTime=" + creationTime + ", userId=" + userId + ", userName=" + userName + ", message=" + message + ", postType=" + postType + '}';
-    }
 
 }

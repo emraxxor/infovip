@@ -41,7 +41,6 @@ import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
 import com.github.infovip.core.web.user.CurrentUserInfo;
 import com.github.infovip.entities.User;
 import com.github.infovip.spring.config.ApplicationUser;
-import com.github.infovip.spring.services.ActivityService;
 import com.github.infovip.web.application.es.activity.ActivityCommentElement;
 import com.github.infovip.web.application.es.activity.ActivityElement;
 import com.github.infovip.web.application.es.activity.ActivityJoinType;
@@ -108,8 +107,8 @@ public class ActivityController {
     	fields.add(new Field("uid", u.getUserId()));
     	
     	ActivityLikeElement ale = documentManager.findDocumentByField(fields, IndexMetaData.create(
-    											DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX, 
-    											DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_TYPE)
+    												DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX
+    											)
     										    .addExclusionStrategy(ActivitySource.DefaultActivityExclusionStrategy()) , 
     								new TypeToken<ActivityLikeElement>(){}.getType()  );
     
@@ -156,8 +155,7 @@ public class ActivityController {
     	fields.add(new Field("uid", u.getUserId()));
     
     	ActivityLikeElement ale = documentManager.findDocumentByField(fields, IndexMetaData.create(
-				DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX , 
-				DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_TYPE
+				DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX  
 				).addExclusionStrategy(ActivitySource.DefaultActivityExclusionStrategy()) , 
     				new TypeToken<ActivityElement>(){}.getType()  );
     	

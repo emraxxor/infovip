@@ -37,6 +37,4 @@ public interface UserServiceInterface<T> {
 	
 	public T save(T u);
 
-	public <X> List<T> findAll(X pageable);
-
 }

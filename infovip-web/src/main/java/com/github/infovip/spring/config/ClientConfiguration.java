@@ -13,7 +13,7 @@ import com.github.infovip.spring.components.manager.WebshopComponent;
  *
  */
 @Configuration
-public class BusinessConfiguration {
+public class ClientConfiguration {
 	
 	@Bean
 	public WebshopComponent webshopComponent() {

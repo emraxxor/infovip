@@ -30,11 +30,16 @@ import org.springframework.data.elasticsearch.annotations.Parent;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author attila
  */
-@Document(indexName = "timeline", type = "comment")
+@Document(indexName = "timeline")
+@Getter
+@Setter
 public class TimelineCommentEntity implements Serializable {
 
     @Id
@@ -75,116 +80,6 @@ public class TimelineCommentEntity implements Serializable {
         this.userName = userName;
         this.comment = comment;
         this.postType = postType;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public Date getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getPostType() {
-        return postType;
-    }
-
-    public void setPostType(String postType) {
-        this.postType = postType;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.id);
-        hash = 59 * hash + Objects.hashCode(this.parentId);
-        hash = 59 * hash + Objects.hashCode(this.creationTime);
-        hash = 59 * hash + Objects.hashCode(this.userId);
-        hash = 59 * hash + Objects.hashCode(this.userName);
-        hash = 59 * hash + Objects.hashCode(this.comment);
-        hash = 59 * hash + Objects.hashCode(this.postType);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final TimelineCommentEntity other = (TimelineCommentEntity) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.parentId, other.parentId)) {
-            return false;
-        }
-        if (!Objects.equals(this.userId, other.userId)) {
-            return false;
-        }
-        if (!Objects.equals(this.userName, other.userName)) {
-            return false;
-        }
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
-        if (!Objects.equals(this.postType, other.postType)) {
-            return false;
-        }
-        if (!Objects.equals(this.creationTime, other.creationTime)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "TimelineCommentEntity{" + "id=" + id + ", parentId=" + parentId + ", creationTime=" + creationTime + ", userId=" + userId + ", userName=" + userName + ", comment=" + comment + ", postType=" + postType + '}';
     }
 
 }

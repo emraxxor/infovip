@@ -2,6 +2,9 @@ package com.github.infovip.core.data;
 
 import java.io.File;
 
+import lombok.Data;
+
+@Data
 public class FileInfo {
 
 	private String name;
@@ -13,34 +16,5 @@ public class FileInfo {
 		lastModified = f.lastModified();
 	}
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return the lastModified
-	 */
-	public Long getLastModified() {
-		return lastModified;
-	}
-
-	/**
-	 * @param lastModified the lastModified to set
-	 */
-	public void setLastModified(Long lastModified) {
-		this.lastModified = lastModified;
-	}
-	
-	
 	
 }
