@@ -1,4 +1,4 @@
-package com.github.infovip.core.web.user.media;
+package com.github.infovip.core.model;
 
 import java.io.Serializable;
 

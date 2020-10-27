@@ -5,8 +5,8 @@ import org.elasticsearch.search.SearchHit;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
+import com.github.infovip.core.model.UserPhotoElement;
 import com.github.infovip.core.scroll.AbstractBoolScrollSource;
-import com.github.infovip.core.web.user.media.UserPhotoElement;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

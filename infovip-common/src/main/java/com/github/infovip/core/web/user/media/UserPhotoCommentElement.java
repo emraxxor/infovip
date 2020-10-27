@@ -2,6 +2,8 @@ package com.github.infovip.core.web.user.media;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
 import com.github.infovip.core.data.ESDataElement;
 import com.github.infovip.core.data.UserPublicFormElement;
 import com.github.infovip.core.date.DefaultDateFormatter;
@@ -33,6 +35,7 @@ public class UserPhotoCommentElement implements ESDataElement<UserPhotoCommentEl
 	@NotEmpty
 	private String mediaId;
 
+	@NotNull
 	@NotEmpty
 	private String photoId;
 	

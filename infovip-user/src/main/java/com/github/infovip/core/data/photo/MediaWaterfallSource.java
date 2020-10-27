@@ -10,9 +10,9 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.github.infovip.configuration.DefaultWebAppConfiguration;
+import com.github.infovip.core.model.UserMediaElement;
+import com.github.infovip.core.model.UserPhotoElement;
 import com.github.infovip.core.scroll.AbstractBoolScrollSource;
-import com.github.infovip.core.web.user.media.UserMediaElement;
-import com.github.infovip.core.web.user.media.UserPhotoElement;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

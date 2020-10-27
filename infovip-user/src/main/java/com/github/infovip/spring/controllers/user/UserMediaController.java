@@ -22,10 +22,10 @@ import com.github.infovip.core.data.DefaultUser;
 import com.github.infovip.core.data.photo.MediaWaterfallSource;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
+import com.github.infovip.core.model.UserMediaElement;
 import com.github.infovip.core.scroll.DefaultScrollResponse;
 import com.github.infovip.core.scroll.ScrollResponseGenerator;
 import com.github.infovip.core.web.exceptions.UnsupportedTypeException;
-import com.github.infovip.core.web.user.media.UserMediaElement;
 import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
 

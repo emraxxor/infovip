@@ -28,13 +28,13 @@ import com.github.infovip.core.data.DefaultDataElement;
 import com.github.infovip.core.data.UserPublicFormElement;
 import com.github.infovip.core.elasticsearch.ESContainerInterface;
 import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
+import com.github.infovip.core.model.UserMediaElement;
+import com.github.infovip.core.model.UserPhotoElement;
 import com.github.infovip.core.validator.DefaultFormValidator;
 import com.github.infovip.core.web.response.StatusResponse;
 import com.github.infovip.core.web.types.ImageData;
 import com.github.infovip.core.web.user.CurrentUserInfo;
-import com.github.infovip.core.web.user.media.UserMediaElement;
 import com.github.infovip.core.web.user.media.UserPhotoCommentElement;
-import com.github.infovip.core.web.user.media.UserPhotoElement;
 import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
 

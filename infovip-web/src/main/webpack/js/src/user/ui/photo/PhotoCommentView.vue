@@ -12,22 +12,8 @@
             </div>
 
             <!-- Media Meta Start -->
-            <div class="media--meta">
-                <ul class="nav">
-                    <li>
-                        <a href="#">
-                            <i class="bg-primary text-white mr--6 fa fa-hand-o-right"></i>
-                            <span>LIKE_NUMBER</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="bg-primary text-white mr--6 fa fa-comment-o"></i>
-                            <span>SHOW_COMMENTS_BOX</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <PhotoInformation :comments="comments" :photoId="photoId"></PhotoInformation>
+
             <!-- Media Meta End -->
 
             <!-- Media Comments Start -->
@@ -39,7 +25,7 @@
 
             <!-- Media All Comments Start -->
             <div class="media--all-comments text-center" style="max-height: 300px; overflow:auto;">
-                <div v-for="comment in comments" class="media--comment">
+                <div v-if="comments.length > 0" v-for="comment in comments" class="media--comment">
                                 <!-- Media Author Start -->
                                 <div class="media--author clearfix" style="text-align: left;">
                                     <div class="media--avatar float--left" data-overlay="0.3" data-overlay-color="primary">
@@ -69,26 +55,34 @@
 
 <script>
   
+import Controller from '@/ui/core/Controller'
+import PhotoInformation from '@/user/ui/photo/PhotoInformation'
 
-
-import Controller from '../../../ui/core/Controller';
- 
 export default {
 
         mixins: [Controller],
 
-        data() {
-            return {
-                user  : null,
+        components : {
+            PhotoInformation
+        },
+
+        data : () => ({
+                user  : {
+                    picture:  ''
+                },
+                photo : {},
+                photoId : undefined,
                 message : '',
                 comments : [],
                 token : null,
-            }
-        },
+        }),
 
         computed : {
             userImage : function () {
-                return WEB_DIR + "/user/image?" + this.user.picture ;
+                if ( this.user.userId != null )
+                    return WEB_DIR + "/user/image?" + this.user.picture ;
+                
+                return '/public/media/image?noimage';
             },
 
         },
@@ -117,6 +111,8 @@ export default {
                 let request = {
                     photoId : dialog.getPhotoData().documentId
                 };
+
+                this.photoId = request.photoId
                 
                 if ( this.token != null ) 
                     request.token = this.token;
@@ -127,7 +123,8 @@ export default {
                     o.token = data.token;             
                 }
 
-                 this.post('/user/' + dialog.getMediaUserId() + '/photo/comments', request, result, this );    
+                this.post('/user/' + dialog.getMediaUserId() + '/photo/comments', request, result, this );    
+                
             },
 
             onSubmitMessage : function(event) {

@@ -23,23 +23,9 @@
                     </div>
 
                     <!-- Media Meta Start -->
-                    <div class="media--meta">
-                        <ul class="nav">
-                            <li>
-                                <a href="#">
-                                    <i class="bg-primary text-white mr--6 fa fa-hand-o-right"></i>
-                                    <span>LIKE_NUMBER</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="bg-primary text-white mr--6 fa fa-comment-o"></i>
-                                    <span>SHOW_COMMENTS_BOX</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-            
+
+                    <PhotoInformation :comments="comments" :photoId="photoId"></PhotoInformation>
+                        
 
                     <!-- Media All Comments Start -->
                     <div class="media--all-comments text-center" style="max-height: 300px; overflow:auto;">
@@ -72,20 +58,28 @@
 </div>
 </template>
 <script>
+import Controller from '@/ui/core/Controller'
+import store from '@/user/store/gallery/GalleryStore'
+import PhotoInformation from '@/user/ui/photo/PhotoInformation'
 
-import Controller from '../../../ui/core/Controller';
 
 export default {
+    store : store,
+
     mixins: [Controller],
 
-    data : () => {
-        return {
+    components : {
+        PhotoInformation
+    },
+
+    data : () => ({
             user : () => ({}),
             comments : [],
+            photo : {},
+            photoId : undefined,
             mediaImage : '/public/media/image?noimage',
-            token : null,
-        }
-    },
+            token : null,   
+    }),
 
     props: {
       item : {
@@ -101,16 +95,9 @@ export default {
         }
     },
 
-    created : function() {
-        
-    },
-
-    mounted : function() {
-
-    },
-
     watch : {
         item : function() {
+            this.comments = []
             this
                 .fetch()
                 .then( o => {
@@ -129,7 +116,8 @@ export default {
         dateFormatter : function(v) {
             return Vue.moment(v).format("YYYY-MM-DD HH:mm:ss" );
         },
-        
+
+
         fetch : function() {
             const that = this;
             return new Promise(
@@ -142,6 +130,8 @@ export default {
             let request = {
                 photoId : this.item.documentId
             };
+
+            this.photoId = this.item.documentId
             
             if ( this.token != null ) 
                 request.token = this.token;
