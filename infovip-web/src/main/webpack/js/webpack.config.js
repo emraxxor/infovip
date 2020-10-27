@@ -1,6 +1,23 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+function resolve (dir) {
+  return path.join(__dirname,  dir)
+}
+
+
+const createLintingRule = () => ({
+  test: /\.(js|vue)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  include: [resolve('src'), resolve('test')],
+  options: {
+    formatter: require('eslint-friendly-formatter'),
+    emitWarning: !config.dev.showEslintErrorsInOverlay
+  }
+})
+
+
 module.exports = {
   mode : 'development',
   entry:     {
@@ -16,7 +33,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-        'vue$': 'vue/dist/vue.esm.js'
+        'vue$': 'vue/dist/vue.esm.js',
+        '@': resolve('src'),
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
@@ -72,7 +90,6 @@ module.exports = {
     ]
   },
   plugins: [
-    // make sure to include the plugin!
     new VueLoaderPlugin()
   ],
   output: {
