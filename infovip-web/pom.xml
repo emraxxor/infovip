@@ -179,12 +179,6 @@
 			<version>1.2.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.metawidget</groupId>
-			<artifactId>metawidget</artifactId>
-			<version>1.10</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
@@ -385,13 +379,6 @@
 			<groupId>org.imgscalr</groupId>
 			<artifactId>imgscalr-lib</artifactId>
 			<version>${org.imgscalr.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.github.infovip</groupId>
-			<artifactId>infovip-ejb-user</artifactId>
-			<version>1.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		
