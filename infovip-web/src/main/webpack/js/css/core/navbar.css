@@ -52,11 +52,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     box-sizing: border-box;
 }
 
-
-.container {
-    width: 1170px;
-}
-
 .container > .navbar-header {
     margin-right: 0;
     margin-left: 0;

@@ -8,7 +8,7 @@
             <!-- Footer Widgets Start -->
             <div class="footer--widgets pt--70 pb--20 bg-lightdark bg--img" data-rjs="2" style="background-image: url(&quot;${resources}/img/footer-img/footer-widgets-bg.png&quot;);">
                 <div class="container">
-                    <div class="row" style="position: relative; height: 425px;">
+                    <div class="row">
                         <div class="col-md-3 col-xs-6 col-xxs-12 pb--60" style="">
                             <!-- Widget Start -->
                             <div class="widget">
@@ -134,11 +134,14 @@
             <!-- Footer Copyright Start -->
             <div class="footer--copyright pt--30 pb--30 bg-darkest">
                 <div class="container">
-                    <div class="text fw--500 fs--14 float--left">
+                  <div class="row">
+                    
+                    
+                    <div class="col-md-8 text fw--500 fs--14 float--left">
                         <p>Copyright © Infovip. All Rights Reserved. Template: #TODO</p>
                     </div>
 
-                    <div class="social float--right">
+                    <div class="col-md-4 social float--right">
                         <ul class="nav display-block">
                             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -146,6 +149,7 @@
                             <li><a href="#"><i class="fa fa-rss"></i></a></li>
                         </ul>
                     </div>
+                   </div>
                 </div>
             </div>
             <!-- Footer Copyright End -->

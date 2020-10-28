@@ -41,6 +41,14 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
+      },
+      {
         test: /\.css$/,
         use: [
           'vue-style-loader',
@@ -58,12 +66,8 @@ module.exports = {
         use: 'file-loader'
       },
       {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader'
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'file-loader',
       },
       {
         test: /\.s[ac]ss$/i,
