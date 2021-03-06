@@ -38,8 +38,8 @@ var ActivityCommentBox = easejs.Class('ActivityCommentBox').extend(UIController,
 			this.postId = postId;
 			this.node = node;
 			this.editor = new TinyMceEditor();
-			this.commentTemplate = this.load( ActivityCommentBox.$('TEMPLATE').COMMENT , {}, 'GET'  );
-			this.replyTemplate = this.load( ActivityCommentBox.$('TEMPLATE').REPLY , {}, 'GET'  );
+			this.commentTemplate = this.load( ActivityCommentBox.$('TEMPLATE').COMMENT );
+			this.replyTemplate = this.load( ActivityCommentBox.$('TEMPLATE').REPLY );
 			this.panel = jQuery("<div></div>",  { "data-id" : postId,  'class' : "activity-post-comment" } );
 			this.button = jQuery("<button></button>", { type : "button", 'class' : "btn btn-primary", html: __tr("Comment") } );
 	 },

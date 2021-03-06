@@ -1,6 +1,9 @@
 /**
  * Created by attila on 1/3/17.
  */
+
+console.warn(`[DEPRECATED] Legacy javascript code will be completely removed in the near future.`)
+
 var Controller = easejs.Class('Controller').implement(IController).extend({
 
 	'private options' : {},
@@ -33,6 +36,8 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
      * Async operation
      */
     'public async' : function(purl,pdata, callback, params ,methodType, ajaxGlobal, dataType, options, contentType) {
+    	console.warn(`[DEPRECATED] Legacy javascript code will be completely removed in the near future.`)
+
     	var data = {
                 type: methodType == undefined ? "POST" : methodType,
                 url: purl,
@@ -75,22 +80,14 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
      * @param ajaxGlobal
      * @returns {*}
      */
-    'public load': function (purl, pdata, methodType, ajaxGlobal,async,dataType,options,contentType) {
+    'public load': function (url, data, type='GET', global=true,async=false,dataType="html",options,
+    		contentType="application/x-www-form-urlencoded; charset=UTF-8") {
+    	    console.warn(`[DEPRECATED] Legacy javascript code will be completely removed in the near future.`)
+
         var rdata = null;
         var data = {
-            type: methodType == undefined ? "POST" : methodType,
-            url: purl,
-            data: pdata,
-            contentType: contentType == undefined  ? "application/x-www-form-urlencoded; charset=UTF-8" : contentType + ";charset=UTF-8",
-            dataType: dataType == undefined  ? "html" : dataType,
-            global: ajaxGlobal == undefined ? true : ajaxGlobal,
-            cache: false,
-            async: async == undefined ? false : async,
-            error: function (request, status, error) {
-                if (request.responseText != null) {
-                    // @todo handle error
-                }
-            },
+            type,url,data,contentType,dataType,global,cache: false,async,
+            error: (request, status, error) => console.error(error),
             success: function (data, textStatus, jqXHR) {
                 try {
                     rdata = JSON.parse(data);
@@ -100,12 +97,10 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
             }
         };
         
-        if ( options != undefined ) {
+        if ( options != undefined ) 
         	data = jQuery.extend(data,options);
-        }
         
         jQuery.ajax(data);
-        
         return rdata;
     },
 
@@ -115,6 +110,8 @@ var Controller = easejs.Class('Controller').implement(IController).extend({
      * @param pdata
      */
     'public execute': function (purl, pdata,async) {
+    	console.warn(`[DEPRECATED] Legacy javascript code will be completely removed in the near future.`)
+
         jQuery.ajax({
             type: "POST",
             url: purl,
