@@ -82,7 +82,6 @@
 		<put-attribute name="body" value="/WEB-INF/web/activity/ActivityBody.jsp"></put-attribute>
 		<put-list-attribute name="pageJs" inherit="true">
 			<add-attribute value="/webpack/dist/tinymce.bundle.js" />
-			<add-attribute value="/js/web/activity/ActivityCore.js" />
 		</put-list-attribute>
 		<put-list-attribute name="pageCss" inherit="true">
 		</put-list-attribute>
@@ -140,9 +139,6 @@
 	<!--  User Activity page -->
 	<definition name="tile.user.activity.page" extends="default.user.tile.front">
 		<put-attribute name="body" value="/WEB-INF/web/user/UserActivityBody.jsp"></put-attribute>
-		<put-list-attribute name="pageJs" inherit="true">
-			<add-attribute value="/js/web/activity/ActivityCore.js" />
-		</put-list-attribute>
 		<put-list-attribute name="userJs" inherit="true">
 			<add-attribute value="/js/web/user/UserCore.js" />
 		</put-list-attribute>

@@ -27,7 +27,7 @@ var Translator = easejs.Class('Translator', {
     'public static language': {},
     
     'public static initialize' : function(controller) {
-    	Translator.$('language', controller.load( (WEB_DIR + '/core/language') ,{}, "POST", true, false) );
+    	Translator.$('language', controller.load( (WEB_DIR + '/core/language') ,{}, "GET", true, false) );
     },
     
     /**

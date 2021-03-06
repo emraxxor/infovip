@@ -35,10 +35,14 @@ var ActivityPostController = easejs.Class('ActivityPostController').extend(UICon
     'public onSubmitClick' : function(e) {
     	var controller = e.data.data;
     	var w = DefaultInformationDialog().display(__tr('msg.loading'));
-		controller.async( ActivityPostController.$('HANDLER').ADD , { text : controller.getText() } , function( data , o ) {
-			controller.addItem(data);
-			w.hide();
-		} , controller );
+		controller
+				.httpClient()
+				.post( ActivityPostController.$('HANDLER').ADD , { text : controller.getText() } )
+				.then( (e) =>  {
+						controller.addItem(e.data);
+						w.hide();
+				})
+				.catch( e => console.error(e))
 	 },
 	 
 	'public addItem' : function(item) {

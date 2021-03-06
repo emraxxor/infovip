@@ -2,6 +2,8 @@ package com.github.infovip.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,19 +47,16 @@ public class UserBlog implements Serializable {
 
 	private String bname;
 	
-	@Transient
-	private Long userId;
+	@Column(name="creation_time")
+	private LocalDateTime creationTime;
 
-	@Column(name="\"creationTime\"")
-	private Timestamp creationTime;
-
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinColumn(name="userid",referencedColumnName="uid", updatable = false, insertable = true)
+	@ManyToOne
+	@JoinColumn(name="user_id")
 	private User user;
 	
 	public UserBlog(User u, String name) {
 		this.user = u;
-		this.creationTime = DefaultDateFormatter.timestamp();
+		this.creationTime = LocalDateTime.now();
 		this.bname = name;
 	}
 
@@ -70,7 +69,7 @@ public class UserBlog implements Serializable {
  
     @PreUpdate
     public void preUpdate() {
-		this.creationTime = DefaultDateFormatter.timestamp();
+		this.creationTime = LocalDateTime.now();
     }
 
 

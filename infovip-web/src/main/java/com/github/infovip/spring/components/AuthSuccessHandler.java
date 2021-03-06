@@ -1,6 +1,7 @@
 package com.github.infovip.spring.components;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -59,7 +60,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         request.getSession().setAttribute(BaseSessionInformation.AUTH_TIME.toString(), new Date(System.currentTimeMillis()));
         request.getSession().setAttribute(BaseSessionInformation.REMOTE_ADDR.toString(), request.getRemoteAddr());
         request.getSession().setAttribute(BaseSessionInformation.HEADER.toString(), request.getHeader("User-Agent"));
-        u.setLastSeen(DefaultDateFormatter.timestamp());
+        u.setLastSeen(LocalDateTime.now());
         userService.save(u);
         
         response.sendRedirect("/activity");

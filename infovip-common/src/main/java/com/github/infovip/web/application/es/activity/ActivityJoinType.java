@@ -9,6 +9,8 @@ public enum ActivityJoinType implements Serializable {
 	
 	LIKE_COMMENT("like-comment"),
 	
+	LIKE_REPLY("like-reply"),
+	
 	LIKE_POST("like-post"),
 	
 	REPLY("reply");

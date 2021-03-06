@@ -129,16 +129,26 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 					  
 					  for ( SearchHit sh : hit.getInnerHits().get("like-comment").getHits() ) {
 						  ActivityLikeElement ale = gson.fromJson(sh.getSourceAsString(), new TypeToken<ActivityLikeElement>(){}.getType()  );
-						  ale.setDocumentId(hit.getId());
+						  ale.setDocumentId(sh.getId());
 						  ale.setRouting(o.getId());
 						  comment.addLike(ale);
 					  }
 					  
 					  for ( SearchHit sh : hit.getInnerHits().get("reply").getHits() ) {
 						  ActivityCommentElement ace = gson.fromJson(sh.getSourceAsString(), new TypeToken<ActivityCommentElement>(){}.getType()  );
-						  ace.setDocumentId(hit.getId());
+						  ace.setDocumentId(sh.getId());
 						  ace.setRouting(o.getId());
 						  comment.addReply(ace);
+						  
+						  
+						  for ( SearchHit shi : sh.getInnerHits().get("like-reply").getHits() ) {
+							  ActivityLikeElement ale = gson.fromJson(shi.getSourceAsString(), new TypeToken<ActivityLikeElement>(){}.getType()  );
+							  ale.setDocumentId(shi.getId());
+							  ale.setRouting(sh.getId());
+							  ace.addLike(ale);
+						  }
+						  
+						  ace.setTotalLikeCount( sh.getInnerHits().get("like-reply").getTotalHits().value );
 					  }
 					  
 					  e.addCommentElement(  comment );
@@ -180,12 +190,23 @@ public class ActivitySource extends AbstractScrollSource<WebApplicationContext, 
 									QueryBuilders
 									.boolQuery().must(QueryBuilders.matchAllQuery())
 									.should(
-									  JoinQueryBuilders.hasChildQuery("like-comment", QueryBuilders.matchAllQuery(), ScoreMode.None)	
-									  .innerHit(new InnerHitBuilder().setSize(50))
+											  JoinQueryBuilders.hasChildQuery("like-comment", QueryBuilders.matchAllQuery(), ScoreMode.None)	
+											  .innerHit(new InnerHitBuilder().setSize(50))
 									 )
 									.should(
-											  JoinQueryBuilders.hasChildQuery("reply", QueryBuilders.matchAllQuery(), ScoreMode.None)	
+											  JoinQueryBuilders.hasChildQuery("reply", 
+													  
+													   QueryBuilders.boolQuery()
+													   .must(QueryBuilders.matchAllQuery())
+													   .should( 
+															JoinQueryBuilders
+															.hasChildQuery("like-reply", QueryBuilders.matchAllQuery(), ScoreMode.None)
+															.innerHit(new InnerHitBuilder().setSize(50))
+													   )
+													  
+											  , ScoreMode.None)
 											  .innerHit(new InnerHitBuilder().setSize(50))
+											  
 									 )
 						, ScoreMode.None)
 						.innerHit(new InnerHitBuilder().setSize(50)) 		

@@ -1,0 +1,36 @@
+stages: 
+  - build
+  - test
+  - deploy
+
+variables: 
+  XMS: "1g"
+  XMX: "1g"
+
+
+build: 
+  tags:
+    - build
+  only:
+    - develop
+    - production
+  script: 
+    - "docker run --rm --name=\"db\" --network=\"host\" -d infovip/infovip-db"
+    - "mvn compile"
+    - "docker stop db"
+  stage: build
+
+deploy: 
+  tags:
+    - deploy
+  only:
+    - develop
+    - production
+  script:
+    - "docker run --rm --name=\"es\" --network=\"host\" -d infovip/infovip-es"
+    - "docker run --rm --name=\"db\" --network=\"host\" -d infovip/infovip-db"
+    - "mvn clean install"
+    - "docker run --rm --name=\"web\" -v \"${PWD}/infovip-ear\":/opt/deploy  --network=\"host\" -d infovip/infovip-web"
+    - "sleep 30"
+    - "docker exec -w /opt/deploy  web /opt/jboss/wildfly/bin/jboss-cli.sh --user=admin --password=Admin --connect --command=\"deploy target/infovip-ear-1.0-SNAPSHOT.ear\""
+  stage: deploy

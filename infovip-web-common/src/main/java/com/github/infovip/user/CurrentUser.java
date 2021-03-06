@@ -18,7 +18,6 @@ public class CurrentUser {
 	@Synchronized
 	public static Long id() {
 		return principal().current().userId();
-		
 	}
 
 	@Synchronized

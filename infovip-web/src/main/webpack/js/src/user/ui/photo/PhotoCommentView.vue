@@ -24,8 +24,8 @@
             <!-- Media Comments End -->
 
             <!-- Media All Comments Start -->
-            <div class="media--all-comments text-center" style="max-height: 300px; overflow:auto;">
-                <div v-if="comments.length > 0" v-for="comment in comments" class="media--comment">
+            <div v-if="comments.length > 0" class="media--all-comments text-center" style="max-height: 300px; overflow:auto;">
+                <div v-for="comment in comments" :key="comment.creationTime" class="media--comment">
                                 <!-- Media Author Start -->
                                 <div class="media--author clearfix" style="text-align: left;">
                                     <div class="media--avatar float--left" data-overlay="0.3" data-overlay-color="primary">
@@ -117,13 +117,12 @@ export default {
                 if ( this.token != null ) 
                     request.token = this.token;
                 
-                const result = function(result, o ) {
-                    const { data } = result;
-                    data.data.forEach(element => o.comments.push(element) );    
-                    o.token = data.token;             
-                }
-
-                this.post('/user/' + dialog.getMediaUserId() + '/photo/comments', request, result, this );    
+                this.httpForm().post('/user/' + dialog.getMediaUserId() + '/photo/comments')
+                    .then( result => {
+                        const { data } = result;
+                        data.data.forEach(element => this.comments.push(element) );    
+                        this.token = data.token;  
+                } );    
                 
             },
 
@@ -138,19 +137,18 @@ export default {
                         photoId : dialog.getPhotoData().documentId
                     };
                             
-                    const result = function(result, o ) {
+                    this.httpForm().post('/user/photo/comment', data)
+                    .then( result => {
                         result = result.data;
-                        
-                        
-                        if ( result[0] != undefined && result[0]['type'] != undefined ) {
-                                DefaultFormValidatorHandlerDialog(result).display();	
-                        } else {
-                            o.comments.unshift(result);
-                            o.message = '';
-                        }
-                    }
 
-                    this.post('/user/photo/comment', data, result, this );    
+                        if ( result[0] != undefined && result[0]['type'] != undefined ) {
+                            DefaultFormValidatorHandlerDialog(result).display();	
+                        } else {
+                            this.comments.unshift(result);
+                            this.message = '';
+                        }
+                    })
+                    
                 }                                             
             }
     

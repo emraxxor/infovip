@@ -1,5 +1,9 @@
 *.class
 
+#IDEA
+.idea
+*.iml 
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -20,14 +24,8 @@ hs_err_pid*
 
 #Eclipse configuration files
 .project
-.settings/
-infovip-ear/.project
-infovip-ear/.settings/
+.settings
 **/.classpath
-infovip-ejb/.classpath
-infovip-ejb/.project
-infovip-ejb/.settings/
-infovip-web/.classpath
-infovip-web/.project
-infovip-web/.settings/
-
+**/.settings 
+**/.project 
+**/.tern-project

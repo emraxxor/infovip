@@ -45,7 +45,7 @@ public class GeneralSettingsController {
 	 private UserServiceInterface<User> userService;
 	 
 	
-	 @RequestMapping(path = "/update", method = RequestMethod.POST )
+	 @RequestMapping(path = "/update", method = RequestMethod.PUT )
 	 public @ResponseBody Object update(
 	    				  @ModelAttribute DefaultUserFormData<User,LogRegistration> user,
 	    		    	  @RequestParam("g-recaptcha-response") String gRecaptchaResponse,

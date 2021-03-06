@@ -74,27 +74,6 @@ var DefaultTheme = easejs.Class('DefaultTheme').extend(Controller,{
 	            });
 	        });
 
-	        // owl
-	        var $owlCarousel = jQuery('.owl-carousel');
-	        
-	        $owlCarousel.each(function () {
-	            var $t = jQuery(this);
-	            
-	            $t.owlCarousel({
-	                items: checkData( $t.data('owl-items'), 1 ),
-	                margin: checkData( $t.data('owl-margin'), 0 ),
-	                loop: checkData( $t.data('owl-loop'), true ),
-	                smartSpeed: 2500,
-	                autoplay: checkData( $t.data('owl-autoplay'), true ),
-	                autoplayTimeout: checkData( $t.data('owl-speed'), 8000 ),
-	                center: checkData( $t.data('owl-center'), false ),
-	                animateOut: checkData( $t.data('owl-animate'), false ),
-	                nav: checkData( $t.data('owl-nav'), false ),
-	                navText: ['<i class="fa fa-caret-left"></i>', '<i class="fa fa-caret-right"></i>'],
-	                dots: checkData( $t.data('owl-dots'), false ),
-	                responsive: checkData( $t.data('owl-responsive'), {} )
-	            }).addClass( 'owl-dots--' + checkData( $t.data('owl-dots-style'), '1' ) );
-	        });
 
 	        // box controls
 	        var $boxControls = jQuery('.box--controls');

@@ -1,6 +1,7 @@
 package com.github.infovip.spring.controllers.registration;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,7 +82,7 @@ public class RegistrationController {
 	    			User u = user.toUser(User.class, LogRegistration.class);
 	    			u.getLogRegistration().setIp(request.getRemoteAddr());
 	    			u.getLogRegistration().setCreationTime(DefaultDateFormatter.timestamp());
-	    			u.setLastSeen(DefaultDateFormatter.timestamp());
+	    			u.setLastSeen(LocalDateTime.now());
 	    			u.setIsActive(true);
 	    			userService.save(u);
 	    			

@@ -1,7 +1,5 @@
 import Vuex from 'vuex'
 import axios from 'axios'
-import { resolve } from 'path';
-import { reject } from 'lodash';
 
 axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',

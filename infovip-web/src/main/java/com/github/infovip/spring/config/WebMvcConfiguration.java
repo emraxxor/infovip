@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,7 +17,6 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 
 import com.github.infovip.spring.DefaultViewResolver;
 import com.github.infovip.spring.handler.AuthenticationInterceptor;
-import com.sun.org.apache.xerces.internal.parsers.SecurityConfiguration;
 
 @EnableWebMvc
 @Configuration
@@ -27,7 +24,6 @@ import com.sun.org.apache.xerces.internal.parsers.SecurityConfiguration;
 		@ComponentScan(value = "com.github.infovip.spring.controllers") , 
 		@ComponentScan(value = "com.github.infovip.spring.components")
 })
-@Import({SecurityConfiguration.class})
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	

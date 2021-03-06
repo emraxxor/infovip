@@ -11,15 +11,9 @@
 			<div class="row" style="transform: none;">
 				<!-- Main Content Start -->
 				<div
-					class="main--content col-md-8 pb--30 float--right float--md-none"
-					data-trigger="stickyScroll"
+					class="col-md-8 pb--30 float--right float--md-none"
 					style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
 
-					<div class="theiaStickySidebar"
-						style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
-						<div class="main--content-inner">
-							<div class="row MasonryRow"
-								style="position: relative; height: 1683.48px;">
 								
 								
 							<!-- General Settings Form Start -->
@@ -129,21 +123,22 @@
                             <!-- General Settings Form  End -->
 
 					
-							</div>
-						</div>
 						
 					</div>
-				</div>
-				<!-- Main Content End -->
-
+					
+					
 				<!-- Main Sidebar Start -->
-				<div class="main--sidebar col-md-4 pb--60" data-trigger="stickyScroll" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+				<div class="main--sidebar col-md-4 pb--60">
 					
 					<!-- Widget End -->
-					<div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 382.5px;">
+					<div class="">
 						<tiles:insertTemplate template="${Configuration.WEB_DIRECTORY}/user/settings/sidebar.jsp"></tiles:insertTemplate>  			
 					</div>
 				<!-- Main Sidebar End -->
+					
+				</div>
+				<!-- Main Content End -->
+
 			</div>
 		</div>
 	</section>

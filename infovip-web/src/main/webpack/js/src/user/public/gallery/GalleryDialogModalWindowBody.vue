@@ -2,7 +2,7 @@
 <div class="row">
 
     <div class="col-md-8">
-        <figure class="media--img">
+        <figure class="media--img" style="max-height:500px; overflow:auto;">
             <img class="photo img-responsive responsive" :src="mediaImage" alt="">
             <p class="figcaption fs--14 fw--700 text-white"></p>
         </figure>
@@ -97,15 +97,19 @@ export default {
 
     watch : {
         item : function() {
-            this.comments = []
-            this
-                .fetch()
-                .then( o => {
-                    o.v.user = o.res;
-                    o.v.fetchComments();
-                });
-            this.mediaImage = '/public/media/image?' + this.item.data + '_BIG';
+            
         }
+    },
+
+    mounted()  {
+        this.comments = []
+        this
+            .fetch()
+            .then( o => {
+                o.v.user = o.res;
+                o.v.fetchComments();
+            });
+        this.mediaImage = '/public/media/image?' + this.item.data + '_BIG';
     },
 
     methods : {
@@ -136,14 +140,16 @@ export default {
             if ( this.token != null ) 
                 request.token = this.token;
             
-            const result = function(result, o ) {
-                const { data } = result;
-                data.data.forEach(element => o.comments.push(element) );    
-                o.token = data.token;             
-            }
 
-            this.post('/public/media/comments', request, result, this );    
+            this.httpForm().post('/public/media/comments', request)
+                .then(result => {
+                     const { data } = result;
+                     data.data.forEach(element => this.comments.push(element) );    
+                     this.token = data.token;             
+                });    
         },
+
+        
     }
 
 

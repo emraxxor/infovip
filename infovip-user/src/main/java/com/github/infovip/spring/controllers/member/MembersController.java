@@ -10,6 +10,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,9 +48,7 @@ public class MembersController {
 	
 	private Logger logger = Logger.getLogger(MembersController.class);
 
-
-	
-    @RequestMapping(path = {"/data"},method = {RequestMethod.GET, RequestMethod.POST })
+	@GetMapping("/data")
     public  @ResponseBody Object result(
     		@RequestParam(name="token",defaultValue="",required=false) String token,
     		HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model
@@ -63,8 +62,6 @@ public class MembersController {
 		} 
 
     }
-
-
 	
     @RequestMapping( headers = "Accept=text/html",method=RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request, HttpServletResponse response,  SessionStatus status, Model model) throws IOException {

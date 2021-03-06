@@ -6,9 +6,8 @@
 package com.github.infovip.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,8 +17,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,10 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import com.github.infovip.core.form.data.UserIface;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  *
@@ -51,9 +46,7 @@ import lombok.Setter;
     @NamedQuery(name = "User.findByUpassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword"),
     @NamedQuery(name = "User.findByNameAndUpassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword and u.userName = :userName"),
     @NamedQuery(name = "User.findByUmail", query = "SELECT u FROM User u WHERE u.userMail = :userMail")})
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
 public class User implements Serializable, UserIface<LogRegistration> {
 
@@ -107,12 +100,12 @@ public class User implements Serializable, UserIface<LogRegistration> {
     private String county;
     
     @Column(name="last_seen")
-    private Timestamp lastSeen;
+    private LocalDateTime lastSeen;
     
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "uid")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "uid", fetch = FetchType.LAZY)
     private LogRegistration logRegistration;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = false)
     private List<UserBlog> blogs;
 
     @XmlTransient

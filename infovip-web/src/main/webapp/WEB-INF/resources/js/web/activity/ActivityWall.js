@@ -1,5 +1,6 @@
 /**
  * @author Attila Barna
+ * @deprecated
  */
 var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 
@@ -25,11 +26,13 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 	
 	'override virtual __construct' : function(node) {
 		this.__super(node);
-		this.itemTemplate = this.load( ActivityWall.$('TEMPLATE').ITEM , {}, 'GET'  );
+		this.itemTemplate = this.load(ActivityWall.$('TEMPLATE').ITEM);
 		this.user = CurrentUser.info();
-		if ('scrollRestoration' in history) {
+		
+		debugger
+		
+		if ('scrollRestoration' in history) 
 			  history.scrollRestoration = 'manual';
-		}
 
 	 },
 	 
@@ -42,35 +45,41 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 		
 		const w = DefaultInformationDialog().display('Loading...');
 		const sy = window.scrollY;
-        this.async( ActivityWall.$('HANDLER').DATA, data, function(data,o) {
-        	that.setToken(data.token);
-        	data.data.forEach(function(o){ o.liked = o.likes.filter(e => e.uid == that.getUser().userId ).length  != 0 ;  });
-        	data.data.forEach(function(o){  
-        		if ( o.comments.length > 0 ) {
-        			o.comments.forEach(function(e){
-        				e.liked = e.likes.filter(e => e.uid == that.getUser().userId ).length  != 0 ;
-        			});
-        		}
-        	});
-
-    		that.getNode().find('ul.activity--items').last().append( 
-    				Mustache.render( 
-    						   that.getTemplate() ,  {
-    							dateFormat : function() {
-    								return function(text,render) {
-    									return moment(render(text)).format("YYYY-MM-DD HH:mm:ss" );
-    								}
-    							},
-    							items:  data.data, 
-    						} 
-    				)
-    		);
-
-    		that.setData(data);
-    	    that.updateListeners();
-    	    w.hide();
-    	    window.scrollTo(0,sy);
-        }, this );
+		
+		this
+			.httpClient()
+			.get( ActivityWall.$('HANDLER').DATA , data )
+			.then( e => {
+	        	 that.setToken(e.token);
+	        	 e.data.data.forEach(function(o){ o.liked = o.likes.filter(e => e.uid == that.getUser().userId ).length  != 0 ;  });
+	        	 e.data.data.forEach(function(o){  
+	        		 if ( o.comments.length > 0 ) {
+	        			 o.comments.forEach(function(e){
+	        				 e.liked = e.likes.filter(e => e.uid == that.getUser().userId ).length  != 0 ;
+	        			 });
+	        		 }
+	        	 });
+	        	 
+	        	 
+	        	 that.getNode().find('ul.activity--items').last().append( 
+	        			 Mustache.render( 
+	        					 that.getTemplate() ,  {
+	        						 dateFormat : function() {
+	        							 return function(text,render) {
+	        								 return moment(render(text)).format("YYYY-MM-DD HH:mm:ss" );
+	        							 }
+	        						 },
+	        						 items:  e.data.data, 
+	        					 } 
+	        			 )
+	        	 );
+	        	 
+	        	 that.setData(e);
+	        	 that.updateListeners();
+	        	 w.hide();
+	        	 window.scrollTo(0,sy);
+	        	 
+			});
 	},
 	
     'public virtual reload' : function() {
@@ -82,20 +91,31 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 	 
 	'public onCommentSubmit' : function(sender, o) {
     	var w = DefaultInformationDialog().display(__tr('msg.loading'));
-		sender.async( ActivityCommentBox.$('HANDLER').ADD , { id : sender.getPostId(),  text : sender.getEditor().getText() } , function( data , sender ) {
-				w.hide();
-				sender.addComment(data);
-				o.updateListeners();
-		} , sender );
+    	sender
+    		.httpClient()
+    		.post(ActivityCommentBox.$('HANDLER').ADD , { id : sender.getPostId(),  text : sender.getEditor().getText() } )
+    		.then( e => {
+    			w.hide()
+    			sender.addComment(e.data)
+    			o.updateListeners()
+    		})
 	 },
 	 
 	'public onCommentReplySubmit' : function(sender, o) {
 		var w = DefaultInformationDialog().display(__tr('msg.loading'));
-		sender.async( ActivityCommentBox.$('HANDLER').REPLY , { id : sender.getPostId(), routing: sender.getNode().attr('data-routing'), text : sender.getEditor().getText() } , function( data , sender ) {
-				w.hide();
-				sender.addReply(data);
-				o.updateListeners();
-		} , sender );
+		
+		sender
+		.httpClient()
+		.post(
+				ActivityCommentBox.$('HANDLER').REPLY, 
+				{ id : sender.getPostId(), routing: sender.getNode().attr('data-routing'), text : sender.getEditor().getText() } 
+		 )
+		.then( e => {
+			w.hide()
+			sender.addReply(e.data);
+			o.updateListeners()
+		})
+		
 	},
 	 
 	'public updateListeners' : function() {
@@ -126,26 +146,40 @@ var ActivityWall = easejs.Class('ActivityWall').extend(IScroll,{
 		this.getNode().find('ul').find('[data-name=like]').each(function(){
 			jQuery(this).off('click').on('click', function(e) {
 				var o = jQuery(this);
-				that.async( ActivityWall.$('HANDLER').LIKE , { id : o.attr('data-id'), routing : o.attr('data-routing') } , function(data,ob) {
-					o.attr('data-name','nolike');
-					o.removeClass('btn-primary');
-					o.parent().parent().find('span[class=like-count]').each(function(){jQuery(this).html( new Number( jQuery(this).html() + 1  ) ); });
-					ob.updateListeners();
-				} , that  );
+			
+				that
+					.httpForm()
+					.post(
+							ActivityWall.$('HANDLER').LIKE,
+							{ id : o.attr('data-id'), routing : o.attr('data-routing') }
+					).then( e => {
+						 const data = e.data;
+						 o.attr('data-name','nolike');
+						 o.removeClass('btn-primary');
+						 o.parent().parent().find('span[class=like-count]').each(function(){jQuery(this).html( new Number( jQuery(this).html() + 1  ) ); });
+						 that.updateListeners();
+						 
+					}) ;
+					
 			});
 		});
 		
 		this.getNode().find('ul').find('[data-name=nolike]').each(function(){
 			jQuery(this).off('click').on('click', function(e) {
 				var o = jQuery(this);
-				that.async( ActivityWall.$('HANDLER').NOLIKE , { id : jQuery(this).attr('data-id'), routing : jQuery(this).attr('data-routing') } , function(data,ob) {
-					if ( data.result == "DELETED" ) {
-						o.attr('data-name','like');
-						o.addClass('btn-primary');
-						o.parent().parent().find('span[class=like-count]').each(function(){jQuery(this).html( new Number( jQuery(this).html() - 1  ) ); });
-						ob.updateListeners();
-					}
-				} , that  );
+				that
+					.httpForm()
+					.post(
+							ActivityWall.$('HANDLER').NOLIKE,
+							{ id : jQuery(this).attr('data-id'), routing : jQuery(this).attr('data-routing') } 
+					).then( e => {
+						 const data = e.data;
+						 o.attr('data-name','like');
+						 o.addClass('btn-primary');
+						 o.parent().parent().find('span[class=like-count]').each(function(){jQuery(this).html( new Number( jQuery(this).html() - 1  ) ); });
+						that.updateListeners();
+					}) ;
+				
 			});
 		});
 	 },

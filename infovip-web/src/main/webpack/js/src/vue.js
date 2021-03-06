@@ -4,8 +4,6 @@ import VueMoment from 'vue-moment'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-window._ = require('lodash');
-
 try {
     window.Vue = require('vue').default;
     Vue.use(BootstrapVue)

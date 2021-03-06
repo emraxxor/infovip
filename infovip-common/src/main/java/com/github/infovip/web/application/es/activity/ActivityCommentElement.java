@@ -26,7 +26,7 @@ public class ActivityCommentElement extends ActivityElement {
 	@Expose(serialize=true,deserialize=false)
 	@IgnoreField
 	private ESDefaultJoinRelation join;
-	
+
 	@Expose(serialize=false,deserialize=false)
 	private List<ActivityLikeElement> likes;
 	

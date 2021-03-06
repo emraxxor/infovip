@@ -5,10 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.WebApplicationContext;
@@ -26,15 +25,12 @@ public class PublicMediaController {
     @Autowired
 	private WebApplicationContext context;
 
-	
-	@RequestMapping(path = { "/comments" }, method = { RequestMethod.POST })
-	public @ResponseBody Object result(
+    @GetMapping("/comments")
+	public Object result(
 			@RequestParam(name = "token", defaultValue = "", required = false) String token,
 			@RequestParam(name = "photoId", required = true) String photoId,
 			HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) {
-		
 		PhotoCommentSource source = new PhotoCommentSource(context, token, photoId);
-		
 		try {
 			return ScrollResponseGenerator.generate(
 					new DefaultScrollResponse<UserPhotoCommentElement, WebApplicationContext>(), source, request, response);

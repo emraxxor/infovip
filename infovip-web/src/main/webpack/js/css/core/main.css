@@ -150,3 +150,9 @@ div.media--comments textarea {
 .header--topbar-links > li > a {
     color: white;
 }
+
+@media (max-width: 576px) {
+    .item.item-waterfall.col-md-3.col-xs-6.col-xxs-12.mt-3 , .item.item-waterfall.col-md-3.col-xs-6.col-xxs-12 {
+        left: 0px !important;
+    }
+}
