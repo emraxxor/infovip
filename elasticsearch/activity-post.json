@@ -31,7 +31,8 @@
                 "relations": {
                     "eager_global_ordinals": true,
                     "post": ["comment","like-post"],
-                    "comment" : ["reply","like-comment"]
+                    "comment" : ["reply","like-comment"],
+                    "reply" : "like-reply"
                 }
             },
             "postType" : {

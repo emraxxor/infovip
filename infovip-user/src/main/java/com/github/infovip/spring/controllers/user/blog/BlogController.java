@@ -6,10 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.support.SessionStatus;
@@ -39,8 +42,8 @@ public class BlogController {
 	
 	@Autowired
 	private UserBlogService blogService;
-	
-	@RequestMapping(path= "/list",method = {RequestMethod.GET, RequestMethod.POST })
+
+	@GetMapping("/list")
     public  Object list(
     		@PathVariable(name = "id") Long id,
     		@RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
@@ -50,9 +53,9 @@ public class BlogController {
 	}
 	
 	
-	@RequestMapping(path= "/update",method = {RequestMethod.GET, RequestMethod.POST })
+	@PutMapping("/update")
     public  Object update(
-    		@ModelAttribute UserBlogFormDataElement data, 
+    		@RequestBody UserBlogFormDataElement data, 
     		HttpServletRequest request, HttpServletResponse response,  
     		SessionStatus status, Model model) {
 		UserBlogFormDataElementValidator validator = new UserBlogFormDataElementValidator(data);
@@ -69,7 +72,7 @@ public class BlogController {
 		return validator.responses();	
 	}
 	
-	@RequestMapping(path= "/create",method = {RequestMethod.GET, RequestMethod.POST })
+	@PostMapping("/create")
     public Object create(
     		@ModelAttribute UserBlogFormDataElement data, 
     		HttpServletRequest request, HttpServletResponse response,  

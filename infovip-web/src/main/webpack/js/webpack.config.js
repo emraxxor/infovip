@@ -20,6 +20,7 @@ const createLintingRule = () => ({
 
 module.exports = {
   mode : 'development',
+  watch: true,
   entry:     {
       app:  './src/app.js',
       PhotoCommentCore : './src/user/ui/photo/PhotoCommentCore.js',

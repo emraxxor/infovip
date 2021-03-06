@@ -7,7 +7,6 @@ import 'jquery-ui/ui/core';
 import 'jquery-ui/ui/widgets/datepicker';
 import 'jquery-ui/ui/widgets/mouse';
 
-window._ = require('lodash');
 
 try {
     window.Popper = require('popper.js').default;

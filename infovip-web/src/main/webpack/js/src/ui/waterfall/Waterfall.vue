@@ -75,12 +75,10 @@
     methods : {
 
          init() {
-             const that = this;
-             this.get(this.sourceUrl, {}, (e,a) => that.load(e,a) , this );
+             this.httpClient().get(this.sourceUrl, {}).then( e => this.load(e) );
          },
 
          scroll () {
-            const that = this;
             window.onscroll = () => {
                 
                 if ( this.lastSize !== undefined && this.lastSize == 0)
@@ -88,14 +86,19 @@
 
                 const bottomOfWindow = window.scrollY > this.$el.getClientRects()[0].height ;
                 
-                if (bottomOfWindow) 
-                    this.post(this.sourceUrl, { token : this.dataToken }, (e,a) => that.load(e,a)  );
+                if (bottomOfWindow) {
+                    this.httpClient()
+                        .get(this.sourceUrl, { token : this.dataToken })
+                        .then( e => this.load(e) );
+                }
+                
+                this.httpForm().post(this.sourceUrl, { token : this.dataToken }, e => this.load(e)  );
                 
             };
          },
 
 
-        load(e,a) {
+        load(e) {
             this.dataToken = e.data.token;
             this.lastSize = e.data.count;
             this.$emit('onDataLoaded', e);

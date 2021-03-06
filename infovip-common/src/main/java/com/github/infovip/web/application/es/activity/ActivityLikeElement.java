@@ -6,6 +6,7 @@ import com.github.infovip.core.date.DefaultDateFormatter;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 
 /**
@@ -14,6 +15,7 @@ import lombok.EqualsAndHashCode;
  *
  */
 @Data
+@ToString
 @EqualsAndHashCode(callSuper = true)
 public class ActivityLikeElement extends BaseDataElement {
 

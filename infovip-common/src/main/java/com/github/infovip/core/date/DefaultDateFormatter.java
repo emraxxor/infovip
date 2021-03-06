@@ -3,10 +3,15 @@ package com.github.infovip.core.date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.springframework.format.datetime.DateFormatter;
+
+import com.ibm.icu.impl.InvalidFormatException;
 
 /**
  * Helper class for managing dates.
@@ -63,15 +68,30 @@ public class DefaultDateFormatter {
 		return DefaultDateFormatter.format(date, DATE_FORMAT.STRICT_DATE_FORMAT);
 	}
 	
-	
 	public static String format(Date date, DATE_FORMAT df) {
 		SimpleDateFormat sdf = new SimpleDateFormat(df.value);
 		return sdf.format(date);
 	}
 	
+	public static String format(Object date, DATE_FORMAT df) throws InvalidFormatException {
+		if ( date instanceof Timestamp ) {
+			return format( (Timestamp)date, df );
+		} else if ( date instanceof LocalDateTime ) {
+			return format( (LocalDateTime)date,df );
+		} else if ( date instanceof Date ) {
+			return format( (Date)date, df );
+		}
+		
+		throw new InvalidFormatException("Invalid date format");
+	}
+	
 	public static String format(Timestamp date, DATE_FORMAT df) {
 		SimpleDateFormat sdf = new SimpleDateFormat(df.value);
 		return sdf.format(date);
+	}
+	
+	public static String format(LocalDateTime date, DATE_FORMAT df) {
+		return date.format(DateTimeFormatter.ofPattern(df.value));
 	}
 	
 	public static String format(String strictDateTime,DATE_FORMAT df) {

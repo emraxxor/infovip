@@ -27,9 +27,6 @@ import com.github.infovip.core.data.BaseDataElement;
 import com.github.infovip.core.data.ESDataElement;
 import com.github.infovip.core.data.Field;
 import com.github.infovip.core.data.IndexMetaData;
-import com.github.infovip.core.elasticsearch.ESConnection;
-import com.github.infovip.core.elasticsearch.ESContainerInterface;
-import com.github.infovip.core.elasticsearch.ESExtendedDataElement;
 import com.github.infovip.core.es.query.DocumentManager;
 import com.github.infovip.web.application.business.ClientContainerManager;
 import com.google.gson.Gson;
@@ -87,13 +84,13 @@ public class DefaultDocumentManager implements ClientContainerManager, DocumentM
 			for(Field field : fields ) 
 				query.must(QueryBuilders.termQuery(field.getFieldName(), field.getFieldValue()));
 
-			
 			SearchRequest sr = new SearchRequest(metaData.getIndexName());
 			SearchSourceBuilder src = new SearchSourceBuilder();
 			src.query(query);
 			src.size(1);
 			src.explain(false);
-
+			sr.source(src);
+			
 			if ( metaData.getRouting() != null ) 
 				sr.routing(metaData.getRouting());
 
@@ -207,6 +204,8 @@ public class DefaultDocumentManager implements ClientContainerManager, DocumentM
 		ssb.query(query);
 		ssb.size(size);
 
+		rq.source(ssb);
+		
 		if ( metaData.getRouting() != null ) 
 			rq.routing(metaData.getRouting());
 

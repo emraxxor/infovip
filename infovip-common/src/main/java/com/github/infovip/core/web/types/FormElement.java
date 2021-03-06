@@ -14,6 +14,7 @@ import com.github.infovip.core.es.type.EntityProperty;
 import com.github.infovip.core.es.type.FormMapper;
 import com.github.infovip.core.es.type.IgnoreField;
 import com.github.infovip.core.es.type.TimestampToString;
+import com.ibm.icu.impl.InvalidFormatException;
 
 import lombok.Synchronized;
 
@@ -69,6 +70,8 @@ public class FormElement<T> implements FormData {
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 			e.printStackTrace();
+			e.printStackTrace();
+
 		}
 	}
 
@@ -93,7 +96,7 @@ public class FormElement<T> implements FormData {
 					
 					s.invoke(this, 
 							DefaultDateFormatter.format(  
-								(Timestamp) o.getMethod("get" + StringUtils.capitalize(f.getName())).invoke(data) ,
+								o.getMethod("get" + StringUtils.capitalize(f.getName())).invoke(data) ,
 								f.getAnnotation(TimestampToString.class).type()
 							)
 					);
@@ -119,18 +122,11 @@ public class FormElement<T> implements FormData {
 				mapper(data, this);
 				
 			}
-		} catch (NoSuchMethodException e) {
+		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | InvalidFormatException e) {
 			logger.error(e);
-		} catch (SecurityException e) {
-			logger.error(e);
-		} catch (IllegalAccessException e) {
-			logger.error(e);
-		} catch (IllegalArgumentException e) {
-			logger.error(e);
-		} catch (InvocationTargetException e) {
-			logger.error(e);
+			e.printStackTrace();
+
 		}
-		
 		
 	}
 	
@@ -149,7 +145,7 @@ public class FormElement<T> implements FormData {
 					
 					s.invoke(this, 
 							DefaultDateFormatter.format(  
-								(Timestamp) o.getMethod("get" + StringUtils.capitalize(f.getName())).invoke(data) ,
+								o.getMethod("get" + StringUtils.capitalize(f.getName())).invoke(data) ,
 								f.getAnnotation(TimestampToString.class).type()
 							)
 					);
@@ -175,16 +171,10 @@ public class FormElement<T> implements FormData {
 				mapper(data, this);
 
 			}
-		} catch (NoSuchMethodException e) {
+		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | InvalidFormatException e) {
 			logger.error(e);
-		} catch (SecurityException e) {
-			logger.error(e);
-		} catch (IllegalAccessException e) {
-			logger.error(e);
-		} catch (IllegalArgumentException e) {
-			logger.error(e);
-		} catch (InvocationTargetException e) {
-			logger.error(e);
+			e.printStackTrace();
+
 		}
 	}
 
@@ -223,16 +213,9 @@ public class FormElement<T> implements FormData {
 				mapper(this, object, fields);
 			}
 			
-		} catch (NoSuchMethodException | SecurityException e) {
+		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | InstantiationException e) {
 			logger.error(e);
-		} catch (InstantiationException e) {
-			logger.error(e);
-		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			logger.error(e);
-		} catch (InvocationTargetException e) {
-			logger.error(e);
 		}
 		return object;
 	}
@@ -263,7 +246,7 @@ public class FormElement<T> implements FormData {
 					
 					s.invoke(object, 
 							DefaultDateFormatter.format(  
-								(Timestamp) from.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(from) ,
+								from.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(from) ,
 								f.getAnnotation(TimestampToString.class).type()
 							)
 					);
@@ -283,16 +266,10 @@ public class FormElement<T> implements FormData {
 
 			}
 			
-		} catch (NoSuchMethodException | SecurityException e) {
+		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | InvalidFormatException | InstantiationException e) {
 			FormElementLogger.error(e);
-		} catch (InstantiationException e) {
-			FormElementLogger.error(e);
-		} catch (IllegalAccessException e) {
-			FormElementLogger.error(e);
-		} catch (IllegalArgumentException e) {
-			FormElementLogger.error(e);
-		} catch (InvocationTargetException e) {
-			FormElementLogger.error(e);
+			e.printStackTrace();
+
 		}
 		
 		return object;
@@ -310,7 +287,7 @@ public class FormElement<T> implements FormData {
 					
 					s.invoke(to, 
 							DefaultDateFormatter.format(  
-								(Timestamp) from.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(from) ,
+								from.getClass().getMethod("get" + StringUtils.capitalize(f.getName())).invoke(from) ,
 								f.getAnnotation(TimestampToString.class).type()
 							)
 					);
@@ -329,14 +306,10 @@ public class FormElement<T> implements FormData {
 				mapper(from, to, fields);
 
 			}
-		} catch (NoSuchMethodException | SecurityException e) {
+		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | InvalidFormatException e) {
 			FormElementLogger.error(e);
-		} catch (IllegalAccessException e) {
-			FormElementLogger.error(e);
-		} catch (IllegalArgumentException e) {
-			FormElementLogger.error(e);
-		} catch (InvocationTargetException e) {
-			FormElementLogger.error(e);
+			e.printStackTrace();
+
 		}
 	}
 }

@@ -4,6 +4,7 @@ package com.github.infovip.spring.controllers.activity;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,6 +50,8 @@ import com.github.infovip.web.application.es.activity.ActivityLikeDataElement;
 import com.github.infovip.web.application.es.activity.ActivityLikeElement;
 import com.github.infovip.web.application.es.activity.ActivityPost;
 import com.github.infovip.web.application.es.activity.ActivityPostElement;
+import com.github.infovip.web.application.es.activity.ActivityResponseElement;
+import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 
 
@@ -70,8 +74,8 @@ public class ActivityController {
 	private DocumentManager documentManager;
 	
 	private Logger logger = Logger.getLogger(ActivityController.class);
-	
-    @RequestMapping(path="/data",method = {RequestMethod.GET, RequestMethod.POST })
+
+	@GetMapping("/data")
     public  @ResponseBody Object data(
     		@RequestParam(name="token",defaultValue="",required=false) String token,
     		Authentication auth,
@@ -98,22 +102,22 @@ public class ActivityController {
     		SessionStatus status, 
     		Model model
     ) {
-    	
 		CurrentUserInfo<User> usession = UserConfiguration.config(request).getSession();
     	User u = usession.getUser();
-    	
-    	List<Field> fields = new ArrayList<>();
-    	fields.add(new Field("doc.keyword", id));
-    	fields.add(new Field("uid", u.getUserId()));
-    	
-    	ActivityLikeElement ale = documentManager.findDocumentByField(fields, IndexMetaData.create(
-    												DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX
-    											)
-    										    .addExclusionStrategy(ActivitySource.DefaultActivityExclusionStrategy()) , 
-    								new TypeToken<ActivityLikeElement>(){}.getType()  );
     
-    	
-    	
+    	ActivityLikeElement ale = documentManager.findDocumentByField(
+    			  Lists.newArrayList( 
+    					new Field("doc.keyword", id),
+    					new Field("uid", u.getUserId())
+    			  )
+    			, 
+    			  IndexMetaData
+    				.create(DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX)
+    				.addExclusionStrategy(ActivitySource.DefaultActivityExclusionStrategy()) 
+    			, 
+    			 new TypeToken<ActivityLikeElement>(){}.getType()  );
+    
+    
     	if ( ale != null && ale.getUid().equals(u.getUserId()) ) {
 			return esContainer.executeSynchronusRequest(
 					new DefaultDataElement<ActivityLikeElement>(ale)
@@ -157,13 +161,12 @@ public class ActivityController {
     	ActivityLikeElement ale = documentManager.findDocumentByField(fields, IndexMetaData.create(
 				DefaultWebAppConfiguration.ESConfiguration.ACTIVITY_LIKE_INDEX  
 				).addExclusionStrategy(ActivitySource.DefaultActivityExclusionStrategy()) , 
-    				new TypeToken<ActivityElement>(){}.getType()  );
+    				new TypeToken<ActivityLikeElement>(){}.getType()  );
     	
     	if ( ale == null && deg.data() != null ) {
 			if ( deg.data().getPostType().equals(ActivityJoinType.POST.value() ) ) {
 				deg.elem().convertDataElement(ActivityPostElement.class);
 				( (ActivityPostElement) deg.data() ).setJoin( ActivityJoinType.POST.value() );
-				// @UPDATE
 				ActivityLikeDataElement<ActivityLikeElement> data = new ActivityLikeDataElement<ActivityLikeElement>(new ActivityLikeElement(deg.data().getDocumentId(), u.getUserId(), ActivityJoinType.LIKE_POST ) );
 				data.data().setUid(u.getUserId());
 				data.setRouting( routing );
@@ -171,13 +174,21 @@ public class ActivityController {
 			} else if (  deg.data().getPostType().equals(ActivityJoinType.COMMENT.value() )  ) {
 				deg.elem().convertDataElement(ActivityCommentElement.class);
 				( (ActivityCommentElement) deg.data() ).setJoin( new ESDefaultJoinRelation(ActivityJoinType.COMMENT.value(), deg.data().getParentDocument() ) );
-				// @UPDATE
 				ActivityLikeDataElement<ActivityLikeElement> data = new ActivityLikeDataElement<ActivityLikeElement>(new ActivityLikeElement(deg.data().getDocumentId(), u.getUserId(), ActivityJoinType.LIKE_COMMENT ) );
+				data.data().setUid(u.getUserId());
+				data.setRouting(routing);
+				esContainer.executeSynchronusRequest(data.operationIndex());
+			} else if (  deg.data().getPostType().equals(ActivityJoinType.REPLY.value() )  ) {
+				deg.elem().convertDataElement(ActivityCommentElement.class);
+				( (ActivityCommentElement) deg.data() ).setJoin( new ESDefaultJoinRelation(ActivityJoinType.REPLY.value(), deg.data().getParentDocument() ) );
+				ActivityLikeDataElement<ActivityLikeElement> data = new ActivityLikeDataElement<ActivityLikeElement>(new ActivityLikeElement(deg.data().getDocumentId(), u.getUserId(), ActivityJoinType.LIKE_REPLY ) );
 				data.data().setUid(u.getUserId());
 				data.setRouting(routing);
 				esContainer.executeSynchronusRequest(data.operationIndex());
 			}
     		return deg.data();
+    	} else {
+    		
     	}
     	
     	return null;
@@ -217,14 +228,16 @@ public class ActivityController {
     
     @RequestMapping(path="/comment", method = RequestMethod.POST)
     public @ResponseBody Object comment(
-    		@RequestParam String id,
-    		@RequestParam String text,
+    		@RequestBody Map<String,String> body,
     		HttpServletRequest request, 
     		HttpServletResponse response,  
     		SessionStatus status, 
     		Model model
     ) {
     	@SuppressWarnings("unchecked")
+    	var id = body.get("id");
+    	var text = body.get("text");
+    	
 		CurrentUserInfo<User> usession = UserConfiguration.config(request).getSession();
     	User u = usession.getUser();
     	
@@ -232,6 +245,7 @@ public class ActivityController {
     	ace.setUid(u.getUserId());
     	ace.setUserName(u.getUserName());
     	ace.setText(text);
+    	
     	
     	ActivityPost<ActivityCommentElement> doc = new ActivityPost<ActivityCommentElement>(ace);
     	doc.setRouting(id);
@@ -244,11 +258,10 @@ public class ActivityController {
     	
     }
 
-	
-    @RequestMapping(path="/add", method = RequestMethod.POST)
-    public @ResponseBody Object add(
-    		@ModelAttribute ActivityPostElement post,
-    		BindingResult result, 
+
+    @PostMapping("/add")
+    public  @ResponseBody Object add(
+    		@RequestBody ActivityPostElement post,
     		HttpServletRequest request, 
     		HttpServletResponse response,  
     		SessionStatus status, 

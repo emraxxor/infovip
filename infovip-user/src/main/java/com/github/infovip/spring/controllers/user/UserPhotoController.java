@@ -40,8 +40,6 @@ import com.github.infovip.entities.User;
 import com.github.infovip.services.interfaces.UserServiceInterface;
 import com.github.infovip.user.CurrentUser;
 
-import lombok.val;
-import lombok.var;
 
 
 /**

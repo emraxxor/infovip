@@ -232,6 +232,8 @@ public class ESContainer<T extends ESExtendedDataElement<?>> extends Thread impl
 						dq.routing(data.routing());
 						dq.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
 						// PARENT ?? DEPRECATED ??
+						System.out.println("Removing the following document : ");
+						System.out.println("Document id : " + data.id() + " index: " + data.index() + " routing: " + data.routing());
 						return client.delete(dq, RequestOptions.DEFAULT);
 						//return client.prepareDelete(data.index(), data.type(), data.id() ).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setParent( ((ESChildElement<?>) data).parent() ).get();
 					} else {					
@@ -284,17 +286,14 @@ public class ESContainer<T extends ESExtendedDataElement<?>> extends Thread impl
 						request.id(data.id());
 						request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 						return client.index(request, RequestOptions.DEFAULT);
-
 						//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setId(data.id()).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();
 					} else {
-						
 						IndexRequest request = new IndexRequest(data.index());
 						request.routing(data.routing());
 						request.setRefreshPolicy(RefreshPolicy.WAIT_UNTIL);
 						//request.id(data.id());
 						request.source(new Gson().toJson(data.data()) , XContentType.JSON);
 						return client.index(request, RequestOptions.DEFAULT);
-
 						//return client.prepareIndex(data.index(), data.type()).setRouting(data.routing()).setRefreshPolicy(RefreshPolicy.WAIT_UNTIL).setSource(new Gson().toJson(data.data()),XContentType.JSON).get();									
 					}
 				}

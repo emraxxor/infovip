@@ -140,14 +140,16 @@ export default {
             if ( this.token != null ) 
                 request.token = this.token;
             
-            const result = function(result, o ) {
-                const { data } = result;
-                data.data.forEach(element => o.comments.push(element) );    
-                o.token = data.token;             
-            }
 
-            this.post('/public/media/comments', request, result, this );    
+            this.httpForm().post('/public/media/comments', request)
+                .then(result => {
+                     const { data } = result;
+                     data.data.forEach(element => this.comments.push(element) );    
+                     this.token = data.token;             
+                });    
         },
+
+        
     }
 
 
